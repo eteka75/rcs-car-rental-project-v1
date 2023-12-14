@@ -15,6 +15,11 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundImage: {
+                'hero-pattern': "url('/img/hero-pattern.svg')",
+                'foot,er-texture': "url('/img/footer-texture.png')",
+              },
+            backgroundOpacity: ['active'],
         },
     },
 
