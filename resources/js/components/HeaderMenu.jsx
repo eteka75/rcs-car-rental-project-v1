@@ -1,8 +1,15 @@
 import { Link } from '@inertiajs/react'
 import Logo from "../assets/images/logo-v0-min.png";
+import userprofil from "../assets/images/design/user-profil.png";
 import React from 'react';
-import { FaCarOn } from 'react-icons/fa6';
+import { FaCarOn, FaUser } from 'react-icons/fa6';
 import { FiShoppingCart } from 'react-icons/fi';
+
+import Dropdown from '@/Components/Dropdown';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { VscDashboard } from "react-icons/vsc";
+import { MdFavoriteBorder } from 'react-icons/md';
+import { AiOutlineLogout } from 'react-icons/ai';
 
 
 export default function HeaderMenu({ auth = {} }) {
@@ -140,10 +147,45 @@ export default function HeaderMenu({ auth = {} }) {
                                     </li>
                                     {auth.user  && 
                                     (<li>
-                                    <button type="button" class="flex text-sm  rounded-full md:me-0 p-1 bg-slate-200 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                                        <Dropdown>
+                                    <Dropdown.Trigger>
+                                        <span className="inline-flex rounded-md">
+                                            <button
+                                                type="button"
+                                                className="inline-flex items-center px-2 bg-slate-200 py-1 ms-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                                            >
+                                               <button type="button" class="flex text-sm  rounded-full md:me-0 focus:ring-4  bg-white focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                                         <span class="sr-only">Open user menu</span>
-                                        <img class="w-8 h-8 rounded-full" src={Logo} alt="user photo"/>
-                                    </button>
+                                        <img class="w-7 h-7 rounded-full " src={userprofil} alt="user photo"/>
+                                    </button>  
+                                    <span className="ms-1">{auth.user.name}</span>
+
+                                                <svg
+                                                    className="ms-2 -me-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </span>
+                                    </Dropdown.Trigger>
+
+                                    <Dropdown.Content >
+                                        <Dropdown.Link className='flex border-b' href={route('profile.edit')}><VscDashboard className='me-1 text-xl'/> Tableau de bord</Dropdown.Link>
+                                        <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><FaRegUserCircle className='me-1 text-lg'/> Mon profil</Dropdown.Link>
+                                        <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><MdFavoriteBorder  className='me-1 text-lg'/> Favoris</Dropdown.Link>
+                                        <Dropdown.Link className='flex items-center text-red-500' href={route('logout')} method="post" as="button">
+                                          <AiOutlineLogout className='me-1 text-lg '/>   Déconnexion
+                                        </Dropdown.Link>
+                                    </Dropdown.Content>
+                                </Dropdown>
+                                   
                                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                                         <div class="px-4 py-3">
                                         <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
