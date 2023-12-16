@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -28,10 +29,19 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="Register" />
+            <Head title="Créer un compte" />
+            <div className="md:grid md:grid-cols-2 mb-0">
+                <div className="hidden shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover bg-no-repeat bg-[left_calc(50%)_top_calc(25%)]">
+                <div className="bg-[rgba(0,0,0,.05)] bg-gradient-to-t from-[rgba(0,0,0,.95)]  h-full w-full rounded-tr-xl">
 
+                </div>
+                </div>
+                <div className='sm:max-w-md px-8 py-10 md:py-[20vh]'>
             <form onSubmit={submit}>
-                <div>
+            <h1 className='text-3xl mb-4 font-bold flex'>
+                    <AiOutlineUserAdd className='me-1'/>
+                        Inscription </h1>
+                <div >
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput
@@ -99,19 +109,27 @@ export default function Register() {
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                <div className="flex items-center justify-start mt-4">
+                <PrimaryButton className="me-4 bg-blue-600" disabled={processing}>
+                        Créer mon compte
+                    </PrimaryButton>
+                   
+
+                    
+                </div>
+                <div className='my-4 flex'>
+                       
+                    ou 
                     <Link
                         href={route('login')}
-                        className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                    >
-                        Already registered?
+                        className="underline mx-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+                    >  
+                        Connectez-vous !
                     </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
+                    </div>
             </form>
+            </div>
+            </div>
         </GuestLayout>
     );
 }

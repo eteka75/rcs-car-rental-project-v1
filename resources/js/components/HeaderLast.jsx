@@ -30,9 +30,9 @@ export default function LocationHeader({ auth }) {
     const minutes= [0,15,30,45];
     return (
         <>
-
-            <div className="bg-[#334155] overflow-hidden  bg-[url('@/assets/images/design/bg-3.jpg')] bg-[left_calc(50%)_top_calc(22%)] bg-cover bg-no-repeat _bg-[#003b95] text-white  relativ">
+            <div className="bg-[#333] overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-[left_calc(0%)_top_calc(50%)] bg-cover bg-no-repeat _bg-[#003b95] text-white  relativ">
                 <div className="bg-[#000] bg-gradient-to-t from-[rgba(0,0,0,.65)] bg-opacity-40">
+
                     <nav className="max-w-screen-xl mx-auto relative absolute_">
                         <div className="  flex flex-wrap items-center justify-between p-4">
                             <a
@@ -41,10 +41,10 @@ export default function LocationHeader({ auth }) {
                             >
                                 <img
                                     src={Logo}
-                                    className="h-10"
+                                    className="h-8"
                                     alt="Logo CRS Bénin"
                                 />
-                                <span className="self-center hidden sm:flex md:text-xl uppercase_ font-semibold whitespace-nowrap dark:text-white">
+                                <span className="self-center text-xl uppercase font-semibold whitespace-nowrap dark:text-white">
                                     Rental Cars Services
                                 </span>
                             </a>
@@ -52,14 +52,14 @@ export default function LocationHeader({ auth }) {
                                 className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
                                 id="navbar-language"
                             >
-                                <ul className="flex flex-col relative font-medium  md:p-0 mt-4 border rounded-lg  md:space-x-1 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                                <ul className="flex flex-col relative font-medium p-4 md:p-0 mt-4 border rounded-lg  md:space-x-2 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
 
                                     {!auth.user ? (
                                         <>
                                             <li>
                                                 <Link
                                                     href={route('login')}
-                                                    className="inline-flex items-center border-slate-200 border-0 text-white font-medium justify-center px-2 lg:px-3 py-1.5 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                    className="inline-flex items-center border-slate-200 border-0 text-white font-medium justify-center px-2 py-2 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                                                 >
                                                     Se connecter
                                                 </Link>
@@ -68,7 +68,7 @@ export default function LocationHeader({ auth }) {
                                             <li>
                                                 <Link
                                                     href={route('register')}
-                                                    className="inline-flex items-center me-2 border-slate-50 border-0 text-white font-medium justify-center px-2 lg:px-3 py-1.5 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                    className="inline-flex items-center border-slate-50 border-0 text-white font-medium justify-center px-2 py-2 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                                                 >
                                                     S'inscrire
                                                 </Link>
@@ -81,15 +81,15 @@ export default function LocationHeader({ auth }) {
                                         <button
                                             type="button"
                                             data-dropdown-toggle="language-dropdown-menu"
-                                            className="inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-md cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
+                                            className="inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-lg cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                            <FaCarOn className="me-1 text-xl" /> Mes locations
+                                            <FaCarOn className="me-1 text-xl" /> Gérer mes locations
                                         </button>
                                     </li>
                                     <li>
-                                        <button className="inline-flex bg-slate-200 items-center font-medium justify-center h-10 w-10 lg:w-auto lg:h-auto lg:px-2 py-2 text-sm text-gray-900 dark:text-white lg:rounded-md rounded-full cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
+                                        <button className="inline-flex bg-slate-200 items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
                                             <svg
-                                                className="w-5 h-5 rounded-full lg:me-3"
+                                                className="w-5 h-5 rounded-full me-3"
                                                 aria-hidden="true"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -151,91 +151,59 @@ export default function LocationHeader({ auth }) {
                                                     <use xlinkHref="#e" x="2470" />
                                                 </g>
                                             </svg>
-                                            <span className='hidden lg:flex'>English (US)</span>
+                                            English (US)
                                         </button>
                                     </li>
                                     <li>
                                         <button
                                             type="button"
-                                            className="inline-flex text-gray-900 bg-slate-200 hover:bg-slate-50 items-center h-10 w-10 text-sm font-medium justify-center rounded-full  "
+                                            className="inline-flex text-gray-900 bg-slate-200 hover:bg-slate-50 items-center px-4 py-3 text-sm font-medium justify-center rounded-lg  "
                                         >
                                             <FiShoppingCart />
                                         </button>
                                     </li>
-                                    {auth.user  && 
-                                    (<li>
-                                    <button type="button" class="flex text-sm  rounded-full md:me-0 p-1 bg-slate-200 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                                        <span class="sr-only">Open user menu</span>
-                                        <img class="w-8 h-8 rounded-full" src={Logo} alt="user photo"/>
-                                    </button>
-                                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-                                        <div class="px-4 py-3">
-                                        <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
-                                        </div>
-                                        <ul class="py-2" aria-labelledby="user-menu-button">
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                                        </li>
-                                        </ul>
-                                    </div>
-                                    </li>)}
                                 </ul>
                             </div>
-                            <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-sm md:hidden hover:bg-[rgba(255,255,255,.3)] focus:outline-none focus:ring-1 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
-                                <span class="sr-only">Open main menu</span>
-                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-                                </svg>
-                            </button>
                         </div>
                     </nav>
                     <div aria-hidden="true" className="hidden_  h-0 relative opacity-50">
                         <div className="blur-[56px] h-20 bg-gradient-to-br rotate-45 from-primary to-purple-800 dark:from-blue-700"></div>
                         <div className="blur-[56px] h-14 bg-gradient-to-r  from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
                     </div>
+
                     <div className="max-w-screen-xl flex flex-wrap items-center justify-start mx-auto px-4 pb-4 relative">
                         <ul className="flex flex-wrap text-sm font-medium  text-center  border-gray-200 text-white">
                             <li className="me-2  text-lg">
                                 <a
                                     href="#"
                                     aria-current="page"
-                                    className="flex px-2 md:px-4 py-2 text-black text-sm md:text-lg   hover:opacity-100 opacity-95 border-yellow-500  bg-yellow-500 _bg-[rgba(255,255,255,.2)] rounded-full active"
+                                    className="flex px-4 py-2 text-black   hover:opacity-100 opacity-95 border-yellow-500  bg-yellow-500 _bg-[rgba(255,255,255,.2)] rounded-full active"
                                 >
-                                    <MdCarRental className="md:text-2xl  me-1 mt-0.5 md:mt-1" />
+                                    <MdCarRental className="text-2xl  me-1" />
                                     Location <span className='ms-1 hidden md:inline-block transition-all duration-100 '> de voitures</span>
                                 </a>
                             </li>
                             <li className="me-2   text-lg">
                                 <a
                                     href="#"
-                                    className="flex flex-auto px-2 md:px-4 py-2 text-sm md:text-lg rounded-full hover:bg-[rgba(255,255,255,.2)] dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                                    className="flex flex-auto px-4 py-2 rounded-full hover:bg-[rgba(255,255,255,.2)] dark:hover:bg-gray-800 dark:hover:text-gray-300"
                                 >
-                                    <FaCarAlt className="text-sm md:text-xl  me-1 mt-0.5 md:mt-1" /> Achat
+                                    <FaCarAlt className="text-xl  me-1 mt-1" /> Achat
                                     <span className='ms-1 hidden md:inline-block transition-all duration-100 '> de voitures</span>
                                 </a>
                             </li>
                             <li className="me-2   text-lg">
                                 <a
                                     href="#"
-                                    className="flex flex-auto px-2 md:px-4 py-2 text-sm md:text-lg rounded-full hover:bg-[rgba(255,255,255,.2)] dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                                    className="flex flex-auto px-4 py-2 rounded-full hover:bg-[rgba(255,255,255,.2)] dark:hover:bg-gray-800 dark:hover:text-gray-300"
                                 >
-                                    <IoMdHelpCircleOutline className="text-sm md:text-2xl  me-1 mt-0.5 md:mt-1" />{" "}
+                                    <IoMdHelpCircleOutline className="text-2xl  me-1" />{" "}
                                     Aides
                                 </a>
                             </li>
                         </ul>
                         <div
-                            className="in-message w-full h-10 md:h-20"
+                            className="in-message w-full h-10 lg:h-20"
                             id="message-top"
                         ></div>
                         <div className="text-center_ w-full" id="form-head">

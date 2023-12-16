@@ -4,7 +4,7 @@ export default function FooterMega() {
     return (
         <>
             <div id='footer'>
-                <footer className="bg-gray-950 dark:bg-gray-900">
+                <footer className="bg-gray-950 border-0 dark:bg-gray-900 bg-gradient-to-b from-gray-800 to-gray-90">
                     <div className="mx-auto w-full max-w-screen-xl relative">
                         <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4 text-sm">
                             <div>

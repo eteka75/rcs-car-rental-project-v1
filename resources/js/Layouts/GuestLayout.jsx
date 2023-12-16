@@ -7,12 +7,12 @@ import { Link } from '@inertiajs/react';
 export default function Guest({ auth = {}, children }) {
     return (
         <>
-            <div className="min-h-screen bg-slate-100">
+            <div className="">
                 <HeaderMenu />
-                <div className="w-full   mx-auto sm:max-w-md my-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+                <div className="max-w-screen-xl_ mx-auto dark:bg-gray-800  overflow-hidden">
                     {children}
                 </div>
-            <FooterMega />
+                <FooterMega />
             </div>
         </>
     );
