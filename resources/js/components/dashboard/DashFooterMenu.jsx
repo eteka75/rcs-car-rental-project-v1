@@ -6,10 +6,10 @@ export default function DashFooterMenu() {
         <>
             <div id='footer' className=''>
                 <footer className="p-4 border-t ">
-                    <div className="mx-auto md:text-sm lg:text-md xl:text-lg w-full max-w-screen-2xl relative">
+                    <div className="mx-auto sm:text-sm lg:text-[1.4vh] w-full max-w-screen-2xl relative">
                         <div className="grid grid-cols-1 w-full md:grid-cols-2 mb-4">
                             <div className=' '>
-                                <ul className="flex  md:space-x-4 flex-col md:flex-row md:gap-4 text text-blue-500 dark:text-gray-400 font-medium">
+                                <ul className="flex  lg:space-x-4 flex-col md:flex-row md:gap-4 text text-blue-500 dark:text-gray-400 font-medium">
                                 <li className="border-b md:border-b-0 py-2 md:pb-4">
                                         <Link href={"/"} className="hover:underline">Accueil</Link>
                                     </li>
@@ -24,9 +24,9 @@ export default function DashFooterMenu() {
                                     </li>
                                 </ul>
                             </div>
-                            <div className='flex justify-centerd  md:justify-end md:mt-0 space-x-5 rtl:space-x-reverse'>
+                            <div className='flex md:justify-end md:mt-0 space-x-5 rtl:space-x-reverse'>
 
-                                <ul className="flex w-full  md:space-x-4 flex-col md:flex-row md:gap-4   text-blue-500 dark:text-gray-400 font-medium">
+                                <ul className="flex w-full  lg:space-x-4 flex-col md:flex-row lg:justify-end lg:me-4 md:gap-4   text-blue-500 dark:text-gray-400 font-medium">
                                     
                                     <li className="border-b md:border-b-0 py-2 md:pb-4">
                                         <Link href={'/'} className="hover:underline">A propos</Link>
@@ -112,7 +112,7 @@ export default function DashFooterMenu() {
                     </div>
                     <div className=" dark:bg-gray-700 ">
                         <div className='mx-auto max-w-screen-2xl md:flex md:items-center md:justify-between'>
-                            <span className="text-xs text-gray-400 dark:text-gray-300  text-center">Copyright © {new Date().getFullYear()} Rental Car Services Bénin. Tous droits réservés.
+                            <span className="md:text-sm text-gray-400 dark:text-gray-300  text-center">Copyright © {new Date().getFullYear()} Rental Car Services Bénin. Tous droits réservés.
 
                             </span>
                             
