@@ -35,8 +35,8 @@ export default function Login({ status, canResetPassword }) {
             <div className="md:grid md:grid-cols-2 mb-0">
                 <div className="hidden shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover_ bg-no-repeat bg-[left_calc(50%)_top_calc(00%)]">
                     <div className="bg-[rgba(0,0,0,.25)] relative  duration-300 bg-gradient-to-t from-[rgba(0,0,0,.95)]  h-full w-full ">
-                        <div className=' absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2    '>
-                        <div className='sm:max-w-md lg:max-w-lg mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)]   '>
+                        <div className=' sm:max-w-md lg:max-w-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2    '>
+                        <div className='min-w-min mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)]   '>
                                 <div className="grid grid-flow-col items-center md:gap-4">
 
                                     <div className='px-8 py-4'>
@@ -48,7 +48,7 @@ export default function Login({ status, canResetPassword }) {
                                         </h3>
                                         <div className="text-sm text-light text-slate-900">
                                             <ul>
-                                                <li className='flex flex-row'>
+                                                <li className='flex flex-row py-1  mt-1'>
                                                     <div className='items-center justify-center'>
                                                         <FcOk className='me-1 text-lg' />
                                                     </div>
@@ -56,7 +56,7 @@ export default function Login({ status, canResetPassword }) {
                                                     Mettez à jour votre profil
                                                     </div>
                                                 </li>
-                                                <li className='flex flex-row'>
+                                                <li className='flex flex-row  py-1'>
                                                     <div className='items-center justify-center'>
                                                         <FcOk className='me-1 text-lg' />
                                                     </div>
@@ -64,7 +64,7 @@ export default function Login({ status, canResetPassword }) {
                                                     Explorez notre catalogue varié de voitures
                                                     </div>
                                                 </li>
-                                                <li className='flex flex-row'>
+                                                <li className='flex flex-row  py-1'>
                                                     <div className='items-center justify-center'>
                                                         <FcOk className='me-1 text-lg' />
                                                     </div>
@@ -151,8 +151,8 @@ export default function Login({ status, canResetPassword }) {
                                 </label>
                             </div>
 
-                            <div className="flex items-center gap-4 justify-start mt-4">
-                                <PrimaryButton className="bg-blue-600" disabled={processing}>
+                            <div className="grid grid-cols-1 text-center sm:text-start md:grid-cols-2 items-center gap-4 justify-start mt-4">
+                                <PrimaryButton className="bg-blue-600 text-center whitespace-nowrap" disabled={processing}>
                                     Se connecter
                                 </PrimaryButton>
                                 {canResetPassword && (
@@ -166,7 +166,7 @@ export default function Login({ status, canResetPassword }) {
 
 
                             </div>
-                            <div className='mt-8 '> Nouveau ?
+                            <div className='mt-8  text-center sm:text-start'> Nouveau ?
                                 <Link
                                     href={route('register')}
                                     className="underline mx-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"

@@ -5,7 +5,9 @@ import Dropdown from '@/Components/Dropdown';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { VscDashboard } from "react-icons/vsc";
 import { MdFavoriteBorder } from 'react-icons/md';
-import { AiOutlineLogout } from 'react-icons/ai';
+import { AiOutlineLogout, AiOutlineSetting } from 'react-icons/ai';
+import { IoMdNotificationsOutline } from 'react-icons/io';
+import { BiMessageSquareDetail } from 'react-icons/bi';
 export default function UserMenu({auth}) {
     return (
         <>
@@ -41,7 +43,10 @@ export default function UserMenu({auth}) {
                 <Dropdown.Content >
                     <Dropdown.Link className='flex border-b' href={route('dashboard')}><VscDashboard className='me-1 text-xl' /> Tableau de bord</Dropdown.Link>
                     <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><FaRegUserCircle className='me-1 text-lg' /> Mon profil</Dropdown.Link>
+                    <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><IoMdNotificationsOutline className='me-1 text-lg' /> Notifications</Dropdown.Link>
+                    <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><BiMessageSquareDetail className='me-1 text-lg' /> Messages</Dropdown.Link>
                     <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><MdFavoriteBorder className='me-1 text-lg' /> Favoris</Dropdown.Link>
+                    <Dropdown.Link className='flex  border-b' href={route('profile.edit')}><AiOutlineSetting className='me-1 text-lg' /> Paramètres</Dropdown.Link>
                     <Dropdown.Link className='flex items-center text-red-500' href={route('logout')} method="post" as="button">
                         <AiOutlineLogout className='me-1 text-lg ' />   Déconnexion
                     </Dropdown.Link>

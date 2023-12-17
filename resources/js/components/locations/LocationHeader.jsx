@@ -2,34 +2,24 @@ import React from 'react';
 import { useState } from 'react';;
 
 import Logo from "../../assets/images/logo-v0-min.png";
-import Dropdown from '../Dropdown';
-import { FaRegUserCircle } from 'react-icons/fa';
-import { VscDashboard } from "react-icons/vsc";
-import { MdFavoriteBorder } from 'react-icons/md';
-import { AiOutlineLogout } from 'react-icons/ai';;
 
 import "../../Index.css"
 
 
 /**Icones */
 import { FiShoppingCart } from "react-icons/fi";
-import { FaCar, FaCarOn } from "react-icons/fa6";
-import { MdManageHistory } from "react-icons/md";
-import { FaCarAlt, FaSearch } from "react-icons/fa";
+import { FaCarAlt } from "react-icons/fa";
 import { IoMdHelpCircleOutline } from "react-icons/io";
-import { RiMoneyEuroCircleLine } from "react-icons/ri";
-import { AiOutlineInfoCircle, AiOutlineMail, AiOutlineSearch } from "react-icons/ai";
-import { MdCarRental, MdChecklistRtl } from "react-icons/md";
+import { MdCarRental} from "react-icons/md";
 
 /** fin Icones */
 
 import { Link } from '@inertiajs/react';
-import { MdKey } from "react-icons/md";
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import UserMenu from '../UserMenu';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 export default function LocationHeader({ auth }) {
     const [time, setTime] = useState('12:34pm');
@@ -42,7 +32,7 @@ export default function LocationHeader({ auth }) {
                 <div className="bg-[#000] bg-gradient-to-t from-[rgba(0,0,0,.65)] bg-opacity-40">
                     <nav className="max-w-screen-xl mx-auto relative absolute_">
                         <div className="  flex flex-wrap items-center justify-between p-4">
-                            <a
+                            <Link
                                 href={"/"}
                                 className="flex items-center mb-4 space-x-3 rtl:space-x-reverse"
                             >
@@ -54,7 +44,7 @@ export default function LocationHeader({ auth }) {
                                 <span className="self-center hidden sm:flex md:text-xl uppercase_ font-semibold whitespace-nowrap dark:text-white">
                                     Rental Cars Services
                                 </span>
-                            </a>
+                            </Link>
                             <div
                                 className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
                                 id="navbar-language"
@@ -67,20 +57,20 @@ export default function LocationHeader({ auth }) {
                                             <li>
                                                 <Link
                                                     href={route('register')}
-                                                    className="inline-flex items-center me-2 border-slate-50 border-0 text-white font-medium justify-center px-2 lg:px-3 py-1.5 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                    className="inline-flex items-center  border-slate-50 border-0 text-white font-medium justify-center px-2 lg:px-3 py-1.5 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                                                 >
                                                     S'inscrire
                                                 </Link>
                                             </li>
                                             <li>
-                                                <button
-                                                    type="button"
-                                                    data-dropdown-toggle="language-dropdown-menu"
-                                                    className="inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-md cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                <Link
+                                                    href={route('login')}
+                                                    className="inline-flex items-center me-2 border-slate-50 border-0 text-white font-medium justify-center px-2 lg:px-3 py-1.5 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
                                                 >
-                                                    <FaCarOn className="me-1 text-xl" /> Mon compte RCS
-                                                </button>
+                                                    Se connecter
+                                                </Link>
                                             </li>
+                                            
                                         </>
                                     ) : (
                                         ""

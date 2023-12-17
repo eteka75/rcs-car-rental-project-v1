@@ -12,7 +12,7 @@ export default function HeaderMenu({ auth = {} }) {
     return (
         <>
             <div className="shadow-sm  border-bborder-slate-100 bg-gradient-to-b from-gray-800 to-gray-900 text-white ">
-                <nav className="max-w-screen-xl mx-auto relative absolute_ ">
+                <nav className="max-w-screen-2xl mx-auto relative absolute_ ">
                     <div className="  flex flex-wrap items-center justify-between px-4 py-3">
                         <a
                             href={"/"}
