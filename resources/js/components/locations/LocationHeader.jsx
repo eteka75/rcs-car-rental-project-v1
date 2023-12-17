@@ -2,6 +2,12 @@ import React from 'react';
 import { useState } from 'react';;
 
 import Logo from "../../assets/images/logo-v0-min.png";
+import Dropdown from '../Dropdown';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { VscDashboard } from "react-icons/vsc";
+import { MdFavoriteBorder } from 'react-icons/md';
+import { AiOutlineLogout } from 'react-icons/ai';;
+
 import "../../Index.css"
 
 
@@ -23,6 +29,7 @@ import { MdKey } from "react-icons/md";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import UserMenu from '../UserMenu';
 
 export default function LocationHeader({ auth }) {
     const [time, setTime] = useState('12:34pm');
@@ -56,14 +63,6 @@ export default function LocationHeader({ auth }) {
 
                                     {!auth.user ? (
                                         <>
-                                            <li>
-                                                <Link
-                                                    href={route('login')}
-                                                    className="inline-flex items-center border-slate-200 border-0 text-white font-medium justify-center px-2 lg:px-3 py-1.5 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-                                                >
-                                                    Se connecter
-                                                </Link>
-                                            </li>
 
                                             <li>
                                                 <Link
@@ -73,19 +72,20 @@ export default function LocationHeader({ auth }) {
                                                     S'inscrire
                                                 </Link>
                                             </li>
+                                            <li>
+                                                <button
+                                                    type="button"
+                                                    data-dropdown-toggle="language-dropdown-menu"
+                                                    className="inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-md cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                >
+                                                    <FaCarOn className="me-1 text-xl" /> Mon compte RCS
+                                                </button>
+                                            </li>
                                         </>
                                     ) : (
                                         ""
                                     )}
-                                    <li>
-                                        <button
-                                            type="button"
-                                            data-dropdown-toggle="language-dropdown-menu"
-                                            className="inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-md cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        >
-                                            <FaCarOn className="me-1 text-xl" /> Mes locations
-                                        </button>
-                                    </li>
+                                    
                                     <li>
                                         <button className="inline-flex bg-slate-200 items-center font-medium justify-center h-10 w-10 lg:w-auto lg:h-auto lg:px-2 py-2 text-sm text-gray-900 dark:text-white lg:rounded-md rounded-full cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
                                             <svg
@@ -164,37 +164,14 @@ export default function LocationHeader({ auth }) {
                                     </li>
                                     {auth.user  && 
                                     (<li>
-                                    <button type="button" class="flex text-sm  rounded-full md:me-0 p-1 bg-slate-200 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                                        <span class="sr-only">Open user menu</span>
-                                        <img class="w-8 h-8 rounded-full" src={Logo} alt="user photo"/>
-                                    </button>
-                                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-                                        <div class="px-4 py-3">
-                                        <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
-                                        </div>
-                                        <ul class="py-2" aria-labelledby="user-menu-button">
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-                                        </li>
-                                        </ul>
-                                    </div>
+                                    <UserMenu auth={auth}/>
                                     </li>)}
                                 </ul>
                             </div>
                             <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-sm md:hidden hover:bg-[rgba(255,255,255,.3)] focus:outline-none focus:ring-1 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
                                 <span class="sr-only">Open main menu</span>
                                 <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
                                 </svg>
                             </button>
                         </div>

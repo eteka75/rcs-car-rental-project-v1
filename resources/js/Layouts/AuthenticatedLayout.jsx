@@ -17,7 +17,7 @@ export default function Authenticated({auth, user, header, children }) {
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
+                            sd
                         </ResponsiveNavLink>
                     </div>
 <nav className="space-y-1" aria-label="Sidebar"> <a href="/dashboard/general" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group" aria-current="page"> <span className="truncate"> General</span> </a> <a href="/dashboard/connections" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Conexions</span> </a> <a href="/dashboard/dashboard-teams" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Teams</span> </a> <a href="/dashboard/billing" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Billing</span> </a> <a href="/dashboard/invoices" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Invoices</span> </a> <a href="/dashboard/tokens" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Tokens</span> </a> </nav>
@@ -65,11 +65,7 @@ export default function Authenticated({auth, user, header, children }) {
                 </div>
             </nav>
 
-            {header && (
-                <header className="bg-white dark:bg-gray-800 shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
+           
 
             <main>{children}</main>
         </div>
