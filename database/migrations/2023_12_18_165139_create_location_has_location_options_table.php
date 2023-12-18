@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_has_location_options', function (Blueprint $table) {
+        Schema::create('location_has_options', function (Blueprint $table) {
             $table->id();
-            $table->integer('location_id')->unsigned()->index();
-            $table->integer('location_option_id')->unsigned()->index();            
+            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('location_option_id');            
             
             $table->timestamps();
 

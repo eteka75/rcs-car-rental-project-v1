@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('code_reduction');
             $table->integer('montant_min_reduction')->default(0);
             $table->integer('montant_max_reduction')->default(0);
-            $table->date('date_debut_reduction')->default('00-00-0000');
-            $table->date('date_fin_reduction')->default('00-00-0000');
+            $table->date('date_debut_reduction')->nullable();
+            $table->date('date_fin_reduction')->nullable();
             $table->longText('description')->nullable(true);
             $table->integer('montant')->default(0);            
             $table->integer('pourcentage')->default(0); 

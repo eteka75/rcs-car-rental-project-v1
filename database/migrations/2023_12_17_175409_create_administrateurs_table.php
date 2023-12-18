@@ -22,8 +22,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->integer('unser_id');
-            $table->index('unser_id');
+            $table->unsignedBigInteger('user_id')->index();
             
             $table->foreign('user_id')->references('id')->on('users');
 

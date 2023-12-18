@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
             
-            $table->integer('transaction_id')->unsigned()->index();
-            $table->bigInteger('voiture_id')->unsigned()->index();
-            $table->text('infos_vente')->default('');
+            $table->unsignedBigInteger('transaction_id')->index();
+            $table->unsignedBigInteger('voiture_id')->index();
+            $table->text('infos_vente')->nullable();
             $table->integer('montant_location');
            
             

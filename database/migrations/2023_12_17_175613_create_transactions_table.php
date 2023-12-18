@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('montant');
             $table->enum('type',["L","A",'R']);
             
-            $table->integer('client_id')->unsigned();
-            $table->bigInteger('voiture_id')->unsigned();
+            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('voiture_id');
 
             $table->timestamps();
             $table->softDeletes();

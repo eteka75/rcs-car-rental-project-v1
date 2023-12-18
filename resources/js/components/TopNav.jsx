@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@inertiajs/react'
+import { Link } from '@inertiajs/react';
 import Logo from "../assets/images/logo-v0-min.png";
 import { FiShoppingCart } from 'react-icons/fi';
 import UserMenu from './UserMenu';

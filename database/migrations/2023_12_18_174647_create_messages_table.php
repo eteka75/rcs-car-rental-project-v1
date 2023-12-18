@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('type',['SMS','IMG','VIDEO'])->nullable();
             $table->string('url')->nullable();
             $table->boolean('read')->default(false);
-            $table->datatime('read_time');
+            $table->dateTime('read_time');
             $table->string('infos')->nullable();
 
             $table->timestamps();

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('voiture_has_systeme_securites', function (Blueprint $table) {
+        Schema::create('voiture_has_sys_sec', function (Blueprint $table) {
             $table->id();
-            $table->integer('voiture_id')->unsigned()->index();
-            $table->integer('systeme_securite_id')->unsigned()->index();            
+            $table->unsignedBigInteger('voiture_id')->nullable(false);
+            $table->unsignedBigInteger('systeme_securite_id')->nullable(false);            
             
             $table->timestamps();
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('voiture_has_systeme_securites');
+        Schema::dropIfExists('voiture_has_sys_sec');
     }
 };

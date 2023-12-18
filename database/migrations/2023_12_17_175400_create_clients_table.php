@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nom')->nullable(false)->change();;
             $table->string('prenom');
             $table->enum('sexe', ['M','F',''])->default('');
-            $table->date('date_naissance')->default('00-00-000');
+            $table->date('date_naissance')->nullable();
             $table->string('lieu_naissance')->default('');
             $table->string('ville_residence')->default('');
             $table->string('adresse')->default('');
@@ -28,11 +28,8 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             
-            $table->integer('user_id')->unsigned();
-            $table->integer('pays_id')->unsigned();
-
-            $table->index('user_id');
-            $table->index('pays_id');
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('pays_id')->index();
 
             $table->foreign('pays_id')->references('id')->on('pays');
             $table->foreign('user_id')->references('id')->on('users');

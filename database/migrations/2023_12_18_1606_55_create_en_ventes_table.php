@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('en_ventes', function (Blueprint $table) {
             $table->id();
             $table->integer('prix_vente');
-            $table->text('description')->default('');
-            $table->date('date')->default('00-00-0000');
+            $table->text('description')->nullable();
+            $table->date('date')->nullable();
             
             $table->timestamps();
             $table->softDeletes();
 
-            $table->bigInteger('voiture_id')->index();
-            $table->integer('point_retrait_id')->index();
+            $table->unsignedBigInteger('voiture_id')->index();
+            $table->unsignedBigInteger('point_retrait_id')->index();
 
             $table->foreign('voiture_id')->references('id')->on('voitures');
             $table->foreign('point_retrait_id')->references('id')->on('point_retraits');

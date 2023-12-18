@@ -17,18 +17,16 @@ return new class extends Migration
             $table->dateTime('date_fin_location');
 
             $table->integer('montant_location');
-            $table->integer('location_assurance_id');
             
-            $table->integer('location_reduction_id')->unsigned()->index()->nullable();
-            $table->integer('location_assurance_id')->unsigned()->index()->nullable();
-            $table->integer('voiture_id')->unsigned()->index();
-            $table->integer('transaction_id')->unsigned()->index();
+            $table->unsignedBigInteger('location_reduction_id')->index()->nullable();
+            $table->unsignedBigInteger('location_assurance_id')->index()->nullable();
+            $table->unsignedBigInteger('voiture_id')->index();
+            $table->unsignedBigInteger('transaction_id')->index();
             
             $table->timestamps();
             $table->softDeletes();            
 
             $table->foreign('voiture_id')->references('id')->on('voitures');
-            $table->foreign('point_retrait_id')->references('id')->on('point_retraits');
             $table->foreign('location_assurance_id')->references('id')->on('location_assurances');
             $table->foreign('location_reduction_id')->references('id')->on('location_assurances');
         });

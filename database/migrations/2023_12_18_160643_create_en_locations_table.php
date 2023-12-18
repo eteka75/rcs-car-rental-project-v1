@@ -20,11 +20,11 @@ return new class extends Migration
             $table->dateTime('date_debut_location');
             $table->dateTime('date_fin_location');
 
-            $table->integer('point_retrait_id')->unique()->index('pr_voiture');
-            $table->integer('voiture_id')->unique()->index('voiture');
+            $table->unsignedBigInteger('point_retrait_id')->index('pr_voiture');
+            $table->unsignedBigInteger('voiture_id')->index('voiture');
 
-            $table->longText('conditions')->default('');
-            $table->longText('description')->default('');
+            $table->longText('conditions')->nullable();
+            $table->longText('description')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

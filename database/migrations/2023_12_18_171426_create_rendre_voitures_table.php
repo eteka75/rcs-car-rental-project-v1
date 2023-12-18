@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('rendre_voitures', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('voiture_id')->unsigned()->index();
-            $table->bigInteger('transaction_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
+            $table->unsignedBigInteger('voiture_id')->index();
+            $table->unsignedBigInteger('transaction_id')->index();
+            $table->unsignedBigInteger('user_id')->index();
             $table->string('nom_agent');
             $table->dateTime('date_remise');
             $table->longtext('observations');
@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->foreign('voiture_id')->references('id')->on('voitures');
             $table->foreign('transaction_id')->references('id')->on('transactions');
-            $table->foreign('user_id')->references('id')->on('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

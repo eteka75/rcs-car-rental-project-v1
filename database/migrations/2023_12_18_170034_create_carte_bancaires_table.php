@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('carte_bancaires', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
             $table->string('nom_carte');
             $table->string('nom_prenom');
             $table->string('num');
@@ -24,6 +23,7 @@ return new class extends Migration
             $table->timestamps();
             
             $table->softDeletes();
+            $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
