@@ -11,16 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('original_name')->nullable();
-            $table->string('dossier')->nullable();
-            $table->string('url');
-            $table->longtext('description');
-            
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('conversations');
     }
 };

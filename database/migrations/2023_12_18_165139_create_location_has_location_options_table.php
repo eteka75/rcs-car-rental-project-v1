@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('location_has_location_options', function (Blueprint $table) {
             $table->id();
+            $table->integer('location_id')->unsigned()->index();
+            $table->integer('location_option_id')->unsigned()->index();            
+            
             $table->timestamps();
+
+            $table->unique(['location_id','location_option_id']);
         });
     }
 

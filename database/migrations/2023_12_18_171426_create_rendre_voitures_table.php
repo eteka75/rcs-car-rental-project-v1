@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('control_voitures', function (Blueprint $table) {
+        Schema::create('rendre_voitures', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('voiture_id')->unsigned()->index();
-            $table->string('nom_controle');
-            $table->date('date_controle');
-            $table->integer('kilometrage');
-            $table->longtext('description');
-            $table->string('fichier');           
+            $table->bigInteger('transaction_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
+            $table->string('nom_agent');
+            $table->dateTime('date_remise');
+            $table->longtext('observations');
             
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('voiture_id')->references('id')->on('voitures');
+            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreign('user_id')->references('id')->on('user_id');
         });
     }
 
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('control_voitures');
+        Schema::dropIfExists('rendre_voitures');
     }
 };

@@ -17,24 +17,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('voiture_media', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nom')->nullable(false)->change();
-            $table->year('annee_fabrication')->default(0000);
-            $table->string('photo')->default('');
-            $table->integer('nombre_place',2)->unsigned()->default(0);
-            $table->string('volume_coffre')->default('');
-            $table->date('date_achat')->default('00-00-0000');
-            $table->date('date_vente')->default('00-00-0000');           
-            $table->integer('nb_place')->default('');
-            $table->string('couleur')->default('');
-            $table->longText('description')->default('');
+            $table->id();
+            $table->bigInteger('media_id')->unsigned()->index();
+            $table->bigInteger('voiture_id')->unsigned()->index();
+            
+            $table->timestamps();           
 
-            $table->integer('marque_id')->nullable()->unsigned();
-            $table->integer('categorie_id')->nullable()->unsigned();
-            $table->integer('carburant_id')->nullable()->unsigned();
-
-            $table->index('marque_id', 'categorie_id','carburant_id');
-            $table->timestamps();
+            $table->unique(['media_id','voiture_id']);
         });
     }
 

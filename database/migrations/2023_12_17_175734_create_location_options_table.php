@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('location_options', function (Blueprint $table) {
             $table->id();
-            $table->integer('location_id')->unsigned()->index('voiture');
+            $table->string('nom');
+            $table->string('photo');
+            $table->string('description');
+            $table->integer('tarif');
+            
+            $table->timestamps();
+            $table->softDeletes();
+            
+           /* $table->integer('location_id')->unsigned()->index('voiture');
             $table->integer('location_option_id')->unsigned()->index('voiture');            
             
             $table->timestamps();
@@ -21,7 +29,7 @@ return new class extends Migration
             $table->unique(['location_id','location_option_id']);
             $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('location_option_id')->references('id')->on('location_options');
-           
+           */
         });
     }
 
