@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { Link } from '@inertiajs/react';
+
 
 export default function FooterMega() {
     return (
@@ -7,71 +9,61 @@ export default function FooterMega() {
                 <footer className="bg-gray-950 border-0 dark:bg-gray-900 bg-gradient-to-b from-gray-800 to-gray-90">
                     <div className="mx-auto w-full max-w-screen-xl relative">
                         <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4 text-sm">
+                        <div className='col-span-2 md:col-span-1'>
+                                <h2 className="mb-2 text-sm font-semibold text-gray-200 uppercase dark:text-white">Rental Car services</h2>
+                               <p className="text-slate-400">
+                                Nous sommes une entreprise de location et de vente de voitures de toutes catégories au Bénin. Nous sommes situé à Ekpè au quartier 
+                               </p>
+                            </div>
                             <div>
                                 <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">La société</h2>
                                 <ul className="text-blue-500 dark:text-gray-400 font-medium">
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">A propos</a>
+                                        <Link href="#" className="hover:underline">A propos</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Services</a>
+                                        <Link href="#" className="hover:underline">Services</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Nous contacter</a>
+                                        <Link href="#" className="hover:underline">Nous contacter</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Blog</a>
+                                        <Link href="#" className="hover:underline">Blog</Link>
                                     </li>
                                 </ul>
                             </div>
                             <div>
-                                <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Help center</h2>
+                                <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Centre d'aide</h2>
                                 <ul className="text-blue-500 dark:text-gray-400 font-medium">
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Discord Server</a>
+                                        <Link href="#" className="hover:underline">Messages</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Twitter</a>
+                                        <Link href="#" className="hover:underline">Forum aux question</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Facebook</a>
+                                        <Link href="#" className="hover:underline">Facebook</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Contact Us</a>
+                                        <Link href="#" className="hover:underline">Nous contacter</Link>
                                     </li>
                                 </ul>
                             </div>
-                            <div>
-                                <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Legal</h2>
+                            <div  className='col-span-2 md:col-span-1'>
+                                <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Légal</h2>
                                 <ul className="text-blue-500 dark:text-gray-400 font-medium">
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Privacy Policy</a>
+                                        <Link href="#" className="hover:underline">Politique de confidentialité</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Licensing</a>
+                                        <Link href="#" className="hover:underline">Licence</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <a href="#" className="hover:underline">Terms &amp; Conditions</a>
+                                        <Link href="#" className="hover:underline">Terms &amp; Conditions d'utilisation</Link>
                                     </li>
                                 </ul>
                             </div>
-                            <div>
-                                <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Download</h2>
-                                <ul className="text-blue-500 dark:text-gray-400 font-medium">
-                                    <li className="mb-4">
-                                        <a href="#" className="hover:underline">iOS</a>
-                                    </li>
-                                    <li className="mb-4">
-                                        <a href="#" className="hover:underline">Android</a>
-                                    </li>
-                                    <li className="mb-4">
-                                        <a href="#" className="hover:underline">Windows</a>
-                                    </li>
-                                    <li className="mb-4">
-                                        <a href="#" className="hover:underline">MacOS</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            
                         </div>
 
                     </div>

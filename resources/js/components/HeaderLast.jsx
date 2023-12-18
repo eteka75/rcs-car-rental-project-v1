@@ -45,7 +45,7 @@ export default function LocationHeader({ auth }) {
                                     alt="Logo CRS Bénin"
                                 />
                                 <span className="self-center text-xl uppercase font-semibold whitespace-nowrap dark:text-white">
-                                    Rental Cars Services
+                                    Rental Car Services
                                 </span>
                             </a>
                             <div
@@ -59,7 +59,7 @@ export default function LocationHeader({ auth }) {
                                             <li>
                                                 <Link
                                                     href={route('login')}
-                                                    className="inline-flex items-center border-slate-200 border-0 text-white font-medium justify-center px-2 py-2 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                    className="inline-flex items-center border-slate-200 border-0 text-white font-medium justify-center px-2 py-2 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
                                                 >
                                                     Se connecter
                                                 </Link>
@@ -68,7 +68,7 @@ export default function LocationHeader({ auth }) {
                                             <li>
                                                 <Link
                                                     href={route('register')}
-                                                    className="inline-flex items-center border-slate-50 border-0 text-white font-medium justify-center px-2 py-2 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+                                                    className="inline-flex items-center border-slate-50 border-0 text-white font-medium justify-center px-2 py-2 text-sm hover:text-gray-900 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
                                                 >
                                                     S'inscrire
                                                 </Link>
@@ -77,17 +77,17 @@ export default function LocationHeader({ auth }) {
                                     ) : (
                                         ""
                                     )}
-                                    <li>
+                                    <li className='hidden'>
                                         <button
                                             type="button"
                                             data-dropdown-toggle="language-dropdown-menu"
-                                            className="inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-lg cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
+                                            className="hidden _inline-flex items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-lg cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
                                             <FaCarOn className="me-1 text-xl" /> Gérer mes locations
                                         </button>
                                     </li>
-                                    <li>
-                                        <button className="inline-flex bg-slate-200 items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
+                                    <li className='hidden'>
+                                        <button className="hidden --inline-flex bg-slate-200 items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
                                             <svg
                                                 className="w-5 h-5 rounded-full me-3"
                                                 aria-hidden="true"
@@ -153,11 +153,12 @@ export default function LocationHeader({ auth }) {
                                             </svg>
                                             English (US)
                                         </button>
+                                        
                                     </li>
                                     <li>
                                         <button
                                             type="button"
-                                            className="inline-flex text-gray-900 bg-slate-200 hover:bg-slate-50 items-center px-4 py-3 text-sm font-medium justify-center rounded-lg  "
+                                            className="inline-flex text-gray-900 bg-slate-200 hover:bg-slate-50 items-center px-4 py-1 text-sm font-medium justify-center rounded-lg  "
                                         >
                                             <FiShoppingCart />
                                         </button>

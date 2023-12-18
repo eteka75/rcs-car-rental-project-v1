@@ -13,7 +13,8 @@ import { GiTakeMyMoney } from "react-icons/gi";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
+        nom: '',
+        prenom: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -33,7 +34,7 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title="Créer un compte" />
+            <Head title="Création de compte" />
             <div className="md:grid md:grid-cols-2 mb-0">
                 <div className="hidden shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-4.jpeg')] bg-cover bg-no-repeat bg-[left_calc(50%)_top_calc(25%)]">
                     <div className="bg-[rgba(0,0,0,.5)] bg-gradient-to-t from-[rgba(0,0,0,.95)]   h-full w-full">
@@ -100,17 +101,31 @@ export default function Register() {
                     <form onSubmit={submit}>
                         <h1 className='text-3xl mb-4 font-bold flex'>
                             <AiOutlineUserAdd className='me-1' />
-                            Inscription </h1>
+                            Création de compte </h1>
                         <div >
-                            <InputLabel htmlFor="name" value="Name" />
+                            <InputLabel htmlFor="nom" value="Nom" />
                             <TextInput
-                                id="name"
-                                name="name"
+                                id="nom"
+                                name="nom"
                                 value={data.name}
                                 className="mt-1 block w-full"
-                                autoComplete="name"
+                                autoComplete="nom"
                                 isFocused={true}
-                                onChange={(e) => setData('name', e.target.value)}
+                                onChange={(e) => setData('nom', e.target.value)}
+                                required
+                            />
+                            <InputError message={errors.name} className="mt-2" />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabel htmlFor="nprenom" value="Prénom(s)" />
+                            <TextInput
+                                id="prenom"
+                                name="prenom"
+                                value={data.prenom}
+                                className="mt-1 block w-full"
+                                autoComplete="prenom"
+                                isFocused={true}
+                                onChange={(e) => setData('prenom', e.target.value)}
                                 required
                             />
                             <InputError message={errors.name} className="mt-2" />
@@ -130,7 +145,7 @@ export default function Register() {
                             <InputError message={errors.email} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="password" value="Password" />
+                            <InputLabel htmlFor="password" value="Mot de passe" />
 
                             <TextInput
                                 id="password"
@@ -146,7 +161,7 @@ export default function Register() {
                             <InputError message={errors.password} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+                            <InputLabel htmlFor="password_confirmation" value="Confirmation du mot de passe"  />
 
                             <TextInput
                                 id="password_confirmation"
@@ -157,13 +172,14 @@ export default function Register() {
                                 autoComplete="new-password"
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
                                 required
+                                
                             />
 
                             <InputError message={errors.password_confirmation} className="mt-2" />
                         </div>
 
                         <div className="flex items-center justify-start mt-4">
-                            <PrimaryButton className="me-4 bg-blue-600" disabled={processing}>
+                            <PrimaryButton className=" bg-blue-600" disabled={processing}>
                                 Créer mon compte
                             </PrimaryButton>
                         </div>

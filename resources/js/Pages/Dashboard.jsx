@@ -1,6 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import DashMainMenu from '@/components/dashboard/DashMainMenu';
+import DashHeadTitle from '@/components/dashboard/DashHeadTitle';
+import DashMain from '@/Layouts/DashMain';
+
 
 
 export default function Dashboard({ auth }) {
@@ -17,24 +20,10 @@ export default function Dashboard({ auth }) {
         </div>
         <div className="col-span-8 sm:col-span-7 lg:lg:col-span-8">
           <div className="py-12">
-          <div className="flex-grow text-gray-800">
-           
-            <main className="px-4 sm:px-6 space-y-6">
-              <div className="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
-                <div className="mr-6">
-                  <h1 className="text-xl lg:text-3xl font-semibold mb-2">Bienvenue dans votre tableau de bord</h1>
-                  <h2 className="text-gray-600 ml-0.5">Gérez vos véhicules et interagissez avec votre clientèle en toute sécurité</h2>
-                </div>
-                <div className="flex flex-wrap md:items-start md:justify-end md:-mb-3">
-                  
-                  <button className="inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-3 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3">
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="flex-shrink-0 h-6 w-6 text-white -ml-1 mr-2">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Nouvelle voiture
-                  </button>
-                </div>
-              </div>
+          <div className="flex-grow text-gray-800">           
+            <DashMain >
+              <DashHeadTitle title="Bienvenue dans votre tableau de bord" subtitle='Gérez vos véhicules et interagissez avec votre clientèle en toute sécurité' />
+              <div>
               <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 <div className="flex items-center p-8 bg-white shadow rounded-lg">
                   <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-blue-600 bg-blue-100 rounded-full mr-6">
@@ -193,12 +182,13 @@ export default function Dashboard({ auth }) {
                   </div>
                 </div>
               </section>
-            </main>
+              </div>
+            </DashMain>
           </div>
 
           </div>
         </div>
-      </div>
+        </div>
     </AuthenticatedLayout>
   );
 }
