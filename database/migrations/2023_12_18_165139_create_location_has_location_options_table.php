@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_assurances', function (Blueprint $table) {
-            $table->id();            
-            $table->string('nom');
-            $table->string('photo');
-            $table->longText('description')->nullable(true);
-            $table->integer('tarif')->default(0);
-            
+        Schema::create('location_has_location_options', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('location_assurances');
+        Schema::dropIfExists('location_has_location_options');
     }
 };

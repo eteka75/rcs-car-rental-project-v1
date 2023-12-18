@@ -13,7 +13,18 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
+            
+            $table->integer('transaction_id')->unsigned()->index();
+            $table->bigInteger('voiture_id')->unsigned()->index();
+            $table->text('infos_vente')->default('');
+            $table->integer('montant_location');
+           
+            
             $table->timestamps();
+            $table->softDeletes();            
+
+            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreign('voiture_id')->references('id')->on('voitures');
         });
     }
 

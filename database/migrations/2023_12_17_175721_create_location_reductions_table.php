@@ -13,7 +13,19 @@ return new class extends Migration
     {
         Schema::create('location_reductions', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_reduction');
+            $table->enum('type_reduction',['P','M','A'])->default('M');
+            $table->string('code_reduction');
+            $table->integer('montant_min_reduction')->default(0);
+            $table->integer('montant_max_reduction')->default(0);
+            $table->date('date_debut_reduction')->default('00-00-0000');
+            $table->date('date_fin_reduction')->default('00-00-0000');
+            $table->longText('description')->nullable(true);
+            $table->integer('montant')->default(0);            
+            $table->integer('pourcentage')->default(0); 
+                       
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
