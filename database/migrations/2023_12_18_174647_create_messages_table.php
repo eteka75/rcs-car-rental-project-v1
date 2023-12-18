@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('message');
+            $table->enum('type',['SMS','IMG','VIDEO'])->nullable();
+            $table->string('url')->nullable();
+            $table->boolean('read')->default(false);
+            $table->datatime('read_time');
+            $table->string('infos')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

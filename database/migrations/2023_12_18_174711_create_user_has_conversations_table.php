@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('user_has_conversations', function (Blueprint $table) {
             $table->id();
+            $table->integer('conversation_id')->unsigned()->index();
+            $table->integer('sender_id')->unsigned()->index();
+            $table->integer('receiver_id')->unsigned()->index();
+            $table->integer('messsage_id')->unsigned()->index();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
