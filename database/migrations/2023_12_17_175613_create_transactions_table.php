@@ -12,8 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            
+            $table->string('division')->nullable();
+            $table->dateTime('date_transaction');
+            $table->integer('montant');
+            $table->enum('type',["L","A",'R']);
+            
+            $table->integer('client_id')->unsigned();
+            $table->bigInteger('voiture_id')->unsigned();
+
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index('client_id','voiture_id');
+            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('voiture_id')->references('id')->on('voitures');
         });
     }
 

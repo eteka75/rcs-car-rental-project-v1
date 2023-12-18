@@ -11,19 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('marques', function (Blueprint $table) {
+        Schema::create('type_motorisations', function (Blueprint $table) {
             $table->id();
-            $table->string('pays_id');
-            $table->string('logo');
-            $table->year('annee_fondation')->default(0000);
-            $table->string('site_web')->nullable();
+            $table->string('nom')->nullable(false)->change();;
+            $table->string('image')->nullable();;
             $table->longText('description')->nullable();
-            
+
             $table->timestamps();
             $table->softDeletes();
-            
-            $table->foreign('pays_id')->references('id')->on('pays');//->onDelete('cascade');
-            $table->index(['pays_id']);
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('marques');
+        Schema::dropIfExists('type_motorisations');
     }
 };

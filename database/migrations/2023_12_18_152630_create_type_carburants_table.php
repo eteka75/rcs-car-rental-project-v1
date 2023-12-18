@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('type_carburants', function (Blueprint $table) {
             $table->id();
+            $table->string('nom')->nullable(false)->change();
+            $table->string('image')->nullable();;
+            $table->longText('description')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

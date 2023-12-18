@@ -13,7 +13,20 @@ return new class extends Migration
     {
         Schema::create('administrateurs', function (Blueprint $table) {
             $table->id();
+            $table->string('nom')->nullable(false)->change();
+            $table->string('prenom')->nullable();
+            $table->string('poste')->nullable();
+            $table->string('division')->nullable();
+            $table->longText('biographie')->nullable();
+            
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->integer('unser_id');
+            $table->index('unser_id');
+            
+            $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 

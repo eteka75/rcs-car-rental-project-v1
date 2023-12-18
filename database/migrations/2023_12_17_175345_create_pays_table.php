@@ -21,6 +21,7 @@ return new class extends Migration
 
             $table->unique(['alpha2','alpha3']);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['code','alpha2','alpha3']);
 
