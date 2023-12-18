@@ -34,6 +34,13 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     Route::get('/', function () {
     return Inertia::render('Dashboard/Index');
     })->name('dashboard');
+    Route::get('/voitures', function () {
+        return Inertia::render('Dashboard/Index');
+    })->name('dashboard.voitures');
+    Route::get('/voitures/new', function () {
+        return Inertia::render('Dashboard/Index');
+    })->name('dashboard.voitures.create');
+
 });
 
 Route::middleware('auth')->group(function () {

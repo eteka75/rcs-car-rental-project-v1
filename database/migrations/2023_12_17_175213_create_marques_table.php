@@ -13,7 +13,16 @@ return new class extends Migration
     {
         Schema::create('marques', function (Blueprint $table) {
             $table->id();
+            $table->string('pays_id');
+            $table->string('logo');
+            $table->year('annee_fondation')->default(0000);
+            $table->string('site_web')->nullable();
+            $table->longText('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+            
+            $table->foreign('pays_id')->references('id')->on('pays');//->onDelete('cascade');
+            $table->index(['pays_id']);
         });
     }
 
