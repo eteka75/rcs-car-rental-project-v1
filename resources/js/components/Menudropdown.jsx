@@ -1,26 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState, createContext, useContext, Fragment } from 'react';
 import { Link } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
 const DropDownContext = createContext();
 
-const Menudropdown = ({ children }) => {
+const Menudropdown = ({ children, is_open=false }) => {
     const [open, setOpen] = useState(false);
-
+    
     const toggleOpen = () => {
         setOpen((previousState) => !previousState);
     };
 
     return (
-        <DropDownContext.Provider value={{ open, setOpen, toggleOpen }}>
+        <DropDownContext.Provider value={{ open, setOpen, toggleOpen, is_open }}>
             <div className="relative">{children}</div>
         </DropDownContext.Provider>
     );
 };
 
 const Trigger = ({ children }) => {
-    const { open, setOpen, toggleOpen } = useContext(DropDownContext);
+    const { open, setOpen, toggleOpen, is_open } = useContext(DropDownContext);
 
     return (
         <>
@@ -32,7 +32,7 @@ const Trigger = ({ children }) => {
 };
 
 const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 font-bold w-full dark:bg-gray-700', children }) => {
-    const { open, setOpen } = useContext(DropDownContext);
+    const { open, setOpen, is_open } = useContext(DropDownContext);
 
     let alignmentClasses = 'origin-top';
 
@@ -47,6 +47,11 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 font-bo
     if (width === '48') {
         widthClasses = 'w-48';
     }
+    useEffect(()=>{
+        if(is_open===true){
+            setOpen(true)
+        }
+    },[]);
 
     return (
         <>

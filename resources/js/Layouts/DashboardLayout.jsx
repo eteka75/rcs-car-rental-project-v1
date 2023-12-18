@@ -9,15 +9,12 @@ export default function DashboardLayout({ auth = {}, children }) {
     return (
         <>
             <AuthenticatedLayout
-                user={auth.user} auth={auth}
-                header={<h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Mon compte</h2>}
-            >
+                user={auth.user} auth={auth} >
 
                 <div className="max-w-screen-2xl mx-auto  grid grid-cols-10">
-                    <DashMainMenu />
+                    <DashMainMenu  />
                     <DashMain >
                         {children}
-
                     </DashMain>
                 </div>
             </AuthenticatedLayout>

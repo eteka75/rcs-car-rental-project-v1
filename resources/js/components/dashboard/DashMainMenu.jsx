@@ -7,6 +7,8 @@ import { BsCart2 } from "react-icons/bs";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { IoCarSportOutline, IoKeyOutline } from 'react-icons/io5';
 import { IoMdNotificationsOutline } from 'react-icons/io';
+import { Link } from '@inertiajs/react';
+import { PiUsersThree } from 'react-icons/pi';
 export default function DashMainMenu() {
   return (
     <>
@@ -197,18 +199,18 @@ export default function DashMainMenu() {
           <Menudropdown>
             <Menudropdown.Trigger>
               <span className="inline-flex w-full ">
-                <button
-                  type="button"
+                <Link
+                  href={route('dashboard')}
                   className="inline-flex items-center text-start px-2 py-1 ms-2 text-md leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                 >
                   <VscDashboard className='me-0 md:me-1 lg:me-2 h-5 w-5 text-slate-600' />
                   <span className="menu-label hidden sm:flex">Tableau de bord</span>
-                </button>
+                </Link>
               </span>
             </Menudropdown.Trigger>
           </Menudropdown>
 
-          <Menudropdown>
+          <Menudropdown is_open={true}>
             <Menudropdown.Trigger>
               <span className="inline-flex w-full ">
                 <button
@@ -217,9 +219,9 @@ export default function DashMainMenu() {
                 >
 
                   <BsCart2 className='me-0 md:me-1 lg:me-2  h-5 w-5 text-slate-600' />
-                  <span className="menu-label hidden sm:flex">Commandes & Achats</span>
+                  <span className="menu-label hidden sm:flex">Commandes </span>
                   <span className='float-right right-1 sm:absolute'>
-                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
+                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
 
                   </span>
                 </button>
@@ -227,8 +229,8 @@ export default function DashMainMenu() {
             </Menudropdown.Trigger>
 
             <Menudropdown.Content>
-              <Menudropdown.Link className='flex' href={route('dashboard')}> Véhicules réservés</Menudropdown.Link>
-              <Menudropdown.Link className='flex ' href={route('profile.edit')}> Véhicules achétés </Menudropdown.Link>
+              <Menudropdown.Link className='flex' href={route('dashboard')}> Locations</Menudropdown.Link>
+              <Menudropdown.Link className='flex ' href={route('profile.edit')}> Achats </Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Annulations </Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Factures</Menudropdown.Link>
             </Menudropdown.Content>
@@ -245,7 +247,7 @@ export default function DashMainMenu() {
                   <IoCarSportOutline className='me-0 md:me-1 lg:me-2 h-5 w-5 text-slate-600' />
                   <span className="menu-label hidden sm:flex">Gérer les voitures</span>
                   <span className='float-right right-1 sm:absolute'>
-                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
+                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
 
                   </span>
                 </button>
@@ -274,7 +276,7 @@ export default function DashMainMenu() {
 
                   <IoKeyOutline className='me-0 md:me-1 lg:me-2  h-5 w-5 text-slate-600' /> <span className="menu-label hidden sm:flex">Gérer les locations</span>
                   <span className='float-right right-1 sm:absolute'>
-                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
+                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
 
                   </span>
                 </button>
@@ -300,7 +302,7 @@ export default function DashMainMenu() {
                   <BsCart2 className='me-0 md:me-1 lg:me-2  h-5 w-5 text-slate-600' />
                   <span className="menu-label hidden sm:flex">Gérer les ventes</span>
                   <span className='float-right right-1 sm:absolute'>
-                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
+                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
 
                   </span>
                 </button>
@@ -311,6 +313,29 @@ export default function DashMainMenu() {
               <Menudropdown.Link className='flex' href={route('dashboard')}> En ventes</Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Services</Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Conditions</Menudropdown.Link>
+            </Menudropdown.Content>
+          </Menudropdown>
+          <Menudropdown >
+            <Menudropdown.Trigger>
+              <span className="inline-flex w-full ">
+                <button
+                  type="button"
+                  className="inline-flex items-center text-start px-2 py-1 ms-2 text-md leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                >
+
+                  <PiUsersThree  className='me-0 md:me-1 lg:me-2  h-5 w-5 text-slate-600' />
+                  <span className="menu-label hidden sm:flex">Gérer utilisateurs</span>
+                  <span className='float-right right-1 sm:absolute'>
+                    <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
+
+                  </span>
+                </button>
+              </span>
+            </Menudropdown.Trigger>
+
+            <Menudropdown.Content>
+              <Menudropdown.Link className='flex' href={route('dashboard')}> Clients</Menudropdown.Link>
+              <Menudropdown.Link className='flex ' href={route('profile.edit')}> Administrateurs</Menudropdown.Link>
             </Menudropdown.Content>
           </Menudropdown>
           <Menudropdown>
