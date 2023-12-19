@@ -5,28 +5,35 @@ import { Transition } from '@headlessui/react';
 
 const DropDownContext = createContext();
 
-const Menudropdown = ({ children, is_open=false }) => {
+const Menudropdown = ({ children, is_open = false, has_submenu=true }) => {
     const [open, setOpen] = useState(false);
-    
+
     const toggleOpen = () => {
         setOpen((previousState) => !previousState);
     };
 
     return (
-        <DropDownContext.Provider value={{ open, setOpen, toggleOpen, is_open }}>
+        <DropDownContext.Provider value={{ open, setOpen, toggleOpen, is_open, has_submenu }}>
             <div className="relative">{children}</div>
         </DropDownContext.Provider>
     );
 };
 
 const Trigger = ({ children }) => {
-    const { open, setOpen, toggleOpen, is_open } = useContext(DropDownContext);
+    const { open, setOpen, toggleOpen, has_submenu } = useContext(DropDownContext);
+    const rotate_class = open===true?'rotate-90':'rotate-0';
 
     return (
         <>
-            <div className='hover:bg-gray-200 rounded-sm' onClick={toggleOpen}>{children}</div>
+            <div >
+                {has_submenu && <div className="relative inset-0 z-40 top-1" onClick={() => setOpen(false)}>
+                    <span className='float-right right-1 sm:absolute'>
+                        <svg className={"w-4 h-4 ms-2 transition-all duration-100 "+rotate_class} xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
 
-            {open && <div className="relative inset-0 z-40" onClick={() => setOpen(false)}></div>}
+                    </span>
+                </div>}
+                <div onClick={toggleOpen}>{children}</div>
+            </div>
         </>
     );
 };
@@ -47,11 +54,11 @@ const Content = ({ align = 'right', width = '48', contentClasses = 'py-1 font-bo
     if (width === '48') {
         widthClasses = 'w-48';
     }
-    useEffect(()=>{
-        if(is_open===true){
+    useEffect(() => {
+        if (is_open === true) {
             setOpen(true)
         }
-    },[]);
+    }, []);
 
     return (
         <>

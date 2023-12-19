@@ -22,7 +22,7 @@ export default function UserMenu({auth}) {
                                 <span className="sr-only">Open user menu</span>
                                 <img className="w-7 h-7 rounded-full " src={userprofil} alt="user photo" />
                             </span>
-                            <span className="ms-1">{auth.user.name}</span>
+                            <span className="ms-1">{auth.user.prenom}</span>
 
                             <svg
                                 className="ms-2 -me-0.5 h-4 w-4"

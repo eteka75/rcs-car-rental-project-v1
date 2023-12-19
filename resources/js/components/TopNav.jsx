@@ -5,6 +5,7 @@ import { FiShoppingCart } from 'react-icons/fi';
 import UserMenu from './UserMenu';
 import { FaHome } from 'react-icons/fa';
 import { AiOutlineHome } from 'react-icons/ai';
+import { FaCarOn } from 'react-icons/fa6';
 
 
 export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
@@ -69,7 +70,7 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
 
                                 </>
                             ) : (
-                                ""
+                                ''
                             )}
 
                             <li className='hidden'>
@@ -151,9 +152,21 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                             </li>
 
                             {auth.user &&
-                                (<li>
+                                (
+                                    <>
+                                <li className='hidden'>
+                                    <button
+                                        type="button"
+                                        data-dropdown-toggle="language-dropdown-menu"
+                                        className="inline-flex ms-2 items-center text-slate-900 border border-yellow-500 bg-yellow-500 font-medium justify-center px-4 py-1.5 text-sm hover:text-b  dark:text-white rounded-lg cursor-pointer hover:opacity-90 dark:hover:bg-gray-700 dark:hover:text-white"
+                                    >
+                                        <FaCarOn className="me-1 text-xl" /> Gérer mes locations
+                                    </button>
+                                </li>
+                                <li>
                                     <UserMenu auth={auth} />
-                                </li>)}
+                                </li>
+                                </>)}
                         </ul>
                     </div>
                     <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-sm md:hidden hover:bg-[rgba(255,255,255,.3)] focus:outline-none focus:ring-1 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">

@@ -10,33 +10,47 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 import { Link } from '@inertiajs/react';
 import { PiUsersThree } from 'react-icons/pi';
 import { menuItemsData } from '@/data/DashMenus';
-import { Button } from 'bootstrap';
-export default function DashMainMenu() {
-  
+export default function DashMainMenu({active=''}) {
+  const TestOpen = (id)=>{
+      return(id===active)?true:false;
+  }
+  const HasSubMenu = (menu)=>{
+      return((menu.sub && menu.sub.length>0)?true:false);
+  }
   return (
     <>
       <div className="col-span-2 sm:col-span-3 lg:col-span-2 ">
 
         <div className="flex py-12 min-h-full sm:border-r md:pe-4 flex-col gap-2 max-w-[280px] mx-auto ">
-          <h2 className="text-sm text-gray-500 tracking-widest px-4 font-bold uppercase line-clamp-5">Menu de Navigation</h2>
+          <h2 className="text-sm text-gray-500 tracking-widest px-4 hidden sm:flex font-bold uppercase line-clamp-5">Menu de Navigation</h2>
           {menuItemsData.map((menu, index) => {
+          const is_open = TestOpen(menu.id?menu.id:'-');
+          const has_subm = HasSubMenu(menu);
             return (
-              <Menudropdown key={index}>
+              <Menudropdown key={index} is_open={is_open} has_submenu={has_subm}>
                 <Menudropdown.Trigger>
+                {(menu.url && menu.route!='') ?
+
+                  <Link href={menu.url}
+                  className="inline-flex items-center h-5w-5 text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+
+                  >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
+                  </Link>
+                :
                   <button type="button"
-                    className="flex items-center text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                    className="items-center   inline-flex text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
 
-                  >{menu.icon} {menu.title}
-                    {menu.sub && menu.sub.length && (<span className='float-right right-1 sm:absolute'>
-                      <svg className="w-4 h-4 ms-2  text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
-
-                    </span>)}
+                  >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
+                    
                   </button>
+            }
+                  {menu.sub && menu.sub.length && 
                   <Menudropdown.Content >
                   {menu.sub ? menu.sub.map((smenu, sindex) => (
-                      <Menudropdown.Link key={sindex} className='flex' href={route(smenu.route)}> {smenu.title}</Menudropdown.Link>
+                      <Menudropdown.Link key={sindex} className='flex hover:font-bold hover:text-blue-600 transition-all duration-200' href={route(smenu.route)}> {smenu.title}</Menudropdown.Link>
                       )) : ''}
                   </Menudropdown.Content>
+                  }
                 </Menudropdown.Trigger>
               </Menudropdown>
             );

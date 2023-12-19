@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +11,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+
+require __DIR__.'/front.php';
+require __DIR__.'/dashboard.php';
+require __DIR__.'/auth.php';
+
+/*
+ Route::get('/', function () {
     return Inertia::render('Index', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -24,29 +25,4 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
-
-
-Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/users', function () {
-        return Inertia::render('Dashboard/Users/Index');
-
-    })->name('dashboard.users');
-    Route::get('/', function () {
-    return Inertia::render('Dashboard/Index');
-    })->name('dashboard');
-    Route::get('/voitures', function () {
-        return Inertia::render('Dashboard/Index');
-    })->name('dashboard.voitures');
-    Route::get('/voitures/new', function () {
-        return Inertia::render('Dashboard/Index');
-    })->name('dashboard.voitures.create');
-
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
+ */

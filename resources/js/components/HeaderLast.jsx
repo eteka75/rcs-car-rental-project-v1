@@ -77,7 +77,7 @@ export default function LocationHeader({ auth }) {
                                     ) : (
                                         ""
                                     )}
-                                    <li className='hidden'>
+                                    <li className='hiddens'>
                                         <button
                                             type="button"
                                             data-dropdown-toggle="language-dropdown-menu"

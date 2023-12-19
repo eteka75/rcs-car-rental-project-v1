@@ -6,12 +6,14 @@ import { VscDashboard } from "react-icons/vsc";
 export const menuItemsData = [
   {
     title: 'Tableau de bord',
-    url: '#',
+    url: '/dashboard',
+    id: 'dashs',
     icon:<VscDashboard className='me-0 md:me-1 lg:me-2 h-5 w-5 text-slate-600' />,
   },
     {
       title: 'Gérer les voitures',
-      url: '#',
+      url: '',
+      id: 'voitures',
       icon: <IoCarSportOutline className='me-0 md:me-1 lg:me-2 h-5 w-5 text-slate-600' />,
       sub: [
         {

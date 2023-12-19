@@ -25,6 +25,7 @@ export default function Register() {
             reset('password', 'password_confirmation');
         };
     }, []);
+    console.log(errors)
 
     const submit = (e) => {
         e.preventDefault();
@@ -107,17 +108,17 @@ export default function Register() {
                             <TextInput
                                 id="nom"
                                 name="nom"
-                                value={data.name}
+                                value={data.nom}
                                 className="mt-1 block w-full"
                                 autoComplete="nom"
                                 isFocused={true}
                                 onChange={(e) => setData('nom', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.name} className="mt-2" />
+                            <InputError message={errors.nom} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="nprenom" value="Prénom(s)" />
+                            <InputLabel htmlFor="prenom" value="Prénom(s)" />
                             <TextInput
                                 id="prenom"
                                 name="prenom"
@@ -128,7 +129,7 @@ export default function Register() {
                                 onChange={(e) => setData('prenom', e.target.value)}
                                 required
                             />
-                            <InputError message={errors.name} className="mt-2" />
+                            <InputError message={errors.prenom} className="mt-2" />
                         </div>
                         <div className="mt-4">
                             <InputLabel htmlFor="email" value="Email" />

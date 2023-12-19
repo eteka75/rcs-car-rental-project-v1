@@ -9,12 +9,12 @@ import HeaderMenu from '@/components/HeaderMenu';
 import FooterMega from '@/components/FooterMega';
 import DashFooterMenu from '@/components/dashboard/DashFooterMenu';
 
-export default function Authenticated({auth, user, header, children }) {
+export default function Authenticated({auth,  header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <Suspense fallback="...loading">
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                         <HeaderMenu auth={auth}/>
                 <div className="flex">
@@ -27,8 +27,8 @@ export default function Authenticated({auth, user, header, children }) {
 <nav className="space-y-1" aria-label="Sidebar"> <a href="/dashboard/general" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group" aria-current="page"> <span className="truncate"> General</span> </a> <a href="/dashboard/connections" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Conexions</span> </a> <a href="/dashboard/dashboard-teams" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Teams</span> </a> <a href="/dashboard/billing" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Billing</span> </a> <a href="/dashboard/invoices" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Invoices</span> </a> <a href="/dashboard/tokens" className="flex items-center py-2 text-sm font-medium text-gray-500 hover:text-purple-500 group"> <span className="truncate"> Tokens</span> </a> </nav>
                     <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
                         <div className="px-4">
-                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
+                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">{auth.user.name}</div>
+                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
                         </div>
 
                         <div className="mt-3 space-y-1">
