@@ -19,7 +19,7 @@ export default function Dashboard({ auth }) {
           <DashMainMenu/>         
         </div>
         <div className="col-span-8 sm:col-span-7 lg:lg:col-span-8">
-          <div className="py-12">
+          <div className="py-8">
           <div className="flex-grow text-gray-800">           
             <DashMain >
               <DashHeadTitle title="Bienvenue dans votre tableau de bord" subtitle='Gérez vos véhicules et interagissez avec votre clientèle en toute sécurité' />

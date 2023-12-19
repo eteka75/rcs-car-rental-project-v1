@@ -18,7 +18,7 @@ export default function ProfileMenu({active=''}) {
     <>
       <div className="col-span-2 sm:col-span-3 lg:col-span-2 ">
 
-        <div className="flex py-12 min-h-full sm:border-r md:pe-4 flex-col gap-2 max-w-[280px] mx-auto ">
+        <div className="flex py-8 min-h-full sm:border-r md:pe-4 flex-col gap-2 max-w-[280px] mx-auto ">
           <h2 className="text-sm text-gray-500 tracking-widest px-4 font-bold uppercase line-clamp-5"></h2>
          
            
