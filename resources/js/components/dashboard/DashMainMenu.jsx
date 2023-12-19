@@ -144,10 +144,10 @@ export default function DashMainMenu({active=''}) {
 
               <Menudropdown.Content>
                 <Menudropdown.Link className='flex' href={route('dashboard')}> En locations</Menudropdown.Link>
-                <Menudropdown.Link className='flex ' href={route('profile.edit')}> Points de retrait</Menudropdown.Link>
-                <Menudropdown.Link className='flex ' href={route('profile.edit')}> Villes</Menudropdown.Link>
-                <Menudropdown.Link className='flex ' href={route('profile.edit')}> Assurances</Menudropdown.Link>
-                <Menudropdown.Link className='flex ' href={route('profile.edit')}> Conditions</Menudropdown.Link>
+                <Menudropdown.Link className='flex' href={route('profile.edit')}> Points de retrait</Menudropdown.Link>
+                <Menudropdown.Link className='flex' href={route('profile.edit')}> Villes</Menudropdown.Link>
+                <Menudropdown.Link className='flex' href={route('profile.edit')}> Assurances</Menudropdown.Link>
+                <Menudropdown.Link className='flex' href={route('profile.edit')}> Conditions</Menudropdown.Link>
               </Menudropdown.Content>
             </Menudropdown>
             <Menudropdown>

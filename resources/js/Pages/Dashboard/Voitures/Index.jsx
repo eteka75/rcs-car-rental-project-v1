@@ -91,9 +91,9 @@ export default function Index({ auth, page_id, page_title, page_subtitle }) {
 
     return (
         <DashboardLayout auth={auth} page_id={page_id}>
-            <Head title='Voitures' />
-            <DashHeadTitle title='Voitures' subtitle={page_subtitle} >
-                <Link className='px-4 flex items-center py-2 bg-white _bg-blue-600 shadow-md _text-slate-100 rounded-md' href={route('dashboard.voitures.create')}>
+            <Head title={page_title} />
+            <DashHeadTitle title={page_title} subtitle={page_subtitle} >
+                <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3' href={route('dashboard.voitures.create')}>
                     <AiOutlinePlus className='me-1' />    Nouveau
                 </Link>
 
@@ -101,23 +101,7 @@ export default function Index({ auth, page_id, page_title, page_subtitle }) {
             <Card className="h-full w-full">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
 
-                    {/*<div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Tabs value="all" className="w-full md:w-max">
-            <TabsHeader>
-              {TABS.map(({ label, value }) => (
-                <Tab key={value} value={value}>
-                  &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                </Tab>
-              ))}
-            </TabsHeader>
-          </Tabs>
-          <div className="w-full md:w-72">
-            <Input
-              label="Search" className='border-gray-200 border' placeholder='rechercher '
-              icon={<AiOutlineSearch className="h-10 -ms-5 w-5" />}
-            />
-          </div>
-        </div>*/}
+                 
                 </CardHeader>
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 ">
                     <div className="w-full md:w-1/2">
