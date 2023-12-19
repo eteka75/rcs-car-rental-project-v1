@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.active_menu{ 
+    @apply bg-gray-800 text-white py-3 px-4 text-4xl text-center
+ }

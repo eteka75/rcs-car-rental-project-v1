@@ -11,6 +11,7 @@ import { Link } from '@inertiajs/react';
 import { PiUsersThree } from 'react-icons/pi';
 import { menuItemsData } from '@/data/DashMenus';
 export default function DashMainMenu({active=''}) {
+
   const TestOpen = (id)=>{
       return(id===active)?true:false;
   }
@@ -25,6 +26,7 @@ export default function DashMainMenu({active=''}) {
           <h2 className="text-sm text-gray-500 tracking-widest px-4 hidden sm:flex font-bold uppercase line-clamp-5">Menu de Navigation</h2>
           {menuItemsData.map((menu, index) => {
           const is_open = TestOpen(menu.id?menu.id:'-');
+          const active_class = is_open===true?' border-s-4 font-bold text-black bg-slate-200  rounded-md':'';
           const has_subm = HasSubMenu(menu);
             return (
               <Menudropdown key={index} is_open={is_open} has_submenu={has_subm}>
@@ -32,13 +34,13 @@ export default function DashMainMenu({active=''}) {
                 {(menu.url && menu.route!='') ?
 
                   <Link href={menu.url}
-                  className="inline-flex items-center h-5w-5 text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                  className={"inline-flex  items-center h-5w-5 text-start w-full px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
 
                   >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
                   </Link>
                 :
                   <button type="button"
-                    className="items-center   inline-flex text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium rounded-md text-gray-900 dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                    className={"items-center w-full  inline-flex text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium  text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
 
                   >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
                     

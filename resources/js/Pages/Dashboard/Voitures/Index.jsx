@@ -99,10 +99,7 @@ export default function Index({ auth, page_id, page_title, page_subtitle }) {
 
             </DashHeadTitle>
             <Card className="h-full w-full">
-                <CardHeader floated={false} shadow={false} className="rounded-none">
-
-                 
-                </CardHeader>
+                
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 ">
                     <div className="w-full md:w-1/2">
                         <form className="flex items-center">
@@ -205,7 +202,7 @@ export default function Index({ auth, page_id, page_title, page_subtitle }) {
                                         <tr key={name}>
                                             <td className={classes}>
                                                 <div className="flex items-center gap-3">
-                                                    <Avatar src={img} alt={name} size="sm w-5" />
+                                                    <Avatar src={img} alt={name} className='w-10' size="sm" />
                                                     <div className="flex flex-col">
                                                         <Typography
                                                             variant="small"

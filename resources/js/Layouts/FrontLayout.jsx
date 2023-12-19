@@ -11,7 +11,7 @@ export default function FrontLayout({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen ">
             <LocationHeader auth={auth}/>           
             <main>{children}</main>
             <FooterMega/>

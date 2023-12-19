@@ -109,7 +109,7 @@ export default function Login({ status, canResetPassword }) {
                             Connexion</h1>
                         <form onSubmit={submit}>
                             <div>
-                                <InputLabel htmlFor="email" value="Adresse e-mail" />
+                                <InputLabel  htmlFor="email" value="Adresse e-mail" />
 
                                 <TextInput
                                     id="email"
@@ -125,7 +125,7 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel htmlFor="password" value="Mot de passe" />
+                                <InputLabel  htmlFor="password" value="Mot de passe" />
 
                                 <TextInput
                                     id="password"

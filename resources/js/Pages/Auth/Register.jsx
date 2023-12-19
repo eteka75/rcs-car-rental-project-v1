@@ -104,7 +104,7 @@ export default function Register() {
                             <AiOutlineUserAdd className='me-1' />
                             Création de compte </h1>
                         <div >
-                            <InputLabel htmlFor="nom" value="Nom" />
+                            <InputLabel  htmlFor="nom" value="Nom" />
                             <TextInput
                                 id="nom"
                                 name="nom"
@@ -118,7 +118,7 @@ export default function Register() {
                             <InputError message={errors.nom} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="prenom" value="Prénom(s)" />
+                            <InputLabel  htmlFor="prenom" value="Prénom(s)" />
                             <TextInput
                                 id="prenom"
                                 name="prenom"
@@ -132,7 +132,7 @@ export default function Register() {
                             <InputError message={errors.prenom} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="email" value="Email" />
+                            <InputLabel  htmlFor="email" value="Email" />
                             <TextInput
                                 id="email"
                                 type="email"
@@ -146,7 +146,7 @@ export default function Register() {
                             <InputError message={errors.email} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="password" value="Mot de passe" />
+                            <InputLabel  htmlFor="password" value="Mot de passe" />
 
                             <TextInput
                                 id="password"
@@ -162,7 +162,7 @@ export default function Register() {
                             <InputError message={errors.password} className="mt-2" />
                         </div>
                         <div className="mt-4">
-                            <InputLabel htmlFor="password_confirmation" value="Confirmation du mot de passe"  />
+                            <InputLabel  htmlFor="password_confirmation" value="Confirmation du mot de passe"  />
 
                             <TextInput
                                 id="password_confirmation"

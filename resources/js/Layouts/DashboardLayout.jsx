@@ -5,7 +5,7 @@ import DashMainMenu from '@/components/dashboard/DashMainMenu';
 import DashHeadTitle from '@/components/dashboard/DashHeadTitle';
 import DashMain from '@/Layouts/DashMain';
 
-export default function DashboardLayout({ auth = {}, children, page_id='' }) {
+export default function DashboardLayout({ auth = {}, children, page_id='dash' }) {
     return (
         <>
             <AuthenticatedLayout
