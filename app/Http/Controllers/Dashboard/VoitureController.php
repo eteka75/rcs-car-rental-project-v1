@@ -85,6 +85,6 @@ class VoitureController extends Controller
     {
         $voiture->delete();
         
-        return Redirect::route('posts.index');
+        return Redirect::route('voitures.index');
     }
 }

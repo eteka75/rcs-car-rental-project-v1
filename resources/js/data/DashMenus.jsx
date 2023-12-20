@@ -27,11 +27,11 @@ export const menuItemsData = [
       },
       {
         title: "Marques",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.marques'
       },
       {
         title: "Catégories",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.categories'
       },
       {
         title: "Types de carburants",
