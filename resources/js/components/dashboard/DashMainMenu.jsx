@@ -10,14 +10,14 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 import { Link } from '@inertiajs/react';
 import { PiUsersThree } from 'react-icons/pi';
 import { menuItemsData } from '@/data/DashMenus';
-export default function DashMainMenu({active=''}) {
-
+export default function DashMainMenu({active='',page_subid=''}) {
   const TestOpen = (id)=>{
       return(id===active)?true:false;
   }
   const HasSubMenu = (menu)=>{
       return((menu.sub && menu.sub.length>0)?true:false);
   }
+  
   return (
     <>
       <div className="col-span-2 sm:col-span-3 lg:col-span-2 ">
@@ -29,7 +29,7 @@ export default function DashMainMenu({active=''}) {
           const active_class = is_open===true?' border-s-4 font-bold text-black bg-slate-200  rounded-md':'';
           const has_subm = HasSubMenu(menu);
             return (
-              <Menudropdown key={index} is_open={is_open} has_submenu={has_subm}>
+              <Menudropdown key={index} is_open={is_open} has_submenu={has_subm}  >
                 <Menudropdown.Trigger>
                 {(menu.url && menu.route!='') ?
 
@@ -48,9 +48,15 @@ export default function DashMainMenu({active=''}) {
             }
                   {menu.sub && menu.sub.length && 
                   <Menudropdown.Content >
-                  {menu.sub ? menu.sub.map((smenu, sindex) => (
-                      <Menudropdown.Link key={sindex} className='flex hover:font-bold hover:text-blue-600 transition-all duration-200' href={route(smenu.route)}> {smenu.title}</Menudropdown.Link>
-                      )) : ''}
+                  { menu.sub.map((smenu, sindex) => {
+                    const smactive_class = (page_subid===smenu.sid)?' font-bold  text-blue-600':'';
+                    console.log("smactive_class",page_subid,'===',smactive_class)
+                    return (
+                      <Menudropdown.Link key={sindex} className={'flex hover:text-blue-600 transition-all duration-200 '+smactive_class} href={route(smenu.route)}> {smenu.title}</Menudropdown.Link>
+                      )
+                    
+                    })
+                  }
                   </Menudropdown.Content>
                   }
                 </Menudropdown.Trigger>

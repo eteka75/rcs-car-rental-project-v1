@@ -12,6 +12,9 @@ use Inertia\Inertia;
 class VoitureController extends Controller
 {
     private static $viewFolder = "Dashboard/Voitures";
+    private static $page_id = "voitures";
+    private static $page_subid = "voitures";
+    private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +24,8 @@ class VoitureController extends Controller
 
         return Inertia::render(self::$viewFolder . '/Index', [
             'voitures' => $voitures,
-            'page_id'=>"voitures",
+            'page_id'=>self::$page_id,
+            'page_subid'=>self::$page_subid,
             'page_title'=>"Voitures",
             'page_subtitle'=>"Gestion vos voitures",
         ]);

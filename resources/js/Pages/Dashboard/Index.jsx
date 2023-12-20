@@ -7,7 +7,7 @@ export default function Index({auth={}}) {
     return (
         <DashboardLayout user={auth.user} auth={auth}>
             <Head title="Tableau de bord" />
-            <DashHeadTitle title="Bienvenue dans votre tableau de bord" subtitle='Gérez vos véhicules et interagissez avec votre clientèle en toute sécurité' />
+            <DashHeadTitle  className='mt-8' title="Bienvenue dans votre tableau de bord" subtitle='Gérez vos véhicules et interagissez avec votre clientèle en toute sécurité' />
 
             <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 <div className="flex items-center p-8 bg-white shadow rounded-lg">

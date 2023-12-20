@@ -11,7 +11,7 @@ export default function Breadcrumb({children}) {
      <Breadcrumbs className='px-0' separator={<MdOutlineArrowRight className='opacity-60 w-2' />} >
      <Link href={route('home')} className="opacity-60">
        <AiOutlineHome
-        className='h-5 w-5 opacity-60'/>
+        className='h-4  w-5 opacity-60'/>
       </Link>
       <Link href={route('dashboard')} className="opacity-60">
        Tableau de bord

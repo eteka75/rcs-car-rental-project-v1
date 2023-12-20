@@ -18,17 +18,18 @@ import {
   Breadcrumbs,
 } from "@material-tailwind/react";
 import Breadcrumb from '@/components/Breadcrumb';
-import VoitureForm from './VoitureForm';
+import VoitureForm from './MarqueForm';
+import MarqueForm from './MarqueForm';
 
 
-export default function Index({ auth, page_id, page_title, page_subtitle }) {
+export default function Index({ auth, page_id, page_subid, page_title, page_subtitle }) {
 
   const [open, setOpen] = React.useState(1);
 
 
 
   return (
-    <DashboardLayout auth={auth} page_id={page_id}>
+    <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
       <Breadcrumb>
         <Link href={route('dashboard.voitures')} className="opacity-60">
           <span>Voitures</span>
@@ -50,27 +51,8 @@ export default function Index({ auth, page_id, page_title, page_subtitle }) {
       <Card className='lg:max-w-3xl'>
         <CardBody>
           <div className="App w-full md:w-4/5 md:m-auto">
-           <VoitureForm />
-            <div className="hidden">
-            <CKEditor
-              editor={ClassicEditor}
-              data="<p>Hello from CKEditor&nbsp;5!</p>"
-              onReady={editor => {
-                // You can store the "editor" and use when it is needed.
-                console.log('Editor is ready to use!', editor);
-              }}
-              onChange={(event) => {
-                console.log(event);
-              }}
-              onBlur={(event, editor) => {
-                console.log('Blur.', editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log('Focus.', editor);
-              }}
-            />
+            <MarqueForm />
           </div>
-            </div>
         </CardBody>
       </Card>
     </DashboardLayout>

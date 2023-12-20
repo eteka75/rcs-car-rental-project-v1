@@ -23,31 +23,38 @@ export const menuItemsData = [
     sub: [
       {
         title: "Voitures",
-        route: 'dashboard.voitures'
+        route: 'dashboard.voitures',
+        sid:'voitures',
       },
       {
         title: "Marques",
-        route: 'dashboard.marques'
+        route: 'dashboard.marques',
+        sid:'marques',
       },
       {
         title: "Catégories",
-        route: 'dashboard.categories'
+        route: 'dashboard.categories',
+        sid:'categories'
       },
       {
         title: "Types de carburants",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'Types'
       },
       {
         title: "Contrôles techniques",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'controle'
       },
       {
         title: "Types de motorisation",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'motorisation'
       },
       {
         title: "Systèmes de sécurité",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'securite'
       },
     ],
 
@@ -60,35 +67,43 @@ export const menuItemsData = [
     sub: [
       {
         title: "En location",
-        route: 'dashboard.voitures'
+        route: 'dashboard.voitures',
+        sid:'voitures'
       },
       {
         title: "Points de retrait",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'voitures'
       },
       {
         title: "Villes",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'voitures'
       },
       {
         title: "Contrôles techniques",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'voitures'
       },
       {
         title: "Assurances",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'voitures'
       },
       {
         title: "Options de locations",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'voitures'
       }, 
       {
         title: "Conditions",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'Conditions'
       },
       {
         title: "Réductions",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'Réductions'
       },
     ],
 
@@ -101,19 +116,23 @@ export const menuItemsData = [
     sub: [
       {
         title: "En vente",
-        route: 'dashboard.voitures'
+        route: 'dashboard.voitures',
+        sid:'ventes'
       },
       {
         title: "Points de retrait",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'Points'
       },
       {
         title: "Services",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'Services'
       },
       {
         title: "Conditions",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'Conditions'
       }
     ],
 
@@ -126,11 +145,13 @@ export const menuItemsData = [
     sub: [
       {
         title: "Pages",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'page'
       },
       {
         title: "Forums aux questions",
-        route: 'dashboard.voitures'
+        route: 'dashboard.voitures',
+        sid:'faq'
       }
     ],
 
@@ -144,11 +165,13 @@ export const menuItemsData = [
     sub: [
       {
         title: "Notifications",
-        route: 'dashboard.voitures'
+        route: 'dashboard.voitures',
+        sid:'notifications'
       },
       {
         title: "Archives",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'archives'
       }
     ],
 

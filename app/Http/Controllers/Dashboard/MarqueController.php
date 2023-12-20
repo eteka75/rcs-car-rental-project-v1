@@ -11,27 +11,23 @@ use Inertia\Inertia;
 class MarqueController extends Controller
 {
     private static $viewFolder = "Dashboard/Marques";
-    private static $page_id = "marques";
+    private static $page_id = "voitures";
+    private static $page_subid = "marques";
     private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $page=self::$page_id;
         $keyword = $request->get('search');
         $perPage =self::$nbPerPage>0?self::$nbPerPage:10;
+
         if (!empty($keyword)) {
-            $marques = Article::where('titre', 'LIKE', "%$keyword%")
-                ->orWhere('resume', 'LIKE', "%$keyword%")
-                ->orWhere('slug', 'LIKE', "%$keyword%")
-                ->orWhere('type', 'LIKE', "%$keyword%")
-                ->orWhere('contenu', 'LIKE', "%$keyword%")
-                ->orWhere('image', 'LIKE', "%$keyword%")
-                ->orWhere('nb_view', 'LIKE', "%$keyword%")
-                ->orWhere('visible', 'LIKE', "%$keyword%")
-                ->orWhere('user_id', 'LIKE', "%$keyword%")
-                ->orWhere('category_id', 'LIKE', "%$keyword%")
+            $marques = Marque::where('nom', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%")
+                ->orWhere('annee_fondation', 'LIKE', "%$keyword%")
+                ->orWhere('site_web', 'LIKE', "%$keyword%")
+                ->orWhere('logo', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
             $marques = Marque::latest()->paginate($perPage);
@@ -40,8 +36,9 @@ class MarqueController extends Controller
         return Inertia::render(self::$viewFolder . '/Index', [
             'marques' => $marques,
             'page_id'=>self::$page_id,
-            'page_title'=>"Marques de voitures",
-            'page_subtitle'=>"Gestion vos marques",
+            'page_subid'=>self::$page_subid,
+            'page_title'=>"Marques",
+            'page_subtitle'=>"Gestion vos marques de voitures",
         ]);
     }
 

@@ -8,41 +8,34 @@ import { Transition } from '@headlessui/react';
 import { Switch } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 
-export default function VoitureForm({ className = '', onSubmit, btntext = 'Enrégister' }) {
+export default function MarqueForm({ className = '', onSubmit, btntext = 'Enrégister' }) {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
     const { data, setData, errors, put, reset, processing, recentlySuccessful } = useForm({
         nom: '',
-        marque_id: '',
-        categorie_id: '',
-        photo: '',
-        nombre_place: '',
-        couleur: '',
-        volume_coffre: '',
-        annee_fabrication: '',
-        date_achat: '',
-        description: '',
-        disponibilite: '',
-        type_carburant_id: '',
-        photos: [],
+        logo: '',
+        pays_id: '',
+        annee_fondation: '',
+        site_web: '',
+        description: ''
     });
 
-    const updatePassword = (e) => {
+    const SaveMarque = (e) => {
         e.preventDefault();
 
-        put(route('password.updates'), {
+        post(route('dashboard.marques.create'), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
                 if (errors.password) {
-                    reset('password', 'password_confirmations');
-                    passwordInput.current.focus();
+                    alert('ok')
+                  //  passwordInput.current.focus();
                 }
 
                 if (errors.current_password) {
-                    reset('current_password');
-                    currentPasswordInput.current.focus();
+                    //reset('current_password');
+                    //currentPasswordInput.current.focus();
                 }
             },
         });
@@ -53,7 +46,7 @@ export default function VoitureForm({ className = '', onSubmit, btntext = 'Enré
 
             <form onSubmit={onSubmit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="nom" value="Nom de la voiture" />
+                    <InputLabel htmlFor="nom" value="Nom de la marque" />
 
                     <TextInput
                         id="nom"
@@ -68,7 +61,7 @@ export default function VoitureForm({ className = '', onSubmit, btntext = 'Enré
                     <InputError message={errors.nom} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor="nom" value="Photo de présentation" />
+                    <InputLabel htmlFor="nom" value="Logo" />
 
                     <TextInput
                         id="nom"
