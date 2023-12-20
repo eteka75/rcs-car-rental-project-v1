@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Marque;
+use App\Http\Requests\RequestMarqueVoitureRequest;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\Marque;
 use Inertia\Inertia;
 
 class MarqueController extends Controller
@@ -49,20 +50,21 @@ class MarqueController extends Controller
     {
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_id'=>"marques",
-            'page_title'=>"Nouvelle voiture",
-            'page_subtitle'=>"Ajouter une nouvelle voiture",
+            'page_title'=>"Nouvelle marque",
+            'page_subtitle'=>"Ajouter une nouvelle marque de véhicule",
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RequestStoreVoitureRequest $request)
+    public function store(RequestMarqueVoitureRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->all();
+        dd($data);
         Marque::create($data);
 
-        return to_route('dash.marques.index');
+        return to_route('dashbaord.marques');
     }
 
     /**
@@ -71,7 +73,7 @@ class MarqueController extends Controller
     public function show(Marque $marque)
     {
         return Inertia::render(self::$viewFolder . '/Show', [
-            'voiture' => $voiture
+            'voiture' => $marque
         ]);
     }
 
@@ -81,7 +83,7 @@ class MarqueController extends Controller
     public function edit(Marque $marque)
     {
         return Inertia::render(self::$viewFolder . '/Edit', [
-            'voiture' => $voiture
+            'voiture' => $marque
         ]);
     }
 

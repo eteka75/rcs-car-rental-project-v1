@@ -48,9 +48,9 @@ export default function Index({ auth, page_id, page_subid, page_title, page_subt
 
       </DashHeadTitle>
 
-      <Card className='lg:max-w-3xl'>
+      <Card className='lg:max-w-xl'>
         <CardBody>
-          <div className="App w-full md:w-4/5 md:m-auto">
+          <div className="App w-full md:m-auto">
             <MarqueForm />
           </div>
         </CardBody>
