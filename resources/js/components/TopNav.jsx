@@ -6,11 +6,22 @@ import UserMenu from './UserMenu';
 import { FaHome } from 'react-icons/fa';
 import { AiOutlineHome } from 'react-icons/ai';
 import { FaCarOn } from 'react-icons/fa6';
-import { useTranslation } from 'react-i18next';
-
+import Translate from './Translate';
+import i18n from 'i18next';
+import "../i18n"
 
 
 export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
+   // i18n.changeLanguage('en');
+   
+    
+    const changeLang=(lang)=>{
+        const langs= ['fr','en'];
+        if(langs.indexOf(lang)>=0){
+            i18n.changeLanguage(lang);
+        }
+
+    }
     return (
         <>
             <nav className={" mx-auto relative "+mode}>
@@ -33,20 +44,13 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                         id="navbar-language"
                     >
                         <ul className="flex flex-col relative font-medium  md:p-0 mt-4 border rounded-lg  md:space-x-1 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <li>
-                                <Link
-                                    href={route('home')}
-                                    className="inline-flex items-center  border-slate-50 border-0 text-blue-200 underline font-medium justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
-                                >
-                                    Fr
-                                </Link>
-                            </li>
+                            
                             <li>
                                         <Link
                                             href={route('home')}
                                             className="inline-flex items-center  border-slate-50 border-0 text-slate-200 font-medium justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                             {t('Accueil')}
+                                             <Translate>Accueil</Translate>
                                         </Link>
                                     </li>
                             {!auth.user ? (
@@ -58,7 +62,7 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                                             href={route('register')}
                                             className="inline-flex items-center  border-slate-50 border-0 text-slate-200 font-medium justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                            S'inscrire
+                                           <Translate>S'inscrire</Translate> 
                                         </Link>
                                     </li>
                                     <li>
@@ -66,7 +70,9 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                                             href={route('login')}
                                             className="inline-flex items-center   text-slate-200 font-bold justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                            Se connecter
+                                            
+                                           <Translate>Se connecter</Translate> 
+
                                         </Link>
                                     </li>
 
@@ -74,7 +80,22 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                             ) : (
                                 ''
                             )}
-
+                            <li>
+                                {i18n.language==='en' ?
+                                <Link title='Français'
+                                    onClick={()=>changeLang('fr')}
+                                    className="inline-flex items-center  border-slate-50 border-0 text-blue-200 underline font-medium justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
+                                >
+                                    Fr
+                                </Link>
+                                :
+                                <Link title='English'
+                                    onClick={()=>changeLang('en')}
+                                    className="inline-flex items-center  border-slate-50 border-0 text-blue-200 underline font-medium justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
+                                >
+                                    En
+                                </Link>}
+                            </li>
                             <li className='hidden'>
                                 <button className="inline-flex bg-slate-200 items-center font-medium justify-center h-10 w-10 lg:w-auto lg:h-auto lg:px-2 py-2 text-sm text-gray-900 dark:text-white lg:rounded-md rounded-full cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
                                     <svg

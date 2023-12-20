@@ -12,6 +12,7 @@ export default function DashboardLayout({ auth = {}, children, page_id='dash' })
                  auth={auth} >
                 <div className="max-w-screen-2xl mx-auto  grid grid-cols-10">
                     <DashMainMenu active={page_id} />
+                    
                     <DashMain >
                         {children}
                     </DashMain>

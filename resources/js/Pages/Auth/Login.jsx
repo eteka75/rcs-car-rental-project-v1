@@ -36,7 +36,7 @@ export default function Login({ status, canResetPassword }) {
                 <div className="hidden shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover_ bg-no-repeat bg-[left_calc(50%)_top_calc(00%)]">
                     <div className="bg-[rgba(0,0,0,.25)] relative  duration-300 bg-gradient-to-t from-[rgba(0,0,0,.95)]  h-full w-full ">
                         <div className=' sm:max-w-md lg:max-w-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2    '>
-                        <div className='min-w-min mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)]   '>
+                            <div className='min-w-min mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)]   '>
                                 <div className="grid grid-flow-col items-center md:gap-4">
 
                                     <div className='px-8 py-4'>
@@ -53,7 +53,7 @@ export default function Login({ status, canResetPassword }) {
                                                         <FcOk className='me-1 text-lg' />
                                                     </div>
                                                     <div>
-                                                    Mettez à jour votre profil
+                                                        Mettez à jour votre profil
                                                     </div>
                                                 </li>
                                                 <li className='flex flex-row  py-1'>
@@ -61,7 +61,7 @@ export default function Login({ status, canResetPassword }) {
                                                         <FcOk className='me-1 text-lg' />
                                                     </div>
                                                     <div>
-                                                    Explorez notre catalogue varié de voitures
+                                                        Explorez notre catalogue varié de voitures
                                                     </div>
                                                 </li>
                                                 <li className='flex flex-row  py-1'>
@@ -69,35 +69,35 @@ export default function Login({ status, canResetPassword }) {
                                                         <FcOk className='me-1 text-lg' />
                                                     </div>
                                                     <div>
-                                                    Profitez de fonctionnalités exclusives pour une expérience automobile personnalisée
+                                                        Profitez de fonctionnalités exclusives pour une expérience automobile personnalisée
                                                     </div>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div className='rounded-b-md mb-6 shadow-sm mx-auto border-gray-200 bg-blue-600 text-white py-4 px-8'>
 
 
-                                <div className="grid items-center grid-flow-col gap-4">
-                               <div>
-                                <PiCarProfileDuotone className='text-5xl' />
-                               </div>
-                               <div>
-                               <h2 className="text-sm w-full ">
-                                Prêt à prendre le volant de votre prochaine aventure ? 
-                                </h2>
-                                <h3 className='text-sm'>Connectez-vous et commencez dès maintenant !</h3>
-                                <p className='text-slate-300 text-sm'>
-                                    
-                                </p>
-                               </div>
+                                    <div className="grid items-center grid-flow-col gap-4">
+                                        <div>
+                                            <PiCarProfileDuotone className='text-5xl' />
+                                        </div>
+                                        <div>
+                                            <h2 className="text-sm w-full ">
+                                                Prêt à prendre le volant de votre prochaine aventure ?
+                                            </h2>
+                                            <h3 className='text-sm'>Connectez-vous et commencez dès maintenant !</h3>
+                                            <p className='text-slate-300 text-sm'>
+
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
-                            
-                            </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ export default function Login({ status, canResetPassword }) {
                             Connexion</h1>
                         <form onSubmit={submit}>
                             <div>
-                                <InputLabel  htmlFor="email" value="Adresse e-mail" />
+                                <InputLabel htmlFor="email" value="Adresse e-mail" />
 
                                 <TextInput
                                     id="email"
@@ -125,7 +125,7 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel  htmlFor="password" value="Mot de passe" />
+                                <InputLabel htmlFor="password" value="Mot de passe" />
 
                                 <TextInput
                                     id="password"
@@ -141,14 +141,17 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <div className="block mt-4">
-                                <label className="flex items-center">
-                                    <Checkbox
-                                        name="remember"
+
+                                <div class="flex items-center">
+                                    <input name="remember"
                                         checked={data.remember}
                                         onChange={(e) => setData('remember', e.target.checked)}
-                                    />
-                                    <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">Rester connecté</span>
-                                </label>
+                                        type="checkbox" id="hs-basic-with-description" class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200
+   focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500
+    dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition 
+    before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"/>
+                                    <label for="hs-basic-with-description" class="text-sm text-gray-500 ms-3 dark:text-gray-400">Rester connecté</label>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 text-center sm:text-start md:grid-cols-2 items-center gap-4 justify-start mt-4">
@@ -160,7 +163,7 @@ export default function Login({ status, canResetPassword }) {
                                         href={route('password.request')}
                                         className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                                     >Mot de passe oublié ?</Link>
-                                    )}
+                                )}
 
 
                             </div>

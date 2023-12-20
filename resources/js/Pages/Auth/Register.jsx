@@ -25,7 +25,6 @@ export default function Register() {
             reset('password', 'password_confirmation');
         };
     }, []);
-    console.log(errors)
 
     const submit = (e) => {
         e.preventDefault();

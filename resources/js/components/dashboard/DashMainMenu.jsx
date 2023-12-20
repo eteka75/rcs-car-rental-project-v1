@@ -34,13 +34,13 @@ export default function DashMainMenu({active=''}) {
                 {(menu.url && menu.route!='') ?
 
                   <Link href={menu.url}
-                  className={"inline-flex  items-center h-5w-5 text-start w-full px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
+                  className={"inline-flex  items-center h-5w-5 text-start md:w-full px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
 
                   >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
                   </Link>
                 :
                   <button type="button"
-                    className={"items-center w-full  inline-flex text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium  text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
+                    className={"items-center md:w-full  inline-flex text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium  text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
 
                   >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
                     
@@ -60,7 +60,7 @@ export default function DashMainMenu({active=''}) {
           <div className="menu hidden">
             <Menudropdown>
               <Menudropdown.Trigger>
-                <span className="inline-flex w-full ">
+                <span className="inline-flex md:w-full ">
                   <Link
                     href={route('dashboard')}
                   >

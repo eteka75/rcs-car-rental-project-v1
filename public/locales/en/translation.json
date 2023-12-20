@@ -1,5 +1,5 @@
 {
-    "main": {
-        "header": "Welcome !"
-    }
+    "Accueil":"Home",
+    "Se connecter":"Login",
+    "S'inscrire":"Register"
 }

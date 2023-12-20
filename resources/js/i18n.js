@@ -7,7 +7,9 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    debug: true,
-    fallbackLng: 'en',
+    debug: false,
+    fallbackLng: 'fr',
   });
 export default i18n;
+
+    //i18n.changeLanguage('fr'); // <--- add this
