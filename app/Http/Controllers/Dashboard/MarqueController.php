@@ -6,12 +6,16 @@ use App\Http\Requests\RequestMarqueVoitureRequest;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Models\Marque;
 use Inertia\Inertia;
+use App\Models\Pays;
 
 class MarqueController extends Controller
 {
     private static $viewFolder = "Dashboard/Marques";
+    private static $imageFolder = "storage/datas/marques/";
     private static $page_id = "voitures";
     private static $page_subid = "marques";
     private static $nbPerPage = 10;
@@ -48,7 +52,9 @@ class MarqueController extends Controller
      */
     public function create()
     {
+        $pays=Pays::pluck('nom_fr_fr','id');
         return Inertia::render(self::$viewFolder . '/Create', [
+            '$pays'=>$pays,
             'page_id'=>"marques",
             'page_title'=>"Nouvelle marque",
             'page_subtitle'=>"Ajouter une nouvelle marque de véhicule",
@@ -61,10 +67,20 @@ class MarqueController extends Controller
     public function store(RequestMarqueVoitureRequest $request)
     {
         $data = $request->all();
-        dd($data);
-        Marque::create($data);
 
-        return to_route('dashbaord.marques');
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileName = Str::random(40) . '.' . $file->getClientOriginalExtension();
+            $destinationPath = (self::$imageFolder);
+            if (!Storage::exists($destinationPath)) {
+                Storage::makeDirectory($destinationPath);
+            }
+            $file->move($destinationPath, $fileName);
+            $data['logo'] = self::$imageFolder . $fileName;
+        }
+       Marque::create($data);
+
+        return to_route('dashboard.marques');
     }
 
     /**

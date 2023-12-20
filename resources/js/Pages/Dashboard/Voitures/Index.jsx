@@ -88,7 +88,8 @@ const TABLE_ROWS = [
         date: "04/10/21",
     },
 ];
-export default function Index({ auth, page_id,  page_subid, page_title, page_subtitle }) {
+export default function Index({ auth, page_id,  page_subid, page_title, page_subtitle, httpFrontendUrl }) {
+    console.log(httpFrontendUrl);
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Head title={page_title} />

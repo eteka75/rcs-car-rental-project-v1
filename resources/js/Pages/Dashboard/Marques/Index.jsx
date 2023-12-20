@@ -1,7 +1,7 @@
 import DashboardLayout from '@/Layouts/DashboardLayout'
 import DashHeadTitle from '@/components/dashboard/DashHeadTitle'
 import { Head, Link } from '@inertiajs/react'
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlineBarChart, AiOutlineDelete, AiOutlineEdit, AiOutlineExport, AiOutlinePlus } from 'react-icons/ai';
 
 import {
@@ -23,16 +23,29 @@ import TextInput from '@/components/TextInput';
 import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
 import Breadcrumb from '@/components/Breadcrumb';
-
+import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
+import Pagination from '@/components/Pagination';
 
 const TABLE_HEAD = ["Logo","Nom", "Année de fabrication","Date d'ajout", "Actions"];
+export default function Index({ auth, marques, page_id,page_subid, page_title, page_subtitle,httpFrontendUrl }) {
+    
+    const {page=1} = useState(1);
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [currentPage, setCurrentPage] = useState(page);
+    const [lastPage, setLastPage] = useState(1);
+    const [postsPerPage] = useState(12);
 
-export default function Index({ auth, marques, page_id,page_subid, page_title, page_subtitle }) {
+    const HandlePageChange=(e)=>{
+        e.preventDefault();
+       }
+
     const Search = (e) => {
         e.preventDefault();
         alert('ok')
 
     }
+    
+
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Head title={page_title} />
@@ -128,7 +141,7 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                                         <tr key={nom}>
                                             <td className={classes}>
                                                 <div className="flex items-center gap-3">
-                                                  {logo && <Avatar src={logo} alt={nom} className='w-10' size="sm" />}
+                                                  {logo && <Avatar src={HTTP_FRONTEND_HOME+''+logo} alt={nom} className='w-10' size="sm" />}
                                                     
                                                 </div>
                                             </td>
@@ -182,18 +195,9 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                         </tbody>
                     </table>
                 </CardBody>
-                <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page 1 of 10
-                    </Typography>
-                    <div className="flex gap-2">
-                        <Button variant="outlined" size="sm">
-                            Previous
-                        </Button>
-                        <Button variant="outlined" size="sm">
-                            Next
-                        </Button>
-                    </div>
+                <CardFooter className="flex items-center justify-end  border-blue-gray-50 p-4">
+                 <Pagination links={marques.links}   />
+                        
                 </CardFooter>
 
 

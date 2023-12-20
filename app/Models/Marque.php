@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Marque extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nom', 
+        'pays_id',
+        'annee_fondation', 
+        'description', 
+        'site_web', 
+        'logo' 
+    ];
 }

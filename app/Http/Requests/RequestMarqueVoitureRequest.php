@@ -26,7 +26,7 @@ class RequestMarqueVoitureRequest extends FormRequest
             'nom' => 'required|max:250',
             'pays_id' => 'required|exists:pays,id',
             'annee_fondation' => 'required|integer|min:0|max:9999',
-            'description' => 'required|max:10000',
+            'description' => 'nullable|max:10000',
             'site_web' => 'nullable|url',
             'logo' => 'nullable|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000'
         ];
