@@ -6,6 +6,8 @@ import UserMenu from './UserMenu';
 import { FaHome } from 'react-icons/fa';
 import { AiOutlineHome } from 'react-icons/ai';
 import { FaCarOn } from 'react-icons/fa6';
+import { useTranslation } from 'react-i18next';
+
 
 
 export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
@@ -44,7 +46,7 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                                             href={route('home')}
                                             className="inline-flex items-center  border-slate-50 border-0 text-slate-200 font-medium justify-center px-2 lg:px-2 py-1.5 text-sm hover:text-yellow-500 transition-all duration-300 dark:text-white rounded-lg cursor-pointer  dark:hover:bg-gray-700 dark:hover:text-white"
                                         >
-                                             Accueil
+                                             {t('Accueil')}
                                         </Link>
                                     </li>
                             {!auth.user ? (

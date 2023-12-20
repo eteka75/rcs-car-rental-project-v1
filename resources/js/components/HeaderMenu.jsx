@@ -8,7 +8,7 @@ import UserMenu from './UserMenu';
 import TopNav from './topNav';
 
 /********************** */
-import { useTranslation } from 'react-i18next';
+//import { useTranslation } from 'react-i18next';
 export default function HeaderMenu({ auth = {} }) {
     //i18n.changeLanguage('fr'); // <--- add this
 
