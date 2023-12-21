@@ -28,6 +28,7 @@ class MarqueController extends Controller
             'page_subid' => self::$page_subid,
         ];
         Inertia::share($statics);
+        $this->middleware('auth');
     }
     public function index(Request $request)
     {

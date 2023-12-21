@@ -41,11 +41,14 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     /*Marques*/
     Route::controller(CategorieController::class)->prefix('categories')->group(function () {
         Route::get('/', 'index')->name('dashboard.categories');
+        Route::get('/search', 'index')->name('dashboard.categories.search');
         Route::get('/new', 'create')->name('dashboard.categories.create');
         Route::post('/new', 'store')->name('dashboard.categories.store');
         Route::get('/edit/{id}', 'edit')->name('dashboard.categories.edit');
-        Route::put('/edit/{id}', 'update')->name('dashboard.categories.update');
-        Route::delete('/{id}', 'update')->name('dashboard.categories.delete');
+        Route::post('/edit/{id}', 'update')->name('dashboard.categories.update');
+        Route::get('/export', 'export')->name('dashboard.categories.export');
+        Route::get('/{id}', 'show')->name('dashboard.categories.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.categories.delete');
     })->middleware('web');
 
 });
