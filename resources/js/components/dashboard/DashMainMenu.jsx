@@ -10,6 +10,7 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 import { Link } from '@inertiajs/react';
 import { PiUsersThree } from 'react-icons/pi';
 import { menuItemsData } from '@/data/DashMenus';
+import Translate from '../Translate';
 export default function DashMainMenu({active='',page_subid=''}) {
   const TestOpen = (id)=>{
       return(id===active)?true:false;
@@ -36,13 +37,13 @@ export default function DashMainMenu({active='',page_subid=''}) {
                   <Link href={menu.url}
                   className={"inline-flex  items-center h-5w-5 text-start md:w-full px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
 
-                  >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
+                  >{menu.icon} <span className='hidden sm:flex'><Translate>{menu.title}</Translate></span>
                   </Link>
                 :
                   <button type="button"
                     className={"items-center md:w-full  inline-flex text-start px-2 py-1 ms-2 text-md mb-0 leading-4 font-medium  text-gray-900_ dark:text-gray-100  dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 "+active_class}
 
-                  >{menu.icon} <span className='hidden sm:flex'>{menu.title}</span>
+                  >{menu.icon} <span className='hidden sm:flex'><Translate>{menu.title}</Translate></span>
                     
                   </button>
             }
@@ -52,7 +53,9 @@ export default function DashMainMenu({active='',page_subid=''}) {
                     const smactive_class = (page_subid===smenu.sid)?' font-bold  text-blue-600':'';
                     
                     return (
-                      <Menudropdown.Link key={sindex} className={'flex hover:text-blue-600 transition-all duration-200 '+smactive_class} href={route(smenu.route)}> {smenu.title}</Menudropdown.Link>
+                      <Menudropdown.Link key={sindex} className={'flex hover:text-blue-600 transition-all duration-200 '+smactive_class} href={route(smenu.route)}> 
+                        <Translate>{smenu.title}</Translate>
+                      </Menudropdown.Link>
                       )
                     
                     })

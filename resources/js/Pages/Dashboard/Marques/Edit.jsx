@@ -3,10 +3,10 @@ import Breadcrumb from '@/components/Breadcrumb'
 import DashHeadTitle from '@/components/dashboard/DashHeadTitle'
 import { Head, Link } from '@inertiajs/react'
 import { Card, CardBody } from '@material-tailwind/react'
-import React from 'react'
-import { AiOutlineArrowLeft } from 'react-icons/ai'
-import MarqueForm from './MarqueForm'
-import EditForm from './EditForm'
+import React from 'react';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
+import MarqueForm from './MarqueForm';
+import Translate from '@/components/Translate'
 
 export default function Edit({auth,marque,page_id='',page_subid='',page_title ='',page_subtitle ='',pays}) {
   return (
@@ -24,7 +24,9 @@ export default function Edit({auth,marque,page_id='',page_subid='',page_title ='
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
           href={route('dashboard.marques')}>
-          <AiOutlineArrowLeft className='me-1' />    Retour
+          <AiOutlineArrowLeft className='me-1' />
+          <Translate>Retour</Translate>
+
         </Link>
       </DashHeadTitle>
 

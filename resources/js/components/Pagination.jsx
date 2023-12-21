@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import React from 'react';
+import Translate from './Translate';
 
   
 export default function Pagination({ links }) {
@@ -25,12 +26,12 @@ export default function Pagination({ links }) {
                         link.url === null ?
                             (<div key={key}
                                     className="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
-                                >{cClean(link.label)}</div>) :
+                                ><Translate>{cClean(link.label)}</Translate></div>) :
 
                             (<Link
                                         className={getClassName(link.active)}
                                         href={ link.url }
-                                    >{cClean(link.label)}</Link>)
+                                    ><Translate>{cClean(link.label)}</Translate></Link>)
                             ))
                     }
                 </div>

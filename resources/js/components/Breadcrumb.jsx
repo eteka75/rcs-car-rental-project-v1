@@ -7,7 +7,8 @@ import { MdOutlineArrowRight } from "react-icons/md";
 
 export default function Breadcrumb({children}) {
   return (
-    <>
+   
+    <div className='overflow-auto absolutes ms-0 -mt-2 sm:mt-0 px-3 sm:px-0 bg-slate-100 sm:bg-transparent rounded-md left-0s w-full sm:w-auto sm:relative'>
      <Breadcrumbs className='px-0' separator={<MdOutlineArrowRight className='opacity-60 w-2' />} >
      <Link href={route('home')} className="opacity-60">
        <AiOutlineHome
@@ -18,6 +19,6 @@ export default function Breadcrumb({children}) {
       </Link>
       {children}
     </Breadcrumbs>
-    </>
+    </div>
   )
 }

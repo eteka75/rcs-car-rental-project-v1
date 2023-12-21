@@ -42,7 +42,7 @@ export default function Index({ auth, page_id, page_title, page_subtitle }) {
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
           href={route('dashboard.voitures')}>
-          <AiOutlineArrowLeft className='me-1' />    Retour
+          <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate> 
         </Link>
 
       </DashHeadTitle>

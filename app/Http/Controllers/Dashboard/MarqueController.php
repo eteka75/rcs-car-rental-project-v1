@@ -22,6 +22,13 @@ class MarqueController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct(){
+        $statics=[
+            'page_id' => self::$page_id,
+            'page_subid' => self::$page_subid,
+        ];
+        Inertia::share($statics);
+    }
     public function index(Request $request)
     {
         $keyword = $request->get('search');
@@ -40,9 +47,7 @@ class MarqueController extends Controller
 
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'marques' => $marques,
-            'page_id' => self::$page_id,
-            'page_subid' => self::$page_subid,
+            'marques' => $marques,           
             'page_title' => "Marques",
             'page_subtitle' => "Gestion vos marques de voitures",
         ]);
@@ -81,10 +86,14 @@ class MarqueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Marque $marque)
+    public function show($id)
     {
+        $marque=Marque::with('pays')->where('id', $id)->firstOrFail();
+        $marque_name=$marque->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
-            'voiture' => $marque
+            'marque' => $marque,
+            'page_title' => "Marque ".$marque_name,
+            'page_subtitle' => "Affichage de détail sur ".$marque_name,
         ]);
     }
 
@@ -98,10 +107,8 @@ class MarqueController extends Controller
         return Inertia::render(self::$viewFolder . '/Edit', [
             'pays' => $pays,
             'marque' => $marque,
-            'page_id' => self::$page_id,
-            'page_subid' => self::$page_subid,
             'page_title' => "Edition de marque",
-            'page_subtitle' => "Modifcation d'une marque de véhicule",
+            'page_subtitle' => "Modification d'une marque de véhicule",
         ]);
     }
 

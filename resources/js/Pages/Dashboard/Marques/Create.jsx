@@ -20,6 +20,7 @@ import {
 import Breadcrumb from '@/components/Breadcrumb';
 import VoitureForm from './MarqueForm';
 import MarqueForm from './MarqueForm';
+import Translate from '@/components/Translate';
 
 
 export default function Index({ auth, page_id,pays, page_subid, page_title, page_subtitle }) {
@@ -39,7 +40,7 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
           href={route('dashboard.marques')}>
-          <AiOutlineArrowLeft className='me-1' />    Retour
+          <AiOutlineArrowLeft className='me-1' /><Translate>Retour</Translate>
         </Link>
 
       </DashHeadTitle>
