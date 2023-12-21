@@ -50,7 +50,7 @@ export default function DashMainMenu({active='',page_subid=''}) {
                   <Menudropdown.Content >
                   { menu.sub.map((smenu, sindex) => {
                     const smactive_class = (page_subid===smenu.sid)?' font-bold  text-blue-600':'';
-                    console.log("smactive_class",page_subid,'===',smactive_class)
+                    
                     return (
                       <Menudropdown.Link key={sindex} className={'flex hover:text-blue-600 transition-all duration-200 '+smactive_class} href={route(smenu.route)}> {smenu.title}</Menudropdown.Link>
                       )

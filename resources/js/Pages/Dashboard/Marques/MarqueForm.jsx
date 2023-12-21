@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -9,64 +9,79 @@ import { Progress, Switch } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 
-export default function MarqueForm({ className = '', onSubmit, btntext = 'Enrégister' }) {
+export default function MarqueForm({ className = '',marque=null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
-   const refs = useRef([]); // or an {}
-   refs.current = []; // or an {}
-   
+    const refs = useRef([]); // or an {}
+    refs.current = []; // or an {}
+    const [countries, setCountries] = useState([]);
+    useEffect(() => { setCountries(pays); }, []);
+    
+    
+    
+    const handleFileChange = (e) => {
+        console.log(e.target.files)
+        setData('logo', e.target.files[0]);
+        console.log(data);
+      };
     const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setData(id, value);
-  };
-
-  const handleFileChange = (e) => {
-    console.log(e.target.files);
-    console.log(e.target.files[0]);
-    setData('logo', e.target.files[0]);
-  };
-   const addToRefs = el => {
-     if (el && !refs.current.includes(el)) {
-       refs.current.push(el);
-     }
+        const { id, value } = e.target;
+        setData(id, value);
     };
-    const {  data, setData, post, progress , errors, processing, recentlySuccessful } = useForm({
-        nom: '',
-        logo: '',
-        pays_id: '',
-        annee_fondation: '',
-        site_web: '',
-        description: ''
-    });
-
+    const addToRefs = el => {
+        if (el && !refs.current.includes(el)) {
+            refs.current.push(el);
+        }
+    };
+    
+    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(marque!==null && action==='update'?
+        {
+            nom: marque.nom??'',
+            logo:  '',
+            pays_id:  marque.pays_id??'',
+            annee_fondation:  marque.annee_fondation??'',
+            site_web:  marque.site_web??'',
+            description:  marque.description??''
+        }:{
+            nom: '',
+            logo: '',
+            pays_id: '',
+            annee_fondation: '',
+            site_web: '',
+            description: ''  
+        });
     const handleSubmit = (e) => {
         e.preventDefault();
-    
-        // Submit the form data to the server
-        post(route('dashboard.marques.store'), {
-          onSuccess: () => {
-            // Handle success, e.g., redirect
-            alert('Ok')
-          },
-          onError: (errors) => {
-            if (errors.password) {
-                alert('!!!ok')
-              //  passwordInput.current.focus();
-            }
+        if(action==='update'){
+            console.log('ENVOYE',data);
+            put(route('dashboard.marques.update',1),data, {
+                onSuccess: () => {
+                    // Handle success, e.g., redirect
+                    //alert('Ok')
+                },
+                onError: (errors) => {
+                    console.log(errors);
+                },
+            });
+        }
+        if(action==='save'){
+            post(route('dashboard.marques.store'), {
+                onSuccess: () => {
+                    // Handle success, e.g., redirect
+                    //alert('Ok')
+                },
+                onError: (errors) => {
+                    console.log(errors);
+                },
+            });
+        }
+    };
 
-            if (errors.current_password) {
-                //reset('current_password');
-                //currentPasswordInput.current.focus();
-            }
-        },
-        });
-      };
-    
 
     return (
         <section className={className}>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
+                <div>                    
                     <InputLabel htmlFor="nom" value="Nom de la marque" />
 
                     <TextInput
@@ -86,36 +101,40 @@ export default function MarqueForm({ className = '', onSubmit, btntext = 'Enrég
                     <input
                         id="logo"
                         ref={addToRefs}
-                        onChange={(e) => setData("logo", e.target.files?e.target.files[0]:null)}
+                        onChange={handleFileChange}
                         type="file"
-                        className="mt-1  bg-white shadow-none border py-1.5 px-4 block w-full"
-                        autoComplete="current-password"
+                        className="mt-1 rounded-md  bg-white shadow-none border py-1.5 px-4 block w-full"
+
                     />
-                     {progress && (
-                        <Progress  value={progress.percentage}  color="blue" max="100">
+                    {progress && (
+                        <Progress value={progress.percentage} color="blue" max="100">
                             {progress.percentage}%
                         </Progress>
-                        )}
-                    
+                    )}
+
                     <InputError message={errors.logo} className="mt-2" />
                 </div>
-                <div className='grid md:grid-cols-2 md:gap-4'>
-                    <div>
+                <div className='grid md:grid-cols-5 md:gap-4'>
+                    <div className='col-span-3'>
                         <InputLabel htmlFor="pays_id" value="Pays d'origine de la marque" />
-                        <TextInput
-                            id="pays_id"
+                        <select
+                            id="pays_id" value={data.pays_id}
                             ref={addToRefs}
-                            value={data.pays_id}
                             onChange={handleInputChange}
-                            type="text"
-                            className="mt-1 block w-full"
-                            autoComplete="current-password"
-                        />
+                            className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value=''>Sélectionnez un pays</option>
+                            {countries && countries.length > 0 && countries.map(({id,nom_fr_fr}, index) =>
+                                <option 
+                                
+                                 key={index} value={id} >{nom_fr_fr}</option>
+                            )}
+                        </select>
+                        
 
                         <InputError message={errors.pays_id} className="mt-2" />
                     </div>
-                    <div>
-                        <InputLabel htmlFor="annee_fondation" value="Année de création de la marque" />
+                    <div className='col-span-2'>
+                        <InputLabel htmlFor="annee_fondation" value="Année de fondation" />
 
                         <TextInput
                             id="annee_fondation"
@@ -124,28 +143,28 @@ export default function MarqueForm({ className = '', onSubmit, btntext = 'Enrég
                             value={data.annee_fondation}
                             onChange={handleInputChange}
                             type="text"
-                            className="mt-1 w-32 block "
-                            autoComplete="current-password"
+                            className="mt-1 w-full block  "
+
                         />
 
                         <InputError message={errors.annee_fondation} className="mt-2" />
                     </div>
-                   
+
                 </div>
                 <div>
-                        <InputLabel htmlFor="site_web" value="Site Web" />
-                        <TextInput
-                            id="site_web"
-                            ref={addToRefs}
-                            value={data.site_web}
-                            onChange={handleInputChange}
-                            type="text"
-                            className="mt-1 block w-full"
-                            autoComplete="current-password"
-                        />
+                    <InputLabel htmlFor="site_web" value="Site Web" />
+                    <TextInput
+                        id="site_web"
+                        ref={addToRefs}
+                        value={data.site_web}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"
 
-                        <InputError message={errors.site_web} className="mt-2" />
-                    </div>
+                    />
+
+                    <InputError message={errors.site_web} className="mt-2" />
+                </div>
                 <div className=''>
                     <div>
                         <InputLabel htmlFor="nom" value="Description" />
@@ -157,17 +176,17 @@ export default function MarqueForm({ className = '', onSubmit, btntext = 'Enrég
                             onChange={handleInputChange}
                             rows="6"
                             className="mt-1 block w-full"
-                            autoComplete="current-password"
+
                         />
 
                         <InputError message={errors.description} className="mt-2" />
                     </div>
-                    
+
                 </div>
-                
-                
+
+
                 <div className="flex items-center gap-4">
-                {progress > 0 && <div>{`Upload Progress: ${progress}%`}</div>}
+                    {progress > 0 && <div>{`Upload Progress: ${progress}%`}</div>}
                     <PrimaryButton
                         className='bg-blue-600 hover:bg-blue-800 text-white'
                         disabled={processing}>

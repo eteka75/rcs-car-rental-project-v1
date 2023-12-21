@@ -1,8 +1,8 @@
 import DashboardLayout from '@/Layouts/DashboardLayout'
 import DashHeadTitle from '@/components/dashboard/DashHeadTitle'
-import { Head, Link } from '@inertiajs/react'
-import React, { useState } from 'react'
-import { AiOutlineBarChart, AiOutlineDelete, AiOutlineEdit, AiOutlineExport, AiOutlinePlus } from 'react-icons/ai';
+import { Head, Link, useForm } from '@inertiajs/react'
+import React, { useEffect, useState } from 'react'
+import { AiOutlineArrowLeft, AiOutlineBarChart, AiOutlineDelete, AiOutlineEdit, AiOutlineExport, AiOutlinePlus } from 'react-icons/ai';
 
 import {
     Card,
@@ -19,32 +19,55 @@ import {
     MenuList,
     MenuItem,
 } from "@material-tailwind/react";
+import { CiCircleList } from "react-icons/ci";
 import TextInput from '@/components/TextInput';
 import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
 import Breadcrumb from '@/components/Breadcrumb';
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import Pagination from '@/components/Pagination';
+import { FaRegEdit } from 'react-icons/fa';
+import InputError from '@/components/InputError';
 
-const TABLE_HEAD = ["Logo","Nom", "Année de fabrication","Date d'ajout", "Actions"];
-export default function Index({ auth, marques, page_id,page_subid, page_title, page_subtitle,httpFrontendUrl }) {
-    
-    const {page=1} = useState(1);
-    const [totalPosts, setTotalPosts] = useState(0);
-    const [currentPage, setCurrentPage] = useState(page);
-    const [lastPage, setLastPage] = useState(1);
-    const [postsPerPage] = useState(12);
+const TABLE_HEAD = ["Logo", "Nom", "Année de fabrication", "Date d'ajout", "Actions"];
+export default function Index({ auth, marques, page_id, page_subid, page_title, page_subtitle, search_text='' }) {
 
-    const HandlePageChange=(e)=>{
-        e.preventDefault();
-       }
+    const { data, get, errors,processing, setData } = useForm({
+        search: '',
+    });
 
+    const [datas, setDatas] = useState([]);
+    const [issearch, setIsSearch] = useState(false);
+
+    useEffect(() => {
+        if (marques.data && marques.data.length > 0) {
+            setDatas(marques.data);
+        }
+        if(search_text!==''){
+            setData('search',search_text);
+        }
+        console.log(search_text);
+    }, []);
+
+   const handleSearch =(e)=>{
+        setData('search', e.target.value);
+   }
     const Search = (e) => {
         e.preventDefault();
-        alert('ok')
+        if(data.search!==''){
+        get(route('dashboard.marques.search'),
+            {
+                onSuccess: (response) => {
+                    setDatas(response.data);
+                },
+                onError: (error) => {
+                    console.log(error);
+                },
+            });
+        }
 
     }
-    
+
 
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
@@ -55,45 +78,41 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                 </Link>
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
-                <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3' 
-                href={route('dashboard.marques.create')}>
+                <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3'
+                    href={route('dashboard.marques.create')}>
                     <AiOutlinePlus className='me-1' />    Nouveau
                 </Link>
             </DashHeadTitle>
             <Card className="h-full w-full">
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 ">
                     <div className="w-full md:w-2/5">
-                        <form className="flex items-center" onSubmit={Search}>
-                            <label htmlFor="simple-search" className="sr-only">Rechercher</label>
-                            <div className="relative w-full">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <TextInput type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Rechercher" required="" />
+                    <form className="items-center w-full" onSubmit={Search}>   
+                        <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <div className="relative">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
                             </div>
-                        </form>
+                            <input type="search" disabled={processing} value={data.search??''} onChange={handleSearch} id="search" className="block w-full px-3 py-[13px] ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-zinc-500 focus:border-zinc-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            placeholder="Rechercher..." required/>
+                            <button type="submit" disabled={processing} className="text-white absolute end-1.5 bottom-1.5 bg-gray-700 hover:bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Rechercher</button>
+                        </div>
+                        <InputError message={errors.search} className="mt-2" />
+                    </form>
                     </div>
                     <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
                         <Menu placement="bottom-end">
-                            <MenuHandler>
-                                <Button className='bg-white text-gray-900 flex gap-2 border shadow-none py-2 capitalize px-3 text-sm'>Action
-                                    <svg className="-ml-1 mr-1.5 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                        <path clipRule="evenodd" fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                    </svg>
 
-                                </Button>
-                            </MenuHandler>
                             <MenuList className='items-center'>
                                 <MenuItem className='py-2 hover:bg-gray-100 rounded-none'>
                                     <Link href='#' className='flex gap-2'>
-                                        <AiOutlineExport/> Exporter
+                                        <AiOutlineExport /> Exporter
                                     </Link>
                                 </MenuItem>
                                 <MenuItem className='py-2 hover:bg-gray-100 rounded-none'>
-                                <Link href='#' className='flex gap-2'>
-                                        <AiOutlineBarChart className='h-5 leading-5'/> Statistiques
+                                    <Link href='#' className='flex gap-2'>
+                                        <AiOutlineBarChart className='h-5 leading-5' /> Statistiques
                                     </Link>
                                 </MenuItem>
                             </MenuList>
@@ -122,27 +141,22 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                             </tr>
                         </thead>
                         <tbody>
-                           {marques.data && marques.data.length ===0 &&
-                            <td colSpan={TABLE_HEAD.length}>
-                                        <Typography className='text-center text-gray-600 p-4'>
-                                            Aucun enrégistrement disponible
-                                        </Typography>
-                            </td>
-                           }
-                           {console.log(marques)}
-                            {marques.data && marques.data.length>0 && marques.data.map(
-                                ({ id,nom,annee_fondation,logo, created_at }, index) => {
-                                    const isLast = index === marques.length - 1;
+                            
+                                
+                            
+                            {datas.length > 0 && datas.map(
+                                ({ id, nom, annee_fondation, logo, created_at }, index) => {
+                                    const isLast = index === datas.length - 1;
                                     const classes = isLast
                                         ? "p-4"
                                         : "p-4 border-b border-blue-gray-50";
 
                                     return (
-                                        <tr key={nom}>
+                                        <tr key={id}>
                                             <td className={classes}>
                                                 <div className="flex items-center gap-3">
-                                                  {logo && <Avatar src={HTTP_FRONTEND_HOME+''+logo} alt={nom} className='w-10' size="sm" />}
-                                                    
+                                                    {logo && <Avatar src={HTTP_FRONTEND_HOME + '' + logo} alt={nom} className='w-10' size="sm" />}
+
                                                 </div>
                                             </td>
                                             <td className={classes}>
@@ -150,20 +164,11 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className="font-normal"
+                                                        className="font-bold"
                                                     >
                                                         {nom}
                                                     </Typography>
                                                 </div>
-                                            </td>
-                                            <td className={classes}>
-                                            <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {annee_fondation}
-                                                    </Typography>
                                             </td>
                                             <td className={classes}>
                                                 <Typography
@@ -171,15 +176,26 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    
-                                                    {DateToFront(created_at,i18n.language)}
-                                                    
+                                                    {annee_fondation}
+                                                </Typography>
+                                            </td>
+                                            <td className={classes}>
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+
+                                                    {DateToFront(created_at, i18n.language)}
+
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
                                                 <Tooltip content="Edit User">
-                                                    <IconButton variant="text">
-                                                        <AiOutlineEdit className='h-6 w-4 text-gray-500' />
+                                                    <IconButton variant="text" className='text-blue-500'>
+                                                        <Link href={route('dashboard.marques.edit', id)}>
+                                                            <FaRegEdit className='h-6 w-4 text-blue-500' />
+                                                        </Link>
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip content="Edit User">
@@ -192,15 +208,29 @@ export default function Index({ auth, marques, page_id,page_subid, page_title, p
                                     );
                                 },
                             )}
+                            {(datas.length===0 || (data.search!=null && search_text!=null)) && 
+                            <tr><td className="p-4 border-t border-blue-gray-50" colSpan={TABLE_HEAD.length}>
+                                    <div className='text-center text-gray-600 '>
+                                    {datas.length === 0 &&
+                                            <>
+                                                <CiCircleList className="text-5xl w-24 mx-auto  text-slate-400" />
+                                                <div className="text-sm mb-4 mt-2">Aucun enrégistrement !</div>
+                                            </>
+                                     }
+                                        {(data.search!=null && search_text!=null) && <Link  href={route('dashboard.marques')}> 
+                                        <Button className='clear-both max-auto px-6  py-2 bg-slate-500 font-bold flex items-center mx-auto text-white shadow-sm  rounded-md'><AiOutlineArrowLeft className='me-1' />    Retour </Button>
+                                        </Link>}
+                                        
+                                    </div>
+                                </td>
+                                </tr>
+                                }
                         </tbody>
                     </table>
                 </CardBody>
-                <CardFooter className="flex items-center justify-end  border-blue-gray-50 p-4">
-                 <Pagination links={marques.links}   />
-                        
+                <CardFooter className="flex items-center justify-end border-t  border-blue-gray-50 px-4">
+                    <Pagination links={marques.links} />
                 </CardFooter>
-
-
             </Card>
 
         </DashboardLayout>

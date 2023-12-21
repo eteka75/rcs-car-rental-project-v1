@@ -209,17 +209,17 @@ export default function VoitureForm({ className = '', onSubmit, btntext = 'Enré
                         <InputError message={errors.nom} className="mt-2" />
                     </div>
                     <div className='md:pt-7 md:items-center'>
-                        <div class="flex items-center">
-                            <label for="hs-basic-with-description" class="text-sm text-gray-500 me-3 dark:text-gray-400"><Translate>Occupée</Translate></label>
+                        <div className="flex items-center">
+                            <label htmlFor="hs-basic-with-description" className="text-sm text-gray-500 me-3 dark:text-gray-400"><Translate>Occupée</Translate></label>
 
                             <input name="remember"
                                 checked={data.remember}
                                 onChange={(e) => setData('remember', e.target.checked)}
-                                type="checkbox" id="hs-basic-with-description" class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200
+                                type="checkbox" id="hs-basic-with-description" className="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200
    focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500
     dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition 
     before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"/>
-                            <label for="hs-basic-with-description" class="text-sm text-gray-500 ms-3 dark:text-gray-400"><Translate>Disponible</Translate></label>
+                            <label htmlFor="hs-basic-with-description" className="text-sm text-gray-500 ms-3 dark:text-gray-400"><Translate>Disponible</Translate></label>
 
                             <InputError message={errors.nom} className="mt-2" />
                         </div>

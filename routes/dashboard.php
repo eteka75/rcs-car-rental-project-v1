@@ -20,19 +20,20 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/', 'index')->name('dashboard.voitures');
         Route::get('/new', 'create')->name('dashboard.voitures.create');
         Route::post('/new', 'store')->name('dashboard.voitures.store');
-        Route::get('/edit/:id', 'edit')->name('dashboard.voitures.edit');
-        Route::put('/edit/:id', 'update')->name('dashboard.voitures.update');
-        Route::delete('/:id', 'update')->name('dashboard.voitures.delete');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.voitures.edit');
+        Route::put('/edit/{id}', 'update')->name('dashboard.voitures.update');
+        Route::delete('/{id}', 'update')->name('dashboard.voitures.delete');
     })->middleware('web');
     
     /*Marques*/
     Route::controller(MarqueController::class)->prefix('marques')->group(function () {
         Route::get('/', 'index')->name('dashboard.marques');
+        Route::get('/search', 'index')->name('dashboard.marques.search');
         Route::get('/new', 'create')->name('dashboard.marques.create');
         Route::post('/new', 'store')->name('dashboard.marques.store');
-        Route::get('/edit/:id', 'edit')->name('dashboard.marques.edit');
-        Route::put('/edit/:id', 'update')->name('dashboard.marques.update');
-        Route::delete('/:id', 'update')->name('dashboard.marques.delete');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.marques.edit');
+        Route::put('/edit/{id}', 'update')->name('dashboard.marques.update');
+        Route::delete('/{id}', 'update')->name('dashboard.marques.delete');
     })->middleware('web');
 
     /*Marques*/
@@ -40,9 +41,9 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/', 'index')->name('dashboard.categories');
         Route::get('/new', 'create')->name('dashboard.categories.create');
         Route::post('/new', 'store')->name('dashboard.categories.store');
-        Route::get('/edit/:id', 'edit')->name('dashboard.categories.edit');
-        Route::put('/edit/:id', 'update')->name('dashboard.categories.update');
-        Route::delete('/:id', 'update')->name('dashboard.categories.delete');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.categories.edit');
+        Route::put('/edit/{id}', 'update')->name('dashboard.categories.update');
+        Route::delete('/{id}', 'update')->name('dashboard.categories.delete');
     })->middleware('web');
 
 });
