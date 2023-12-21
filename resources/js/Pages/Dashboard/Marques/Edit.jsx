@@ -26,7 +26,6 @@ export default function Edit({auth,marque,page_id='',page_subid='',page_title ='
           href={route('dashboard.marques')}>
           <AiOutlineArrowLeft className='me-1' />
           <Translate>Retour</Translate>
-
         </Link>
       </DashHeadTitle>
 

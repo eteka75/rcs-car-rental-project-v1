@@ -1,24 +1,13 @@
-import DashboardLayout from '@/Layouts/DashboardLayout'
-import DashHeadTitle from '@/components/dashboard/DashHeadTitle'
-import { Head, Link } from '@inertiajs/react'
-import React, { useState } from 'react'
+import React from 'react';
+import DashboardLayout from '@/Layouts/DashboardLayout';
+import DashHeadTitle from '@/components/dashboard/DashHeadTitle';
+import { Head, Link } from '@inertiajs/react';
 import { AiOutlineArrowLeft, AiOutlinePlus } from 'react-icons/ai';
-
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
   Card,
-  CardBody,
-  Input,
-  Alert,
-  Avatar,
-  Breadcrumbs,
+  CardBody
 } from "@material-tailwind/react";
 import Breadcrumb from '@/components/Breadcrumb';
-import VoitureForm from './MarqueForm';
 import MarqueForm from './MarqueForm';
 import Translate from '@/components/Translate';
 
@@ -42,9 +31,7 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
           href={route('dashboard.marques')}>
           <AiOutlineArrowLeft className='me-1' /><Translate>Retour</Translate>
         </Link>
-
       </DashHeadTitle>
-
       <Card className='lg:max-w-xl'>
         <CardBody>
           <div className="App w-full md:m-auto">

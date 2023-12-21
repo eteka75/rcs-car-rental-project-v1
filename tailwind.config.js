@@ -1,4 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
+const withMT = require("@material-tailwind/react/utils/withMT");
 import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
@@ -9,6 +10,9 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
         './node_modules/preline/preline.js',
+        "./node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
+        "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
+      
     ],
 
     theme: {

@@ -16,8 +16,6 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
     const [countries, setCountries] = useState([]);
     useEffect(() => { setCountries(pays); }, []);
 
-
-
     const handleFileChange = (e) => {
         let file = e.target.files;
 
@@ -82,11 +80,9 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
 
     return (
         <section className={className}>
-
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <InputLabel htmlFor="nom" value="Nom de la marque" />
-
+                    <InputLabel htmlFor="nom"  >Nom</InputLabel>
                     <TextInput
                         id="nom"
                         ref={addToRefs}
@@ -99,7 +95,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     <InputError message={errors.nom} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor="logo" value="Logo" />
+                    <InputLabel htmlFor="logo" >Logo</InputLabel>
 
                     <input
                         id="logo"
@@ -119,7 +115,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                 </div>
                 <div className='grid md:grid-cols-5 md:gap-4'>
                     <div className='col-span-3'>
-                        <InputLabel htmlFor="pays_id" value="Pays d'origine de la marque" />
+                        <InputLabel htmlFor="pays_id" value="Pays">Pays</InputLabel>
                         <select
                             id="pays_id" value={data.pays_id}
                             ref={addToRefs}
@@ -137,7 +133,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                         <InputError message={errors.pays_id} className="mt-2" />
                     </div>
                     <div className='col-span-2'>
-                        <InputLabel htmlFor="annee_fondation" value="Année de fondation" />
+                        <InputLabel htmlFor="annee_fondation" >Année de fondation</InputLabel>
 
                         <TextInput
                             id="annee_fondation"
@@ -145,7 +141,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                             size='4'
                             value={data.annee_fondation}
                             onChange={handleInputChange}
-                            type="text"
+                            type="number"
                             className="mt-1 w-full block  "
 
                         />
@@ -155,7 +151,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
 
                 </div>
                 <div>
-                    <InputLabel htmlFor="site_web" value="Site Web" />
+                    <InputLabel htmlFor="site_web" >Site Web</InputLabel>
                     <TextInput
                         id="site_web"
                         ref={addToRefs}
@@ -170,7 +166,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                 </div>
                 <div className=''>
                     <div>
-                        <InputLabel htmlFor="nom" value="Description" />
+                        <InputLabel htmlFor="nom">Description</InputLabel>
 
                         <TextArea
                             id="description"
@@ -193,7 +189,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     <PrimaryButton
                         className='bg-blue-600 hover:bg-blue-800 text-white'
                         disabled={processing}>
-                        {btntext}
+                       <Translate>{btntext}</Translate>
                     </PrimaryButton>
                     <Transition
                         show={recentlySuccessful}
@@ -202,7 +198,9 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <Translate>Sauvegardé</Translate>
+                        </p>
                     </Transition>
                 </div>
             </form>

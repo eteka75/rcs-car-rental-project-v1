@@ -28,6 +28,7 @@ import DeleteDialog from '@/components/dashboard/DeleteDialog';
 import ViewTable from '@/components/dashboard/ViewTable';
 import SearchBar from './SearchBar';
 import Translate from '@/components/Translate';
+import { useTranslation } from 'react-i18next';
 
 
 export default function Index({ auth, marques, page_id, page_subid, page_title, page_subtitle, search_text = '' }) {
@@ -92,6 +93,8 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
         }
 
     }
+  const { t, i18n } = useTranslation();
+
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Head title={page_title} />
@@ -114,9 +117,10 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
                     disabled={processing}
                     searchText={data.search ?? ''}
                     onChange={handleSearch}
+                    placeholder={t('Rechercher')+'...'}
                 />
-                <CardBody className=" p-0 overflow-auto">
-                    <ViewTable head={TABLE_HEAD} links={marques.links}>
+                <CardBody className={" p-0 overflow-auto"}>
+                    <ViewTable  head={TABLE_HEAD} links={marques.links}>
                         {datas.length > 0 && datas.map(
                             ({ id, nom, annee_fondation, logo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
@@ -218,7 +222,6 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
                     </ViewTable>
                 </CardBody>
             </Card>
-
         </DashboardLayout>
     )
 }
