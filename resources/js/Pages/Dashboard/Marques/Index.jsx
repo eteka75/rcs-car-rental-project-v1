@@ -175,13 +175,13 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
                                                 <IconButton title='Modifier' variant="text" className=' text-blue-500'>
                                                     <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.marques.edit', id)}>
                                                         <FaRegEdit className='h-6 w-4 text-gray-700' />
-                                                        <span className="md:hidden">Modifier</span>
+                                                        <span className="md:hidden"><Translate>Modifier</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton title='Voir' variant="text" className=' text-blue-500'>
                                                     <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.marques.show', id)}>
                                                         <FaEye className='h-6 w-4 text-gray-700' />
-                                                        <span className="md:hidden">Voir</span>
+                                                        <span className="md:hidden"><Translate>Voir</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton variant='text' className='text-red-600 items-center flex gap-1' title="supprimer cet enrégistrement"

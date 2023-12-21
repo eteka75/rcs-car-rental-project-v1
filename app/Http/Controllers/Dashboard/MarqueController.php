@@ -111,6 +111,18 @@ class MarqueController extends Controller
             'page_subtitle' => "Modification d'une marque de véhicule",
         ]);
     }
+    /**
+     * Export the form for editing the specified resource.
+     */
+    public function export(Request $request)
+    {
+        $marques = Marque::with('pays')->get();
+        return Inertia::render(self::$viewFolder . '/Export', [
+            'marques' => $marques,
+            'page_title' => "Export des marques",
+            'page_subtitle' => "Exportations des marques de véhicule",
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.

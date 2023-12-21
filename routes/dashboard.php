@@ -33,6 +33,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::post('/new', 'store')->name('dashboard.marques.store');
         Route::get('/edit/{id}', 'edit')->name('dashboard.marques.edit');
         Route::post('/edit/{id}', 'update')->name('dashboard.marques.update');
+        Route::get('/export', 'export')->name('dashboard.marques.export');
         Route::get('/{id}', 'show')->name('dashboard.marques.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.marques.delete');
     })->middleware('web');

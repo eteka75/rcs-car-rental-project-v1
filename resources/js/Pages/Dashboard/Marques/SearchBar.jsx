@@ -1,5 +1,6 @@
 import InputError from '@/components/InputError';
 import Translate from '@/components/Translate';
+import { Link, router } from '@inertiajs/react';
 import { Button, Spinner } from '@material-tailwind/react';
 import React from 'react'
 import { AiOutlineExport, AiOutlineReload } from 'react-icons/ai';
@@ -33,12 +34,14 @@ export default function SearchBar({ onSubmit = null, onChange = null, disabled =
                     </form>
                 </div>
                 <div className="w-full md:w-auto gridgrid-cols-2 gap-4 flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <Button onClick={ReloadPage} className='text-gray-800 mx-1 px-4 hover:bg-slate-300 border bg-white shadow-none'>
+                    <Button onClick={ReloadPage} className='text-gray-800  hover:border-white  px-4 hover:shadow-none hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineReload />
                     </Button>
-                    <Button onClick={ReloadPage} className='text-gray-800 mx-1 px-4 hover:bg-slate-300 border bg-white shadow-none'>
+                    <Link href={route('dashboard.marques.export')} >
+                        <Button className='text-gray-800  px-4 hover:shadow-none hover:border-white hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineExport />
-                    </Button>
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </>
