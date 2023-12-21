@@ -47,7 +47,7 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
       <Card className='lg:max-w-xl'>
         <CardBody>
           <div className="App w-full md:m-auto">
-            <MarqueForm pays={pays}/>
+            <MarqueForm action={'save'} pays={pays}/>
           </div>
         </CardBody>
       </Card>

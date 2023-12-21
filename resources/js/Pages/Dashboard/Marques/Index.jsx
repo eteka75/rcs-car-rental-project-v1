@@ -28,6 +28,7 @@ import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import Pagination from '@/components/Pagination';
 import { FaRegEdit } from 'react-icons/fa';
 import InputError from '@/components/InputError';
+import { Inertia } from '@inertiajs/inertia';
 
 const TABLE_HEAD = ["Logo", "Nom", "Année de fabrication", "Date d'ajout", "Actions"];
 export default function Index({ auth, marques, page_id, page_subid, page_title, page_subtitle, search_text='' }) {
@@ -37,7 +38,6 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
     });
 
     const [datas, setDatas] = useState([]);
-    const [issearch, setIsSearch] = useState(false);
 
     useEffect(() => {
         if (marques.data && marques.data.length > 0) {
@@ -85,7 +85,7 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
             </DashHeadTitle>
             <Card className="h-full w-full">
                 <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4 ">
-                    <div className="w-full md:w-2/5">
+                    <div className="w-full lg:w-2/5">
                     <form className="items-center w-full" onSubmit={Search}>   
                         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                         <div className="relative">
@@ -94,33 +94,33 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="search" disabled={processing} value={data.search??''} onChange={handleSearch} id="search" className="block w-full px-3 py-[13px] ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-zinc-500 focus:border-zinc-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                            <input type="search" disabled={processing} value={data.search??''} onChange={handleSearch} id="search" className="disabled:bg-zinc-200 block w-full px-3 py-[13px] ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-zinc-500 focus:border-zinc-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                             placeholder="Rechercher..." required/>
-                            <button type="submit" disabled={processing} className="text-white absolute end-1.5 bottom-1.5 bg-gray-700 hover:bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Rechercher</button>
+                            <button type="submit" disabled={processing} className="disabled:bg-gray-500 text-white absolute end-1.5 bottom-1.5 bg-gray-700 hover:bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Rechercher</button>
                         </div>
                         <InputError message={errors.search} className="mt-2" />
                     </form>
                     </div>
                     <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                        <Menu placement="bottom-end">
+                        
+                    <Menu placement="bottom-end">
 
-                            <MenuList className='items-center'>
-                                <MenuItem className='py-2 hover:bg-gray-100 rounded-none'>
-                                    <Link href='#' className='flex gap-2'>
-                                        <AiOutlineExport /> Exporter
-                                    </Link>
-                                </MenuItem>
-                                <MenuItem className='py-2 hover:bg-gray-100 rounded-none'>
-                                    <Link href='#' className='flex gap-2'>
-                                        <AiOutlineBarChart className='h-5 leading-5' /> Statistiques
-                                    </Link>
-                                </MenuItem>
-                            </MenuList>
-                        </Menu>
-
+<MenuList className='items-center'>
+    <MenuItem className='py-2 bg-red-300 hover:bg-gray-100 rounded-none'>
+        <Link href='#' className='flex gap-2'>
+            <AiOutlineExport /> Exporter
+        </Link>
+    </MenuItem>
+    <MenuItem className='py-2 hover:bg-gray-100 rounded-none'>
+        <Link href='#' className='flex gap-2'>
+            <AiOutlineBarChart className='h-5 leading-5' /> Statistiques
+        </Link>
+    </MenuItem>
+</MenuList>
+</Menu>
                     </div>
                 </div>
-                <CardBody className=" p-0">
+                <CardBody className=" p-0 overflow-auto">
                     <table className=" w-full min-w-max table-auto text-left">
                         <thead>
                             <tr>
@@ -191,18 +191,35 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
                                                 </Typography>
                                             </td>
                                             <td className={classes}>
-                                                <Tooltip content="Edit User">
-                                                    <IconButton variant="text" className='text-blue-500'>
-                                                        <Link href={route('dashboard.marques.edit', id)}>
+                                                <div className="md:flex grid-cols-1 grid md:grid-cols-2 gap-1">
+                                                    <IconButton title='Modifier' variant="text" className=' text-blue-500'>
+                                                        <Link className='flex gap-1 items-center' href={route('dashboard.marques.edit', id)}>
                                                             <FaRegEdit className='h-6 w-4 text-blue-500' />
+                                                            <span className="md:hidden">Modifier</span>
                                                         </Link>
                                                     </IconButton>
-                                                </Tooltip>
-                                                <Tooltip content="Edit User">
-                                                    <IconButton variant="text">
-                                                        <AiOutlineDelete className='h-6 w-4 text-gray-500' />
-                                                    </IconButton>
-                                                </Tooltip>
+                                                <IconButton variant='text' className='text-red-600' title="supprimer cet enrégistrement">
+                                                    
+                                                    <Link 
+                                                     method="delete"
+                                                     className=' text-red-600 flex gap-1 items-center'
+                                                     href={route('dashboard.marques.delete', id)}
+                                                     as="button"
+                                                     onClick={(e) => {
+                                                       e.preventDefault();
+                                                       if (window.confirm('Êtes vous sûr de pouvoir supprimer cet enrégistrement ?')) {
+                                                         // Send the delete request
+                                                         Inertia.delete(route('dashboard.marques.delete', id));
+                                                       }
+                                                     }}
+                                                    variant="text">
+                                                        
+                                                        <AiOutlineDelete className='h-6 w-4' />
+                                                        <span className="md:hidden">Supprimer</span>
+
+                                                    </Link>
+                                                </IconButton>
+                                                </div>
                                             </td>
                                         </tr>
                                     );

@@ -6,57 +6,40 @@ import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 import { Progress, Switch } from '@material-tailwind/react';
-import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 
-export default function MarqueForm({ className = '', marque = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function EditForm({ className = '', marque = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
     const [countries, setCountries] = useState([]);
     useEffect(() => { setCountries(pays); }, []);
 
-
-
-    const handleFileChange = (e) => {
-        let file = e.target.files;
-
-        if (file !== undefined && file[0]) {
-            setData("logo", file[0]);
-        }
-        console.log(data);
-    };
-
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setData(id, value);
     };
     const addToRefs = el => {
-        if (el && !refs.current.includes(el)) {
+        /*if (el && !refs.current.includes(el)) {
             refs.current.push(el);
-        }
+        }*/
     };
 
-    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(marque !== null && action === 'update' ?
+    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(
+        
         {
             nom: marque.nom ?? '',
             logo: '',
+            img: '',
             pays_id: marque.pays_id ?? '',
             annee_fondation: marque.annee_fondation ?? '',
             site_web: marque.site_web ?? '',
             description: marque.description ?? ''
-        } : {
-            nom: '',
-            logo: '',
-            pays_id: '',
-            annee_fondation: '',
-            site_web: '',
-            description: ''
-        });
+        } );
     const handleSubmit = (e) => {
         e.preventDefault();
         if (action === 'update') {
-            post(route('dashboard.marques.update', marque.id), data, {
+            put(route('dashboard.marques.update', marque.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -104,7 +87,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     <input
                         id="logo"
                         ref={addToRefs}
-                        onChange={handleFileChange}
+                        onChange={(e)=>setData('img',e.target.files[0])}
                         type="file"
                         className="mt-1 rounded-md  bg-white shadow-none border py-1.5 px-4 block w-full"
 
@@ -191,7 +174,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                 <div className="flex items-center gap-4">
                     {progress > 0 && <div>{`Upload Progress: ${progress}%`}</div>}
                     <PrimaryButton
-                        className='bg-blue-600 hover:bg-blue-800 text-white'
+                        className='bg-blue-600 disabled:opacity-50 hover:bg-blue-800 text-white'
                         disabled={processing}>
                         {btntext}
                     </PrimaryButton>
@@ -202,8 +185,9 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Saved.</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Enrégistré.</p>
                     </Transition>
+                    {recentlySuccessful}
                 </div>
             </form>
         </section>

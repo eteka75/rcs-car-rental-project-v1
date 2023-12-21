@@ -6,6 +6,7 @@ import { Card, CardBody } from '@material-tailwind/react'
 import React from 'react'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import MarqueForm from './MarqueForm'
+import EditForm from './EditForm'
 
 export default function Edit({auth,marque,page_id='',page_subid='',page_title ='',page_subtitle ='',pays}) {
   return (

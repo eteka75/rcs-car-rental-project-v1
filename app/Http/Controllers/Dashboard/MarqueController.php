@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestMarqueVoitureRequest;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -67,8 +67,8 @@ class MarqueController extends Controller
      */
     public function store(RequestMarqueVoitureRequest $request)
     {
-        $data = $request->except('logo');
         $getSave = $this->saveLogo($request);
+        $data = $request->except('logo');
 
         if ($getSave !== '') {
             $data['logo'] = $getSave;
@@ -99,6 +99,7 @@ class MarqueController extends Controller
             'pays' => $pays,
             'marque' => $marque,
             'page_id' => self::$page_id,
+            'page_subid' => self::$page_subid,
             'page_title' => "Edition de marque",
             'page_subtitle' => "Modifcation d'une marque de véhicule",
         ]);
@@ -107,20 +108,33 @@ class MarqueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RequestMarqueVoitureRequest $request, $id)
-    {
+    //public function update(Request $request, $id){
+    public function update(RequestMarqueVoitureRequest $request, $id){
+
         $marque = Marque::findOrFail($id);
         $data = $request->except('logo');
-       // dd($request->all());
-        $getSave = $this->saveLogo($request);
-        if ($getSave !== '') {
-            $data['logo'] = $getSave;
+        if($request->hasFile('logo')){
+            $getSave = $this->saveLogo($request);
+            if ($getSave !== '') {
+                $data['logo'] = $getSave;
+            }
         }
-        $marque->update($data);
+        $marque->update([
+            'nom' => $data['nom'],
+            'pays_id' => $data['pays_id'],
+            'annee_fondation' => $data['annee_fondation'],
+            'description' => $data['description'],
+            'site_web' => $data['site_web']
+        ]);
+        if(isset($data['logo']) && $data['logo']!=''){
+            $marque->update([
+                'logo' => $data['logo']
+            ]);  
+        }
         return to_route('dashboard.marques');
     }
 
-    public function saveLogo(Request $request)
+    public function saveLogo(FormRequest $request)
     {
         $nomLogo = '';
         if ($request->hasFile('logo')) {
@@ -139,10 +153,12 @@ class MarqueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Marque $marque)
+    public function destroy($id)
     {
+        
+        $marque = Marque::findOrFail($id);
         $marque->delete();
 
-        return Redirect::route('dashboard.marques');
+        return to_route('dashboard.marques');
     }
 }

@@ -32,8 +32,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/new', 'create')->name('dashboard.marques.create');
         Route::post('/new', 'store')->name('dashboard.marques.store');
         Route::get('/edit/{id}', 'edit')->name('dashboard.marques.edit');
-        Route::put('/edit/{id}', 'update')->name('dashboard.marques.update');
-        Route::delete('/{id}', 'update')->name('dashboard.marques.delete');
+        Route::post('/edit/{id}', 'update')->name('dashboard.marques.update');
+        Route::delete('/{id}', 'destroy')->name('dashboard.marques.delete');
     })->middleware('web');
 
     /*Marques*/
