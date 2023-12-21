@@ -11,7 +11,6 @@ export default function ViewTable({ head = null, links = '', children }) {
                     <Pagination links={links} />
                 </CardFooter>
             }
-            {console.log(links)}
             <table className=" w-full min-w-max table-auto text-left">
                 <thead>
                     <tr>

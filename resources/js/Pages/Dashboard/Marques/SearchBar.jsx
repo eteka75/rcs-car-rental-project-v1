@@ -36,8 +36,8 @@ export default function SearchBar({ onSubmit = null, onChange = null, disabled =
                     <Button onClick={ReloadPage} className='text-gray-800 mx-1 px-4 hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineReload />
                     </Button>
-                    <Button onClick={ReloadPage} className='mx-1 text-gray-800 px-4 hover:bg-slate-300 border bg-white shadow-none'>
-                        <AiOutlineExport className='w-8 ' />
+                    <Button onClick={ReloadPage} className='text-gray-800 mx-1 px-4 hover:bg-slate-300 border bg-white shadow-none'>
+                        <AiOutlineExport />
                     </Button>
                 </div>
             </div>

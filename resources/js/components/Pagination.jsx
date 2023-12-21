@@ -24,11 +24,11 @@ export default function Pagination({ links }) {
                 <div className="flex  flex-wrap ">
                     {links && Array.isArray(links) && links.map((link, key) => (
                         link.url === null ?
-                            (<div key={key}
+                            (<div key={key+'sh'+Math.random(1)+Math.random(1)*+Math.random(1)}
                                 className="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded"
                             ><Translate>{cClean(link.label)}</Translate></div>) :
 
-                            (<Link
+                            (<Link key={key+'hs_'+Math.random(1)+Math.random(1)*+Math.random(1)}
                                 className={getClassName(link.active)}
                                 href={link.url}
                             ><Translate>{cClean(link.label)}</Translate></Link>)
