@@ -138,7 +138,7 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                     </th>
                                     <td> {DateToFront(marque.updated_at, i18n.language)}</td>
                                 </tr>
-                                <tr className='p-4 border-b'>
+                                <tr className='p-4'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
                                     >

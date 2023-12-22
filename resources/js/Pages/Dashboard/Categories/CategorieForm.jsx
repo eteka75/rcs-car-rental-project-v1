@@ -22,7 +22,6 @@ export default function CategorieForm({ className = '', categorie = null, pays =
         if (file !== undefined && file[0]) {
             setData("photo", file[0]);
         }
-        console.log(data);
     };
 
     const handleInputChange = (e) => {

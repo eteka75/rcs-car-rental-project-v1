@@ -5,7 +5,7 @@ import { Button, Spinner } from '@material-tailwind/react';
 import React from 'react'
 import { AiOutlineExport, AiOutlineReload } from 'react-icons/ai';
 
-export default function SearchBar({ onSubmit = null, onChange = null, disabled = null, searchText = null, message = null, placeholder = '' }) {
+export default function SearchBar({ onSubmit = null, onChange = null, disabled = null, searchText = null, exportUrl='',message = null, placeholder = '' }) {
     const ReloadPage = () => {
         const url = window.location.href;
         router.visit(url);
@@ -37,7 +37,7 @@ export default function SearchBar({ onSubmit = null, onChange = null, disabled =
                     <Button onClick={ReloadPage} className='text-gray-800  hover:border-white  px-4 hover:shadow-none hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineReload />
                     </Button>
-                    <Link href={route('dashboard.marques.export')} >
+                    <Link href={(exportUrl??'')} target='_blanck'>
                         <Button className='text-gray-800  px-4 hover:shadow-none hover:border-white hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineExport />
                         </Button>

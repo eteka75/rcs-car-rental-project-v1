@@ -26,9 +26,9 @@ import { Inertia } from '@inertiajs/inertia';
 import { FaEye } from 'react-icons/fa6';
 import DeleteDialog from '@/components/dashboard/DeleteDialog';
 import ViewTable from '@/components/dashboard/ViewTable';
-import SearchBar from './SearchBar';
 import Translate from '@/components/Translate';
 import { useTranslation } from 'react-i18next';
+import SearchBar from '@/components/dashboard/SearchBar';
 
 
 export default function Index({ auth, categories, page_id, page_subid, page_title, page_subtitle, search_text = '' }) {
@@ -39,6 +39,7 @@ export default function Index({ auth, categories, page_id, page_subid, page_titl
     });
 
     const [datas, setDatas] = useState([]);
+    const [showHead, setShowHead] = useState(true);
     const [showSupDialog, setSupDialog] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
@@ -46,6 +47,11 @@ export default function Index({ auth, categories, page_id, page_subid, page_titl
         if (categories.data && categories.data.length > 0) {
             setDatas(categories.data);
         }
+        
+        if (categories.data && categories.data.length > 0) {
+            setShowHead(true);
+        }else{setShowHead(false);}
+
         if (search_text !== '') {
             setData('search', search_text);
         }
@@ -112,6 +118,7 @@ export default function Index({ auth, categories, page_id, page_subid, page_titl
             <DeleteDialog showFunction={showSupDialog} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
             <Card className="h-full w-full">
                 <SearchBar
+                    exportUrl={route('dashboard.categories.export')}
                     message={errors.search}
                     onSubmit={Search}
                     disabled={processing}
@@ -120,7 +127,7 @@ export default function Index({ auth, categories, page_id, page_subid, page_titl
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable  head={TABLE_HEAD} links={categories.links}>
+                    <ViewTable  head={TABLE_HEAD} links={categories.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
                             ({ id, nom,  photo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
@@ -194,7 +201,7 @@ export default function Index({ auth, categories, page_id, page_subid, page_titl
                         )}
                         {(datas.length === 0 || (data.search != null && search_text != null)) &&
                             <tr><td className="p-4 border-t border-blue-gray-50" colSpan={TABLE_HEAD.length}>
-                                <div className='text-center text-gray-600 '>
+                                <div className='text-center text-gray-600 py-10'>
                                     {datas.length === 0 &&
                                         <>
                                             <CiInboxIn className="text-5xl  mx-auto  text-slate-400" />

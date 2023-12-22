@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/react';
 import { Avatar, Card, CardBody, Typography, Button } from '@material-tailwind/react'
 import React from 'react'
 import { AiOutlinePrinter } from 'react-icons/ai';
-const head = ["Logo", "Nom",  "Description"];;
+const head = ["Photo", "Nom",  "Description"];;
 export default function Export({ categories, page_title, page_subtitle }) {
   const Print = () => {
     window.print();

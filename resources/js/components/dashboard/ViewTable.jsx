@@ -1,23 +1,31 @@
 import { CardFooter, Typography } from '@material-tailwind/react';
-import React, { Children } from 'react'
+import React, { Children, useEffect, useState } from 'react'
 import Pagination from '../Pagination';
 import Translate from '../Translate';
 
-export default function ViewTable({ head = null, links = '', children }) {
+export default function ViewTable({ head = null, links = '', children ,showHead=true}) {
+    const [classHead,setClassHead]=useState('');
+    useEffect(()=>{
+        if(showHead===true){
+            setClassHead('');
+        }else{
+            setClassHead('hidden')
+        }
+    },[showHead])
     return (
         <>
             {links && Array.isArray(links) && links.length > 3 &&
-                <CardFooter className="hidden lg:flex  items-center justify-end border-t py-2 mt-1  border-blue-gray-50 px-4">
+                <CardFooter className="hidden lg:flex  items-center justify-end border-t py-2 mt-2  border-blue-gray-50 px-4">
                     <Pagination links={links} />
                 </CardFooter>
             }
             <table className=" w-full min-w-max table-auto text-left">
                 <thead>
-                    <tr>
+                    <tr className={classHead}>
                         {head && head.map((head) => (
                             <th
                                 key={head}
-                                className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                className="border-y  border-blue-gray-100 bg-blue-gray-50/50 p-4 py-2"
                             >
                                 <Typography
                                     variant="small"
@@ -36,7 +44,7 @@ export default function ViewTable({ head = null, links = '', children }) {
             </table>
             {links && Array.isArray(links) && links.length > 3 &&
 
-            <CardFooter className="flex items-center justify-end border-t  border-blue-gray-50 px-4">
+            <CardFooter className="flex items-center justify-end border-t border-blue-gray-50 px-4">
                 <Pagination links={links} />
             </CardFooter>
             }

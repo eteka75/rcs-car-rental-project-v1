@@ -29,7 +29,7 @@ export default function Export({ marques, page_title, page_subtitle }) {
             </div>
           </div>
           <div className='overflow-auto'>
-            <table className=" w-full  min-w-max table-auto text-left">
+            <table className=" w-full  min-w-max table-auto text-left print:text-xs">
               <thead>
                 <tr>
                   {head && head.map((head) => (
@@ -88,6 +88,7 @@ export default function Export({ marques, page_title, page_subtitle }) {
                       <td className={classes}>
                         <Typography
                           variant="small"
+                          color="blue-gray"
                           className="font-normal text-blue-500"
                         >
 

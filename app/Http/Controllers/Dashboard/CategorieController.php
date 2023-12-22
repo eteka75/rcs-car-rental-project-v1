@@ -36,6 +36,7 @@ class CategorieController extends Controller
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
 
         if (!empty($keyword)) {
+            sleep(5);
             $categories = Categorie::where('nom', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();
