@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestVoitureRequest;
+use App\Models\Marque;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -56,6 +57,8 @@ class VoitureController extends Controller
      */
     public function create()
     {
+        $marques=Marque::orderBy("nom","desc")->pluck('nom','id');
+        dd($marques);
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouvelle voiture",
             'page_subtitle' => "Ajouter une nouvelle voiture",

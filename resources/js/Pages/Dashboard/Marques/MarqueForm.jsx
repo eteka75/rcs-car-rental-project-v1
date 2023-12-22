@@ -8,9 +8,12 @@ import { Transition } from '@headlessui/react';
 import { Progress, Switch } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
+import { useTranslation } from 'react-i18next';
 
 export default function MarqueForm({ className = '', marque = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
+  const { t } = useTranslation();
+
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
     const [countries, setCountries] = useState([]);
@@ -89,7 +92,9 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                         value={data.nom}
                         onChange={handleInputChange}
                         type="text"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full"                        
+                        placeholder={t('Toyota')}
+
                     />
 
                     <InputError message={errors.nom} className="mt-2" />
@@ -143,6 +148,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                             onChange={handleInputChange}
                             type="number"
                             className="mt-1 w-full block  "
+                            placeholder={t('1990')}
 
                         />
 
@@ -159,6 +165,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
+                        placeholder={("http://website.com")}
 
                     />
 
@@ -175,6 +182,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                             onChange={handleInputChange}
                             rows="6"
                             className="mt-1 block w-full"
+                            placeholder={t('Description')}
 
                         />
 

@@ -105,7 +105,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
             <Head title={page_title} />
             <Breadcrumb>
                 <Link href='#'>
-                    <Translate>Types de carburant</Translate>
+                    <Translate>Voitures</Translate>
                 </Link>
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
