@@ -15,7 +15,7 @@ export default function Show({ auth, carburant='', page_id = '', page_subid = ''
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
                 <Link href={route('dashboard.carburants')} className="opacity-60">
-                    <span>Marques</span>
+                    <span>Types de carburant</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>

@@ -87,7 +87,7 @@ class TypeCarburantController extends Controller
         $carburant=TypeCarburant::where('id', $id)->firstOrFail();
         $carburant_name=$carburant->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
-            'categorie' => $carburant,
+            'carburant' => $carburant,
             'page_title' => "Type  ".$carburant_name,
             'page_subtitle' => "Affichage de détail sur ".$carburant_name,
         ]);
@@ -112,9 +112,9 @@ class TypeCarburantController extends Controller
     {
         $carburants = TypeCarburant::all();
         return Inertia::render(self::$viewFolder . '/Export', [
-            'categories' => $carburants,
-            'page_title' => "Export des catégories",
-            'page_subtitle' => "Exportations des catégories de véhicule",
+            'carburants' => $carburants,
+            'page_title' => "Types de carburants",
+            'page_subtitle' => "Liste des types de carburants",
         ]);
     }
 
