@@ -30,6 +30,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        //dd($request->session()->get('message') ??'');
         return [
             ...parent::share($request),
             'auth' => [
@@ -38,6 +39,12 @@ class HandleInertiaRequests extends Middleware
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
+            ], 
+            'flash' => [
+                'info' => fn () => $request->session()->get('info'),
+                'danger' => fn () => $request->session()->get('danger'),
+                'success' => fn () => $request->session()->get('success'),
+                'warning' => fn () => $request->session()->get('warning')
             ],
         ];
     }

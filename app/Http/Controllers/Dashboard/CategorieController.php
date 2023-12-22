@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestMarqueCategorieRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Categorie;
@@ -75,7 +76,12 @@ class CategorieController extends Controller
             }
         }
         Categorie::create($data);
-
+        Session::flash('success',
+        [
+            'title'=>'Enrégistrement effectué',
+            'message'=>'Les données ont été enregistrées avec succès!',
+        ]
+        );
         return to_route('dashboard.categories');
     }
 
@@ -141,6 +147,12 @@ class CategorieController extends Controller
                 'photo' => $data['photo']
             ]);  
         }
+        Session::flash('info',
+        [
+            'title'=>'Mise à jour effectuée',
+            'message'=>'Les données ont été modifiées avec succès!',
+        ]
+        );
         return to_route('dashboard.categories');
     }
 
@@ -168,7 +180,12 @@ class CategorieController extends Controller
         
         $categorie = Categorie::findOrFail($id);
         $categorie->delete();
-
+        Session::flash('warning',
+        [
+            'title'=>'Suppression effectuée',
+            'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
+        ]
+        );
         return to_route('dashboard.categories');
     }
 }

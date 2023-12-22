@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestTypeCarburantRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 use App\Models\TypeCarburant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -74,6 +75,12 @@ class TypeCarburantController extends Controller
                 $data['photo'] = $getSave;
             }
         }
+        Session::flash('success',
+        [
+            'title'=>'Enrégistrement effectué',
+            'message'=>'Les données ont été enregistrées avec succès!',
+        ]
+        );
         TypeCarburant::create($data);
 
         return to_route('dashboard.carburants');
@@ -141,6 +148,12 @@ class TypeCarburantController extends Controller
                 'photo' => $data['photo']
             ]);  
         }
+        Session::flash('info',
+        [
+            'title'=>'Mise à jour effectuée',
+            'message'=>'Les données ont été modifiées avec succès!',
+        ]
+        );
         return to_route('dashboard.carburants');
     }
 
@@ -169,6 +182,12 @@ class TypeCarburantController extends Controller
         $carburant = TypeCarburant::findOrFail($id);
         $carburant->delete();
 
+        Session::flash('warning',
+        [
+            'title'=>'Suppression effectuée',
+            'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
+        ]
+        );
         return to_route('dashboard.carburants');
     }
 }

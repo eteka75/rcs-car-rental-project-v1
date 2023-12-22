@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestMarqueVoitureRequest;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Marque;
 use Inertia\Inertia;
@@ -34,6 +35,8 @@ class MarqueController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
+        
+        
 
         if (!empty($keyword)) {
             $marques = Marque::where('nom', 'LIKE', "%$keyword%")
@@ -51,7 +54,7 @@ class MarqueController extends Controller
             'marques' => $marques,           
             'page_title' => "Marques",
             'page_subtitle' => "Gestion vos marques de voitures",
-        ]);
+        ])->with('message','You have no permission for this page!');;
     }
 
     /**
@@ -80,6 +83,12 @@ class MarqueController extends Controller
             $data['logo'] = $getSave;
         }
         Marque::create($data);
+        Session::flash('success',
+        [
+            'title'=>'Enrégistrement effectué',
+            'message'=>'Les données ont été enregistrées avec succès!',
+        ]
+        );
 
         return to_route('dashboard.marques');
     }
@@ -151,6 +160,12 @@ class MarqueController extends Controller
                 'logo' => $data['logo']
             ]);  
         }
+        Session::flash('info',
+        [
+            'title'=>'Mise à jour effectuée',
+            'message'=>'Les données ont été modifiées avec succès!',
+        ]
+        );
         return to_route('dashboard.marques');
     }
 
@@ -178,7 +193,12 @@ class MarqueController extends Controller
         
         $marque = Marque::findOrFail($id);
         $marque->delete();
-
+        Session::flash('warning',
+        [
+            'title'=>'Suppression effectuée',
+            'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
+        ]
+        );
         return to_route('dashboard.marques');
     }
 }
