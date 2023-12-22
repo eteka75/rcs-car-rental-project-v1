@@ -4,6 +4,9 @@ import { Alert, Button, Typography } from '@material-tailwind/react';
 import Translate from '../Translate';
 import { IoIosNotifications } from 'react-icons/io';
 import { TfiClose } from "react-icons/tfi";
+import { FaCheckCircle } from 'react-icons/fa';
+import { IoWarning } from 'react-icons/io5';
+import { TbHandStop } from 'react-icons/tb';
 
 export default function Notification() {
     const { flash } = usePage().props
@@ -63,7 +66,7 @@ function Success({ message, title }) {
         <Alert
             open={open}
             className='mb-2 z-10 border-0  bg-blue-600  shadow-lg'
-            icon={<IoIosNotifications className='text-2xl text-slate-50' />}
+            icon={<FaCheckCircle  className='text-2xl text-slate-50' />}
             action={
                 <Button
                     variant="text"
@@ -91,7 +94,7 @@ function Danger({ message, title }) {
         <Alert
             open={open}
             className='mb-2 z-10 border-0  bg-red-700 shadow-lg'
-            icon={<IoIosNotifications className='text-2xl text-slate-50' />}
+            icon={<TbHandStop className='text-2xl text-slate-50' />}
             action={
                 <Button
                     variant="text"
@@ -119,7 +122,7 @@ function Warning({ message, title }) {
         <Alert
             open={open}
             className='mb-2 z-10 border-0  bg-yellow-700 shadow-lg'
-            icon={<IoIosNotifications className='text-2xl text-slate-50' />}
+            icon={<IoWarning  className='text-2xl text-slate-50' />}
             action={
                 <Button
                     variant="text"

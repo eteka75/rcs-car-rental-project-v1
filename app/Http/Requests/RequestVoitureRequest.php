@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestStoreVoitureRequest extends FormRequest
+class RequestVoitureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -12,7 +12,7 @@ class RequestStoreVoitureRequest extends FormRequest
     public function authorize(): bool
     {
         return $this->user()?true:false;//->can('someAbility');
-
+       
     }
 
     /**

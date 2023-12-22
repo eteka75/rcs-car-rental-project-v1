@@ -90,23 +90,7 @@ export default function DashFooterMenu() {
                                     </li>
                                 </ul>
                             </div>
-                            <div>
-                                <h2 className="mb-6 text-sm font-semibold text-gray-200 uppercase dark:text-white">Download</h2>
-                                <ul className="text-blue-500 dark:text-gray-400 font-medium">
-                                    <li className="">
-                                        <a href={'/'} className="hover:underline">iOS</a>
-                                    </li>
-                                    <li className="">
-                                        <a href={'/'} className="hover:underline">Android</a>
-                                    </li>
-                                    <li className="">
-                                        <a href={'/'} className="hover:underline">Windows</a>
-                                    </li>
-                                    <li className="">
-                                        <a href={'/'} className="hover:underline">MacOS</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            
                         </div>
 
                     </div>

@@ -24,9 +24,9 @@ export default function LocationTop() {
 
                     Actuellement en location
                 </h2>
-                <div id='car'className="car-vehicules mt-6 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+                <div id='car' className="car-vehicules overflow-auto mt-6 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
                 {[1,2,3,4,5,6].map((car,index)=>
-                    <div  key={index}  className=" bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                    <div  key={index}  className=" bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:text-white dark:border-gray-700">
                         <a href="#">
                             <img className="p-8 rounded-t-lg" src={(v1)} alt="product image" />
                         </a>
@@ -41,28 +41,28 @@ export default function LocationTop() {
                             <div className="grid grid-cols-2 items-center mt-2.5 mb-5">
 
                                 <div className="flex mb-2">
-                                    <LuUsers className='me-1' />
+                                    <LuUsers className='me-1 dark:text-white' />
                                     <div className='text-sm font-light'>5 personnes</div>
                                 </div>
                                 <div className="flex mb-2">
                                     <div>
-                                        <img className='h-4 me-1' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAgUlEQVR4nO2U4QqAIAyE790yaPT+/6of2XsYA4tJsFQWVPjBYHDHjiEOaBQyAtgAeABkpCWwIcRajbSEWRgnIy3BCWNnpF04jJbaTwNCZb0n4Ptv8EiAE0buJb2iZQfIL8+9ZFG07IDag+ZutjuhOIgHDAWatrkJPvdc10LKdg2o7ExWkc4uK+5nAAAAAElFTkSuQmCC" />
+                                        <img className='h-4 me-1 dark:text-white' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAgUlEQVR4nO2U4QqAIAyE790yaPT+/6of2XsYA4tJsFQWVPjBYHDHjiEOaBQyAtgAeABkpCWwIcRajbSEWRgnIy3BCWNnpF04jJbaTwNCZb0n4Ptv8EiAE0buJb2iZQfIL8+9ZFG07IDag+ZutjuhOIgHDAWatrkJPvdc10LKdg2o7ExWkc4uK+5nAAAAAElFTkSuQmCC" />
                                     </div>
                                     <div className='text-sm font-light'>Manuelle</div>
                                 </div>
                                 <div className="flex mb-2">
                                     <div>
-                                        <MdOutlineCardTravel className='me-1' />
+                                        <MdOutlineCardTravel className='me-1 dark:text-white' />
                                     </div>
-                                    <div className='text-sm font-light'>1 Grande valise</div>
+                                    <div className='text-sm  font-light'>1 Grande valise</div>
                                 </div>
                                 <div className="flex mb-2">
-                                    <ImUserTie className='me-1' />
+                                    <ImUserTie className='me-1 dark:text-white' />
                                     <div className='text-sm font-light'>1 Chauffeur</div>
                                 </div>
                                 <div className="flex mb-2">
                                     <div >
-                                        <svg className='h-4 w-4 me-1' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <svg className='h-4 w-4 me-1 dark:text-white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             <path d="m 15 14.75 H 9 a 0.75 0.75 0 0 1 0 -1.5 h 6 a 0.75 0.75 0 0 1 0 1.5 z M 15.75 18 C 15.745 17.588 15.412 17.255 15 17.25 H 9 a 0.75 0.75 0 0 0 0 1.5 h 6 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z m 3 -6.5 v 9 c 0 1.243 -1.007 2.25 -2.25 2.25 h -0.75 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 h -4.5 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 H 7.5 c -1.243 0 -2.25 -1.007 -2.25 -2.25 v -9 c 0 -1.243 1.007 -2.25 2.25 -2.25 h 1.75 v -8 C 9.25 0.56 9.81 0 10.5 0 h 3 c 0.69 0 1.25 0.56 1.25 1.25 v 8 h 1.75 c 1.243 0 2.25 1.007 2.25 2.25 z m -8 -2.25 h 2.5 V 1.5 h -2.5 z m 6.5 2.25 C 17.245 11.088 16.912 10.755 16.5 10.75 h -9 C 7.088 10.755 6.755 11.088 6.75 11.5 v 9 c 0.005 0.412 0.338 0.745 0.75 0.75 h 9 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z"></path>
                                         </svg>
                                     </div>
@@ -72,7 +72,7 @@ export default function LocationTop() {
                             <div className='py-4 grid grid-cols-2 border-1 border-b mb-4 border-t'>
                                 <div>
                                     <a className=' text-sm font-bold text-blue-500 flex' href="">
-                                        <AiOutlineInfoCircle className="me-1 text-xl" /> Infos importantes</a>
+                                        <AiOutlineInfoCircle className="me-1 dark:text-white text-xl" /> Infos importantes</a>
                                 </div>
                                 <div>
                                     <div className="flex items-center ">

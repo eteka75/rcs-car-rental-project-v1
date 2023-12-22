@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import Breadcrumb from '@/components/Breadcrumb';
 import Translate from '@/components/Translate';
-import VoitureForm from './VoitureForm';
+import SecuriteForm from './SecuriteForm';
 
 
 export default function Index({ auth, page_id,pays, page_subid, page_title, page_subtitle }) {
@@ -17,8 +17,8 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
   return (
     <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
       <Breadcrumb>
-        <Link href={route('dashboard.voitures')} className="opacity-60">
-          <Translate>Voitures</Translate>
+        <Link href={route('dashboard.carburants')} className="opacity-60">
+          <Translate>Types de carburant</Translate>
         </Link>
         <Link href='#'>
           <Translate>Nouveau</Translate>
@@ -28,14 +28,14 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
       <Head title={page_title} />
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-          href={route('dashboard.voitures')}>
+          href={route('dashboard.carburants')}>
           <AiOutlineArrowLeft className='me-1' /><Translate>Retour</Translate>
         </Link>
       </DashHeadTitle>
       <Card className='lg:max-w-xl'>
         <CardBody>
           <div className="App w-full md:m-auto">
-            <VoitureForm action={'save'} pays={pays}/>
+            <SecuriteForm action={'save'} pays={pays}/>
           </div>
         </CardBody>
       </Card>

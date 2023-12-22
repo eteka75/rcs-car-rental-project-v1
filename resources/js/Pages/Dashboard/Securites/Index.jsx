@@ -30,7 +30,7 @@ import { useTranslation } from 'react-i18next';
 import SearchBar from '@/components/dashboard/SearchBar';
 
 
-export default function Index({ auth, voitures, page_id, page_subid, page_title, page_subtitle, search_text = '' }) {
+export default function Index({ auth, sys_securites, page_id, page_subid, page_title, page_subtitle, search_text = '' }) {
 
     const TABLE_HEAD = ["Photo", "Nom",  "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
@@ -43,11 +43,11 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
-        if (voitures.data && voitures.data.length > 0) {
-            setDatas(voitures.data);
+        if (sys_securites.data && sys_securites.data.length > 0) {
+            setDatas(sys_securites.data);
         }
         
-        if (voitures.data && voitures.data.length > 0) {
+        if (sys_securites.data && sys_securites.data.length > 0) {
             setShowHead(true);
         }else{setShowHead(false);}
 
@@ -64,7 +64,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
 
     const SubmitDeletion = () => {
         if (setDeleteId != '') {
-            Inertia.delete(route('dashboard.voitures.delete', deleteId));
+            Inertia.delete(route('dashboard.sys_securites.delete', deleteId));
             setDeleteId('')
             setSupDialog(false);
         } else {
@@ -86,7 +86,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
     const Search = (e) => {
         e.preventDefault();
         if (data.search !== '') {
-            get(route('dashboard.voitures.search'),
+            get(route('dashboard.sys_securites.search'),
                 {
                     onSuccess: (response) => {
                         setDatas(response.data);
@@ -110,14 +110,14 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3'
-                    href={route('dashboard.voitures.create')}>
+                    href={route('dashboard.sys_securites.create')}>
                     <AiOutlinePlus className='me-1' />   <Translate>Nouveau</Translate>
                 </Link>
             </DashHeadTitle>
             <DeleteDialog showFunction={showSupDialog} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
             <Card className="h-full w-full">
                 <SearchBar
-                    exportUrl={route('dashboard.voitures.export')}
+                    exportUrl={route('dashboard.sys_securites.export')}
                     message={errors.search}
                     onSubmit={Search}
                     disabled={processing}
@@ -126,7 +126,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable  head={TABLE_HEAD} links={voitures.links} showHead={showHead}>
+                    <ViewTable  head={TABLE_HEAD} links={sys_securites.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
                             ({ id, nom,  photo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
@@ -139,7 +139,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
 
-                                                {photo && <Link href={route('dashboard.voitures.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
+                                                {photo && <Link href={route('dashboard.sys_securites.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
 
                                             </div>
                                         </td>
@@ -150,7 +150,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    <Link href={route('dashboard.voitures.show', id)}>
+                                                    <Link href={route('dashboard.sys_securites.show', id)}>
                                                         {nom}
                                                     </Link>
                                                 </Typography>
@@ -171,20 +171,20 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">
                                                 <IconButton title='Modifier' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.voitures.edit', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.sys_securites.edit', id)}>
                                                         <FaRegEdit className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Modifier</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton title='Voir' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.voitures.show', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.sys_securites.show', id)}>
                                                         <FaEye className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Voir</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton variant='text' className='text-red-600 items-center flex gap-1' title="supprimer cet enrégistrement"
                                                     method="delete"
-                                                    href={route('dashboard.voitures.delete', id)}
+                                                    href={route('dashboard.sys_securites.delete', id)}
                                                     as="button"
                                                     onClick={() => handleDelete(id)}
                                                 >
@@ -207,7 +207,7 @@ export default function Index({ auth, voitures, page_id, page_subid, page_title,
                                             <div className="text-sm mb-4 mt-2"><Translate>Aucun enrégistrement</Translate> !</div>
                                         </>
                                     }
-                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.voitures')}>
+                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.sys_securites')}>
                                         <Button className='clear-both max-auto px-6  py-2 bg-transparent font-bold flex items-center mx-auto text-gray-800 border shadow-sm  rounded-md'><AiOutlineArrowLeft className='me-1' />
                                             <Translate>Retour </Translate>
                                         </Button>

@@ -40,6 +40,11 @@ export const menuItemsData = [
         title: "Types de carburants",
         route: 'dashboard.carburants',
         sid:'carburants'
+      }, 
+      {
+        title: "Systèmes de sécurité",
+        route: 'dashboard.sys_securites',
+        sid:'sys_securites'
       },
       {
         title: "Contrôles techniques",
@@ -47,15 +52,11 @@ export const menuItemsData = [
         sid:'controle'
       },
       {
-        title: "Types de motorisation",
-        route: 'dashboard.voitures.create',
-        sid:'motorisation'
+        title: "Opérations",
+        route: 'dashboard.voitures',
+        sid:'opérations'
       },
-      {
-        title: "Systèmes de sécurité",
-        route: 'dashboard.voitures.create',
-        sid:'securite'
-      },
+     
     ],
 
   },

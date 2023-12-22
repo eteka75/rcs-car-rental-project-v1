@@ -9,7 +9,7 @@ import { Progress, Switch } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 
-export default function VoitureForm({ className = '', voiture = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function SecuriteForm({ className = '', sys_securite = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
@@ -34,11 +34,11 @@ export default function VoitureForm({ className = '', voiture = null, pays = [],
         }
     };
 
-    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(voiture !== null && action === 'update' ?
+    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(sys_securite !== null && action === 'update' ?
         {
-            nom: voiture.nom ?? '',
+            nom: sys_securite.nom ?? '',
             photo: '',
-            description: voiture.description ?? ''
+            description: sys_securite.description ?? ''
         } : {
             nom: '',
             photo: '',
@@ -47,7 +47,7 @@ export default function VoitureForm({ className = '', voiture = null, pays = [],
     const handleSubmit = (e) => {
         e.preventDefault();
         if (action === 'update') {
-            post(route('dashboard.voitures.update', voiture.id), data, {
+            post(route('dashboard.sys_securites.update', sys_securite.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -58,7 +58,7 @@ export default function VoitureForm({ className = '', voiture = null, pays = [],
             });
         }
         if (action === 'save') {
-            post(route('dashboard.voitures.store'), {
+            post(route('dashboard.sys_securites.store'), {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')

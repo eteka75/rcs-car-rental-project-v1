@@ -22,10 +22,10 @@ export default function LocationHelpSteps() {
                             </svg>
                         </div>
                         <div className="w-5/6 py-2">
-                            <h3 className="font-semibold text-lg text-gray-700 dark:text-indigo-300">
+                            <h3 className="font-semibold lg:text-lg text-md text-gray-700 dark:text-slate-300">
                                 Nous sommes là pour vous aider
                             </h3>
-                            <p className="text-gray-500 dark:text-gray-400">
+                            <p className="text-gray-500 dark:text-slate-400">
                                 Notre service client répond à toutes vos
                                 préoccupations
                             </p>
@@ -47,10 +47,10 @@ export default function LocationHelpSteps() {
                             </svg>
                         </div>
                         <div className="w-5/6 py-2">
-                            <h3 className="font-semibold text-lg text-gray-700 dark:text-indigo-300">
-                                Nous sommes là pour vous aider
+                            <h3 className="font-semibold lg:text-lg text-md text-gray-700 dark:text-slate-300">
+                                Un service près de chez vous
                             </h3>
-                            <p className="text-gray-500 dark:text-gray-400">
+                            <p className="text-gray-500 dark:text-slate-400">
                                 Notre service client répond à toutes vos
                                 préoccupations
                             </p>
@@ -61,10 +61,10 @@ export default function LocationHelpSteps() {
                             <MdOutlineUpdate className="h-10 w-10 mx-auto" />
                         </div>
                         <div className="w-5/6 py-2">
-                            <h3 className="font-semibold text-lg text-gray-700 dark:text-red-100">
-                                Nous sommes là pour vous aider
+                            <h3 className="font-semibold lg:lg:text-lg text-md text-md text-gray-700 dark:text-slate-300">
+                                Réservation en quelques minutes
                             </h3>
-                            <p className="text-gray-500 dark:text-gray-400">
+                            <p className="text-gray-500 dark:text-slate-400">
                                 Notre service client répond à toutes vos
                                 préoccupations
                             </p>

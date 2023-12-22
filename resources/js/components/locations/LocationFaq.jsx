@@ -5,11 +5,11 @@ export default function LocationFaq() {
     return (
         <>
             <div className="max-w-screen-xl mx-auto px-4 mb-4">
-                <div className=" grid grid-flow-col md:gap-4 lg:gap-6 md:grid-cols-6">
-                    <div className="col-span-2 ">
-                        <div className="text-center p-6 border rounded-xl shadow mb-8">
+                <div className=" grid grid-cols-1 md:gap-4 lg:gap-6 md:grid-cols-6">
+                    <div className="md:col-span-2 ">
+                        <div className="text-center p-4 md:p-6 border rounded-xl shadow mb-8">
                             <FcCallback className='text-8xl mx-auto mb-4' />
-                            <h3 className="text-2xl font-extrabold">Servicles client</h3>
+                            <h3 className="text-2xl font-extrabold">Services client</h3>
                             <div className='text-sm text-slate-500'>Nous sommes situé à Cotonou, Scoa-gbéto et ouvert du Lundi au Samedi de 9Heures à 17Heures</div>
                             <div className='mb-4'>
                                 <a className='font-bold' href="tel:">(+229) 44 17 77 44</a>

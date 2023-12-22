@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('systeme_securites', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('photo');
-            $table->string('description');
+            $table->string('photo')->nullable();
+            $table->string('description')->nullable();
             
             $table->timestamps();
             $table->softDeletes();

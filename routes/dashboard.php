@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\MarqueController;
+use App\Http\Controllers\Dashboard\SystemeSecuriteController;
 use App\Http\Controllers\Dashboard\TypeCarburantController;
 use App\Http\Controllers\Dashboard\VoitureController;
 use App\Http\Controllers\DashboardDashboardController;
@@ -19,11 +20,14 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     /*Voitures*/
     Route::controller(VoitureController::class)->prefix('voitures')->group(function () {
         Route::get('/', 'index')->name('dashboard.voitures');
+        Route::get('/search', 'index')->name('dashboard.voitures.search');
         Route::get('/new', 'create')->name('dashboard.voitures.create');
         Route::post('/new', 'store')->name('dashboard.voitures.store');
         Route::get('/edit/{id}', 'edit')->name('dashboard.voitures.edit');
-        Route::put('/edit/{id}', 'update')->name('dashboard.voitures.update');
-        Route::delete('/{id}', 'update')->name('dashboard.voitures.delete');
+        Route::post('/edit/{id}', 'update')->name('dashboard.voitures.update');
+        Route::get('/export', 'export')->name('dashboard.voitures.export');
+        Route::get('/{id}', 'show')->name('dashboard.voitures.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.voitures.delete');
     })->middleware('web');
     
     /*Marques*/
@@ -52,7 +56,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', 'destroy')->name('dashboard.categories.delete');
     })->middleware('web');
 
-    /*Marques*/
+    /*Type de carburant*/
     Route::controller(TypeCarburantController::class)->prefix('carburants')->group(function () {
         Route::get('/', 'index')->name('dashboard.carburants');
         Route::get('/search', 'index')->name('dashboard.carburants.search');
@@ -63,6 +67,19 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.carburants.export');
         Route::get('/{id}', 'show')->name('dashboard.carburants.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.carburants.delete');
+    })->middleware('web');
+
+    /*Système de sécurités*/
+    Route::controller(SystemeSecuriteController::class)->prefix('sys_securites')->group(function () {
+        Route::get('/', 'index')->name('dashboard.sys_securites');
+        Route::get('/search', 'index')->name('dashboard.sys_securites.search');
+        Route::get('/new', 'create')->name('dashboard.sys_securites.create');
+        Route::post('/new', 'store')->name('dashboard.sys_securites.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.sys_securites.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.sys_securites.update');
+        Route::get('/export', 'export')->name('dashboard.sys_securites.export');
+        Route::get('/{id}', 'show')->name('dashboard.sys_securites.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.sys_securites.delete');
     })->middleware('web');
 
 });
