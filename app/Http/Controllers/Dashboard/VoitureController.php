@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestVoitureRequest;
+use App\Models\Categorie;
 use App\Models\Marque;
+use App\Models\TypeCarburant;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -57,9 +59,19 @@ class VoitureController extends Controller
      */
     public function create()
     {
-        $marques=Marque::orderBy("nom","desc")->pluck('nom','id');
-        dd($marques);
+        $marques=Marque::orderBy("nom","asc")->select('nom','id')->get();
+        $categories=Categorie::orderBy("nom","asc")->select('nom','id')->get();
+        $type_carburants=TypeCarburant::orderBy("nom","asc")->select('nom','id')->get();
+        Inertia::share([
+            'marques'=> $marques,
+            'categories'=> $categories,
+            'type_carburants'=> $type_carburants
+        ]);
+
         return Inertia::render(self::$viewFolder . '/Create', [
+            'marques'=> $marques,
+            'categories'=> $categories,
+            'type_carburants'=> $type_carburants,
             'page_title' => "Nouvelle voiture",
             'page_subtitle' => "Ajouter une nouvelle voiture",
         ]);
@@ -71,20 +83,20 @@ class VoitureController extends Controller
     public function store(RequestVoitureRequest $request)
     {
         $data = $request->except(['photo']);
-
+        dd($request->all());
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
+        Voiture::create($data);
         Session::flash('success',
         [
             'title'=>'Enrégistrement effectué',
             'message'=>'Les données ont été enregistrées avec succès!',
         ]
         );
-        Voiture::create($data);
 
         return to_route('dashboard.voitures');
     }

@@ -9,16 +9,47 @@ import { Progress, Switch } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 import { useTranslation } from 'react-i18next';
+import { usePage } from '@inertiajs/react';
+import Select from 'react-select'
 
-export default function VoitureForm({ className = '', voiture = null, marques = [],categories=[], type_carburants =[], action, btntext = 'Enrégister' }) {
+export default function VoitureForm({ className = '', voiture = null, action, btntext = 'Enrégister' }) {
     // intialize as en empty array
-  const { t, i18n } = useTranslation();
-
+  const { t } = useTranslation();
+  const { marques,categories, type_carburants } = usePage().props
+  const [isClearable, setIsClearable] = useState(true);
+  const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(voiture !== null && action === 'update' ?
+        {
+            nom: voiture.nom ?? '',
+            photo: '',
+            description: voiture.description ?? ''
+        } : {
+            nom: '',
+            photo: '',
+            marque_id: '',
+            annee_fabrication: '',
+            nombre_place: '',
+            volume_coffre: '',
+            date_achat: '',
+            couleur: '',
+            disponibilite: 0,
+            type_carburant_id: '',
+            categorie_id: '',
+            description: ''
+        });
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
-    //const [marques, setMarques] = useState([]);
-    //useEffect(() => { setMarques(pays); }, []);
-
+    
+    const ConvertSelectData = (tab)=>{
+        if(Array.isArray(tab)){
+            let v=[];
+            tab.map(({id,nom})=>{
+                v.push({value:id,label:nom});
+            })
+            return v;
+        }
+        return {};
+    }
+    
     const handleFileChange = (e) => {
         let file = e.target.files;
 
@@ -31,22 +62,11 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
         const { id, value } = e.target;
         setData(id, value);
     };
-    const addToRefs = el => {
+     const addToRefs = el => {
         if (el && !refs.current.includes(el)) {
             refs.current.push(el);
         }
-    };
-
-    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(voiture !== null && action === 'update' ?
-        {
-            nom: voiture.nom ?? '',
-            photo: '',
-            description: voiture.description ?? ''
-        } : {
-            nom: '',
-            photo: '',
-            description: ''
-        });
+    };    
     const handleSubmit = (e) => {
         e.preventDefault();
         if (action === 'update') {
@@ -78,7 +98,7 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
         <section className={className}>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <InputLabel htmlFor="nom"  >Nom</InputLabel>
+                   <div className="flex"><InputLabel htmlFor="nom"  >Nom</InputLabel><span className="text-red-500">*</span></div>
                     <TextInput
                         id="nom"
                         ref={addToRefs}
@@ -112,7 +132,7 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4'>
                 <div>
-                    <InputLabel htmlFor="annee_fabrication">Année de fabrication</InputLabel>
+                    <div className="flex"><InputLabel htmlFor="annee_fabrication">Année de fabrication</InputLabel> <span className="text-red-500">*</span></div>
                     <TextInput
                         id="annee_fabrication"
                         ref={addToRefs}
@@ -123,6 +143,7 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                         placeholder={t('2018')}
 
                     />
+                    {console.log(data)}
 
                     <InputError message={errors.annee_fabrication} className="mt-2" />
                 </div>
@@ -132,7 +153,7 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                     <TextInput
                         id="date_achat"
                         ref={addToRefs}
-                        value={data.nb_place}
+                        value={data.date_achat}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
@@ -143,11 +164,11 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                     <InputError message={errors.date_achat} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor="nb_place">Nombre de places</InputLabel>
+                    <div className="flex"><InputLabel htmlFor="nombre_place">Nombre de places</InputLabel><span className="text-red-500">*</span></div>
                     <TextInput
-                        id="nb_place"
+                        id="nombre_place"
                         ref={addToRefs}
-                        value={data.nb_place}
+                        value={data.nombre_place}
                         onChange={handleInputChange}
                         type="number"
                         className="mt-1 block w-full"
@@ -155,7 +176,7 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
 
                     />
 
-                    <InputError message={errors.nb_place} className="mt-2" />
+                    <InputError message={errors.nombre_place} className="mt-2" />
                 </div>    
                 
                 </div>
@@ -178,9 +199,9 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                 <div>
                     <InputLabel htmlFor="annee_fabrication">Volume du coffre</InputLabel>
                     <TextInput
-                        id="couleur"
+                        id="volume_coffre"
                         ref={addToRefs}
-                        value={data.couleur}
+                        value={data.volume_coffre}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
@@ -188,84 +209,92 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
 
                     />
 
-                    <InputError message={errors.couleur} className="mt-2" />
+                    <InputError message={errors.volume_coffre} className="mt-2" />
                 </div>
                 </div>
                 <div className='grid md:grid-cols-3 md:gap-4'>
                     <div className='col-span-1'>
-                        <InputLabel htmlFor="marque_id" >Catégories</InputLabel>
-                        <select
-                            id="marque_id" value={data.categorie_id}
-                            ref={addToRefs}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            <option value=''>Sélectionnez une catégorie</option>
-                            {categories && categories.length > 0 && categories.map(({ id, nom }, index) =>
-                                <option
+                        <div className="flex"><InputLabel htmlFor="categorie_id" >Catégories</InputLabel><span className="text-red-500">*</span></div>
+                        <Select 
+                         id="categorie_id" 
+                         isClearable={true}
+                        isSearchable={true}
+                        onChange={(options) =>
+                            !options ? setData('categorie_id',"") : setData('categorie_id',options.value)
+                          }
+                         className="mt-1 block w-full"
+                        options={ConvertSelectData(categories)} />
 
-                                    key={index} value={id} >{nom}</option>
-                            )}
-                        </select>
-
-
+                        <InputError message={errors.categorie_id} className="mt-2" />
+                    </div>
+                    <div className='col-span-1'>
+                       <div className="flex"> <InputLabel htmlFor="marque_id" >Marques</InputLabel><span className="text-red-500">*</span></div>
+                        <Select 
+                         id="marque_id" 
+                         ref={addToRefs}
+                         defaultValue={data.marque_id}
+                        isClearable={true}
+                        isSearchable={true}
+                         onChange={(options) =>
+                            !options ? setData('marque_id',"") : setData('marque_id',options.value)
+                          }
+                         className="mt-1 block w-full"
+                        options={ConvertSelectData(marques)} />
                         <InputError message={errors.marque_id} className="mt-2" />
                     </div>
                     <div className='col-span-1'>
-                        <InputLabel htmlFor="marque_id" >Marques</InputLabel>
-                        <select
-                            id="marque_id" value={data.marque_id}
-                            ref={addToRefs}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            <option value=''>Sélectionnez une marque</option>
-                            {marques && marques.length > 0 && marques.map(({ id, nom }, index) =>
-                                <option
-
-                                    key={index} value={id} >{nom}</option>
-                            )}
-                        </select>
-
-
-                        <InputError message={errors.marque_id} className="mt-2" />
-                    </div>
-                    <div className='col-span-1'>
-                    <InputLabel htmlFor="marque_id" >Type de carburant</InputLabel>
-                        <select
-                            id="marque_id" value={data.marque_id}
-                            ref={addToRefs}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            <option value=''>Sélectionnez un type</option>
-                            {type_carburants && type_carburants.length > 0 && type_carburants.map(({ id, nom }, index) =>
-                                <option
-
-                                    key={index} value={id} >{nom}</option>
-                            )}
-                        </select>
+                    <div className="flex"><InputLabel htmlFor="marque_id" >Type de carburant</InputLabel><span className="text-red-500">*</span></div>
+                    <Select 
+                         id="type_carburant_id" 
+                         ref={addToRefs}
+                         onChange={(options) =>
+                            !options ? setData('type_carburant_id',"") : setData('type_carburant_id',options.value)
+                          }
+                         isClearable={true}
+                         isSearchable={true}
+                         className="mt-1 block w-full"
+                        options={ConvertSelectData(type_carburants)}
+                         />
 
                         <InputError message={errors.type_carburant_id} className="mt-2" />
                     </div>
 
                 </div>
+                <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
                 <div>
-                    <InputLabel htmlFor="nom">Marques</InputLabel>
+                    <InputLabel htmlFor="type_transmission">Type de transmission</InputLabel>
                     <TextInput
-                        id="marque_id"
+                        id="type_transmission"
                         ref={addToRefs}
-                        value={data.marque_id}
+                        value={data.type_transmission}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
+                        placeholder={t('Rouge')}
+
                     />
 
-                    <InputError message={errors.marque_id} className="mt-2" />
+                    <InputError message={errors.type_transmission} className="mt-2" />
                 </div>
-                
-                
-                
+                <div>
+                    <InputLabel htmlFor="annee_fabrication">Puissance du moteur</InputLabel>
+                    <TextInput
+                        id="puissance_moteur"
+                        ref={addToRefs}
+                        value={data.puissance_moteur}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"
+                        placeholder={t('50 CH')}
+
+                    />
+
+                    <InputError message={errors.puissance_moteur} className="mt-2" />
+                </div>
+                </div>
                 <div className=''>
                     <div>
-                        <InputLabel htmlFor="nom">Description</InputLabel>
+                        <InputLabel htmlFor="description">Type de transmission</InputLabel>
 
                         <TextArea
                             id="description"
@@ -281,6 +310,7 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                     </div>
 
                 </div>
+                
                 <div>
                     <div className="flex items-center">
                         <input name="disponibilite"
@@ -292,6 +322,8 @@ export default function VoitureForm({ className = '', voiture = null, marques = 
                                 before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"/>
                     <label htmlFor="hs-basic-with-description" className="text-sm text-gray-500 ms-3 dark:text-gray-400">Disponible</label>
                     </div>
+                    <InputError message={errors.disponibilite} className="mt-2" />
+
                 </div>
                 <div className="flex items-center gap-4">
                     {progress > 0 && <div>{`Upload Progress: ${progress}%`}</div>}
