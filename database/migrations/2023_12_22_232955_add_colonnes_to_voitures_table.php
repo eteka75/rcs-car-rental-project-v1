@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('voitures', function (Blueprint $table) {
-            $table->string('nombre_vitesse')->nullable()->after('disponibilite');
+            $table->tinyInteger('nombre_vitesse')->default(0)->after('disponibilite');
             
         });
     }

@@ -23,6 +23,7 @@ class Voiture extends Model
         "puissance_moteur",
         "type_transmission",
         "dimenssions",
+        "nombre_vitesse",
         "consommation",
         "capacite_reservoir",
         "emission_co2",
