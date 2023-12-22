@@ -143,7 +143,6 @@ export default function Login({ status, canResetPassword }) {
                             <div className="block mt-4">
 
                                 <div className="flex items-center">
-                                    <label htmlFor="hs-basic-with-description" className="text-sm text-gray-500 me-3 dark:text-gray-400">Off</label>
                                     <input name="remember"
                                         checked={data.remember}
                                         onChange={(e) => setData('remember', e.target.checked)}
