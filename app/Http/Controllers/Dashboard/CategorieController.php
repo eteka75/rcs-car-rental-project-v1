@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Categorie;
-use App\Models\Pays;
 use Inertia\Inertia;
 
 class CategorieController extends Controller
@@ -36,7 +35,6 @@ class CategorieController extends Controller
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
 
         if (!empty($keyword)) {
-            sleep(5);
             $categories = Categorie::where('nom', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();

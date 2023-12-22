@@ -66,7 +66,7 @@ export default function Export({ categories, page_title, page_subtitle }) {
                       <td className={classes}>
                         <div className="flex items-center gap-3">
 
-                          {photo && <img src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 rounded-0 bg-white' size="sm" />}
+                          {photo!=null && <img src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 rounded-0 bg-white' size="sm" />}
 
                         </div>
                       </td>
@@ -78,7 +78,7 @@ export default function Export({ categories, page_title, page_subtitle }) {
                             className="font-bold"
                           >
 
-                            {nom}
+                            {nom??''}
                           </Typography>
                         </div>
                       </td>
@@ -88,7 +88,7 @@ export default function Export({ categories, page_title, page_subtitle }) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {description}
+                          {description??''}
                         </Typography>
                       </td>
                       

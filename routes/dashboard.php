@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\MarqueController;
+use App\Http\Controllers\Dashboard\TypeCarburantController;
 use App\Http\Controllers\Dashboard\VoitureController;
 use App\Http\Controllers\DashboardDashboardController;
 use App\Http\Controllers\FrontController;
@@ -49,6 +50,19 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.categories.export');
         Route::get('/{id}', 'show')->name('dashboard.categories.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.categories.delete');
+    })->middleware('web');
+
+    /*Marques*/
+    Route::controller(TypeCarburantController::class)->prefix('carburants')->group(function () {
+        Route::get('/', 'index')->name('dashboard.carburants');
+        Route::get('/search', 'index')->name('dashboard.carburants.search');
+        Route::get('/new', 'create')->name('dashboard.carburants.create');
+        Route::post('/new', 'store')->name('dashboard.carburants.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.carburants.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.carburants.update');
+        Route::get('/export', 'export')->name('dashboard.carburants.export');
+        Route::get('/{id}', 'show')->name('dashboard.carburants.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.carburants.delete');
     })->middleware('web');
 
 });

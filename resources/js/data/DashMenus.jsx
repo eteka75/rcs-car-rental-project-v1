@@ -38,8 +38,8 @@ export const menuItemsData = [
       },
       {
         title: "Types de carburants",
-        route: 'dashboard.voitures.create',
-        sid:'Types'
+        route: 'dashboard.carburants',
+        sid:'carburants'
       },
       {
         title: "Contrôles techniques",

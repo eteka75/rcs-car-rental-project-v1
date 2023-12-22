@@ -5,7 +5,7 @@ import { DateToFront } from '@/tools/utils';
 import { Link } from '@inertiajs/react';
 import { Avatar, Card, CardBody, Typography, Button } from '@material-tailwind/react'
 import React from 'react'
-import { AiOutlinePrinter } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlinePrinter } from 'react-icons/ai';
 const head = ["Logo", "Nom", "Année", "Site Web", "Pays"];;
 export default function Export({ marques, page_title, page_subtitle }) {
   const Print = () => {
@@ -26,6 +26,11 @@ export default function Export({ marques, page_title, page_subtitle }) {
             </div>
             <div className='items-center col-span-2'>
               <Button onClick={Print} variant='text' className='print:hidden float-right border flex'><AiOutlinePrinter className='me-1' /> Imprimer</Button>
+              <Link href={route('dashboard.marques')}>
+              <Button variant='text' className='print:hidden font-bold me-2 float-right border flex'>
+                <AiOutlineArrowLeft className='me-1' /> Retour
+                </Button>
+                </Link>
             </div>
           </div>
           <div className='overflow-auto'>
@@ -42,7 +47,7 @@ export default function Export({ marques, page_title, page_subtitle }) {
                         color="blue-gray"
                         className="font-normal leading-none opacity-70"
                       >
-                        <Translate> {head}</Translate>
+                        <Translate> {head??''}</Translate>
                       </Typography>
                     </th>
                   ))}
@@ -72,7 +77,7 @@ export default function Export({ marques, page_title, page_subtitle }) {
                             className="font-bold"
                           >
 
-                            {nom}
+                            {nom??''}
                           </Typography>
                         </div>
                       </td>
@@ -82,7 +87,7 @@ export default function Export({ marques, page_title, page_subtitle }) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {annee_fondation}
+                          {annee_fondation??''}
                         </Typography>
                       </td>
                       <td className={classes}>
