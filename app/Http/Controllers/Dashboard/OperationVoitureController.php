@@ -41,15 +41,19 @@ class OperationVoitureController extends Controller
         Inertia::share(['total' => $total]);
 
         if (!empty($keyword)) {
-            $operations = OperationVoiture::where('nom_operation', 'LIKE', "%$keyword%")
+            $operations = OperationVoiture::with('voiture')->where('nom_operation', 'LIKE', "%$keyword%")
                 ->orWhere('prix_operation', 'LIKE', "%$keyword%")
                 ->orWhere('responsable_operation', 'LIKE', "%$keyword%")
                 ->orWhere('kilometrage', 'LIKE', "%$keyword%")
                 ->orWhere('date_operation', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
+                ->orWhereHas('voiture', function ($query) use ($keyword) {
+                    $query->where('nom', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+                })
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
-            $operations = OperationVoiture::latest()->paginate($perPage);
+            $operations = OperationVoiture::with('voiture')->latest()->paginate($perPage);
         }
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,

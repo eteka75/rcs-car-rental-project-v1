@@ -40,13 +40,17 @@ class ControlVoitureController extends Controller
         Inertia::share(['total' => $total]);
 
         if (!empty($keyword)) {
-            $controles = ControlVoiture::where('nom_controle', 'LIKE', "%$keyword%")
+            $controles = ControlVoiture::with('voiture')->where('nom_controle', 'LIKE', "%$keyword%")
                 ->orWhere('date_controle', 'LIKE', "%$keyword%")
                 ->orWhere('kilometrage', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
+                ->orWhereHas('voiture', function ($query) use ($keyword) {
+                    $query->where('nom', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+                })
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
-            $controles = ControlVoiture::latest()->paginate($perPage);
+            $controles = ControlVoiture::with('voiture')->latest()->paginate($perPage);
         }
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,

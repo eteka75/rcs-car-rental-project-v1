@@ -31,7 +31,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Index({ auth, operations, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
 
-    const TABLE_HEAD = [ "Nom", "Organisme", "Date du contrôle", "Actions"];
+    const TABLE_HEAD = [ "Nom", "Voiture", "Date du contrôle", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
@@ -48,12 +48,10 @@ export default function Index({ auth, operations, page_id,count, page_subid, pag
         }else{
             setShowHead(false);
         }     
-        console.log(operations)
 
         if (search_text !== '') {
             setData('search', search_text);
         }
-        console.log(search_text);
     }, []);
 
     const CloseDialog = () => {
@@ -127,7 +125,7 @@ export default function Index({ auth, operations, page_id,count, page_subid, pag
                 <CardBody className={" p-0 overflow-auto"}>
                     <ViewTable  head={TABLE_HEAD} count={count} links={operations?operations.links:[]} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom_operation, responsable_operation, date_operation,created_at }, index) => {
+                            ({ id, nom_operation, responsable_operation, voiture,created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "px-4 py-1"
@@ -150,13 +148,13 @@ export default function Index({ auth, operations, page_id,count, page_subid, pag
                                             </div>
                                         </td>
                                         <td className={classes}>
-                                            <Typography
+                                            <span
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="font-normal"
+                                                className="font-normal px-4 py-1 text-sm bg-slate-200 rounded-sm"
                                             >
-                                                {responsable_operation??''}
-                                            </Typography>
+                                                {voiture?voiture.nom:''}
+                                            </span>
                                         </td>
                                         
                                         <td className={classes}>

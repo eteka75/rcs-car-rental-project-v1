@@ -145,19 +145,19 @@ export default function OperationForm({ className = '', operation = null, pays =
                 </div>
                 <div className='md:grid md:grid-cols-12 gap-4'>
                 <div className='md:col-span-4'>
-                    <InputLabel htmlFor="prix_operation"  >Prix de l'opération</InputLabel>
-                    <TextInput
-                        id="prix_operation"
-                        ref={addToRefs}
-                        value={data.prix_operation}
-                        onChange={handleInputChange}
-                        type="text"
-                        className="mt-1 block w-full"                        
-                        placeholder={t('15000')}
+                    
+                <InputLabel htmlFor="date_operation" >Date du contrôle</InputLabel>
+                        <TextInput
+                            id="date_operation"
+                            ref={addToRefs}
+                            value={data.date_operation}
+                            onChange={handleInputChange}
+                            type="text"
+                            className="mt-1 w-full block  "
+                            placeholder={t('10/01/1990')}
 
-                    />
-
-                    <InputError message={errors.prix_operation} className="mt-2" />
+                        />
+                        <InputError message={errors.date_operation} className="mt-2" />
                 </div>
                 <div className='md:col-span-8'>
                     <InputLabel htmlFor="prix_operation"  >Responsable de l'opération</InputLabel>
@@ -175,40 +175,23 @@ export default function OperationForm({ className = '', operation = null, pays =
                     <InputError message={errors.responsable_operation} className="mt-2" />
                 </div>
             </div>                
-                <div>
                 
-                    <InputLabel htmlFor="fichier" >Fichier sur la réparation</InputLabel>
-
-                    <input
-                        id="fichier"
+                <div className='md:grid md:grid-cols-4 md:gap-4'>
+                    <div className='md:col-span-2'>
+                    <InputLabel htmlFor="prix_operation"  >Prix de l'opération</InputLabel>
+                    <TextInput
+                        id="prix_operation"
                         ref={addToRefs}
-                        onChange={handleFileChange}
-                        type="file"
-                        className="mt-1 rounded-md  bg-white shadow-none border border-slate-300 py-1.5 px-4 block w-full"
+                        value={data.prix_operation}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"                        
+                        placeholder={t('15000')}
 
                     />
-                    {progress && (
-                        <Progress value={progress.percentage} color="blue" max="100">
-                            {progress.percentage}%
-                        </Progress>
-                    )}
 
-                    <InputError message={errors.fichier} className="mt-2" />
-                </div>
-                <div className='md:grid md:grid-cols-5 md:gap-4'>
-                    <div className='md:col-span-3'>
-                        <InputLabel htmlFor="date_operation" >Date du contrôle</InputLabel>
-                        <TextInput
-                            id="date_operation"
-                            ref={addToRefs}
-                            value={data.date_operation}
-                            onChange={handleInputChange}
-                            type="text"
-                            className="mt-1 w-full block  "
-                            placeholder={t('10/01/1990')}
-
-                        />
-                        <InputError message={errors.date_operation} className="mt-2" />
+                    <InputError message={errors.prix_operation} className="mt-2" />
+                    
                     </div>
                     <div className='md:col-span-2'>
                         <InputLabel htmlFor="kilometrage" >Kilométrage</InputLabel>
@@ -229,7 +212,26 @@ export default function OperationForm({ className = '', operation = null, pays =
                     </div>
 
                 </div>
+                <div>
                 
+                    <InputLabel htmlFor="fichier" >Fichier sur la réparation</InputLabel>
+
+                    <input
+                        id="fichier"
+                        ref={addToRefs}
+                        onChange={handleFileChange}
+                        type="file"
+                        className="mt-1 rounded-md  bg-white shadow-none border border-slate-300 py-1.5 px-4 block w-full"
+
+                    />
+                    {progress && (
+                        <Progress value={progress.percentage} color="blue" max="100">
+                            {progress.percentage}%
+                        </Progress>
+                    )}
+
+                    <InputError message={errors.fichier} className="mt-2" />
+                </div>
                 <div className=''>
                     <div>
                         <InputLabel htmlFor="nom">Description</InputLabel>

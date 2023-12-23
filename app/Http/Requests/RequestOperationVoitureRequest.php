@@ -25,7 +25,7 @@ class RequestOperationVoitureRequest extends FormRequest
             'voiture_id' => 'required|exists:voitures,id',
             'nom_operation' => 'required|min:3|max:250',
             'date_operation' => 'required|date_format:d/m/Y|max:50',
-            'responsable_operation' => 'nullable|max:250',
+            'responsable_operation' => 'required|max:250',
             'kilometrage' => 'nullable|max:50',
             'prix_operation' => 'nullable|max:50',
             'description' => 'nullable|max:10000',
