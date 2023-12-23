@@ -17,7 +17,7 @@ class Pays extends Model
         'alpha2',
         'alpha3',
     ];
-    public function posts(): HasMany
+    public function marques(): HasMany
     {
         return $this->hasMany(Marque::class);
     }

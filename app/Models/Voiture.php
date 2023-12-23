@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Voiture extends Model
@@ -24,6 +25,7 @@ class Voiture extends Model
         "type_transmission",
         "dimenssions",
         "nombre_vitesse",
+        "nombre_place",
         "consommation",
         "capacite_reservoir",
         "emission_co2",
@@ -36,4 +38,23 @@ class Voiture extends Model
         "type_carburant_id",
     ];
     
+
+
+    public function marque(): BelongsTo
+    {
+        return $this->belongsTo(Marque::class,'marque_id');
+    }
+    public function categorie(): BelongsTo
+    {
+        return $this->belongsTo(Categorie::class,'categorie_id');
+    }
+    public function type_carburant(): BelongsTo
+    {
+        return $this->belongsTo(TypeCarburant::class,'type_carburant_id');
+    }
+
+    public function systemeSecurites()
+    {
+        return $this->belongsToMany(SystemeSecurite::class,'voiture_has_sys_sec','systeme_securite_id','voiture_id')->withTimestamps();
+    }
 }

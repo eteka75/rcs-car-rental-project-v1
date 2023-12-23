@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Requests\RequestVoitureRequest;
 use App\Models\Categorie;
 use App\Models\Marque;
+use App\Models\SystemeSecurite;
 use App\Models\TypeCarburant;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
@@ -62,16 +63,15 @@ class VoitureController extends Controller
         $marques=Marque::orderBy("nom","asc")->select('nom','id')->get();
         $categories=Categorie::orderBy("nom","asc")->select('nom','id')->get();
         $type_carburants=TypeCarburant::orderBy("nom","asc")->select('nom','id')->get();
+        $sys_securites=SystemeSecurite::orderBy("nom","asc")->select('nom','id')->get();
         Inertia::share([
             'marques'=> $marques,
+            'sys_securites'=> $sys_securites,
             'categories'=> $categories,
             'type_carburants'=> $type_carburants
         ]);
 
-        return Inertia::render(self::$viewFolder . '/Create', [
-            'marques'=> $marques,
-            'categories'=> $categories,
-            'type_carburants'=> $type_carburants,
+        return Inertia::render(self::$viewFolder . '/Create', [            
             'page_title' => "Nouvelle voiture",
             'page_subtitle' => "Ajouter une nouvelle voiture",
         ]);
@@ -83,14 +83,23 @@ class VoitureController extends Controller
     public function store(RequestVoitureRequest $request)
     {
         $data = $request->except(['photo']);
-        dd($request->all());
+        //dd($request->all());
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        Voiture::create($data);
+        $data['date_achat']=$this->converDateToDB($request->input('date_achat'));
+       
+        $sys_sec_ids=$data['systeme_securite'];
+        if($data['date_achat']==null){
+            unset($data['date_achat']);
+            //$data['date_achat']="00-00-0000 00:00:00";
+        }
+        //dd($data);
+        $voiture=Voiture::create($data);
+        $voiture->systemeSecurites()->attach($sys_sec_ids);
         Session::flash('success',
         [
             'title'=>'Enrégistrement effectué',
@@ -101,17 +110,25 @@ class VoitureController extends Controller
         return to_route('dashboard.voitures');
     }
 
+    public function converDateToDB($date){
+        $dateObj = \DateTime::createFromFormat('d/m/Y', $date);
+        if ($dateObj === false) {
+            return false;
+        }
+        return $dateObj->format('Y-m-d');
+    }
+
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-        $sys_securite=Voiture::where('id', $id)->firstOrFail();
-        $sys_securite_name=$sys_securite->nom;
+        $voiture=Voiture::with('systemeSecurites')->with('categorie')->with('marque')->with('type_carburant')->where('id', $id)->firstOrFail();
+        $voiture_name=$voiture->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
-            'sys_securite' => $sys_securite,
-            'page_title' => "Système de sécurité  ".$sys_securite_name,
-            'page_subtitle' => "Affichage de détail sur ".$sys_securite_name,
+            'voiture' => $voiture,
+            'page_title' => $voiture_name,
+            'page_subtitle' => "Affichage de détail sur ".$voiture_name,
         ]);
     }
 
@@ -120,9 +137,20 @@ class VoitureController extends Controller
      */
     public function edit($id)
     {
-        $sys_securite = Voiture::findOrFail($id);
+        $voiture = Voiture::with('systemeSecurites')->with('categorie')->with('marque')->with('type_carburant')->findOrFail($id);
+        $marques=Marque::orderBy("nom","asc")->select('nom','id')->get();
+        $categories=Categorie::orderBy("nom","asc")->select('nom','id')->get();
+        $type_carburants=TypeCarburant::orderBy("nom","asc")->select('nom','id')->get();
+        $sys_securites=SystemeSecurite::orderBy("nom","asc")->select('nom','id')->get();
+        Inertia::share([
+            'sys_securites'=> $sys_securites,
+            'marques'=> $marques,
+            'categories'=> $categories,
+            'type_carburants'=> $type_carburants
+        ]);
+
         return Inertia::render(self::$viewFolder . '/Edit', [
-            'sys_securite' => $sys_securite,
+            'voiture' => $voiture,
             'page_title' => "Edition de voiture",
             'page_subtitle' => "Modification d'une voiture",
         ]);
@@ -145,8 +173,7 @@ class VoitureController extends Controller
      */
     //public function update(Request $request, $id){
     public function update(RequestVoitureRequest $request, $id){
-
-        $sys_securite = Voiture::findOrFail($id);
+        $voiture = Voiture::findOrFail($id);
         $data = $request->except('photo');
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
@@ -154,15 +181,16 @@ class VoitureController extends Controller
                 $data['photo'] = $getSave;
             }
         }
-        $sys_securite->update([
-            'nom' => $data['nom'],
-            'description' => $data['description']
-        ]);
+        $data['date_achat']=$this->converDateToDB($request->input('date_achat'));
+        //dd($data);
+        $voiture->update($data);
         if(isset($data['photo']) && $data['photo']!=''){
-            $sys_securite->update([
+            $voiture->update([
                 'photo' => $data['photo']
             ]);  
         }
+        $sys_sec_ids=$data['systeme_securite'];
+        $voiture->systemeSecurites()->sync($sys_sec_ids);
         Session::flash('info',
         [
             'title'=>'Mise à jour effectuée',
@@ -194,8 +222,8 @@ class VoitureController extends Controller
     public function destroy($id)
     {
         
-        $sys_securite = Voiture::findOrFail($id);
-        $sys_securite->delete();
+        $voiture = Voiture::findOrFail($id);
+        $voiture->delete();
 
         Session::flash('warning',
         [

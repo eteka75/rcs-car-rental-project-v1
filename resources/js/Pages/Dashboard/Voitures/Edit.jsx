@@ -6,7 +6,7 @@ import { Card, CardBody } from '@material-tailwind/react'
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Translate from '@/components/Translate';
-import SecuriteForm from './SecuriteForm'
+import VoitureForm from './VoitureForm'
 
 export default function Edit({auth,voiture,page_id='',page_subid='',page_title ='',page_subtitle ='',pays}) {
   return (
@@ -29,9 +29,10 @@ export default function Edit({auth,voiture,page_id='',page_subid='',page_title =
         </Link>
       </DashHeadTitle>
 
-      <Card className='lg:max-w-xl'>
+      <Card className='lg:max-w-4xl'>
         <CardBody  className="App w-full md:m-auto">
-            <SecuriteForm voiture={voiture} pays={pays} action='update' btntext="Mettre à jour"/>
+            <VoitureForm voiture={voiture} pays={pays} action='update' btntext="Mettre à jour"/>
+            {console.log(voiture)}
         </CardBody>
       </Card>
     </DashboardLayout>

@@ -34,6 +34,17 @@ class RequestVoitureRequest extends FormRequest
             "marque_id"=>"required|exists:marques,id",
             "type_carburant_id"=>"required|exists:type_carburants,id",
             "categorie_id"=>"required|exists:categories,id",
+            "systeme_securite"=>"nullable|array",
+            "systeme_securite.*"=>"nullable|exists:systeme_securites,id",
+            "puissance_moteur"=>"nullable|max:250",
+            "type_transmission"=>"nullable|max:250",
+            "type_eclairage"=>"nullable|max:250",
+            "nombre_vitesse"=>"required|integer|max:50",
+            "type_suspenssion"=>"nullable|max:250",
+            "capacite_reservoir"=>"nullable|max:250",
+            "emission_co2"=>"nullable|max:250",
+            "consommation"=>"nullable|max:250",
+            "technologies_a_bord"=>"nullable|max:10000",
             'photo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=50,min_height=50,max_width=2000,max_height=2000'
         ];
     }
