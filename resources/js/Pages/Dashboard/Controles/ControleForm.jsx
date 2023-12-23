@@ -10,14 +10,17 @@ import Select from 'react-select';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 import { useTranslation } from 'react-i18next';
+import { DateToFront } from '@/tools/utils';
+import i18n from '@/i18n';
 
-export default function ControleForm({ className = '', marque = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function ControleForm({ className = '', controle = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
   const { t } = useTranslation();
   const {voitures} = usePage().props
 
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
+    
     const [countries, setCountries] = useState([]);
     useEffect(() => { setCountries(pays); }, []);
 
@@ -25,7 +28,7 @@ export default function ControleForm({ className = '', marque = null, pays = [],
         let file = e.target.files;
 
         if (file !== undefined && file[0]) {
-            setData("logo", file[0]);
+            setData("fichier", file[0]);
         }
         console.log(data);
     };
@@ -36,7 +39,9 @@ export default function ControleForm({ className = '', marque = null, pays = [],
     }; 
     
     const setDefaultValue=(id, val)=>{
-        return { label: val, value: id };
+        if(id && val)
+        {return { label: val, value: id };}
+        return null;
     }
     const ConvertSelectData = (tab) => {
         if (Array.isArray(tab)) {
@@ -54,26 +59,28 @@ export default function ControleForm({ className = '', marque = null, pays = [],
         }
     };
 
-    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(marque !== null && action === 'update' ?
+    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(controle !== null && action === 'update' ?
         {
-            nom_controle: controle.nom ?? '',
+            nom_controle: controle.nom_controle ?? '',
             voiture_id:controle.voiture_id?? '',
-            date_controle: controle.date_controle ?? '',
-            kilometrage: controle.kilometrage ?? '1990',
+            date_controle: DateToFront(controle.date_controle,i18n.language,'d/m/Y') ?? '',
+            kilometrage: controle.kilometrage ?? '',
+            organisme_controle: controle.organisme_controle ?? '',
             fichier: '',
             description: controle.description ?? ''
         } : {
             nom_controle: '',
             voiture_id: '',
             date_controle: '',
+            organisme_controle: '',
             kilometrage: '',
             fichier: '',
             description: ''
         });
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (action === 'update') {
-            post(route('dashboard.marques.update', controle.id), data, {
+        if (controle && action === 'update') {
+            post(route('dashboard.controle_techniques.update', controle.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -84,7 +91,7 @@ export default function ControleForm({ className = '', marque = null, pays = [],
             });
         }
         if (action === 'save') {
-            post(route('dashboard.marques.store'), {
+            post(route('dashboard.controle_techniques.store'), {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -101,24 +108,9 @@ export default function ControleForm({ className = '', marque = null, pays = [],
         <section className={className}>
             <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-                    <InputLabel htmlFor="nom"  >Voiture</InputLabel>
-                    <Select
-                            id="voiture_id"
-                            isClearable={true}
-                            isSearchable={true}
-                            onChange={(options) =>
-                                !options ? setData('voitures', "") : setData('voitures', options.value)
-                            }
-                            className="mt-1 block w-full"
-                            options={ConvertSelectData(voitures)} 
-                            />
-
-                    <InputError message={errors.voiture_id} className="mt-2" />
-                </div>
-                <div>
-                    <InputLabel htmlFor="nom"  >Nom</InputLabel>
+                    <InputLabel htmlFor="nom_controle"  >Nom</InputLabel>
                     <TextInput
-                        id="nom"
+                        id="nom_controle"
                         ref={addToRefs}
                         value={data.nom_controle}
                         onChange={handleInputChange}
@@ -130,6 +122,24 @@ export default function ControleForm({ className = '', marque = null, pays = [],
 
                     <InputError message={errors.nom_controle} className="mt-2" />
                 </div>
+            <div>
+                    <InputLabel htmlFor="voiture_id"  >Voiture</InputLabel>
+                    <Select
+                            id="voiture_id"
+                            isClearable={true}
+                            isSearchable={true}
+                            defaultValue={setDefaultValue(data.categorie_id,(controle && controle.voiture.nom)?controle.voiture.nom:'')}
+
+                            onChange={(options) =>
+                                !options ? setData('voiture_id', "") : setData('voiture_id', options.value)
+                            }
+                            className="mt-1 block w-full"
+                            options={ConvertSelectData(voitures)} 
+                            />
+
+                    <InputError message={errors.voiture_id} className="mt-2" />
+                </div>
+                
                 <div className='md:grid md:grid-cols-2 md:gap-4'>
                 <div>
                     <InputLabel htmlFor="organisme_controle" >Organisme de decontrôle</InputLabel>
@@ -163,7 +173,7 @@ export default function ControleForm({ className = '', marque = null, pays = [],
                         </Progress>
                     )}
 
-                    <InputError message={errors.logo} className="mt-2" />
+                    <InputError message={errors.fichier} className="mt-2" />
                 </div>
                 </div>
                 <div className='grid md:grid-cols-5 md:gap-4'>
@@ -174,12 +184,12 @@ export default function ControleForm({ className = '', marque = null, pays = [],
                             ref={addToRefs}
                             value={data.date_controle}
                             onChange={handleInputChange}
-                            type="number"
+                            type="text"
                             className="mt-1 w-full block  "
                             placeholder={t('10/01/1990')}
 
                         />
-                        <InputError message={errors.pays_id} className="mt-2" />
+                        <InputError message={errors.date_controle} className="mt-2" />
                     </div>
                     <div className='col-span-2'>
                         <InputLabel htmlFor="kilometrage" >Kilométrage</InputLabel>
@@ -188,7 +198,7 @@ export default function ControleForm({ className = '', marque = null, pays = [],
                             id="kilometrage"
                             ref={addToRefs}
                             size='4'
-                            value={data.annee_fondation}
+                            value={data.kilometrage}
                             onChange={handleInputChange}
                             type="text"
                             className="mt-1 w-full block  "
@@ -196,7 +206,7 @@ export default function ControleForm({ className = '', marque = null, pays = [],
 
                         />
 
-                        <InputError message={errors.annee_fondation} className="mt-2" />
+                        <InputError message={errors.kilometrage} className="mt-2" />
                     </div>
 
                 </div>

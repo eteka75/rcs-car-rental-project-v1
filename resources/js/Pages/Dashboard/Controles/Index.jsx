@@ -32,14 +32,14 @@ import { useTranslation } from 'react-i18next';
 
 export default function Index({ auth, controles, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
 
-    const TABLE_HEAD = ["Logo", "Nom", "Année de fondation", "Date d'ajout", "Actions"];
+    const TABLE_HEAD = [ "Nom", "Organisme", "Date du contrôle", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
 
     const [datas, setDatas] = useState([]);
     const [showHead, setShowHead] = useState(true);
-    const [showSupDialog] = useState(false);
+    const [showSupDialog, setSupDialog] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
@@ -128,7 +128,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                 <CardBody className={" p-0 overflow-auto"}>
                     <ViewTable  head={TABLE_HEAD} count={count} links={controles.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom, annee_fondation, logo, created_at }, index) => {
+                            ({ id, nom_controle, organisme_controle, date_controle,created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -136,13 +136,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
 
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
-
-                                                {logo && <Link href={route('dashboard.controle_techniques.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + logo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
-
-                                            </div>
-                                        </td>
+                                        
                                         <td className={classes}>
                                             <div className="flex flex-col">
                                                 <Typography
@@ -151,7 +145,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                                                     className="font-bold"
                                                 >
                                                     <Link href={route('dashboard.controle_techniques.show', id)}>
-                                                        {nom}
+                                                        {nom_controle}
                                                     </Link>
                                                 </Typography>
                                             </div>
@@ -162,9 +156,10 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {annee_fondation}
+                                                {organisme_controle}
                                             </Typography>
                                         </td>
+                                        
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"

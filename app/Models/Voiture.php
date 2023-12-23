@@ -59,4 +59,8 @@ class Voiture extends Model
         'voiture_has_sys_sec','systeme_securite_id','voiture_id')
         ->withTimestamps();
     }
+    public function controlesTechniques(): BelongsTo
+    {
+        return $this->belongsTo(ControlVoiture::class);
+    }
 }

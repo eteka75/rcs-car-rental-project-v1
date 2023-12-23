@@ -66,7 +66,7 @@ class ControlVoitureController extends Controller
     {
         $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
         Inertia::share(['voitures'=>$voitures]);
-
+        
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouveau contrôle technique",
             'page_subtitle' => "Ajouter un nouveau contrôle technique de véhicule",
@@ -76,23 +76,19 @@ class ControlVoitureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RequestcontroleVoitureRequest $request)
     {
-        $additionalRules = [
-            'nom' => ["required", "unique:controles,nom"],
-        ];
-        // Merge additional rules with the rules defined in the form request
-        $rules = array_merge((new RequestcontroleVoitureRequest())->rules(), $additionalRules);
-
-        // Validate the request
-        $request->validate($rules);
-        $data =  $request->except('logo');
-        if ($request->hasFile('logo')) {
+        
+        $data =  $request->except('fichier');
+        if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
-                $data['logo'] = $getSave;
+                $data['fichier'] = $getSave;
             }
         }
+        $userId = \Auth::id()??'0';
+        $data['user_id']=$userId;
+        $data['date_controle']=$this->converDateToDB($data['date_controle']);        
         ControlVoiture::create($data);
         Session::flash(
             'success',
@@ -105,12 +101,21 @@ class ControlVoitureController extends Controller
         return to_route('dashboard.controle_techniques');
     }
 
+    public function converDateToDB($date)
+    {
+        $dateObj = \DateTime::createFromFormat('d/m/Y', $date);
+        if ($dateObj === false) {
+            return false;
+        }
+        return $dateObj->format('Y-m-d');
+    }
+
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-        $controle = ControlVoiture::with('pays')->where('id', $id)->firstOrFail();
+        $controle = ControlVoiture::with('voiture')->where('id', $id)->firstOrFail();
         $controle_name = $controle->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
             'controle' => $controle,
@@ -124,10 +129,10 @@ class ControlVoitureController extends Controller
      */
     public function edit($id)
     {
-        $controle = ControlVoiture::findOrFail($id);
-        $controles = Voiture::select('nom', 'id')->orderBy('nom')->get();
+        $controle = ControlVoiture::with('voiture')->findOrFail($id);
+        $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
+        Inertia::share(['voitures'=>$voitures]);
         return Inertia::render(self::$viewFolder . '/Edit', [
-            'controles' => $controles,
             'controle' => $controle,
             'page_title' => "Edition de contrôle technique",
             'page_subtitle' => "Modification d'une contrôle technique de véhicule",
@@ -155,22 +160,18 @@ class ControlVoitureController extends Controller
 
         $controle = ControlVoiture::findOrFail($id);
         $data = $request->except("logo");
-        if ($request->hasFile('logo')) {
+        if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
-                $data['logo'] = $getSave;
+                $data['fichier'] = $getSave;
             }
         }
-        $controle->update([
-            'nom' => $data['nom'],
-            'pays_id' => $data['pays_id'],
-            'annee_fondation' => $data['annee_fondation'],
-            'description' => $data['description'],
-            'site_web' => $data['site_web']
-        ]);
-        if (isset($data['logo']) && $data['logo'] != '') {
+        $data['date_controle']=$this->converDateToDB($data['date_controle']);
+
+        $controle->update($data);
+        if (isset($data['fichier']) && $data['fichier'] != '') {
             $controle->update([
-                'logo' => $data['logo']
+                'fichier' => $data['fichier']
             ]);
         }
         Session::flash(
@@ -186,8 +187,8 @@ class ControlVoitureController extends Controller
     public function saveLogo(FormRequest $request)
     {
         $nomLogo = '';
-        if ($request->hasFile('logo')) {
-            $file = $request->file('logo');
+        if ($request->hasFile('fichier')) {
+            $file = $request->file('fichier');
             $fileName = Str::random(40) . '.' . $file->getClientOriginalExtension();
             $destinationPath = (self::$imageFolder);
             if (!Storage::exists($destinationPath)) {

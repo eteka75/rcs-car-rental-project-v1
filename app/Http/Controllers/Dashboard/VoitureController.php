@@ -34,6 +34,7 @@ class VoitureController extends Controller
             'page_subid' => self::$pageSubid,
         ];
         Inertia::share($statics);
+        $this->middleware('auth');
     }
     public function index(Request $request)
     {
@@ -102,6 +103,7 @@ class VoitureController extends Controller
      */
     public function store(RequestVoitureRequest $request)
     {
+        
         $data = $request->except(['photo']);
         if ($request->hasFile('photo')) {
             $getSave = $this->saveLogo($request);
@@ -115,6 +117,8 @@ class VoitureController extends Controller
         if ($data['date_achat'] == null) {
             unset($data['date_achat']);
         }
+        $userId = \Auth::id()??'0';
+        $data['user_id']=$userId;
         $voiture = Voiture::create($data);
         $voiture->systemeSecurites()->attach($sys_sec_ids);
         Session::flash(

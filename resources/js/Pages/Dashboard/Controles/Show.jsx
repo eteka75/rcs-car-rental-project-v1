@@ -10,12 +10,12 @@ import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
 
-export default function Show({ auth, marque, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
+export default function Show({ auth, controle, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
-                <Link href={route('dashboard.marques')} className="opacity-60">
-                    <span>Marques</span>
+                <Link href={route('dashboard.controle_techniques')} className="opacity-60">
+                    <span>Contrôles techniques</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>
@@ -25,24 +25,12 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
             <Head title={page_title} />
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-                    href={route('dashboard.marques')}>
+                    href={route('dashboard.controle_techniques')}>
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 gap-4">
-                {marque.logo &&
-                    <Card className='col-span-3 lg:col-span-1'>
-                        <CardBody className="App w-full md:m-auto">
-                            {
-                                marque.logo && <img
-                                    className="max-h-44 mx-auto w-auto  rounded-lg object-cover object-center"
-                                    src={HTTP_FRONTEND_HOME + '' + marque.logo}
-                                    alt={marque.nom}
-                                />
-                            }
-                        </CardBody>
-                    </Card>
-                }
+                
                 <Card className='col-span-3 lg:col-span-2'>
                     <div className="App w-full md:m-auto overflow-auto">
                         <table className='w-full min-w-max table-auto text-left h-full ' align='top'>
@@ -60,7 +48,7 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                             <Translate>Nom</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{marque.nom}</td>
+                                    <td>{controle.nom_controle}</td>
 
                                 </tr>
                                 <tr className='p-4 border-b'>
@@ -72,11 +60,11 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Pays</Translate>
+                                            <Translate>Véhicule</Translate>
 
                                         </Typography>
                                     </th>
-                                    <td>{marque.pays && marque.pays.nom_fr_fr}</td>
+                                    <td>{controle.voiture && controle.voiture.nom}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -87,11 +75,26 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Site Web</Translate>
+                                            <Translate>Organise de contôle</Translate>
+
+                                        </Typography>
+                                    </th>
+                                    <td>{controle.organisme_controle??'-'}</td>
+                                </tr>
+                                <tr className='p-4 border-b'>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Date du contrôle</Translate>
                                         </Typography>
                                     </th>
                                     <td>
-                                        {marque.site_web && <a className='text-blue-500' href={marque.site_web} target='_blanck'>{marque.site_web}</a>}
+                                        {DateToFront(controle.date_controle,i18n.language,'d/m/Y')}
 
                                     </td>
                                 </tr>
@@ -104,10 +107,26 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Année de fondation</Translate>
+                                            <Translate>Kilométrage</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{marque.nom}</td>
+                                    <td>{controle.kilometrage}</td>
+                                </tr>
+                                <tr className='p-4 border-b'>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Fichier</Translate>
+                                        </Typography>
+                                    </th>
+                                    <td>
+                                    {controle.fichier!='' && controle.fichier!=null && <a className='px-4 py-2 text-sm text-blue-600 rounded-md' href={HTTP_FRONTEND_HOME+''+controle.fichier}>Voit le fichier</a>}
+                                    </td>
                                 </tr>
 
                                 <tr className='p-4 border-b'>
@@ -122,7 +141,7 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                             <Translate>Date d'ajout</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(marque.created_at, i18n.language)}</td>
+                                    <td> {DateToFront(controle.created_at, i18n.language)}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -136,7 +155,7 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                             <Translate>Dernière modification</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(marque.updated_at, i18n.language)}</td>
+                                    <td> {DateToFront(controle.updated_at, i18n.language)}</td>
                                 </tr>
                                 <tr className='p-4'>
                                     <th
@@ -152,7 +171,7 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                                     </th>
                                     <td>
                                         <Typography variant='small' className='break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
-                                            {marque.description}
+                                            {controle.description}
                                         </Typography>
                                     </td>
                                 </tr>
