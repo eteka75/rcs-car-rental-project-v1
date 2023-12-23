@@ -3,16 +3,18 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-import { Progress, Switch } from '@material-tailwind/react';
+import { Progress } from '@material-tailwind/react';
+import Select from 'react-select';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 import { useTranslation } from 'react-i18next';
 
-export default function MarqueForm({ className = '', marque = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function ControleForm({ className = '', marque = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
   const { t } = useTranslation();
+  const {voitures} = usePage().props
 
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
@@ -31,7 +33,21 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setData(id, value);
-    };
+    }; 
+    
+    const setDefaultValue=(id, val)=>{
+        return { label: val, value: id };
+    }
+    const ConvertSelectData = (tab) => {
+        if (Array.isArray(tab)) {
+            let v = [];
+            tab.map(({ id, nom }) => {
+                v.push({ value: id, label: nom });
+            });
+            return v;
+        }
+        return [];
+    }
     const addToRefs = el => {
         if (el && !refs.current.includes(el)) {
             refs.current.push(el);
@@ -40,24 +56,24 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
 
     const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(marque !== null && action === 'update' ?
         {
-            nom: marque.nom ?? '',
-            logo: '',
-            pays_id: marque.pays_id ?? '',
-            annee_fondation: marque.annee_fondation ?? '1990',
-            site_web: marque.site_web ?? '',
-            description: marque.description ?? ''
+            nom_controle: controle.nom ?? '',
+            voiture_id:controle.voiture_id?? '',
+            date_controle: controle.date_controle ?? '',
+            kilometrage: controle.kilometrage ?? '1990',
+            fichier: '',
+            description: controle.description ?? ''
         } : {
-            nom: '',
-            logo: '',
-            pays_id: '',
-            annee_fondation: '1990',
-            site_web: '',
+            nom_controle: '',
+            voiture_id: '',
+            date_controle: '',
+            kilometrage: '',
+            fichier: '',
             description: ''
         });
     const handleSubmit = (e) => {
         e.preventDefault();
         if (action === 'update') {
-            post(route('dashboard.marques.update', marque.id), data, {
+            post(route('dashboard.marques.update', controle.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -84,30 +100,61 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
     return (
         <section className={className}>
             <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+                    <InputLabel htmlFor="nom"  >Voiture</InputLabel>
+                    <Select
+                            id="voiture_id"
+                            isClearable={true}
+                            isSearchable={true}
+                            onChange={(options) =>
+                                !options ? setData('voitures', "") : setData('voitures', options.value)
+                            }
+                            className="mt-1 block w-full"
+                            options={ConvertSelectData(voitures)} 
+                            />
+
+                    <InputError message={errors.voiture_id} className="mt-2" />
+                </div>
                 <div>
                     <InputLabel htmlFor="nom"  >Nom</InputLabel>
                     <TextInput
                         id="nom"
                         ref={addToRefs}
-                        value={data.nom}
+                        value={data.nom_controle}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"                        
-                        placeholder={t('Toyota')}
+                        placeholder={t('Contrôle technique de 2015')}
 
                     />
 
-                    <InputError message={errors.nom} className="mt-2" />
+                    <InputError message={errors.nom_controle} className="mt-2" />
+                </div>
+                <div className='md:grid md:grid-cols-2 md:gap-4'>
+                <div>
+                    <InputLabel htmlFor="organisme_controle" >Organisme de decontrôle</InputLabel>
+                    <TextInput
+                        id="organisme_controle"
+                        ref={addToRefs}
+                        value={data.organisme_controle}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"
+                        placeholder={("ANC")}
+
+                    />
                 </div>
                 <div>
-                    <InputLabel htmlFor="logo" >Logo</InputLabel>
+                    <InputError message={errors.organisme_controle} className="mt-2" />
+                
+                    <InputLabel htmlFor="fichier" >Fichier du contrôle technique</InputLabel>
 
                     <input
-                        id="logo"
+                        id="fichier"
                         ref={addToRefs}
                         onChange={handleFileChange}
                         type="file"
-                        className="mt-1 rounded-md  bg-white shadow-none border py-1.5 px-4 block w-full"
+                        className="mt-1 rounded-md  bg-white shadow-none border border-slate-300 py-1.5 px-4 block w-full"
 
                     />
                     {progress && (
@@ -118,37 +165,34 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
 
                     <InputError message={errors.logo} className="mt-2" />
                 </div>
+                </div>
                 <div className='grid md:grid-cols-5 md:gap-4'>
                     <div className='col-span-3'>
-                        <InputLabel htmlFor="pays_id" value="Pays">Pays</InputLabel>
-                        <select
-                            id="pays_id" value={data.pays_id}
+                        <InputLabel htmlFor="date_controle" >Date du contrôle</InputLabel>
+                        <TextInput
+                            id="date_controle"
                             ref={addToRefs}
+                            value={data.date_controle}
                             onChange={handleInputChange}
-                            className="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                            <option value=''>Sélectionnez un pays</option>
-                            {countries && countries.length > 0 && countries.map(({ id, nom_fr_fr }, index) =>
-                                <option
+                            type="number"
+                            className="mt-1 w-full block  "
+                            placeholder={t('10/01/1990')}
 
-                                    key={index} value={id} >{nom_fr_fr}</option>
-                            )}
-                        </select>
-
-
+                        />
                         <InputError message={errors.pays_id} className="mt-2" />
                     </div>
                     <div className='col-span-2'>
-                        <InputLabel htmlFor="annee_fondation" >Année de fondation</InputLabel>
+                        <InputLabel htmlFor="kilometrage" >Kilométrage</InputLabel>
 
                         <TextInput
-                            id="annee_fondation"
+                            id="kilometrage"
                             ref={addToRefs}
                             size='4'
                             value={data.annee_fondation}
                             onChange={handleInputChange}
-                            type="number"
+                            type="text"
                             className="mt-1 w-full block  "
-                            placeholder={t('1990')}
+                            placeholder={t('100045')}
 
                         />
 
@@ -156,21 +200,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     </div>
 
                 </div>
-                <div>
-                    <InputLabel htmlFor="site_web" >Site Web</InputLabel>
-                    <TextInput
-                        id="site_web"
-                        ref={addToRefs}
-                        value={data.site_web}
-                        onChange={handleInputChange}
-                        type="text"
-                        className="mt-1 block w-full"
-                        placeholder={("http://website.com")}
-
-                    />
-
-                    <InputError message={errors.site_web} className="mt-2" />
-                </div>
+                
                 <div className=''>
                     <div>
                         <InputLabel htmlFor="nom">Description</InputLabel>

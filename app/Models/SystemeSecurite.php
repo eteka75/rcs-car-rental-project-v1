@@ -14,13 +14,15 @@ class SystemeSecurite extends Model
     protected $table = 'systeme_securites';
 
     protected $fillable = [
-        'nom',  
-        'description', 
-        'photo' 
+        'nom',
+        'description',
+        'photo'
     ];
 
     public function Voitures(): BelongsToMany
     {
-        return $this->belongsToMany(Voiture::class,'voiture_has_sys_sec','voiture_id','systeme_securite_id')->withTimestamps();
+        return $this->belongsToMany(Voiture::class,
+        'voiture_has_sys_sec','voiture_id','systeme_securite_id')
+        ->withTimestamps();
     }
 }

@@ -19,12 +19,12 @@ class Marque extends Model
      */
     protected $table = 'marques';
     protected $fillable = [
-        'nom', 
+        'nom',
         'pays_id',
-        'annee_fondation', 
-        'description', 
-        'site_web', 
-        'logo' 
+        'annee_fondation',
+        'description',
+        'site_web',
+        'logo'
     ];
 
     public function pays(): BelongsTo

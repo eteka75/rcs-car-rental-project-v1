@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestMarqueCategorieRequest extends FormRequest
+class RequestcontroleVoitureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()?true:false;//->can('someAbility');
+        return false;
     }
 
     /**
@@ -22,11 +22,7 @@ class RequestMarqueCategorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'required|max:250',
-            'description' => 'nullable|max:10000',
-            'photo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp
-                    |dimensions:min_width=50,min_height=50,
-                    max_width=2000,max_height=2000'
+            //
         ];
     }
 }

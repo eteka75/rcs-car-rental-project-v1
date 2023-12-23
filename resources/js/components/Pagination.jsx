@@ -18,10 +18,10 @@ export default function Pagination({ links }) {
         }
     }
 
-    return (
+    return ( links &&
         links.length > 3 && (
             <div className="">
-                <div className="flex  flex-wrap ">
+                <div className="flex flex-wrap">
                     {links && Array.isArray(links) && links.map((link, key) => (
                         link.url === null ?
                             (<div key={key+'sh'+Math.random(1)+Math.random(1)*+Math.random(1)}

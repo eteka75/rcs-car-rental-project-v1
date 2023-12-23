@@ -1,13 +1,11 @@
 import Translate from '@/components/Translate';
-import i18n from '@/i18n';
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
-import { DateToFront } from '@/tools/utils';
 import { Link } from '@inertiajs/react';
-import { Avatar, Card, CardBody, Typography, Button } from '@material-tailwind/react'
+import {  CardBody, Typography, Button } from '@material-tailwind/react'
 import React from 'react'
 import { AiOutlineArrowLeft,  AiOutlinePrinter } from 'react-icons/ai';
-const head = ["Photo", "Nom",  "Description"];;
-export default function Export({ sys_securites, page_title, page_subtitle }) {
+
+export default function Export({ voitures, page_title, page_subtitle }) {
   const Print = () => {
     window.print();
   }
@@ -26,7 +24,7 @@ export default function Export({ sys_securites, page_title, page_subtitle }) {
             </div>
             <div className='items-center col-span-2'>              
               <Button onClick={Print} variant='text' className='print:hidden float-right border flex'><AiOutlinePrinter className='me-1' /> Imprimer</Button>
-              <Link href={route('dashboard.sys_securites')}>
+              <Link href={route('dashboard.voitures')}>
               <Button variant='text' className='print:hidden font-bold me-2 float-right border flex'>
                 <AiOutlineArrowLeft className='me-1' /> Retour
                 </Button>
@@ -37,18 +35,18 @@ export default function Export({ sys_securites, page_title, page_subtitle }) {
             <table className=" w-full  min-w-max table-auto text-left">
              
               <tbody>
-                {sys_securites && sys_securites.length && sys_securites.map(({ id, nom, description, photo, site_web, pays }, index) => {
-                  const isLast = index === sys_securites.length - 1;
+                {voitures && voitures.length && voitures.map(({ id, nom, description, photo, site_web, pays }, index) => {
+                  const isLast = index === voitures.length - 1;
                   const classes = isLast
-                    ? "px-4 py-2 print:p-0"
-                    : "px-4 py-2 print:p-0  border-b border-blue-gray-50 ";
+                    ? "px-4 py-2 flex gap-4"
+                    : "px-4 py-2  border-b border-blue-gray-50 flex gap-4";
 
                   return (
                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
 
-                          {photo!=null && <img src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 rounded-0 bg-white' size="sm" />}
+                          {photo!=null ? <img src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 rounded-0 bg-white' size="sm" />:''}
 
                         </div>
                       

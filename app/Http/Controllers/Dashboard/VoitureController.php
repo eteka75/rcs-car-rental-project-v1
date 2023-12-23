@@ -18,19 +18,20 @@ use Inertia\Inertia;
 
 class VoitureController extends Controller
 {
-   
+
     private static $viewFolder = "Dashboard/Voitures";
     private static $imageFolder = "storage/datas/voitures/";
-    private static $page_id = "voitures";
-    private static $page_subid = "voitures";
+    private static $pageId = "voitures";
+    private static $pageSubid = "voitures";
     private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
      */
-    public function __construct(){
-        $statics=[
-            'page_id' => self::$page_id,
-            'page_subid' => self::$page_subid,
+    public function __construct()
+    {
+        $statics = [
+            'page_id' => self::$pageId,
+            'page_subid' => self::$pageSubid,
         ];
         Inertia::share($statics);
     }
@@ -38,19 +39,38 @@ class VoitureController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
+        Inertia::share([
+            'total'=>Voiture::count()
+        ]);
 
         if (!empty($keyword)) {
             $voitures = Voiture::where('nom', 'LIKE', "%$keyword%")
+                ->orWhere('annee_fabrication', 'LIKE', "%$keyword%")
+                ->orWhere('volume_coffre', 'LIKE', "%$keyword%")
+                ->orWhere('date_achat', 'LIKE', "%$keyword%")
+                ->orWhere('couleur', 'LIKE', "%$keyword%")
+                ->orWhere('type_transmission', 'LIKE', "%$keyword%")
+                ->orWhere('dimenssions', 'LIKE', "%$keyword%")
+                ->orWhere('nombre_vitesse', 'LIKE', "%$keyword%")
+                ->orWhere('nombre_place', 'LIKE', "%$keyword%")
+                ->orWhere('consommation', 'LIKE', "%$keyword%")
+                ->orWhere('capacite_reservoir', 'LIKE', "%$keyword%")
+                ->orWhere('emission_co2', 'LIKE', "%$keyword%")
+                ->orWhere('type_eclairage', 'LIKE', "%$keyword%")
+                ->orWhere('type_suspenssion', 'LIKE', "%$keyword%")
+                ->orWhere('technologies_a_bord', 'LIKE', "%$keyword%")
+                ->orWhere('puissance_moteur', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
             $voitures = Voiture::latest()->paginate($perPage);
         }
-       
+
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'voitures' => $voitures,           
+            'voitures' => $voitures,
             'page_title' => "Voitures",
+            'count' => $voitures->count(),
             'page_subtitle' => "Gestion voitures",
         ]);
     }
@@ -60,18 +80,18 @@ class VoitureController extends Controller
      */
     public function create()
     {
-        $marques=Marque::orderBy("nom","asc")->select('nom','id')->get();
-        $categories=Categorie::orderBy("nom","asc")->select('nom','id')->get();
-        $type_carburants=TypeCarburant::orderBy("nom","asc")->select('nom','id')->get();
-        $sys_securites=SystemeSecurite::orderBy("nom","asc")->select('nom','id')->get();
+        $marques = Marque::orderBy("nom", "asc")->select('nom', 'id')->get();
+        $categories = Categorie::orderBy("nom", "asc")->select('nom', 'id')->get();
+        $type_carburants = TypeCarburant::orderBy("nom", "asc")->select('nom', 'id')->get();
+        $sys_securites = SystemeSecurite::orderBy("nom", "asc")->select('nom', 'id')->get();
         Inertia::share([
-            'marques'=> $marques,
-            'sys_securites'=> $sys_securites,
-            'categories'=> $categories,
-            'type_carburants'=> $type_carburants
+            'marques' => $marques,
+            'sys_securites' => $sys_securites,
+            'categories' => $categories,
+            'type_carburants' => $type_carburants
         ]);
 
-        return Inertia::render(self::$viewFolder . '/Create', [            
+        return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouvelle voiture",
             'page_subtitle' => "Ajouter une nouvelle voiture",
         ]);
@@ -83,34 +103,33 @@ class VoitureController extends Controller
     public function store(RequestVoitureRequest $request)
     {
         $data = $request->except(['photo']);
-        //dd($request->all());
-        if($request->hasFile('photo')){
+        if ($request->hasFile('photo')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        $data['date_achat']=$this->converDateToDB($request->input('date_achat'));
-       
-        $sys_sec_ids=$data['systeme_securite'];
-        if($data['date_achat']==null){
+        $data['date_achat'] = $this->converDateToDB($request->input('date_achat'));
+
+        $sys_sec_ids = $data['systeme_securite'];
+        if ($data['date_achat'] == null) {
             unset($data['date_achat']);
-            //$data['date_achat']="00-00-0000 00:00:00";
         }
-        //dd($data);
-        $voiture=Voiture::create($data);
+        $voiture = Voiture::create($data);
         $voiture->systemeSecurites()->attach($sys_sec_ids);
-        Session::flash('success',
-        [
-            'title'=>'Enrégistrement effectué',
-            'message'=>'Les données ont été enregistrées avec succès!',
-        ]
+        Session::flash(
+            'success',
+            [
+                'title' => 'Enrégistrement effectué',
+                'message' => 'Les données ont été enregistrées avec succès!',
+            ]
         );
 
         return to_route('dashboard.voitures');
     }
 
-    public function converDateToDB($date){
+    public function converDateToDB($date)
+    {
         $dateObj = \DateTime::createFromFormat('d/m/Y', $date);
         if ($dateObj === false) {
             return false;
@@ -123,12 +142,13 @@ class VoitureController extends Controller
      */
     public function show($id)
     {
-        $voiture=Voiture::with('systemeSecurites')->with('categorie')->with('marque')->with('type_carburant')->where('id', $id)->firstOrFail();
-        $voiture_name=$voiture->nom;
+        $voiture = Voiture::with('systemeSecurites')->with('categorie')
+        ->with('marque')->with('type_carburant')->where('id', $id)->firstOrFail();
+        $voiture_name = $voiture->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
             'voiture' => $voiture,
             'page_title' => $voiture_name,
-            'page_subtitle' => "Affichage de détail sur ".$voiture_name,
+            'page_subtitle' => "Affichage de détail sur " . $voiture_name,
         ]);
     }
 
@@ -137,16 +157,17 @@ class VoitureController extends Controller
      */
     public function edit($id)
     {
-        $voiture = Voiture::with('systemeSecurites')->with('categorie')->with('marque')->with('type_carburant')->findOrFail($id);
-        $marques=Marque::orderBy("nom","asc")->select('nom','id')->get();
-        $categories=Categorie::orderBy("nom","asc")->select('nom','id')->get();
-        $type_carburants=TypeCarburant::orderBy("nom","asc")->select('nom','id')->get();
-        $sys_securites=SystemeSecurite::orderBy("nom","asc")->select('nom','id')->get();
+        $voiture = Voiture::with('systemeSecurites')->with('categorie')
+        ->with('marque')->with('type_carburant')->findOrFail($id);
+        $marques = Marque::orderBy("nom", "asc")->select('nom', 'id')->get();
+        $categories = Categorie::orderBy("nom", "asc")->select('nom', 'id')->get();
+        $type_carburants = TypeCarburant::orderBy("nom", "asc")->select('nom', 'id')->get();
+        $sys_securites = SystemeSecurite::orderBy("nom", "asc")->select('nom', 'id')->get();
         Inertia::share([
-            'sys_securites'=> $sys_securites,
-            'marques'=> $marques,
-            'categories'=> $categories,
-            'type_carburants'=> $type_carburants
+            'sys_securites' => $sys_securites,
+            'marques' => $marques,
+            'categories' => $categories,
+            'type_carburants' => $type_carburants
         ]);
 
         return Inertia::render(self::$viewFolder . '/Edit', [
@@ -172,30 +193,31 @@ class VoitureController extends Controller
      * Update the specified resource in storage.
      */
     //public function update(Request $request, $id){
-    public function update(RequestVoitureRequest $request, $id){
+    public function update(RequestVoitureRequest $request, $id)
+    {
         $voiture = Voiture::findOrFail($id);
         $data = $request->except('photo');
-        if($request->hasFile('photo')){
+        if ($request->hasFile('photo')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        $data['date_achat']=$this->converDateToDB($request->input('date_achat'));
-        //dd($data);
+        $data['date_achat'] = $this->converDateToDB($request->input('date_achat'));
         $voiture->update($data);
-        if(isset($data['photo']) && $data['photo']!=''){
+        if (isset($data['photo']) && $data['photo'] != '') {
             $voiture->update([
                 'photo' => $data['photo']
-            ]);  
+            ]);
         }
-        $sys_sec_ids=$data['systeme_securite'];
+        $sys_sec_ids = $data['systeme_securite'];
         $voiture->systemeSecurites()->sync($sys_sec_ids);
-        Session::flash('info',
-        [
-            'title'=>'Mise à jour effectuée',
-            'message'=>'Les données ont été modifiées avec succès!',
-        ]
+        Session::flash(
+            'info',
+            [
+                'title' => 'Mise à jour effectuée',
+                'message' => 'Les données ont été modifiées avec succès!',
+            ]
         );
         return to_route('dashboard.voitures');
     }
@@ -221,15 +243,16 @@ class VoitureController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $voiture = Voiture::findOrFail($id);
         $voiture->delete();
 
-        Session::flash('warning',
-        [
-            'title'=>'Suppression effectuée',
-            'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
-        ]
+        Session::flash(
+            'warning',
+            [
+                'title' => 'Suppression effectuée',
+                'message' => "La Suppression de l'enrégistrement a été effectuée avec succès!",
+            ]
         );
         return to_route('dashboard.voitures');
     }

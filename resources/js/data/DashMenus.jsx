@@ -48,8 +48,8 @@ export const menuItemsData = [
       },
       {
         title: "Contrôles techniques",
-        route: 'dashboard.voitures.create',
-        sid:'controle'
+        route: 'dashboard.controle_techniques',
+        sid:'controles'
       },
       {
         title: "Opérations",

@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import {  useRef, useState } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-import { Progress, Switch } from '@material-tailwind/react';
+import { Progress } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +13,6 @@ import { usePage } from '@inertiajs/react';
 import Select from 'react-select'
 import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
-import { parseJSON } from 'date-fns/esm';
 
 export default function VoitureForm({ className = '', voiture = null, action, btntext = 'Enrégister' }) {
     // intialize as en empty array

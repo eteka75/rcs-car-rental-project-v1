@@ -17,16 +17,16 @@ class MarqueController extends Controller
 {
     private static $viewFolder = "Dashboard/Marques";
     private static $imageFolder = "storage/datas/marques/";
-    private static $page_id = "voitures";
-    private static $page_subid = "marques";
+    private static $pageId = "voitures";
+    private static $pageSubid = "marques";
     private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
      */
     public function __construct(){
         $statics=[
-            'page_id' => self::$page_id,
-            'page_subid' => self::$page_subid,
+            'page_id' => self::$pageId,
+            'page_subid' => self::$pageSubid,
         ];
         Inertia::share($statics);
         $this->middleware('auth');
@@ -34,10 +34,10 @@ class MarqueController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-        $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
+        $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10; 
+        $total=Marque::count();
+        Inertia::share(['total'=>$total]);
         
-        
-
         if (!empty($keyword)) {
             $marques = Marque::where('nom', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
@@ -48,13 +48,14 @@ class MarqueController extends Controller
         } else {
             $marques = Marque::latest()->paginate($perPage);
         }
-
+        $count =$marques->count();
         return Inertia::render(self::$viewFolder . '/Index', [
+            'count' => $count,
             'search_text' => $keyword,
-            'marques' => $marques,           
+            'marques' => $marques,
             'page_title' => "Marques",
             'page_subtitle' => "Gestion vos marques de voitures",
-        ])->with('message','You have no permission for this page!');;
+        ]);
     }
 
     /**
@@ -65,7 +66,6 @@ class MarqueController extends Controller
         $pays = Pays::select('nom_fr_fr', 'id')->orderBy('nom_fr_fr')->get();
         return Inertia::render(self::$viewFolder . '/Create', [
             'pays' => $pays,
-            'page_id' => self::$page_id,
             'page_title' => "Nouvelle marque",
             'page_subtitle' => "Ajouter une nouvelle marque de véhicule",
         ]);
@@ -74,13 +74,22 @@ class MarqueController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RequestMarqueVoitureRequest $request)
+    public function store(Request $request)
     {
-        $getSave = $this->saveLogo($request);
-        $data = $request->except('logo');
+        $additionalRules = [
+            'nom' => ["required","unique:marques,nom"],
+        ];
+        // Merge additional rules with the rules defined in the form request
+        $rules = array_merge((new RequestMarqueVoitureRequest())->rules(), $additionalRules);
 
-        if ($getSave !== '') {
-            $data['logo'] = $getSave;
+        // Validate the request
+        $request->validate($rules);
+        $data =  $request->except('logo');
+        if($request->hasFile('logo')){
+            $getSave = $this->saveLogo($request);
+            if ($getSave !== '') {
+                $data['logo'] = $getSave;
+            }
         }
         Marque::create($data);
         Session::flash('success',
@@ -141,7 +150,7 @@ class MarqueController extends Controller
     public function update(RequestMarqueVoitureRequest $request, $id){
 
         $marque = Marque::findOrFail($id);
-        $data = $request->except('logo');
+        $data = $request->except("logo");
         if($request->hasFile('logo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {

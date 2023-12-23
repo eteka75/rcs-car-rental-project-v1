@@ -17,16 +17,16 @@ class CategorieController extends Controller
     
     private static $viewFolder = "Dashboard/Categories";
     private static $imageFolder = "storage/datas/categories/";
-    private static $page_id = "voitures";
-    private static $page_subid = "categories";
+    private static $pageId = "voitures";
+    private static $pageSubid = "categories";
     private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
      */
     public function __construct(){
         $statics=[
-            'page_id' => self::$page_id,
-            'page_subid' => self::$page_subid,
+            'page_id' => self::$pageId,
+            'page_subid' => self::$pageSubid,
         ];
         Inertia::share($statics);
     }
@@ -34,6 +34,7 @@ class CategorieController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
+        Inertia::share(['total'=>Categorie::count()]);
 
         if (!empty($keyword)) {
             $categories = Categorie::where('nom', 'LIKE', "%$keyword%")
@@ -45,7 +46,8 @@ class CategorieController extends Controller
        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'categories' => $categories,           
+            'categories' => $categories, 
+            'count' => $categories->count(), 
             'page_title' => "Catégories",
             'page_subtitle' => "Gestion de vos catégories de voitures",
         ]);
@@ -65,8 +67,14 @@ class CategorieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RequestMarqueCategorieRequest $request)
+    public function store(Request $request)
     {
+        $additionalRules = [
+            'nom' => ["required","unique:marques,nom"],
+        ];
+        // Merge additional rules with the rules defined in the form request
+        $rules = array_merge((new RequestMarqueCategorieRequest())->rules(), $additionalRules);
+        $request->validate($rules);
         $data = $request->except(['photo']);
 
         if($request->hasFile('photo')){

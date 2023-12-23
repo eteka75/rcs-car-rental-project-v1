@@ -17,16 +17,16 @@ class TypeCarburantController extends Controller
     
     private static $viewFolder = "Dashboard/Carburants";
     private static $imageFolder = "storage/datas/carburants/";
-    private static $page_id = "voitures";
-    private static $page_subid = "carburants";
+    private static $pageId = "voitures";
+    private static $pageSubid = "carburants";
     private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
      */
     public function __construct(){
         $statics=[
-            'page_id' => self::$page_id,
-            'page_subid' => self::$page_subid,
+            'page_id' => self::$pageId,
+            'page_subid' => self::$pageSubid,
         ];
         Inertia::share($statics);
     }
@@ -34,6 +34,7 @@ class TypeCarburantController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
+        Inertia::share(['total'=>TypeCarburant::count()]);
 
         if (!empty($keyword)) {
             $carburants = TypeCarburant::where('nom', 'LIKE', "%$keyword%")
@@ -45,7 +46,8 @@ class TypeCarburantController extends Controller
        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'carburants' => $carburants,           
+            'carburants' => $carburants,
+            'count' => $carburants->count(),
             'page_title' => "Types de carburant",
             'page_subtitle' => "Gestion des types de carburant",
         ]);

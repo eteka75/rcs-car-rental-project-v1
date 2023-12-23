@@ -30,7 +30,7 @@ import Translate from '@/components/Translate';
 import { useTranslation } from 'react-i18next';
 
 
-export default function Index({ auth, marques, page_id, page_subid, page_title, page_subtitle, search_text = '' }) {
+export default function Index({ auth, marques, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
 
     const TABLE_HEAD = ["Logo", "Nom", "Année de fondation", "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
@@ -39,7 +39,7 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
 
     const [datas, setDatas] = useState([]);
     const [showHead, setShowHead] = useState(true);
-    const [showSupDialog, setSupDialog] = useState(false);
+    const [showSupDialog] = useState(false);
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
@@ -126,7 +126,7 @@ export default function Index({ auth, marques, page_id, page_subid, page_title, 
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable  head={TABLE_HEAD} links={marques.links} showHead={showHead}>
+                    <ViewTable  head={TABLE_HEAD} count={count} links={marques.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
                             ({ id, nom, annee_fondation, logo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;

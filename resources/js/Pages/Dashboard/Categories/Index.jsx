@@ -31,7 +31,8 @@ import { useTranslation } from 'react-i18next';
 import SearchBar from '@/components/dashboard/SearchBar';
 
 
-export default function Index({ auth, categories, page_id, page_subid, page_title, page_subtitle, search_text = '' }) {
+export default function Index({ auth, categories, page_id, 
+    page_subid, page_title, page_subtitle, search_text = '',count }) {
 
     const TABLE_HEAD = ["Photo", "Nom",  "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
@@ -127,7 +128,7 @@ export default function Index({ auth, categories, page_id, page_subid, page_titl
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable  head={TABLE_HEAD} links={categories.links} showHead={showHead}>
+                    <ViewTable count={count}  head={TABLE_HEAD} links={categories.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
                             ({ id, nom,  photo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;

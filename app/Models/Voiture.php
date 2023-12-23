@@ -55,6 +55,8 @@ class Voiture extends Model
 
     public function systemeSecurites()
     {
-        return $this->belongsToMany(SystemeSecurite::class,'voiture_has_sys_sec','systeme_securite_id','voiture_id')->withTimestamps();
+        return $this->belongsToMany(SystemeSecurite::class,
+        'voiture_has_sys_sec','systeme_securite_id','voiture_id')
+        ->withTimestamps();
     }
 }

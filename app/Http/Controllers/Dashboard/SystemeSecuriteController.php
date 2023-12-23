@@ -34,6 +34,7 @@ class SystemeSecuriteController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
+        Inertia::share(['total'=>SystemeSecurite::count()]);
 
         if (!empty($keyword)) {
             $sys_securites = SystemeSecurite::where('nom', 'LIKE', "%$keyword%")
@@ -42,10 +43,11 @@ class SystemeSecuriteController extends Controller
         } else {
             $sys_securites = SystemeSecurite::latest()->paginate($perPage);
         }
-       
+        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'sys_securites' => $sys_securites,           
+            'sys_securites' => $sys_securites,
+            'count' => $sys_securites->count(),
             'page_title' => "Systèmes de sécurité",
             'page_subtitle' => "Gestion des systèmes de sécurité",
         ]);
@@ -65,8 +67,14 @@ class SystemeSecuriteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RequestSystemeSecuriteRequest $request)
+    public function store(Request $request)
     {
+        $additionalRules = [
+            'nom' => ["required","unique:marques,nom"],
+        ];
+        // Merge additional rules with the rules defined in the form request
+        $rules = array_merge((new RequestSystemeSecuriteRequest())->rules(), $additionalRules);
+        $request->validate($rules);
         $data = $request->except(['photo']);
 
         if($request->hasFile('photo')){

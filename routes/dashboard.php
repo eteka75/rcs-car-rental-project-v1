@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CategorieController;
+use App\Http\Controllers\Dashboard\ControlVoitureController;
 use App\Http\Controllers\Dashboard\MarqueController;
 use App\Http\Controllers\Dashboard\SystemeSecuriteController;
 use App\Http\Controllers\Dashboard\TypeCarburantController;
@@ -80,6 +81,19 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.sys_securites.export');
         Route::get('/{id}', 'show')->name('dashboard.sys_securites.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.sys_securites.delete');
+    })->middleware('web');
+
+    /*Controles Techniques*/
+    Route::controller(ControlVoitureController::class)->prefix('controle_techniques')->group(function () {
+        Route::get('/', 'index')->name('dashboard.controle_techniques');
+        Route::get('/search', 'index')->name('dashboard.controle_techniques.search');
+        Route::get('/new', 'create')->name('dashboard.controle_techniques.create');
+        Route::post('/new', 'store')->name('dashboard.controle_techniques.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.controle_techniques.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.controle_techniques.update');
+        Route::get('/export', 'export')->name('dashboard.controle_techniques.export');
+        Route::get('/{id}', 'show')->name('dashboard.controle_techniques.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.controle_techniques.delete');
     })->middleware('web');
 
 });

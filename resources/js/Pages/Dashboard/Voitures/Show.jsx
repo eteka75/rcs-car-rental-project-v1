@@ -171,8 +171,9 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                         {voiture.systeme_securites && voiture.systeme_securites.length >0 && voiture.systeme_securites.map(({nom},index)=>(
                                        
                                        <>
-                                       <span key={index} className='my-2 mx-1 block float-left bg-gray-200 rounded-sm py-1 px-2 text-xs'>                                                
-                                            *<Translate>{nom}</Translate>
+                                       <span key={index} className='my-2 mx-1 block float-left 
+                                       bg-gray-200 rounded-sm py-1 px-2 text-xs'>                                                
+                                            *<Translate>{nom??''}</Translate>
                                         </span>
                                         </>
                                     ))}
@@ -419,9 +420,9 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                         </Typography>
                                     </th>
                                     <td>
-                                        <Typography variant='small' className='break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
+                                        <div  className='text-sm break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
                                             {voiture.description}
-                                        </Typography>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
