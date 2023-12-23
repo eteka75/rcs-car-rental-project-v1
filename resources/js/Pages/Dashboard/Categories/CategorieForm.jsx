@@ -53,7 +53,7 @@ export default function CategorieForm({ className = '', categorie = null, pays =
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }
@@ -64,7 +64,7 @@ export default function CategorieForm({ className = '', categorie = null, pays =
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }

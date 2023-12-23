@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
 
-export default function ControleForm({ className = '', controle = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function OperationForm({ className = '', operation = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
   const { t } = useTranslation();
   const {voitures} = usePage().props
@@ -22,7 +22,8 @@ export default function ControleForm({ className = '', controle = null, pays = [
     refs.current = []; // or an {}
     
     const [countries, setCountries] = useState([]);
-    useEffect(() => { setCountries(pays); }, []);
+    useEffect(() => {                     console.log(operation);
+    }, []);
 
     const handleFileChange = (e) => {
         let file = e.target.files;
@@ -59,39 +60,43 @@ export default function ControleForm({ className = '', controle = null, pays = [
         }
     };
 
-    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(controle !== null && action === 'update' ?
+    const { data, setData, post, progress, errors, processing, recentlySuccessful } = useForm(operation !== null && action === 'update' ?
         {
-            nom_controle: controle.nom_controle ?? '',
-            voiture_id:controle.voiture_id?? '',
-            date_controle: DateToFront(controle.date_controle,i18n.language,'d/m/Y') ?? '',
-            kilometrage: controle.kilometrage ?? '',
-            organisme_controle: controle.organisme_controle ?? '',
+            nom_operation: operation.nom_operation ?? '',
+            voiture_id:operation.voiture_id?? '',
+            date_operation: DateToFront(operation.date_operation,i18n.language,'d/m/Y') ?? '',
+            prix_operation: operation.prix_operation ?? '',
+            responsable_operation: operation.responsable_operation ?? '',
+            kilometrage: operation.kilometrage ?? '',
             fichier: '',
-            description: controle.description ?? ''
+            description: operation.description ?? ''
         } : {
-            nom_controle: '',
+            nom_operation: '',
+            prix_operation: '',
             voiture_id: '',
-            date_controle: '',
-            organisme_controle: '',
+            date_operation: '',
+            responsable_operation: '',
             kilometrage: '',
             fichier: '',
             description: ''
         });
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (controle && action === 'update') {
-            post(route('dashboard.controle_techniques.update', controle.id), data, {
+
+        if (operation && action === 'update') {
+            post(route('dashboard.operations.update', operation.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
                 },
+
                 onError: (errors) => {
                     //console.log(errors);
                 },
             });
         }
         if (action === 'save') {
-            post(route('dashboard.controle_techniques.store'), {
+            post(route('dashboard.operations.store'), {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -103,24 +108,23 @@ export default function ControleForm({ className = '', controle = null, pays = [
         }
     };
 
-
     return (
         <section className={className}>
             <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-                    <InputLabel htmlFor="nom_controle"  >Nom</InputLabel>
+                    <InputLabel htmlFor="nom_operation"  >Nom de l'opération</InputLabel>
                     <TextInput
-                        id="nom_controle"
+                        id="nom_operation"
                         ref={addToRefs}
-                        value={data.nom_controle}
+                        value={data.nom_operation}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"                        
-                        placeholder={t('Contrôle technique de 2015')}
+                        placeholder={t('Réparation de la filtre à aire')}
 
                     />
 
-                    <InputError message={errors.nom_controle} className="mt-2" />
+                    <InputError message={errors.nom_operation} className="mt-2" />
                 </div>
             <div>
                     <InputLabel htmlFor="voiture_id"  >Voiture</InputLabel>
@@ -128,7 +132,7 @@ export default function ControleForm({ className = '', controle = null, pays = [
                             id="voiture_id"
                             isClearable={true}
                             isSearchable={true}
-                            defaultValue={setDefaultValue(data.categorie_id,(controle && controle.voiture.nom)?controle.voiture.nom:'')}
+                            defaultValue={setDefaultValue(data.voiture_id,(operation && operation.voiture.nom)?operation.voiture.nom:'')}
 
                             onChange={(options) =>
                                 !options ? setData('voiture_id', "") : setData('voiture_id', options.value)
@@ -139,25 +143,41 @@ export default function ControleForm({ className = '', controle = null, pays = [
 
                     <InputError message={errors.voiture_id} className="mt-2" />
                 </div>
-                
-                <div className='md:grid md:grid-cols-2 md:gap-4'>
-                <div>
-                    <InputLabel htmlFor="organisme_controle" >Organisme de decontrôle</InputLabel>
+                <div className='md:grid md:grid-cols-12 gap-4'>
+                <div className='md:col-span-4'>
+                    <InputLabel htmlFor="prix_operation"  >Prix de l'opération</InputLabel>
                     <TextInput
-                        id="organisme_controle"
+                        id="prix_operation"
                         ref={addToRefs}
-                        value={data.organisme_controle}
+                        value={data.prix_operation}
                         onChange={handleInputChange}
                         type="text"
-                        className="mt-1 block w-full"
-                        placeholder={("ANC")}
+                        className="mt-1 block w-full"                        
+                        placeholder={t('15000')}
 
                     />
-                    <InputError message={errors.organisme_controle} className="mt-2" />
+
+                    <InputError message={errors.prix_operation} className="mt-2" />
                 </div>
+                <div className='md:col-span-8'>
+                    <InputLabel htmlFor="prix_operation"  >Responsable de l'opération</InputLabel>
+                    <TextInput
+                        id="responsable_operation"
+                        ref={addToRefs}
+                        value={data.responsable_operation}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"                        
+                        placeholder={t('John DIMAC')}
+
+                    />
+
+                    <InputError message={errors.responsable_operation} className="mt-2" />
+                </div>
+            </div>                
                 <div>
                 
-                    <InputLabel htmlFor="fichier" >Fichier du contrôle technique</InputLabel>
+                    <InputLabel htmlFor="fichier" >Fichier sur la réparation</InputLabel>
 
                     <input
                         id="fichier"
@@ -175,23 +195,22 @@ export default function ControleForm({ className = '', controle = null, pays = [
 
                     <InputError message={errors.fichier} className="mt-2" />
                 </div>
-                </div>
-                <div className='grid md:grid-cols-5 md:gap-4'>
-                    <div className='col-span-3'>
-                        <InputLabel htmlFor="date_controle" >Date du contrôle</InputLabel>
+                <div className='md:grid md:grid-cols-5 md:gap-4'>
+                    <div className='md:col-span-3'>
+                        <InputLabel htmlFor="date_operation" >Date du contrôle</InputLabel>
                         <TextInput
-                            id="date_controle"
+                            id="date_operation"
                             ref={addToRefs}
-                            value={data.date_controle}
+                            value={data.date_operation}
                             onChange={handleInputChange}
                             type="text"
                             className="mt-1 w-full block  "
                             placeholder={t('10/01/1990')}
 
                         />
-                        <InputError message={errors.date_controle} className="mt-2" />
+                        <InputError message={errors.date_operation} className="mt-2" />
                     </div>
-                    <div className='col-span-2'>
+                    <div className='md:col-span-2'>
                         <InputLabel htmlFor="kilometrage" >Kilométrage</InputLabel>
 
                         <TextInput

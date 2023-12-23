@@ -53,7 +53,7 @@ export default function CarburantForm({ className = '', carburant = null, pays =
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }
@@ -64,7 +64,7 @@ export default function CarburantForm({ className = '', carburant = null, pays =
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }

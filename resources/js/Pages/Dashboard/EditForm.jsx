@@ -45,7 +45,7 @@ export default function EditForm({ className = '', marque = null, pays = [], act
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }
@@ -56,7 +56,7 @@ export default function EditForm({ className = '', marque = null, pays = [], act
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }

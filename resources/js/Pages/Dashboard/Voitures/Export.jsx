@@ -12,6 +12,8 @@ export default function Export({ voitures, page_title, page_subtitle }) {
   return (
     <div className=' h-full  absolute w-full overflow-auto'>
       <div className=' mx-auto py-10 print:p-0'>
+      <Head title={page_title}/>
+
         <CardBody>
           <div className="grid grid-cols-12 mb-0 pb-4 items-center border-b">
             <div className='col-span-10'>

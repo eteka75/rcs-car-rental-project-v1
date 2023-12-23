@@ -53,10 +53,9 @@ export const menuItemsData = [
       },
       {
         title: "Opérations",
-        route: 'dashboard.voitures',
-        sid:'opérations'
-      },
-     
+        route: 'dashboard.operations',
+        sid:'operations'
+      },     
     ],
 
   },

@@ -10,12 +10,12 @@ import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
 
-export default function Show({ auth, controle, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
+export default function Show({ auth, operation, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
-                <Link href={route('dashboard.controle_techniques')} className="opacity-60">
-                    <span>Contrôles techniques</span>
+                <Link href={route('dashboard.operations')} className="opacity-60">
+                    <span>Opérations</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>
@@ -25,7 +25,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
             <Head title={page_title} />
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-                    href={route('dashboard.controle_techniques')}>
+                    href={route('dashboard.operations')}>
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
@@ -48,7 +48,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                             <Translate>Nom</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{controle.nom_controle}</td>
+                                    <td>{operation.nom_operation??''}</td>
 
                                 </tr>
                                 <tr className='p-4 border-b'>
@@ -64,7 +64,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
 
                                         </Typography>
                                     </th>
-                                    <td>{controle.voiture && controle.voiture.nom}</td>
+                                    <td>{operation.voiture && operation.voiture.nom}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -79,7 +79,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
 
                                         </Typography>
                                     </th>
-                                    <td>{controle.organisme_controle??'-'}</td>
+                                    <td>{operation.responsable_operation??'-'}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -94,9 +94,23 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                         </Typography>
                                     </th>
                                     <td>
-                                        {DateToFront(controle.date_controle,i18n.language,'d/m/Y')}
+                                        {DateToFront(operation.date_operation,i18n.language,'d/m/Y')}
 
                                     </td>
+                                </tr>
+                                <tr className='p-4 border-b'>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Prix de l'opération</Translate>
+                                        </Typography>
+                                    </th>
+                                    <td>{operation.prix_operation??''}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -110,7 +124,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                             <Translate>Kilométrage</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{controle.kilometrage}</td>
+                                    <td>{operation.kilometrage}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -125,7 +139,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                         </Typography>
                                     </th>
                                     <td>
-                                    {controle.fichier!='' && controle.fichier!=null && <a className='px-4 py-2 text-sm text-blue-600 rounded-md' href={HTTP_FRONTEND_HOME+''+controle.fichier}>Voit le fichier</a>}
+                                    {operation.fichier!='' && operation.fichier!=null && <a className='px-4 py-2 text-sm text-blue-600 rounded-md' href={HTTP_FRONTEND_HOME+''+operation.fichier}>Voit le fichier</a>}
                                     </td>
                                 </tr>
                                 <tr className='border-b blue-gray-100 bg-blue-gray-50/50 p-4'>
@@ -142,7 +156,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                     </th>
                                     <td>
                                         <div variant='small' className='text-sm break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
-                                            {controle.description??''}
+                                            {operation.description??''}
                                         </div>
                                     </td>
                                 </tr>
@@ -159,9 +173,9 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                             <Translate>Date d'ajout</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(controle.created_at, i18n.language)}</td>
+                                    <td> {DateToFront(operation.created_at, i18n.language)}</td>
                                 </tr>
-                                {controle.created_at!=controle.updated_at && 
+                                {operation.created_at!=operation.updated_at && 
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -174,7 +188,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                             <Translate>Dernière modification</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(controle.updated_at, i18n.language)}</td>
+                                    <td> {DateToFront(operation.updated_at, i18n.language)}</td>
                                 </tr>
                             }
                                 

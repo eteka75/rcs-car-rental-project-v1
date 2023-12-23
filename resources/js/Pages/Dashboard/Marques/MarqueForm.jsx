@@ -63,7 +63,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }
@@ -74,7 +74,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }

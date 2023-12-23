@@ -27,7 +27,7 @@ class ControlVoiture extends Model
         'fichier',
     ];
 
-    public function voiture(): BelongsTo
+    public function marque(): BelongsTo
     {
         return $this->belongsTo(Voiture::class,'voiture_id');
     }

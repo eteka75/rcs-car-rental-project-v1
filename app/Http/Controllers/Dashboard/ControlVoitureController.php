@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\ControlVoiture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\controle;
 use Inertia\Inertia;
-use App\Models\Pays;
 use App\Models\Voiture;
 
 class ControlVoitureController extends Controller
@@ -54,7 +52,7 @@ class ControlVoitureController extends Controller
             'search_text' => $keyword,
             'controles' => $controles,
             'count' => $controles->count(),
-            'page_title' => "controles",
+            'page_title' => "Contrôles techniques",
             'page_subtitle' => "Gestion des contrôles techniques",
         ]);
     }
@@ -143,11 +141,11 @@ class ControlVoitureController extends Controller
      */
     public function export(Request $request)
     {
-        $controles = ControlVoiture::with('pays')->get();
+        $controles = ControlVoiture::with('voiture')->get();
         return Inertia::render(self::$viewFolder . '/Export', [
             'controles' => $controles,
             'page_title' => "Export des contrôles techniques",
-            'page_subtitle' => "Exportations des contrôles techniques de véhicule",
+            'page_subtitle' => "Exportations des contrôles techniques de véhicules",
         ]);
     }
 

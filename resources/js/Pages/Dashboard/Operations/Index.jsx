@@ -19,7 +19,6 @@ import {
 import { CiInboxIn } from "react-icons/ci";
 import { DateToFront } from '@/tools/utils';
 import Breadcrumb from '@/components/Breadcrumb';
-import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { FaRegEdit } from 'react-icons/fa';
 import { Inertia } from '@inertiajs/inertia';
 import { FaEye } from 'react-icons/fa6';
@@ -30,7 +29,7 @@ import Translate from '@/components/Translate';
 import { useTranslation } from 'react-i18next';
 
 
-export default function Index({ auth, controles, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
+export default function Index({ auth, operations, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
 
     const TABLE_HEAD = [ "Nom", "Organisme", "Date du contrôle", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
@@ -43,13 +42,13 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
-        if (controles && controles.data && controles.data.length > 0) {
-            setDatas(controles.data);
+        if (operations && operations.data && operations.data.length > 0) {
+            setDatas(operations.data);
             setShowHead(true);
         }else{
             setShowHead(false);
         }     
-       
+        console.log(operations)
 
         if (search_text !== '') {
             setData('search', search_text);
@@ -64,7 +63,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
 
     const SubmitDeletion = () => {
         if (setDeleteId != '') {
-            Inertia.delete(route('dashboard.controle_techniques.delete', deleteId));
+            Inertia.delete(route('dashboard.operations.delete', deleteId));
             setDeleteId('')
             setSupDialog(false);
         } else {
@@ -86,7 +85,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
     const Search = (e) => {
         e.preventDefault();
         if (data.search !== '') {
-            get(route('dashboard.controle_techniques.search'),
+            get(route('dashboard.operations.search'),
                 {
                     onSuccess: (response) => {
                         setDatas(response.data);
@@ -105,19 +104,19 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
             <Head title={page_title} />
             <Breadcrumb>
                 <Link href='#'>
-                    <span>Contrôles techniques</span>
+                    <span>Opérations</span>
                 </Link>
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3'
-                    href={route('dashboard.controle_techniques.create')}>
+                    href={route('dashboard.operations.create')}>
                     <AiOutlinePlus className='me-1' />   <Translate>Nouveau</Translate>
                 </Link>
             </DashHeadTitle>
             <DeleteDialog showFunction={showSupDialog} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
             <Card className="h-full w-full">
                 <SearchBar
-                    exportUrl={route('dashboard.controle_techniques.export')}
+                    exportUrl={route('dashboard.operations.export')}
                     message={errors.search}
                     onSubmit={Search}
                     disabled={processing}
@@ -126,9 +125,9 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable  head={TABLE_HEAD} count={count} links={controles.links} showHead={showHead}>
+                    <ViewTable  head={TABLE_HEAD} count={count} links={operations?operations.links:[]} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom_controle, organisme_controle, date_controle,created_at }, index) => {
+                            ({ id, nom_operation, responsable_operation, date_operation,created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "px-4 py-1"
@@ -144,8 +143,8 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    <Link href={route('dashboard.controle_techniques.show', id)}>
-                                                        {nom_controle}
+                                                    <Link href={route('dashboard.operations.show', id)}>
+                                                        {nom_operation??''}
                                                     </Link>
                                                 </Typography>
                                             </div>
@@ -156,7 +155,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {organisme_controle}
+                                                {responsable_operation??''}
                                             </Typography>
                                         </td>
                                         
@@ -174,20 +173,20 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">
                                                 <IconButton title='Modifier' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.controle_techniques.edit', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.operations.edit', id)}>
                                                         <FaRegEdit className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Modifier</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton title='Voir' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.controle_techniques.show', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.operations.show', id)}>
                                                         <FaEye className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Voir</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton variant='text' className='text-red-600 items-center flex gap-1' title="supprimer cet enrégistrement"
                                                     method="delete"
-                                                    href={route('dashboard.controle_techniques.delete', id)}
+                                                    href={route('dashboard.operations.delete', id)}
                                                     as="button"
                                                     onClick={() => handleDelete(id)}
                                                 >
@@ -210,7 +209,7 @@ export default function Index({ auth, controles, page_id,count, page_subid, page
                                             <div className="text-sm mb-4 mt-2"><Translate>Aucun enrégistrement</Translate> !</div>
                                         </>
                                     }
-                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.controle_techniques')}>
+                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.operations')}>
                                         <Button className='clear-both max-auto px-6  py-2 bg-transparent font-bold flex items-center mx-auto text-gray-800 border shadow-sm  rounded-md'><AiOutlineArrowLeft className='me-1' />
                                             <Translate>Retour </Translate>
                                         </Button>
