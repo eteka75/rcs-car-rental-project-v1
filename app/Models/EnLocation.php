@@ -20,8 +20,8 @@ class EnLocation extends Model
     protected $fillable = [
         'voiture_id',
         'tarif_location_heure',
-        'tarif_location_hebdomadaire',
         'tarif_location_journalier',
+        'tarif_location_hebdomadaire',
         'tarif_location_mensuel',
         'date_debut_location',
         'date_fin_location',

@@ -130,127 +130,134 @@ export default function LocationForm({ className = '', location = null, pays = [
                                 <InputError message={errors.voiture_id} className="mt-2" />
                             </div>
                             
-                            <div>
-                                <InputLabel htmlFor="point_retrait_id"  >Lieu de retrait</InputLabel>
-                                <Select
-                                    id="point_retrait_id"
-                                    isClearable={true}
-                                    isSearchable={true}
-                                    defaultValue={setDefaultValue(data.point_retrait_id, (location && location.voiture.ville) ? location.voiture.nom : '')}
+                            
+                            <div className='md:grid md:grid-cols-2 gap-4'>
 
-                                    onChange={(options) =>
-                                        !options ? setData('point_retrait_id', "") : setData('voiture_id', options.value)
-                                    }
+                            <div>
+                                <InputLabel htmlFor="tarif_location_heure"  >Tarif par heure</InputLabel>
+                                <TextInput
+                                    id="tarif_location_heure"
+                                    ref={addToRefs}
+                                    value={data.tarif_location_heure}
+                                    onChange={handleInputChange}
+                                    type="number"
                                     className="mt-1 block w-full"
-                                    options={ConvertSelectData(point_retraits)}
+                                    placeholder={t('5000')}
+
                                 />
 
-                                <InputError message={errors.voiture_id} className="mt-2" />
+                                <InputError message={errors.tarif_location_heure} className="mt-2" />
                             </div>
                             <div>
-                                <InputLabel htmlFor="nom_location"  >Nom de l'opération</InputLabel>
+                                <InputLabel htmlFor="tarif_location_journalier"  >Tarif par jour</InputLabel>
                                 <TextInput
-                                    id="nom_location"
+                                    id="tarif_location_journalier"
                                     ref={addToRefs}
-                                    value={data.nom_location}
+                                    value={data.tarif_location_journalier}
                                     onChange={handleInputChange}
-                                    type="text"
+                                    type="number"
                                     className="mt-1 block w-full"
-                                    placeholder={t('Réparation de la filtre à aire, Réparation, Entretien, ...')}
+                                    placeholder={t('20000')}
 
                                 />
 
-                                <InputError message={errors.nom_location} className="mt-2" />
+                                <InputError message={errors.tarif_location_journalier} className="mt-2" />
+                            </div>
+                            </div>
+                            <div className='md:grid md:grid-cols-2 gap-4'>
+
+                            <div>
+                                <InputLabel htmlFor="tarif_location_hebdomadaire"  >Tarif par semaine (Hedomadaire)</InputLabel>
+                                <TextInput
+                                    id="tarif_location_hebdomadaire"
+                                    ref={addToRefs}
+                                    value={data.tarif_location_hebdomadaire}
+                                    onChange={handleInputChange}
+                                    type="number"
+                                    className="mt-1 block w-full"
+                                    placeholder={t('100000')}
+
+                                />
+
+                                <InputError message={errors.tarif_location_hebdomadaire} className="mt-2" />
+                            </div>
+                            <div>
+                                <InputLabel htmlFor="tarif_location_mensuel"  >Tarif par mois</InputLabel>
+                                <TextInput
+                                    id="tarif_location_mensuel"
+                                    ref={addToRefs}
+                                    value={data.tarif_location_mensuel}
+                                    onChange={handleInputChange}
+                                    type="number"
+                                    className="mt-1 block w-full"
+                                    placeholder={t('300000')}
+
+                                />
+                                <InputError message={errors.tarif_location_mensuel} className="mt-2" />
+                            </div>
                             </div>
 
                             <div className='md:grid md:grid-cols-12 gap-4'>
-                                <div className='md:col-span-4'>
+                                <div className='md:col-span-6'>
 
-                                    <InputLabel htmlFor="date_location" >Date du contrôle</InputLabel>
+                                    <InputLabel htmlFor="date_debut_location" >Date début location</InputLabel>
                                     <TextInput
-                                        id="date_location"
+                                        id="date_debut_location"
                                         ref={addToRefs}
-                                        value={data.date_location}
+                                        value={data.date_debut_location}
                                         onChange={handleInputChange}
                                         type="text"
                                         className="mt-1 w-full block  "
-                                        placeholder={t('10/01/1990')}
+                                        placeholder={'10/01/'+(new Date().getFullYear())}
 
                                     />
-                                    <InputError message={errors.date_location} className="mt-2" />
+                                    <InputError message={errors.date_debut_location} className="mt-2" />
                                 </div>
-                                <div className='md:col-span-8'>
-                                    <InputLabel htmlFor="prix_location"  >Responsable de l'opération</InputLabel>
+                                <div className='md:col-span-6'>
+
+                                    <InputLabel htmlFor="date_fin_location" >Date fin location</InputLabel>
                                     <TextInput
-                                        id="responsable_location"
+                                        id="date_fin_location"
                                         ref={addToRefs}
-                                        value={data.responsable_location}
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        className="mt-1 block w-full"
-                                        placeholder={t('John DIMAC')}
-
-                                    />
-
-                                    <InputError message={errors.responsable_location} className="mt-2" />
-                                </div>
-                            </div>
-
-                            <div className='md:grid md:grid-cols-4 md:gap-4'>
-                                <div className='md:col-span-2'>
-                                    <InputLabel htmlFor="prix_location"  >Prix de l'opération</InputLabel>
-                                    <TextInput
-                                        id="prix_location"
-                                        ref={addToRefs}
-                                        value={data.prix_location}
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        className="mt-1 block w-full"
-                                        placeholder={t('15000')}
-
-                                    />
-
-                                    <InputError message={errors.prix_location} className="mt-2" />
-
-                                </div>
-                                <div className='md:col-span-2'>
-                                    <InputLabel htmlFor="kilometrage" >Kilométrage</InputLabel>
-
-                                    <TextInput
-                                        id="kilometrage"
-                                        ref={addToRefs}
-                                        size='4'
-                                        value={data.kilometrage}
+                                        value={data.date_fin_location}
                                         onChange={handleInputChange}
                                         type="text"
                                         className="mt-1 w-full block  "
-                                        placeholder={t('100045')}
+                                        placeholder={'10/01/'+(new Date().getFullYear())}
 
                                     />
-
-                                    <InputError message={errors.kilometrage} className="mt-2" />
+                                    <InputError message={errors.date_fin_location} className="mt-2" />
                                 </div>
-
                             </div>
-                            <div>
+                            <div className='md:col-span-4'>
 
-                                <InputLabel htmlFor="fichier" >Fichier sur la réparation</InputLabel>
+                                    <InputLabel htmlFor="point_retrait_id" >Points de retrait</InputLabel>
+                                    <Select
+                                    isMulti
+                                        id="point_retrait_id"
+                                        ref={addToRefs}
+                                        value={data.point_retrait_id}
+                                        onChange={handleInputChange}
+                                        type="text"
+                                        className="mt-1 w-full block  "
+                                    />
+                                    <InputError message={errors.point_retrait_id} className="mt-2" />
+                                </div>
+                            <div >
+                                <div >
 
-                                <input
-                                    id="fichier"
-                                    ref={addToRefs}
-                                    onChange={handleFileChange}
-                                    type="file"
-                                    className="mt-1 rounded-md  bg-white shadow-none border border-slate-300 py-1.5 px-4 block w-full"
+                                    <InputLabel htmlFor="conditions" >Conditions de la location</InputLabel>
+                                    <TextArea
+                                        id="conditions"
+                                        ref={addToRefs}
+                                        value={data.conditions}
+                                        onChange={handleInputChange}
+                                        type="text"
+                                        className="mt-1 w-full block"
 
-                                />
-                                {progress && (
-                                    <Progress value={progress.percentage} color="blue" max="100">
-                                        {progress.percentage}%
-                                    </Progress>
-                                )}
-
-                                <InputError message={errors.fichier} className="mt-2" />
+                                    />
+                                    <InputError message={errors.conditions} className="mt-2" />
+                                </div>
                             </div>
                             <div className=''>
                                 <div>

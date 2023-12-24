@@ -72,8 +72,8 @@ export const menuItemsData = [
       },
       {
         title: "Points de retrait",
-        route: 'dashboard.voitures.create',
-        sid:'voitures'
+        route: 'dashboard.point_retraits',
+        sid:'points'
       },
       {
         title: "Villes",

@@ -15,7 +15,7 @@ class PointRetrait extends Model
      *
      * @var string
      */
-    protected $table = 'en_locations';
+    protected $table = 'point_retraits';
     protected $fillable = [
         'ville',
         'lieu',

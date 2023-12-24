@@ -43,7 +43,8 @@ class EnLocationController extends Controller
         Inertia::share(['total' => $total]);
 
         if (!empty($keyword)) {
-            $locations = EnLocation::with('voiture')->where('nom_location', 'LIKE', "%$keyword%")
+            $locations = EnLocation::with('voiture')
+                ->with('pointRetrait')
                 ->orWhere('tarif_location_heure', 'LIKE', "%$keyword%")
                 ->orWhere('tarif_location_hebdomadaire', 'LIKE', "%$keyword%")
                 ->orWhere('tarif_location_journalier', 'LIKE', "%$keyword%")
@@ -57,7 +58,8 @@ class EnLocationController extends Controller
                         ->orWhere('description', 'like', "%{$keyword}%");
                 })
                 ->orWhereHas('pointRetrait', function ($query) use ($keyword) {
-                    $query->where('nom', 'like', "%{$keyword}%");
+                    $query->where('lieu', 'like', "%{$keyword}%");
+                    $query->where('wille', 'like', "%{$keyword}%");
                         //->orWhere('description', 'like', "%{$keyword}%");
                 })
                 ->latest()->paginate($perPage)->withQueryString();

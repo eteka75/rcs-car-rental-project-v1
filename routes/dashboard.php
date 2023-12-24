@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\ControlVoitureController;
 use App\Http\Controllers\Dashboard\EnLocationController;
 use App\Http\Controllers\Dashboard\MarqueController;
 use App\Http\Controllers\Dashboard\OperationVoitureController;
+use App\Http\Controllers\Dashboard\PointRetraitController;
 use App\Http\Controllers\Dashboard\SystemeSecuriteController;
 use App\Http\Controllers\Dashboard\TypeCarburantController;
 use App\Http\Controllers\Dashboard\VoitureController;
@@ -111,7 +112,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', 'destroy')->name('dashboard.operations.delete');
     });
 
-    /*Voitures en location */
+    /*!!! Voitures en location */
     Route::controller(EnLocationController::class)->prefix('locations')->group(function () {
         Route::get('/', 'index')->name('dashboard.locations');
         Route::get('/search', 'index')->name('dashboard.locations.search');
@@ -122,6 +123,20 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.locations.export');
         Route::get('/{id}', 'show')->name('dashboard.locations.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.locations.delete');
+    });
+
+    /* Points de retraits */
+    Route::controller(PointRetraitController::class)
+        ->prefix('point_retraits')->group(function () {
+        Route::get('/', 'index')->name('dashboard.point_retraits');
+        Route::get('/search', 'index')->name('dashboard.point_retraits.search');
+        Route::get('/new', 'create')->name('dashboard.point_retraits.create');
+        Route::post('/new', 'store')->name('dashboard.point_retraits.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.point_retraits.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.point_retraits.update');
+        Route::get('/export', 'export')->name('dashboard.point_retraits.export');
+        Route::get('/{id}', 'show')->name('dashboard.point_retraits.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.point_retraits.delete');
     });
 
 })->middleware(['auth','web']);
