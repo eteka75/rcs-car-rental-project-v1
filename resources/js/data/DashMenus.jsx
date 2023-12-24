@@ -67,8 +67,8 @@ export const menuItemsData = [
     sub: [
       {
         title: "En location",
-        route: 'dashboard.voitures',
-        sid:'voitures'
+        route: 'dashboard.locations',
+        sid:'locations'
       },
       {
         title: "Points de retrait",

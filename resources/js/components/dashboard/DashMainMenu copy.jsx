@@ -304,7 +304,7 @@ export default function DashMainMenu() {
             </Menudropdown.Trigger>
 
             <Menudropdown.Content>
-              <Menudropdown.Link className='flex' href={route('dashboard')}> Véhicules</Menudropdown.Link>
+              <Menudropdown.Link className='flex' href={route('dashboard')}> voitures</Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Marques</Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Modèles</Menudropdown.Link>
               <Menudropdown.Link className='flex ' href={route('profile.edit')}> Catégories</Menudropdown.Link>

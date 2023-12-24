@@ -71,7 +71,7 @@ class ControlVoitureController extends Controller
         
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouveau contrôle technique",
-            'page_subtitle' => "Ajouter un nouveau contrôle technique de véhicule",
+            'page_subtitle' => "Ajouter un nouveau contrôle technique de voiture",
         ]);
     }
 
@@ -137,7 +137,7 @@ class ControlVoitureController extends Controller
         return Inertia::render(self::$viewFolder . '/Edit', [
             'controle' => $controle,
             'page_title' => "Edition de contrôle technique",
-            'page_subtitle' => "Modification d'une contrôle technique de véhicule",
+            'page_subtitle' => "Modification d'une contrôle technique de voiture",
         ]);
     }
     /**
@@ -149,7 +149,7 @@ class ControlVoitureController extends Controller
         return Inertia::render(self::$viewFolder . '/Export', [
             'controles' => $controles,
             'page_title' => "Export des contrôles techniques",
-            'page_subtitle' => "Exportations des contrôles techniques de véhicules",
+            'page_subtitle' => "Exportations des contrôles techniques de voitures",
         ]);
     }
 

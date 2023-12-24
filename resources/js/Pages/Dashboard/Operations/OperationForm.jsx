@@ -19,11 +19,7 @@ export default function OperationForm({ className = '', operation = null, pays =
   const {voitures} = usePage().props
 
     const refs = useRef([]); // or an {}
-    refs.current = []; // or an {}
-    
-    const [countries, setCountries] = useState([]);
-    useEffect(() => {                     console.log(operation);
-    }, []);
+    refs.current = []; // or an {}  
 
     const handleFileChange = (e) => {
         let file = e.target.files;
@@ -31,7 +27,6 @@ export default function OperationForm({ className = '', operation = null, pays =
         if (file !== undefined && file[0]) {
             setData("fichier", file[0]);
         }
-        console.log(data);
     };
 
     const handleInputChange = (e) => {
@@ -120,7 +115,7 @@ export default function OperationForm({ className = '', operation = null, pays =
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"                        
-                        placeholder={t('Réparation de la filtre à aire')}
+                        placeholder={t('Réparation de la filtre à aire, Réparation, Entretien, ...')}
 
                     />
 
@@ -144,8 +139,7 @@ export default function OperationForm({ className = '', operation = null, pays =
                     <InputError message={errors.voiture_id} className="mt-2" />
                 </div>
                 <div className='md:grid md:grid-cols-12 gap-4'>
-                <div className='md:col-span-4'>
-                    
+                <div className='md:col-span-4'>                    
                 <InputLabel htmlFor="date_operation" >Date du contrôle</InputLabel>
                         <TextInput
                             id="date_operation"

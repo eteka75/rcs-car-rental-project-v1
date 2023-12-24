@@ -68,7 +68,7 @@ export default function Register() {
                                             Vous louez la voiture qui vous convient
                                         </h2>
                                         <div className="text-sm text-light text-slate-600">
-                                            Découvrez le plaisir de la liberté avec notre flotte de véhicules modernes et bien entretenus. Louez chez nous et parcourez la route en toute élégance et confort.
+                                            Découvrez le plaisir de la liberté avec notre flotte de voitures modernes et bien entretenus. Louez chez nous et parcourez la route en toute élégance et confort.
                                         </div>
                                     </div>
                                 </div>

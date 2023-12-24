@@ -11,7 +11,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
         <FrontLayout auth={auth}>            
-            <Head title="Location ert Vente de véhicules moins cher au Bénin" />
+            <Head title="Location ert Vente de voitures moins cher au Bénin" />
             <LocationSteps/>
             <LocationExpert/>
             <LocationTop/>

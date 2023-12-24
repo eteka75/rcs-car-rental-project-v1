@@ -20,7 +20,7 @@ export default function LocationExpert() {
                             </div>
                             <div className="flex text-xl items-center mb-4">
                                 <MdChecklistRtl className='text-center justify-center leading-10 h-10 w-10 font-bold rounded-full me-2 text-sm bg-white shadow p-2' />
-                                <div>Une visibilité complète sur l'historique du véhicule</div>
+                                <div>Une visibilité complète sur l'historique du voiture</div>
                             </div>
                             <div className="flex text-xl items-center mb-4">
                                 <TbCalculator className='text-center justify-center leading-10 h-10 w-10 font-bold rounded-full me-2 text-sm bg-white shadow p-2' />

@@ -49,7 +49,7 @@ class OperationVoitureController extends Controller
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->orWhereHas('voiture', function ($query) use ($keyword) {
                     $query->where('nom', 'like', "%{$keyword}%")
-                    ->orWhere('description', 'like', "%{$keyword}%");
+                        ->orWhere('description', 'like', "%{$keyword}%");
                 })
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
@@ -70,8 +70,8 @@ class OperationVoitureController extends Controller
     public function create()
     {
         $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
-        Inertia::share(['voitures'=>$voitures]);
-        
+        Inertia::share(['voitures' => $voitures]);
+
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouvelle opération",
             'page_subtitle' => "Ajouter une nouvelle opération effectuée sur une voiture",
@@ -83,16 +83,16 @@ class OperationVoitureController extends Controller
      */
     public function store(RequestOperationVoitureRequest $request)
     {
-        $data =  $request->except('fichier');
+        $data = $request->except('fichier');
         if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['fichier'] = $getSave;
             }
         }
-        $userId = \Auth::id()??'0';
-        $data['user_id']=$userId;
-        $data['date_operation']=$this->converDateToDB($data['date_operation']);        
+        $userId = \Auth::id() ?? '0';
+        $data['user_id'] = $userId;
+        $data['date_operation'] = $this->converDateToDB($data['date_operation']);
         //dd($data);
         OperationVoiture::create($data);
         Session::flash(
@@ -136,7 +136,7 @@ class OperationVoitureController extends Controller
     {
         $operation = OperationVoiture::with('voiture')->findOrFail($id);
         $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
-        Inertia::share(['voitures'=>$voitures]);
+        Inertia::share(['voitures' => $voitures]);
         return Inertia::render(self::$viewFolder . '/Edit', [
             'operation' => $operation,
             'page_title' => "Edition d'une opération",
@@ -152,7 +152,7 @@ class OperationVoitureController extends Controller
         return Inertia::render(self::$viewFolder . '/Export', [
             'operations' => $operations,
             'page_title' => "Export des opérations",
-            'page_subtitle' => "Exportations des opérations de véhicules",
+            'page_subtitle' => "Exportations des opérations de voitures",
         ]);
     }
 
@@ -171,7 +171,7 @@ class OperationVoitureController extends Controller
                 $data['fichier'] = $getSave;
             }
         }
-        $data['date_operation']=$this->converDateToDB($data['date_operation']);
+        $data['date_operation'] = $this->converDateToDB($data['date_operation']);
 
         $operation->update($data);
         if (isset($data['fichier']) && $data['fichier'] != '') {

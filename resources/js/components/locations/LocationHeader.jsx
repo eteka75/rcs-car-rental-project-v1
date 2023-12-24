@@ -18,7 +18,6 @@ import { Link } from '@inertiajs/react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import UserMenu from '../UserMenu';
 import { AiOutlineSearch } from 'react-icons/ai';
 import TopNav from '../topNav';
 
@@ -95,7 +94,7 @@ export default function LocationHeader({ auth }) {
                                         />
                                     </div>
                                     <div className="col-span-12 sm:col-span-8 lg:col-span-2 lg:ms-2 border-0  flex">
-                                        <LocalizationProvider className="" dateAdapter={AdapterDayjs}>
+                                        <LocalizationProvider  dateAdapter={AdapterDayjs}>
                                             <DatePicker className='w-full ' label="Date départ..." />
                                         </LocalizationProvider>
                                     </div>

@@ -29,7 +29,7 @@ export default function Export({ marques, page_title, page_subtitle }) {
             <div className='items-center col-span-2'>
               <Button onClick={Print} variant='text' className='print:hidden float-right border flex'><AiOutlinePrinter className='me-1' /> Imprimer</Button>
               <Link href={route('dashboard.marques')}>
-              <Button variant='text' className='print:hidden font-bold me-2 float-right border flex'>
+              <Button variant='text' className='print:hidden items-center font-bold me-2 float-right border flex'>
                 <AiOutlineArrowLeft className='me-1' /> Retour
                 </Button>
                 </Link>

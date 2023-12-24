@@ -1,11 +1,14 @@
 import InputError from '@/components/InputError';
 import Translate from '@/components/Translate';
 import { Link, router } from '@inertiajs/react';
-import { Button, Spinner } from '@material-tailwind/react';
+import { Button, Spinner, Tooltip } from '@material-tailwind/react';
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import { AiOutlineExport, AiOutlineReload } from 'react-icons/ai';
 
 export default function SearchBar({ onSubmit = null, onChange = null, disabled = null, searchText = null, exportUrl='',message = null, placeholder = '' }) {
+  const { t } = useTranslation();
+    
     const ReloadPage = () => {
         const url = window.location.href;
         router.visit(url);
@@ -34,14 +37,18 @@ export default function SearchBar({ onSubmit = null, onChange = null, disabled =
                     </form>
                 </div>
                 <div className="w-full md:w-auto gridgrid-cols-2 gap-4 flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                <Tooltip content={t('Reacharger')}>                    
                     <Button onClick={ReloadPage} className='text-gray-800  hover:border-white  px-4 hover:shadow-none hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineReload />
                     </Button>
+                    </Tooltip>
+                    <Tooltip content={t('Exporter')}>
                     <Link href={(exportUrl??'')} target='_blanck'>
                         <Button className='text-gray-800  px-4 hover:shadow-none hover:border-white hover:bg-slate-300 border bg-white shadow-none'>
                         <AiOutlineExport />
                         </Button>
                     </Link>
+                    </Tooltip>
                 </div>
             </div>
         </>

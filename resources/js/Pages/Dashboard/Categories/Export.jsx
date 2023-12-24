@@ -2,7 +2,7 @@ import Translate from '@/components/Translate';
 import i18n from '@/i18n';
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { DateToFront } from '@/tools/utils';
-import { Link } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { Avatar, Card, CardBody, Typography, Button } from '@material-tailwind/react'
 import React from 'react'
 import { AiOutlineArrowLeft, AiOutlineArrowsAlt, AiOutlinePrinter } from 'react-icons/ai';
@@ -30,7 +30,7 @@ export default function Export({ categories, page_title, page_subtitle }) {
             <div className='items-center col-span-2'>              
               <Button onClick={Print} variant='text' className='print:hidden float-right border flex'><AiOutlinePrinter className='me-1' /> Imprimer</Button>
               <Link href={route('dashboard.categories')}>
-              <Button variant='text' className='print:hidden font-bold me-2 float-right border flex'>
+              <Button variant='text' className='print:hidden items-center font-bold me-2 float-right border flex'>
                 <AiOutlineArrowLeft className='me-1' /> Retour
                 </Button>
                 </Link>

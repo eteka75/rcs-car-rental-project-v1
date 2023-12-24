@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\ControlVoitureController;
+use App\Http\Controllers\Dashboard\EnLocationController;
 use App\Http\Controllers\Dashboard\MarqueController;
 use App\Http\Controllers\Dashboard\OperationVoitureController;
 use App\Http\Controllers\Dashboard\SystemeSecuriteController;
@@ -30,7 +31,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.voitures.export');
         Route::get('/{id}', 'show')->name('dashboard.voitures.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.voitures.delete');
-    })->middleware(['auth','web']);
+    });
     
     /*Marques*/
     Route::controller(MarqueController::class)->prefix('marques')->group(function () {
@@ -43,7 +44,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.marques.export');
         Route::get('/{id}', 'show')->name('dashboard.marques.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.marques.delete');
-    })->middleware(['auth','web']);
+    });
 
     /*Marques*/
     Route::controller(CategorieController::class)->prefix('categories')->group(function () {
@@ -56,7 +57,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.categories.export');
         Route::get('/{id}', 'show')->name('dashboard.categories.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.categories.delete');
-    })->middleware(['auth','web']);
+    });
 
     /*Type de carburant*/
     Route::controller(TypeCarburantController::class)->prefix('carburants')->group(function () {
@@ -69,7 +70,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.carburants.export');
         Route::get('/{id}', 'show')->name('dashboard.carburants.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.carburants.delete');
-    })->middleware(['auth','web']);
+    });
 
     /*Système de sécurités*/
     Route::controller(SystemeSecuriteController::class)->prefix('sys_securites')->group(function () {
@@ -82,7 +83,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.sys_securites.export');
         Route::get('/{id}', 'show')->name('dashboard.sys_securites.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.sys_securites.delete');
-    })->middleware(['auth','web']);
+    });
 
     /*Controles Techniques*/
     Route::controller(ControlVoitureController::class)->prefix('controle_techniques')->group(function () {
@@ -97,7 +98,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', 'destroy')->name('dashboard.controle_techniques.delete');
     })->middleware('web');
 
-    /*Opérations sur véhicules */
+    /*Opérations sur voitures */
     Route::controller(OperationVoitureController::class)->prefix('operations')->group(function () {
         Route::get('/', 'index')->name('dashboard.operations');
         Route::get('/search', 'index')->name('dashboard.operations.search');
@@ -108,9 +109,22 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.operations.export');
         Route::get('/{id}', 'show')->name('dashboard.operations.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.operations.delete');
-    })->middleware(['auth','web']);
+    });
 
-});
+    /*Voitures en location */
+    Route::controller(EnLocationController::class)->prefix('locations')->group(function () {
+        Route::get('/', 'index')->name('dashboard.locations');
+        Route::get('/search', 'index')->name('dashboard.locations.search');
+        Route::get('/new', 'create')->name('dashboard.locations.create');
+        Route::post('/new', 'store')->name('dashboard.locations.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.locations.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.locations.update');
+        Route::get('/export', 'export')->name('dashboard.locations.export');
+        Route::get('/{id}', 'show')->name('dashboard.locations.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.locations.delete');
+    });
+
+})->middleware(['auth','web']);
 
 /*
 Route::controller(FrontController::class)

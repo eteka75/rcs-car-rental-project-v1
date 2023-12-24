@@ -60,7 +60,7 @@ class CategorieController extends Controller
     {
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouvelle catégorie",
-            'page_subtitle' => "Ajouter une nouvelle catégorie de véhicule",
+            'page_subtitle' => "Ajouter une nouvelle catégorie de voiture",
         ]);
     }
 
@@ -116,7 +116,7 @@ class CategorieController extends Controller
         return Inertia::render(self::$viewFolder . '/Edit', [
             'categorie' => $categorie,
             'page_title' => "Edition de catégorie",
-            'page_subtitle' => "Modification d'une catégorie de véhicule",
+            'page_subtitle' => "Modification d'une catégorie de voiture",
         ]);
     }
     /**
@@ -128,7 +128,7 @@ class CategorieController extends Controller
         return Inertia::render(self::$viewFolder . '/Export', [
             'categories' => $categories,
             'page_title' => "Export des catégories",
-            'page_subtitle' => "Exportations des catégories de véhicule",
+            'page_subtitle' => "Exportations des catégories de voiture",
         ]);
     }
 

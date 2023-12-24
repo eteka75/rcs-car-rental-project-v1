@@ -60,7 +60,7 @@ export default function Show({ auth, controle, page_id = '', page_subid = '', pa
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Véhicule</Translate>
+                                            <Translate>voiture</Translate>
 
                                         </Typography>
                                     </th>

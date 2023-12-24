@@ -67,7 +67,7 @@ class MarqueController extends Controller
         return Inertia::render(self::$viewFolder . '/Create', [
             'pays' => $pays,
             'page_title' => "Nouvelle marque",
-            'page_subtitle' => "Ajouter une nouvelle marque de véhicule",
+            'page_subtitle' => "Ajouter une nouvelle marque de voiture",
         ]);
     }
 
@@ -127,7 +127,7 @@ class MarqueController extends Controller
             'pays' => $pays,
             'marque' => $marque,
             'page_title' => "Edition de marque",
-            'page_subtitle' => "Modification d'une marque de véhicule",
+            'page_subtitle' => "Modification d'une marque de voiture",
         ]);
     }
     /**
@@ -139,7 +139,7 @@ class MarqueController extends Controller
         return Inertia::render(self::$viewFolder . '/Export', [
             'marques' => $marques,
             'page_title' => "Export des marques",
-            'page_subtitle' => "Exportations des marques de véhicule",
+            'page_subtitle' => "Exportations des marques de voiture",
         ]);
     }
 
