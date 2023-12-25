@@ -56,7 +56,17 @@ export default function LocationForm({ className = '', location = null, pays = [
         if (id && val) { return { label: val, value: id }; }
         return null;
     }
-    const ConvertSelectData = (tab) => {
+    const ConvertSelectDataV1 = (tab) => {
+        if (Array.isArray(tab)) {
+            let v = [];
+            tab.map(({ id, nom }) => {
+                v.push({ value: id, label: nom });
+            });
+            return v;
+        }
+        return [];
+    }
+    const ConvertSelectDataV2 = (tab) => {
         if (Array.isArray(tab)) {
             let v = [];
             tab.map(({ id, lieu }) => {
@@ -126,8 +136,6 @@ export default function LocationForm({ className = '', location = null, pays = [
 
     return (
         <div className='md:grid md:grid-cols-2 md:gap-4'>
-            {console.log(point_retraits)}
-
             <Card>
                 <CardBody>
                     <section className={className}>
@@ -145,7 +153,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         !options ? setData('voiture_id', "") : setData('voiture_id', options.value)
                                     }
                                     className="mt-1 block w-full"
-                                    options={ConvertSelectData(voitures)}
+                                    options={ConvertSelectDataV1(voitures)}
                                 />
 
                                 <InputError message={errors.voiture_id} className="mt-2" />
@@ -261,7 +269,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         onChange={handleMultiSelectChange}
                                         className="mt-1 block w-full"
                                         //defaultValue={setDefaultMultiValue((location.point_retrait_id && point_retrait.lieu) ? point_retrait.lieu:[])}
-                                        options={ConvertSelectData(point_retraits)}
+                                        options={ConvertSelectDataV2(point_retraits)}
                                         />
                                     <InputError message={errors.point_retrait_id} className="mt-2" />
                                 </div>

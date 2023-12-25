@@ -25,6 +25,7 @@ class RequestVoitureRequest extends FormRequest
         return [
             "nom"=>"required|min:3|max:255",            
             "annee_fabrication"=>"required|integer|min:0|max:9999",
+            "immatriculation"=>"required|min:4|max:50",
             "nombre_place"=>"required|integer|min:0|max:999",
             "volume_coffre"=>"nullable|max:150",
             "description"=>"nullable|max:10000",

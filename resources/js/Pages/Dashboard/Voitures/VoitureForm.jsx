@@ -174,24 +174,7 @@ const setRealSysId=()=>{
 
                     <InputError message={errors.nom} className="mt-2" />
                 </div>
-                <div>
-                    <InputLabel htmlFor="photo" >Photo</InputLabel>
-                    <input
-                        id="photo"
-                        ref={addToRefs}
-                        onChange={handleFileChange}
-                        type="file"
-                        className="mt-1 rounded-md  bg-white shadow-none border py-1.5 px-4 block w-full"
-
-                    />
-                    {progress && (
-                        <Progress value={progress.percentage} color="blue" max="100">
-                            {progress.percentage}%
-                        </Progress>
-                    )}
-
-                    <InputError message={errors.photo} className="mt-2" />
-                </div>
+                
                 <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4'>
                     <div>
                         <div className="flex"><InputLabel htmlFor="annee_fabrication">Année de fabrication</InputLabel> <span className="text-red-500">*</span></div>
@@ -344,7 +327,7 @@ const setRealSysId=()=>{
                     </div>
                 </div>
 
-                <div className='grid grid-cols-1 md:grid-cols-12 md:gap-4'>
+                <div className='grid grid-cols-1 md:grid-cols-9 md:gap-4'>
 
                     <div className='col-span-3'>
                         <div className="flex"><InputLabel htmlFor="nombre_vitesse">Nombre de vitesses</InputLabel><span className="text-red-500">*</span></div>
@@ -362,6 +345,21 @@ const setRealSysId=()=>{
                         <InputError message={errors.nombre_vitesse} className="mt-2" />
                     </div>
                     <div className='col-span-3'>
+                        <div className="flex"><InputLabel htmlFor="nombre_vitesse">Immatriculation</InputLabel><span className="text-red-500">*</span></div>
+                        <TextInput
+                            id="immatriculation"
+                            ref={addToRefs}
+                            value={data.immatriculation}
+                            onChange={handleInputChange}
+                            type="number"
+                            className="mt-0 block w-full"
+                            placeholder={t('JP 0025 RB')}
+
+                        />
+
+                        <InputError message={errors.immatriculation} className="mt-2" />
+                    </div>
+                    <div className='col-span-3'>
                         <InputLabel htmlFor="annee_fabrication">Puissance du moteur</InputLabel>
                         <TextInput
                             id="puissance_moteur"
@@ -376,7 +374,25 @@ const setRealSysId=()=>{
 
                         <InputError message={errors.puissance_moteur} className="mt-2" />
                     </div>
-                    <div className='col-span-6'>
+                    <div className='col-span-5'>
+                    <InputLabel htmlFor="photo" >Photo</InputLabel>
+                    <input
+                        id="photo"
+                        ref={addToRefs}
+                        onChange={handleFileChange}
+                        type="file"
+                        className="mt-1 rounded-md  bg-white shadow-none border py-1.5 px-4 block w-full"
+
+                    />
+                    {progress && (
+                        <Progress value={progress.percentage} color="blue" max="100">
+                            {progress.percentage}%
+                        </Progress>
+                    )}
+
+                    <InputError message={errors.photo} className="mt-2" />
+                </div>
+                    <div className='col-span-4'>
                         <InputLabel htmlFor="type_transmission">Type de transmission</InputLabel>
                         <TextInput
                             id="type_transmission"

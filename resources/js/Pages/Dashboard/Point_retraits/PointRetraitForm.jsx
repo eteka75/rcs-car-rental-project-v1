@@ -131,7 +131,6 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                             type="text"
                             className="mt-1 block w-full"
                         />
-                        {console.log(errors)}
 
                         <InputError message={errors.quartier} className="mt-2" />
                     </div>

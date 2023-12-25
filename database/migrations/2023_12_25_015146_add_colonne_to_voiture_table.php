@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('point_retraits', function (Blueprint $table) {
-            //
+        Schema::table('voitures', function (Blueprint $table) {
+            $table->string('immatriculation')->nullable()->after('nom');
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('point_retraits', function (Blueprint $table) {
-            $table->string('photo')->nullable()->after('lieu');            
-
+        Schema::table('voiture', function (Blueprint $table) {
+            //
         });
     }
 };
