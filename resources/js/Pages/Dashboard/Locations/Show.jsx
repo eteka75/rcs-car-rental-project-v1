@@ -10,12 +10,12 @@ import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
 
-export default function Show({ auth, operation, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
+export default function Show({ auth, location, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
-                <Link href={route('dashboard.operations')} className="opacity-60">
-                    <span>Opérations</span>
+                <Link href={route('dashboard.locations')} className="opacity-60">
+                    <span>Locations</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>
@@ -25,7 +25,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
             <Head title={page_title} />
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-                    href={route('dashboard.operations')}>
+                    href={route('dashboard.locations')}>
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
@@ -48,7 +48,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                             <Translate>Nom</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{operation.nom_operation??''}</td>
+                                    <td>{location.nom_location??''}</td>
 
                                 </tr>
                                 <tr className='p-4 border-b'>
@@ -64,7 +64,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
 
                                         </Typography>
                                     </th>
-                                    <td>{operation.voiture && operation.voiture.nom}</td>
+                                    <td>{location.voiture && location.voiture.nom}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -79,7 +79,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
 
                                         </Typography>
                                     </th>
-                                    <td>{operation.responsable_operation??'-'}</td>
+                                    <td>{location.responsable_location??'-'}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -94,7 +94,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                         </Typography>
                                     </th>
                                     <td>
-                                        {DateToFront(operation.date_operation,i18n.language,'d/m/Y')}
+                                        {DateToFront(location.date_location,i18n.language,'d/m/Y')}
 
                                     </td>
                                 </tr>
@@ -110,7 +110,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                             <Translate>Prix de l'opération</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{operation.prix_operation??''}</td>
+                                    <td>{location.prix_location??''}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -124,7 +124,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                             <Translate>Kilométrage</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{operation.kilometrage}</td>
+                                    <td>{location.kilometrage}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -139,7 +139,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                         </Typography>
                                     </th>
                                     <td>
-                                    {operation.fichier!='' && operation.fichier!=null && <a className=' py-2 text-sm text-blue-600 rounded-md' href={HTTP_FRONTEND_HOME+''+operation.fichier}>Voit le fichier</a>}
+                                    {location.fichier!='' && location.fichier!=null && <a className=' py-2 text-sm text-blue-600 rounded-md' href={HTTP_FRONTEND_HOME+''+location.fichier}>Voit le fichier</a>}
                                     </td>
                                 </tr>
                                 <tr className='border-b blue-gray-100 bg-blue-gray-50/50 p-4'>
@@ -156,7 +156,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                     </th>
                                     <td>
                                         <div variant='small' className='text-sm break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
-                                            {operation.description??''}
+                                            {location.description??''}
                                         </div>
                                     </td>
                                 </tr>
@@ -173,9 +173,9 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                             <Translate>Date d'ajout</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(operation.created_at, i18n.language)}</td>
+                                    <td> {DateToFront(location.created_at, i18n.language)}</td>
                                 </tr>
-                                {operation.created_at!=operation.updated_at && 
+                                {location.created_at!=location.updated_at && 
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -188,7 +188,7 @@ export default function Show({ auth, operation, page_id = '', page_subid = '', p
                                             <Translate>Dernière modification</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(operation.updated_at, i18n.language)}</td>
+                                    <td> {DateToFront(location.updated_at, i18n.language)}</td>
                                 </tr>
                             }
                                 

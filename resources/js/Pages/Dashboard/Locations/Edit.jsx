@@ -6,13 +6,13 @@ import { Card, CardBody } from '@material-tailwind/react'
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Translate from '@/components/Translate';
-import OperationForm from './OperationForm';
+import LocationForm from './locationForm'
 
-export default function Edit({auth,operation,page_id='',page_subid='',page_title ='',page_subtitle =''}) {
+export default function Edit({auth,location,page_id='',page_subid='',page_title ='',page_subtitle =''}) {
   return (
     <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
       <Breadcrumb>
-        <Link href={route('dashboard.operations')} className="opacity-60">
+        <Link href={route('dashboard.locations')} className="opacity-60">
           <span>Opérations</span>
         </Link>
         <Link href='#'>
@@ -23,17 +23,15 @@ export default function Edit({auth,operation,page_id='',page_subid='',page_title
       <Head title={page_title} />
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-          href={route('dashboard.operations')}>
+          href={route('dashboard.locations')}>
           <AiOutlineArrowLeft className='me-1' />
           <Translate>Retour</Translate>
         </Link>
       </DashHeadTitle>
 
-      <Card className='lg:max-w-xl'>
-        <CardBody  className="App w-full md:m-auto">
-            <OperationForm operation={operation} action='update' btntext="Mettre à jour"/>
-        </CardBody>
-      </Card>
+    <div>
+      <LocationForm location={location} action='update' btntext="Mettre à jour"/>
+    </div>
     </DashboardLayout>
   )
 }

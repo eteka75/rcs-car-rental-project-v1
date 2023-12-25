@@ -100,6 +100,23 @@ class EnLocationController extends Controller
     public function store(RequestEnLocationRequest $request)
     {
         $data = $request->except('fichier');
+        $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
+        $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
+        
+        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'],$data['date_debut_location'],$data['date_fin_location']);
+        if ($nb_chevauchements>0) {
+            Session::flash(
+                'danger',
+                [
+                    'title' => 'Chevauchement de location',
+                    'message' => 'Le véhicule sélectionné est en location pendant la prériode sélectionnée.',
+                ]
+            );
+            return redirect()->back()->withInput();
+
+        }
+        dd($nb_chevauchements);
+        
         if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
@@ -108,8 +125,6 @@ class EnLocationController extends Controller
         }
         $userId = \Auth::id() ?? '0';
         $data['user_id'] = $userId;
-        $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
-        $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
         $points = $data['point_retraits'];
         $location=EnLocation::create($data);
         $location->pointsRetrait()->attach($points);
@@ -124,6 +139,17 @@ class EnLocationController extends Controller
         return to_route('dashboard.locations');
     }
 
+    public function checkLocationChevauchement($voiture_id,$nouvelleDateDebut,$nouvelleDateFin)
+    {
+       return EnLocation::where('voiture_id',$voiture_id)->where(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
+            $query->whereBetween('date_debut_location', [$nouvelleDateDebut, $nouvelleDateFin])
+                ->orWhereBetween('date_fin_location', [$nouvelleDateDebut, $nouvelleDateFin])
+                ->orWhere(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
+                    $query->where('date_debut_location', '<=', $nouvelleDateDebut)
+                        ->where('date_fin_location', '>=', $nouvelleDateFin);
+                });
+        })->count('id');
+    }
     public function converDateToDB($date)
     {
         $dateObj = \DateTime::createFromFormat('d/m/Y', $date);
@@ -152,9 +178,14 @@ class EnLocationController extends Controller
      */
     public function edit($id)
     {
-        $location = EnLocation::with('voiture')->findOrFail($id);
-        $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
-        Inertia::share(['voitures' => $voitures]);
+        $voitures = Voiture::orderBy('nom')->get();
+        $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();        
+        Inertia::share([
+            'voitures' => $voitures,
+            'point_retraits' => $points
+        ]);
+        $location = EnLocation::with('voiture')->with('pointsRetrait')->findOrFail($id);
+       
         return Inertia::render(self::$viewFolder . '/Edit', [
             'location' => $location,
             'page_title' => "Edition d'une location",
@@ -181,8 +212,23 @@ class EnLocationController extends Controller
     public function update(RequestEnLocationRequest $request, $id)
     {
 
-        $location = EnLocation::findOrFail($id);
         $data = $request->except("logo");
+        $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
+        $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
+        
+        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'],$data['date_debut_location'],$data['date_fin_location']);
+        if ($nb_chevauchements>1) {
+            Session::flash(
+                'danger',
+                [
+                    'title' => 'Chevauchement de location',
+                    'message' => 'Le véhicule sélectionné est en location pendant la prériode sélectionnée.',
+                ]
+            );
+            return redirect()->back()->withInput();
+
+        }
+        $location = EnLocation::findOrFail($id);
         if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {

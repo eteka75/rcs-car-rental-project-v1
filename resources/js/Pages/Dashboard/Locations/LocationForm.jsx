@@ -35,6 +35,10 @@ export default function LocationForm({ className = '', location = null, pays = [
         startDate: null,
         endDate: null
     });
+    const [date_fin,setDateFin]=useState({
+        startDate: null,
+        endDate: null
+    });
 
     useEffect(()=>{
         let today= new Date();
@@ -42,25 +46,21 @@ export default function LocationForm({ className = '', location = null, pays = [
             setData('date_debut_location',DateToFront(new Date(),i18n.language,'d/m/Y'));
             setDateDebut(setTheDate(today));
         }else{
-            setDateDebut(data.date_debut_location);
+            alert(DateToFront(data.date_debut_location,'fr',"d/m/Y"))
+            setDateDebut(setTheDate(DateToFront(data.date_debut_location,i18n.language,'d/m/Y')));
         }
         if(data.date_fin_location===''){
             let in6Month=new Date().setMonth(new Date().getMonth()+6);
             setData('date_fin_location',DateToFront(in6Month,i18n.language,'d/m/Y'));
             setDateFin(setTheDate(in6Month));
         }else{
-            setDateFin(data.date_fin_location);
+            setDateFin(setTheDate(DateToFront(data.date_fin_location,i18n.language,'d/m/Y')));
         }
-        
+        console.log(date_debut,date_fin)
     },[])
     useEffect(()=>{
         ShowVoiture(data.voiture_id??'');
     },[showVoitureId]);
-
-    const [date_fin,setDateFin]=useState({
-        startDate: null,
-        endDate: null
-    });
 
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}  
@@ -214,6 +214,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                 <InputLabel htmlFor="voiture_id">Voiture</InputLabel>
                                 <Select
                                     id="voiture_id"
+                                    required
                                     isClearable={true}
                                     isSearchable={true}
                                     defaultValue={setDefaultValue(data.voiture_id, (location && location.voiture.nom) ? location.voiture.nom : '')}
@@ -302,10 +303,12 @@ export default function LocationForm({ className = '', location = null, pays = [
                                {/* <DatePicker selected={new Date(startDate)} locale={i18n.language=='fr'?fr:enUS} dateFormat="P" onChange={(date) => setTheDate(date)} />
                                 */}
                                 <Datepicker 
+                                required
                                 id="date_debut_location"                                
                                 asSingle={true}
+                                //useRange={false}                                
                                 classNames={'rounded-none'}
-                                value={(date_debut)} 
+                                value={date_debut} 
                                 onChange={handleDateDebutChange} 
                                 i18n={i18n.language}
                                 displayFormat={"DD/MM/YYYY"} 
@@ -327,10 +330,12 @@ export default function LocationForm({ className = '', location = null, pays = [
 
                                     <InputLabel htmlFor="date_fin_location" >Date fin location</InputLabel>
                                     <Datepicker 
+                                    required
                                     id="date_debut_location"                                
                                     asSingle={true}
                                     classNames={'rounded-none'}
                                     value={(date_fin)} 
+                                    useRange={false}
                                     onChange={handleDateFinChange} 
                                     i18n={i18n.language}
                                     displayFormat={"DD/MM/YYYY"} 
@@ -353,7 +358,8 @@ export default function LocationForm({ className = '', location = null, pays = [
 
                                     <InputLabel htmlFor="point_retraits" >Points de retrait</InputLabel>
                                     <Select
-                                    isMulti
+                                        isMulti
+                                        required
                                         id="point_retraits"
                                         ref={addToRefs}
                                         isSearchable={true}
@@ -371,6 +377,7 @@ export default function LocationForm({ className = '', location = null, pays = [
 
                                     <InputLabel htmlFor="conditions" >Conditions de la location</InputLabel>
                                     <TextArea
+                                        required
                                         id="conditions"
                                         ref={addToRefs}
                                         value={data.conditions}
