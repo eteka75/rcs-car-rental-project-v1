@@ -12,23 +12,23 @@ export default function FooterMega() {
                     <div className="mx-auto w-full max-w-screen-xl relative">
                         <div className="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-3 text-sm">
                         <div className='col-span-2 md:col-span-1'>
-                                <h2 className="mb-2 text-sm font-semibold text-yellow-600 uppercase dark:text-white">Rental Car services</h2>
+                                <h2 className="mb-2 text-sm font-semibold text-gray-50 uppercase dark:text-white">Rental Car services</h2>
                                <p className="text-slate-400">
                                 Nous sommes une entreprise de location et de vente de voitures de toutes catégories au Bénin. Nous sommes situé à Sèmè-Kpodji au Bénin 
                                </p>
                                <div className="flex mt-4 pt-4 md:mt-0 space-x-5 rtl:space-x-reverse">
-                                <a href="https://twitter.com/?lang=fr" className="text-gray-400 hover:text-yellow-600 dark:hover:text-white">
+                                <a href="https://twitter.com/?lang=fr" className="text-gray-400 hover:text-gray-50 dark:hover:text-white">
                                    <FaXTwitter className='text-3xl md:text-xl' />
                                     <span className="sr-only">Facebook page</span>
                                 </a>
-                                <a href="https://facebook.com" className="text-gray-400 hover:text-yellow-600 dark:hover:text-white">
+                                <a href="https://facebook.com" className="text-gray-400 hover:text-gray-50 dark:hover:text-white">
                                 <FaFacebookSquare className='text-3xl md:text-xl'/> 
                                     <span className="sr-only">Twitter page</span>
                                 </a>
                             </div>
                             </div>
                             <div>
-                                <h2 className="mb-6 text-sm font-semibold text-yellow-600 uppercase dark:text-white">La société</h2>
+                                <h2 className="mb-6 text-sm font-semibold text-gray-50 uppercase dark:text-white">La société</h2>
                                 <ul className="text-gray-400  dark:text-gray-400 font-medium">
                                     <li className="mb-4">
                                         <Link href="#" className="hover:underline hover:text-yellow-500">A propos</Link>
@@ -49,7 +49,7 @@ export default function FooterMega() {
                                 </ul>
                             </div>
                             <div>
-                                <h2 className="mb-6 text-sm font-semibold text-yellow-600 uppercase dark:text-white">Centre d'aide</h2>
+                                <h2 className="mb-6 text-sm font-semibold text-gray-50 uppercase dark:text-white">Centre d'aide</h2>
                                 <ul className="text-gray-400  dark:text-gray-400 font-medium">
                                     <li className="mb-4">
                                         <Link href="#" className="hover:underline hover:text-yellow-500">Messages</Link>

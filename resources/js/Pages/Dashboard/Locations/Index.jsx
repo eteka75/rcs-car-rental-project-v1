@@ -31,7 +31,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function Index({ auth, locations, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
 
-    const TABLE_HEAD = [ "Nom", "Voiture", "Date du contrôle", "Actions"];
+    const TABLE_HEAD = [ "Voiture", "Date début location","Date fin location", "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
@@ -125,28 +125,17 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                 <CardBody className={" p-0 overflow-auto"}>
                     <ViewTable  head={TABLE_HEAD} count={count} links={locations?locations.links:[]} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom_operation, responsable_operation, voiture,created_at }, index) => {
+                            ({ id, date_debut_location, date_fin_location, voiture,created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
-                                    ? "px-4 py-1"
-                                    : "px-4 py-1 border-b border-blue-gray-50 ";
+                                    ? "p-4"
+                                    : "p-4 border-b border-blue-gray-50 ";
 
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
                                         
-                                        <td className={classes}>
-                                            <div className="flex flex-col">
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-bold"
-                                                >
-                                                    <Link href={route('dashboard.locations.show', id)}>
-                                                        {nom_operation??''}
-                                                    </Link>
-                                                </Typography>
-                                            </div>
-                                        </td>
+                                        
+                                        
                                         <td className={classes}>
                                             <span
                                                 variant="small"
@@ -156,17 +145,17 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                                                 {voiture?voiture.nom:''}
                                             </span>
                                         </td>
+                                        <td className={classes}>
+                                             {DateToFront(date_debut_location,i18n.language,'d/m/Y')??''}
+                                        </td>
+                                        <td className={classes}>
+                                            
+                                                {DateToFront(date_fin_location,i18n.language,'d/m/Y')??''}
+                                        </td>
                                         
                                         <td className={classes}>
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
 
                                                 {DateToFront(created_at, i18n.language)}
-
-                                            </Typography>
                                         </td>
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">
@@ -199,7 +188,7 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                             },
                         )}
                         {(datas.length === 0 || (data.search != null && search_text != null)) &&
-                            <tr><td className="px-4 py-1 border-t border-blue-gray-50" colSpan={TABLE_HEAD.length}>
+                            <tr><td className="p-4 border-t border-blue-gray-50" colSpan={TABLE_HEAD.length}>
                                 <div className='text-center text-gray-600 py-10'>
                                     {datas.length === 0 &&
                                         <>

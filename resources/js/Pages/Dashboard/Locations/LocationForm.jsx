@@ -13,27 +13,84 @@ import { useTranslation } from 'react-i18next';
 import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
 
+//import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import { enUS, fr } from 'date-fns/locale';
+import { format } from 'date-fns';
+
+
+import Datepicker  from "react-tailwindcss-datepicker"; 
+import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
+
+
 export default function LocationForm({ className = '', location = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const { t } = useTranslation();
     const { voitures, point_retraits } = usePage().props
-    const [showDetatail,setShowDetail]=useState(true);
+    const [showDetails,setShowDetail]=useState(true);
+    const [voiture,setVoiture]=useState([]);
+    const [showVoitureId,setShowVoitureId]=useState([]);
+    const [date_debut,setDateDebut]=useState({
+        startDate: null,
+        endDate: null
+    });
+
+    useEffect(()=>{
+        let today= new Date();
+        if(data.date_debut_location===''){
+            setData('date_debut_location',DateToFront(new Date(),i18n.language,'d/m/Y'));
+            setDateDebut(setTheDate(today));
+        }else{
+            setDateDebut(data.date_debut_location);
+        }
+        if(data.date_fin_location===''){
+            let in6Month=new Date().setMonth(new Date().getMonth()+6);
+            setData('date_fin_location',DateToFront(in6Month,i18n.language,'d/m/Y'));
+            setDateFin(setTheDate(in6Month));
+        }else{
+            setDateFin(data.date_fin_location);
+        }
+        
+    },[])
+    useEffect(()=>{
+        ShowVoiture(data.voiture_id);
+    },[showVoitureId])
+    const [date_fin,setDateFin]=useState({
+        startDate: null,
+        endDate: null
+    });
 
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}  
 
-    const handleFileChange = (e) => {
-        let file = e.target.files;
-
-        if (file !== undefined && file[0]) {
-            setData("fichier", file[0]);
+    const setTheDate = (val)=>{
+        if(val===''){
+            val =new Date()
         }
-    };
+        return {startDate:val, endDate:val};
+    }
+
+    const handleDateDebutChange = (newValue) => {
+        const {startDate}=newValue;
+        setDateDebut(newValue);
+        setData("date_debut_location",DateToFront(startDate,i18n.language,'d/m/Y')); 
+    } 
+    const handleDateFinChange = (newValue) => {
+        const {startDate}=newValue;
+        setDateFin(newValue);
+        setData("date_fin_location",DateToFront(startDate,i18n.language,'d/m/Y')); 
+    } 
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setData(id, value);
     };
+    const handleSelectVoiture = (options) =>{
+    !options ? setData('voiture_id', '') : setData('voiture_id', options.value);
+        setShowVoitureId(options.value??'');
+    }
+
     const handleMultiSelectChange = (selected) => {
         let newTab=[];
         if(Array.isArray(selected)){
@@ -64,7 +121,17 @@ export default function LocationForm({ className = '', location = null, pays = [
             });
             return v;
         }
+
         return [];
+    }
+    const ShowVoiture = (id=0)=>{
+       
+        let v=voitures.find(obj => obj.id === id);
+        if(v){
+            setVoiture(v);
+        }else{
+            setVoiture([]);
+        }
     }
     const ConvertSelectDataV2 = (tab) => {
         if (Array.isArray(tab)) {
@@ -88,9 +155,9 @@ export default function LocationForm({ className = '', location = null, pays = [
             tarif_location_hebdomadaire: location.tarif_location_hebdomadaire ?? '',
             tarif_location_journalier: location.tarif_location_journalier ?? '',
             tarif_location_mensuel: location.tarif_location_mensuel ?? '',
-            date_debut_location: DateToFront(location.date_debut_location, i18n.language, 'd/m/Y') ?? '',
-            date_fin_location: DateToFront(location.date_fin_location, i18n.language, 'd/m/Y') ?? '',
-            point_retrait_id: location.point_retrait_id ?? '',
+            date_debut_location: location.date_debut_location ?? '',
+            date_fin_location: location.date_fin_location ?? '',
+            point_retrait_ids: location.point_retrait_ids ?? '',
             point_retraits: '',
             conditions: location.conditions ?? '',
             description: location.description ?? ''
@@ -101,14 +168,14 @@ export default function LocationForm({ className = '', location = null, pays = [
             tarif_location_mensuel: '',
             date_debut_location: '',
             date_fin_location: '',
-            point_retrait_id: '',
+            point_retrait_ids: '',
             point_retraits: '',
             conditions: '',
             description: ''
         });
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        console.log(data);
         if (location && action === 'update') {
             post(route('dashboard.locations.update', location.id), data, {
                 onSuccess: () => {
@@ -149,9 +216,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     isSearchable={true}
                                     defaultValue={setDefaultValue(data.voiture_id, (location && location.voiture.nom) ? location.voiture.nom : '')}
 
-                                    onChange={(options) =>
-                                        !options ? setData('voiture_id', "") : setData('voiture_id', options.value)
-                                    }
+                                    onChange={handleSelectVoiture}
                                     className="mt-1 block w-full"
                                     options={ConvertSelectDataV1(voitures)}
                                 />
@@ -228,9 +293,21 @@ export default function LocationForm({ className = '', location = null, pays = [
 
                             <div className='md:grid md:grid-cols-12 gap-4'>
                                 <div className='md:col-span-6'>
-
                                     <InputLabel htmlFor="date_debut_location" >Date début location</InputLabel>
-                                    <TextInput
+                                    
+                               {/* <DatePicker selected={new Date(startDate)} locale={i18n.language=='fr'?fr:enUS} dateFormat="P" onChange={(date) => setTheDate(date)} />
+                                */}
+                                <Datepicker 
+                                id="date_debut_location"                                
+                                asSingle={true}
+                                classNames={'rounded-none'}
+                                value={(date_debut)} 
+                                onChange={handleDateDebutChange} 
+                                i18n={i18n.language}
+                                displayFormat={"DD/MM/YYYY"} 
+                                placeholder={'10/01/'+(new Date().getFullYear())}
+                                /> 
+                                   {/* <TextInput
                                         id="date_debut_location"
                                         ref={addToRefs}
                                         value={data.date_debut_location}
@@ -239,13 +316,23 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         className="mt-1 w-full block  "
                                         placeholder={'10/01/'+(new Date().getFullYear())}
 
-                                    />
+                            />*/}
                                     <InputError message={errors.date_debut_location} className="mt-2" />
                                 </div>
                                 <div className='md:col-span-6'>
 
                                     <InputLabel htmlFor="date_fin_location" >Date fin location</InputLabel>
-                                    <TextInput
+                                    <Datepicker 
+                                    id="date_debut_location"                                
+                                    asSingle={true}
+                                    classNames={'rounded-none'}
+                                    value={(date_fin)} 
+                                    onChange={handleDateFinChange} 
+                                    i18n={i18n.language}
+                                    displayFormat={"DD/MM/YYYY"} 
+                                    placeholder={'10/07/'+(new Date().getFullYear())}
+                                    /> 
+                                   {/* <TextInput
                                         id="date_fin_location"
                                         ref={addToRefs}
                                         value={data.date_fin_location}
@@ -254,16 +341,16 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         className="mt-1 w-full block  "
                                         placeholder={'10/01/'+(new Date().getFullYear())}
 
-                                    />
+                        />*/}
                                     <InputError message={errors.date_fin_location} className="mt-2" />
                                 </div>
                             </div>
                             <div className='md:col-span-4'>
 
-                                    <InputLabel htmlFor="point_retrait_id" >Points de retrait</InputLabel>
+                                    <InputLabel htmlFor="point_retraits" >Points de retrait</InputLabel>
                                     <Select
                                     isMulti
-                                        id="point_retrait_id"
+                                        id="point_retraits"
                                         ref={addToRefs}
                                         isSearchable={true}
                                         onChange={handleMultiSelectChange}
@@ -271,7 +358,9 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         //defaultValue={setDefaultMultiValue((location.point_retrait_id && point_retrait.lieu) ? point_retrait.lieu:[])}
                                         options={ConvertSelectDataV2(point_retraits)}
                                         />
-                                    <InputError message={errors.point_retrait_id} className="mt-2" />
+                                    <InputError message={errors.point_retraits} className="mt-2" />
+                                    <InputError message={errors["point_retraits.0"]} className="mt-2" />
+                                    <InputError message={errors["point_retraits.1"]} className="mt-2" />
                                 </div>
                             <div >
                                 <div >
@@ -333,13 +422,96 @@ export default function LocationForm({ className = '', location = null, pays = [
                     </section>
                 </CardBody>
             </Card>
-            <Card className={"transition-all duration-300 "+(showDetatail?'block':'hidden')}>
-                <CardBody>
+            <Card className={"transition-all duration-300 mt-8 md:mt-0 "+(showDetails?'block':'hidden')}>
+                <CardBody className='overflow-auto'>
                     <section>
+                        {console.log(voiture)}
+                        {  voiture!=null && voiture!='' && (
+                            <div>
+                                       
+                                        {voiture.nom!=null &&
+                                        <div className="font-bold text-xl ">
+                                            {voiture.nom}
+                                        </div>
+                                        }   
+                                         {voiture.nom!=voiture.photo &&                                
+                                            <img src={HTTP_FRONTEND_HOME+voiture.photo} alt={voiture.nom} className='w-auto  rounded-md h-auto max-w-[100%] _max-h-[400px]' />
+                                        }
+                                        
+                                        <div className="border-t mt-8">
+                                         {voiture.immatriculation!=null && voiture.immatriculation!='' && 
+                                        <div className="border-b  flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Immatriculation :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.immatriculation}
+                                            </div>
+                                        </div>
+                                        }    
+                                        {voiture.annee_fabrication!=null && 
+                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Année :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.annee_fabrication}
+                                            </div>
+                                        </div>
+                                        }
+                                        {voiture.nombre_place>0 && 
+                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Nombre de places :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.nombre_place}
+                                            </div>
+                                        </div>
+                                        }
+                                        {voiture.couleur!=null && 
+                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Couleur :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.couleur}
+                                            </div>
+                                        </div>
+                                        }
+                                       
+                                        {voiture.volume_coffre!=null && 
+                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Volume du coffre :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.volume_coffre}
+                                            </div>
+                                        </div>
+                                        }
+                                        {voiture.capacite_reservoir!=null && voiture.capacite_reservoir!='' && 
+                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Réservoir :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.capacite_reservoir}
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+                                       
 
+                            </div>
+                        )}
                     </section>
                 </CardBody>
             </Card>
         </div>
     );
+}
+
+const ShowVoitureCard=()=>{
+    return "Bonjour";
 }

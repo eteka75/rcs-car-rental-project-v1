@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PointRetrait extends Model
@@ -19,12 +20,17 @@ class PointRetrait extends Model
     protected $fillable = [
         'lieu',
         'ville',
-        'photo',
-        'contacts',
         'quartier',
+        'contacts',
         'adresse',
         'map_local',
+        'photo',
         'description',
     ];
-
+    public function Locations(): BelongsToMany
+    {
+        return $this->belongsToMany(EnLocation::class,
+        'location_point_retraits','location_id','point_retrait_id')
+        ->withTimestamps();
+    }
 }

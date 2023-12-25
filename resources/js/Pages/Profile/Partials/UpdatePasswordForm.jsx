@@ -3,8 +3,9 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import { useTranslation } from 'react-i18next';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
@@ -38,6 +39,7 @@ export default function UpdatePasswordForm({ className = '' }) {
 
     return (
         <section className={className}>
+            <Head title={useTranslation().t('Mettre à jour mon mot de passe')}/>
             <header>
                 <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Update Password</h2>
 

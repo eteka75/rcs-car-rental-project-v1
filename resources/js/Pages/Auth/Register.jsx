@@ -9,7 +9,7 @@ import { AiOutlineUserAdd } from 'react-icons/ai';
 import { FcAutomotive, FcMoneyTransfer, FcOk, FcShipped } from 'react-icons/fc';
 import { FaCar } from 'react-icons/fa6';
 import { MdCarRental } from 'react-icons/md';
-import { GiTakeMyMoney } from "react-icons/gi";
+import { GiKeyCard, GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -42,26 +42,11 @@ export default function Register() {
                         <h2 className=" sm:max-w-md lg:max-w-lg mx-auto py-4 font-serif text-2xl text-white">
                                 En vous inscrivant,
                             </h2>
-                        <div className='sm:max-w-md lg:max-w-lg mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)] mx-auto  px-8 py-4'>
-                            
-                                <div className="grid grid-flow-col items-center md:gap-4">
-                                    <div className='text-center '>
-                                        <FcMoneyTransfer  className='text-6xl text-slate-800' />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-xl font-extrabold">
-                                            Vous maitrisez votre budget
-                                        </h2>
-                                        <div className="text-sm text-light text-slate-600">
-                                        Explorez sans compromis votre destination préférée tout en préservant votre budget. Nos locations de voitures abordables vous offrent la liberté de voyager sans vous soucier de votre porte-monnaie.
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div> 
+                        
                             <div className='sm:max-w-md lg:max-w-lg mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)] mx-auto  px-8 py-4 '>
                                 <div className="grid grid-flow-col items-center md:gap-4">
                                     <div className='text-center '>
-                                        <FcAutomotive className='text-6xl text-blue-600' />
+                                        <GiKeyCard  className='text-6xl text-slate-600' />
                                     </div>
                                     <div>
                                         <h2 className="text-xl font-extrabold">
@@ -74,7 +59,22 @@ export default function Register() {
                                 </div>
                                 
                             </div>
+                            <div className='sm:max-w-md lg:max-w-lg mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)] mx-auto  px-8 py-4'>
                             
+                            <div className="grid grid-flow-col items-center md:gap-4">
+                                <div className='text-center '>
+                                <GiMoneyStack   className='text-6xl text-yellow-700' />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-extrabold">
+                                        Vous maitrisez votre budget
+                                    </h2>
+                                    <div className="text-sm text-light text-slate-600">
+                                    Explorez sans compromis votre destination préférée tout en préservant votre budget. Nos locations de voitures abordables vous offrent la liberté de voyager sans vous soucier de votre porte-monnaie.
+                                    </div>
+                                </div>
+                            </div>                                
+                        </div>                            
                             <div className='sm:max-w-md lg:max-w-lg mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)] mx-auto  px-8 py-4'>
                                 <div className="grid grid-flow-col items-center md:gap-4">
                                     <div className='text-center '>

@@ -19,8 +19,7 @@ return new class extends Migration
             $table->integer('tarif_location_mensuel')->default(0);
             $table->dateTime('date_debut_location');
             $table->dateTime('date_fin_location');
-
-            $table->unsignedBigInteger('point_retrait_id')->index('pr_voiture');
+           
             $table->unsignedBigInteger('voiture_id')->index('voiture');
 
             $table->longText('conditions')->nullable();

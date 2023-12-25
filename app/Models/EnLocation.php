@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EnLocation extends Model
@@ -25,7 +26,6 @@ class EnLocation extends Model
         'tarif_location_mensuel',
         'date_debut_location',
         'date_fin_location',
-        'point_retrait_id',
         'conditions',
         'description',
     ];
@@ -34,8 +34,10 @@ class EnLocation extends Model
     {
         return $this->belongsTo(Voiture::class,'voiture_id');
     }
-    public function pointRetrait(): BelongsTo
+    public function pointsRetrait(): BelongsToMany
     {
-        return $this->belongsTo(PointRetrait::class,'point_retrait_id');
+        return $this->belongsToMany(PointRetrait::class,
+        'location_point_retraits','point_retrait_id','location_id')
+        ->withTimestamps();
     }
 }

@@ -15,7 +15,6 @@ class Voiture extends Model
         "nom",
         "photo",
         "annee_fabrication",
-        "nb_place",
         "volume_coffre",
         "description",
         "date_achat",

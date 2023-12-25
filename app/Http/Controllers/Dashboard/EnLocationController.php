@@ -80,7 +80,7 @@ class EnLocationController extends Controller
      */
     public function create()
     {
-        $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
+        $voitures = Voiture::orderBy('nom')->get();//select('nom', 'id')->
         $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();
         
         Inertia::share([
@@ -108,9 +108,11 @@ class EnLocationController extends Controller
         }
         $userId = \Auth::id() ?? '0';
         $data['user_id'] = $userId;
-        $data['date_location'] = $this->converDateToDB($data['date_location']);
-        //dd($data);
-        EnLocation::create($data);
+        $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
+        $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
+        $points = $data['point_retraits'];
+        $location=EnLocation::create($data);
+        $location->pointsRetrait()->attach($points);
         Session::flash(
             'success',
             [

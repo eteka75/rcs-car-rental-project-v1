@@ -35,5 +35,8 @@
 	"Supprimmer": "Delete",
 	"Supression d'enrégistrement": "Deletion of registration",
 	"Tableau de bord": "Dashboard",
-	"Voitures": "Cars"
+	"Voitures": "Cars",
+	"Envoyer le lien de réinitialisation":"Send email password reset link",
+	"Mot de passe oublié":"Forgot your password",
+	"Mot de passe oublié? Aucun problème. Indiquez-nous simplement votre adresse e-mail et nous vous enverrons par e-mail un lien de réinitialisation de mot de passe qui vous permettra d'en choisir un nouveau.":"Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one."
 }
