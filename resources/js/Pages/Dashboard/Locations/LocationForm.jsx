@@ -34,7 +34,24 @@ export default function LocationForm({ className = '', location = null, pays = [
         const { id, value } = e.target;
         setData(id, value);
     };
-
+    const handleMultiSelectChange = (selected) => {
+        let newTab=[];
+        if(Array.isArray(selected)){
+            selected.map(({value})=>{
+                newTab.push(value);
+            })
+        }
+        setData('point_retraits',newTab);       
+    };
+    const setDefaultMultiValue=(array_ids)=>{
+        let tb=[];
+        if(Array.isArray(array_ids)){
+            array_ids.map(({nom,id})=>{
+                tb.push({ label: nom, value: id });
+            })
+        }
+        return tb;
+    }
     const setDefaultValue = (id, val) => {
         if (id && val) { return { label: val, value: id }; }
         return null;
@@ -42,8 +59,8 @@ export default function LocationForm({ className = '', location = null, pays = [
     const ConvertSelectData = (tab) => {
         if (Array.isArray(tab)) {
             let v = [];
-            tab.map(({ id, nom }) => {
-                v.push({ value: id, label: nom });
+            tab.map(({ id, lieu }) => {
+                v.push({ value: id, label: lieu });
             });
             return v;
         }
@@ -64,6 +81,7 @@ export default function LocationForm({ className = '', location = null, pays = [
             date_debut_location: DateToFront(location.date_debut_location, i18n.language, 'd/m/Y') ?? '',
             date_fin_location: DateToFront(location.date_fin_location, i18n.language, 'd/m/Y') ?? '',
             point_retrait_id: location.point_retrait_id ?? '',
+            point_retraits: '',
             conditions: location.conditions ?? '',
             description: location.description ?? ''
         } : {
@@ -74,6 +92,7 @@ export default function LocationForm({ className = '', location = null, pays = [
             date_debut_location: '',
             date_fin_location: '',
             point_retrait_id: '',
+            point_retraits: '',
             conditions: '',
             description: ''
         });
@@ -107,6 +126,8 @@ export default function LocationForm({ className = '', location = null, pays = [
 
     return (
         <div className='md:grid md:grid-cols-2 md:gap-4'>
+            {console.log(point_retraits)}
+
             <Card>
                 <CardBody>
                     <section className={className}>
@@ -236,11 +257,12 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     isMulti
                                         id="point_retrait_id"
                                         ref={addToRefs}
-                                        value={data.point_retrait_id}
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        className="mt-1 w-full block  "
-                                    />
+                                        isSearchable={true}
+                                        onChange={handleMultiSelectChange}
+                                        className="mt-1 block w-full"
+                                        //defaultValue={setDefaultMultiValue((location.point_retrait_id && point_retrait.lieu) ? point_retrait.lieu:[])}
+                                        options={ConvertSelectData(point_retraits)}
+                                        />
                                     <InputError message={errors.point_retrait_id} className="mt-2" />
                                 </div>
                             <div >

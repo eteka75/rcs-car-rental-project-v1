@@ -13,7 +13,6 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
     // intialize as en empty array
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
-    console.log(point_retrait)
     const handleFileChange = (e) => {
         let file = e.target.files;
 

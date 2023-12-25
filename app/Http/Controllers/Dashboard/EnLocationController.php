@@ -82,6 +82,7 @@ class EnLocationController extends Controller
     {
         $voitures = Voiture::select('nom', 'id')->orderBy('nom')->get();
         $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();
+        
         Inertia::share([
             'voitures' => $voitures,
             'point_retraits' => $points

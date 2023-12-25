@@ -34,7 +34,7 @@ import SearchBar from '@/components/dashboard/SearchBar';
 export default function Index({ auth, point_retraits, page_id, 
     page_subid, page_title, page_subtitle, search_text = '',count }) {
 
-    const TABLE_HEAD = ["Photo", "Lieu",  "Date d'ajout", "Actions"];
+    const TABLE_HEAD = ["Photo", "Nom",  "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });

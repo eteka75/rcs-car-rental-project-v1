@@ -62,6 +62,7 @@ class PointRetraitController extends Controller
      */
     public function create()
     {
+       
         return Inertia::render(self::$viewFolder . '/Create', [
             'page_title' => "Nouveau point de retrait",
             'page_subtitle' => "Ajouter un nouveau point de retrait de voiture",
@@ -117,6 +118,7 @@ class PointRetraitController extends Controller
     public function edit($id)
     {
         $pointRetrait = PointRetrait::findOrFail($id);
+
         return Inertia::render(self::$viewFolder . '/Edit', [
             'point_retrait' => $pointRetrait,
             'page_title' => "Edition de point de retrait",
