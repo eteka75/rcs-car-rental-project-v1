@@ -17,12 +17,12 @@ class PointRetrait extends Model
      */
     protected $table = 'point_retraits';
     protected $fillable = [
-        'ville',
         'lieu',
+        'ville',
+        'photo',
         'contacts',
         'quartier',
         'adresse',
-        'map_local',
         'map_local',
         'description',
     ];

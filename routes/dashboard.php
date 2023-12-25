@@ -10,9 +10,7 @@ use App\Http\Controllers\Dashboard\SystemeSecuriteController;
 use App\Http\Controllers\Dashboard\TypeCarburantController;
 use App\Http\Controllers\Dashboard\VoitureController;
 use App\Http\Controllers\DashboardDashboardController;
-use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
 

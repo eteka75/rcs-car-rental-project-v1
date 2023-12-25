@@ -31,10 +31,10 @@ import { useTranslation } from 'react-i18next';
 import SearchBar from '@/components/dashboard/SearchBar';
 
 
-export default function Index({ auth, categories, page_id, 
+export default function Index({ auth, point_retraits, page_id, 
     page_subid, page_title, page_subtitle, search_text = '',count }) {
 
-    const TABLE_HEAD = ["Photo", "Nom",  "Date d'ajout", "Actions"];
+    const TABLE_HEAD = ["Photo", "Lieu",  "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
@@ -45,11 +45,11 @@ export default function Index({ auth, categories, page_id,
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
-        if (categories.data && categories.data.length > 0) {
-            setDatas(categories.data);
+        if (point_retraits.data && point_retraits.data.length > 0) {
+            setDatas(point_retraits.data);
         }
         
-        if (categories.data && categories.data.length > 0) {
+        if (point_retraits.data && point_retraits.data.length > 0) {
             setShowHead(true);
         }else{setShowHead(false);}
 
@@ -66,7 +66,7 @@ export default function Index({ auth, categories, page_id,
 
     const SubmitDeletion = () => {
         if (setDeleteId != '') {
-            Inertia.delete(route('dashboard.categories.delete', deleteId));
+            Inertia.delete(route('dashboard.point_retraits.delete', deleteId));
             setDeleteId('')
             setSupDialog(false);
         } else {
@@ -88,7 +88,7 @@ export default function Index({ auth, categories, page_id,
     const Search = (e) => {
         e.preventDefault();
         if (data.search !== '') {
-            get(route('dashboard.categories.search'),
+            get(route('dashboard.point_retraits.search'),
                 {
                     onSuccess: (response) => {
                         setDatas(response.data);
@@ -107,19 +107,19 @@ export default function Index({ auth, categories, page_id,
             <Head title={page_title} />
             <Breadcrumb>
                 <Link href='#'>
-                    <Translate>Catégories</Translate>
+                    <Translate>Points de retrait</Translate>
                 </Link>
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3'
-                    href={route('dashboard.categories.create')}>
+                    href={route('dashboard.point_retraits.create')}>
                     <AiOutlinePlus className='me-1' />   <Translate>Nouveau</Translate>
                 </Link>
             </DashHeadTitle>
             <DeleteDialog showFunction={showSupDialog} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
             <Card className="h-full w-full">
                 <SearchBar
-                    exportUrl={route('dashboard.categories.export')}
+                    exportUrl={route('dashboard.point_retraits.export')}
                     message={errors.search}
                     onSubmit={Search}
                     disabled={processing}
@@ -128,9 +128,9 @@ export default function Index({ auth, categories, page_id,
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable count={count}  head={TABLE_HEAD} links={categories.links} showHead={showHead}>
+                    <ViewTable count={count}  head={TABLE_HEAD} links={point_retraits.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom,  photo, created_at }, index) => {
+                            ({ id, lieu,  photo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -141,7 +141,7 @@ export default function Index({ auth, categories, page_id,
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
 
-                                                {photo && <Link href={route('dashboard.categories.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
+                                                {photo && <Link href={route('dashboard.point_retraits.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={lieu} className='w-10 bg-white' size="sm" /></Link>}
 
                                             </div>
                                         </td>
@@ -152,8 +152,8 @@ export default function Index({ auth, categories, page_id,
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    <Link href={route('dashboard.categories.show', id)}>
-                                                        {nom}
+                                                    <Link href={route('dashboard.point_retraits.show', id)}>
+                                                        {lieu}
                                                     </Link>
                                                 </Typography>
                                             </div>
@@ -173,20 +173,20 @@ export default function Index({ auth, categories, page_id,
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">
                                                 <IconButton title='Modifier' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.categories.edit', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.point_retraits.edit', id)}>
                                                         <FaRegEdit className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Modifier</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton title='Voir' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.categories.show', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.point_retraits.show', id)}>
                                                         <FaEye className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Voir</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton variant='text' className='text-red-600 items-center flex gap-1' title="supprimer cet enrégistrement"
                                                     method="delete"
-                                                    href={route('dashboard.categories.delete', id)}
+                                                    href={route('dashboard.point_retraits.delete', id)}
                                                     as="button"
                                                     onClick={() => handleDelete(id)}
                                                 >
@@ -209,7 +209,7 @@ export default function Index({ auth, categories, page_id,
                                             <div className="text-sm mb-4 mt-2"><Translate>Aucun enrégistrement</Translate> !</div>
                                         </>
                                     }
-                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.categories')}>
+                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.point_retraits')}>
                                         <Button className='clear-both max-auto px-6  py-2 bg-transparent font-bold flex items-center mx-auto text-gray-800 border shadow-sm  rounded-md'><AiOutlineArrowLeft className='me-1' />
                                             <Translate>Retour </Translate>
                                         </Button>

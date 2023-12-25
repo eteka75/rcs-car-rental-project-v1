@@ -5,17 +5,15 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-import { Progress, Switch } from '@material-tailwind/react';
+import { Progress, Switch, Textarea } from '@material-tailwind/react';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 
-export default function CategorieForm({ className = '', categorie = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function PointRetraitForm({ className = '', point_retrait = null, action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
-    const [countries, setCountries] = useState([]);
-    useEffect(() => { setCountries(pays); }, []);
-
+    console.log(point_retrait)
     const handleFileChange = (e) => {
         let file = e.target.files;
 
@@ -34,20 +32,30 @@ export default function CategorieForm({ className = '', categorie = null, pays =
         }
     };
 
-    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(categorie !== null && action === 'update' ?
+    const { data, setData, post, put, progress, errors, processing, recentlySuccessful } = useForm(point_retrait !== null && action === 'update' ?
         {
-            nom: categorie.nom ?? '',
+            lieu: point_retrait.lieu ?? '',
+            ville: point_retrait.ville ?? '',
+            contacts: point_retrait.contacts ?? '',
+            quartier: point_retrait.quartier ?? '',
+            adresse: point_retrait.adresse ?? '',
+            map_local:point_retrait.map_local  ?? '',
             photo: '',
-            description: categorie.description ?? ''
+            description: point_retrait.description ?? ''
         } : {
-            nom: '',
+            lieu: '',
+            ville: '',
+            contacts: '',
+            quartier: '',
+            adresse: '',
+            map_local: '',
             photo: '',
             description: ''
         });
     const handleSubmit = (e) => {
         e.preventDefault();
         if (action === 'update') {
-            post(route('dashboard.categories.update', categorie.id), data, {
+            post(route('dashboard.point_retraits.update', point_retrait.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -58,7 +66,7 @@ export default function CategorieForm({ className = '', categorie = null, pays =
             });
         }
         if (action === 'save') {
-            post(route('dashboard.categories.store'), {
+            post(route('dashboard.point_retraits.store'), {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -75,20 +83,88 @@ export default function CategorieForm({ className = '', categorie = null, pays =
         <section className={className}>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                    <InputLabel htmlFor="nom"  >Nom</InputLabel>
+                    <InputLabel htmlFor="lieu"  >Lieu de retrait</InputLabel>
                     <TextInput
-                        id="nom"
+                        id="lieu"
                         ref={addToRefs}
-                        value={data.nom}
+                        value={data.lieu}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
                     />
 
-                    <InputError message={errors.nom} className="mt-2" />
+                    <InputError message={errors.lieu} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor="photo" >Photo</InputLabel>
+                    <InputLabel htmlFor="adresse"  >Adresse de retrait</InputLabel>
+                    <TextInput
+                        id="adresse"
+                        ref={addToRefs}
+                        value={data.adresse}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"
+                    />
+
+                    <InputError message={errors.adresse} className="mt-2" />
+                </div>
+                <div className='md:grid md:grid-cols-2 md:gap-4'>
+                    <div>
+                        <InputLabel htmlFor="ville"  >Ville</InputLabel>
+                        <TextInput
+                            id="ville"
+                            ref={addToRefs}
+                            value={data.ville}
+                            onChange={handleInputChange}
+                            type="text"
+                            className="mt-1 block w-full"
+                        />
+
+                        <InputError message={errors.ville} className="mt-2" />
+                    </div>
+                    <div>
+                        <InputLabel htmlFor="quartier"  >Quartier</InputLabel>
+                        <TextInput
+                            id="quartier"
+                            ref={addToRefs}
+                            value={data.quartier}
+                            onChange={handleInputChange}
+                            type="text"
+                            className="mt-1 block w-full"
+                        />
+                        {console.log(errors)}
+
+                        <InputError message={errors.quartier} className="mt-2" />
+                    </div>
+                </div>
+                <div>
+                    <InputLabel htmlFor="contacts"  >Contacts à appeler</InputLabel>
+                    <TextInput
+                        id="contacts"
+                        ref={addToRefs}
+                        value={data.contacts}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 block w-full"
+                    />
+
+                    <InputError message={errors.contacts} className="mt-2" />
+                </div>
+                <div>
+                    <InputLabel htmlFor="map_local">Lien de la locatisation (sur Google Maps local)</InputLabel>
+                    <TextArea
+                        id="map_local"
+                        ref={addToRefs}
+                        value={data.map_local}
+                        onChange={handleInputChange}
+                        rows="2"
+                        className="mt-1 block w-full"
+                    />
+
+                    <InputError message={errors.map_local} className="mt-2" />
+                </div>
+                <div>
+                    <InputLabel htmlFor="photo" >Photo du lieu</InputLabel>
 
                     <input
                         id="photo"
@@ -106,12 +182,11 @@ export default function CategorieForm({ className = '', categorie = null, pays =
 
                     <InputError message={errors.photo} className="mt-2" />
                 </div>
-                
-                
+
+
                 <div className=''>
                     <div>
                         <InputLabel htmlFor="nom">Description</InputLabel>
-
                         <TextArea
                             id="description"
                             ref={addToRefs}
@@ -126,14 +201,12 @@ export default function CategorieForm({ className = '', categorie = null, pays =
                     </div>
 
                 </div>
-
-
                 <div className="flex items-center gap-4">
                     {progress > 0 && <div>{`Upload Progress: ${progress}%`}</div>}
                     <PrimaryButton
                         className='bg-blue-600 hover:bg-blue-800 text-white'
                         disabled={processing}>
-                       <Translate>{btntext}</Translate>
+                        <Translate>{btntext}</Translate>
                     </PrimaryButton>
                     <Transition
                         show={recentlySuccessful}

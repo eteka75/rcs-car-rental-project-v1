@@ -8,14 +8,14 @@ import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Translate from '@/components/Translate'
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
-import i18n from '@/i18n'
+import i18n from '@/i18n';
 
-export default function Show({ auth, categorie, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
+export default function Show({ auth, point_retrait, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
-                <Link href={route('dashboard.categories')} className="opacity-60">
-                    <span>Marques</span>
+                <Link href={route('dashboard.point_retraits')} className="opacity-60">
+                    <span>Points de retrait</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>
@@ -25,19 +25,19 @@ export default function Show({ auth, categorie, page_id = '', page_subid = '', p
             <Head title={page_title} />
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-                    href={route('dashboard.categories')}>
+                    href={route('dashboard.point_retraits')}>
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 gap-4">
-                {categorie.photo &&
+                {point_retrait && point_retrait.photo &&
                     <Card className='col-span-3 lg:col-span-1'>
                         <CardBody className="App w-full md:m-auto">
                             {
-                                categorie.photo && <img
+                                point_retrait.photo && <img
                                     className="max-h-44 mx-auto w-auto  rounded-lg object-cover object-center"
-                                    src={HTTP_FRONTEND_HOME + '' + categorie.photo}
-                                    alt={categorie.nom}
+                                    src={HTTP_FRONTEND_HOME + '' + point_retrait.photo}
+                                    alt={point_retrait.nom}
                                 />
                             }
                         </CardBody>
@@ -57,14 +57,15 @@ export default function Show({ auth, categorie, page_id = '', page_subid = '', p
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Nom</Translate>
+                                            <Translate>Lieu</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{categorie.nom}</td>
+                                    <td>{point_retrait.lieu}</td>
 
                                 </tr>
 
-                                <tr className='p-4 border-b'>
+                               
+                                <tr className='p-4 border-b '>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
                                     >
@@ -73,11 +74,74 @@ export default function Show({ auth, categorie, page_id = '', page_subid = '', p
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Date d'ajout</Translate>
+                                            <Translate>Ville</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(categorie.created_at, i18n.language)}</td>
+                                    <td>{point_retrait.ville}</td>
+
                                 </tr>
+                                <tr className='p-4 border-b '>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Quartier</Translate>
+                                        </Typography>
+                                    </th>
+                                    <td>{point_retrait.quartier}</td>
+
+                                </tr>
+                                <tr className='p-4 border-b '>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Adresse</Translate>
+                                        </Typography>
+                                    </th>
+                                    <td>{point_retrait.adresse}</td>
+
+                                </tr>
+                                <tr className='p-4 border-b '>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Lien de la locatisation (sur Google Maps local)</Translate>
+                                        </Typography>
+                                    </th>
+                                    <td>{point_retrait.map_local}</td>
+
+                                </tr>
+                                <tr className='p-4 border-b '>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Contacts</Translate>
+                                        </Typography>
+                                    </th>
+                                    <td>{point_retrait.contacts}</td>
+
+                                </tr>
+
+                               
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -90,7 +154,7 @@ export default function Show({ auth, categorie, page_id = '', page_subid = '', p
                                             <Translate>Dernière modification</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(categorie.updated_at, i18n.language)}</td>
+                                    <td> {DateToFront(point_retrait.updated_at, i18n.language)}</td>
                                 </tr>
                                 <tr className='p-4 '>
                                     <th
@@ -106,7 +170,7 @@ export default function Show({ auth, categorie, page_id = '', page_subid = '', p
                                     </th>
                                     <td>
                                         <Typography variant='small' className='break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
-                                            {categorie.description}
+                                            {point_retrait.description}
                                         </Typography>
                                     </td>
                                 </tr>

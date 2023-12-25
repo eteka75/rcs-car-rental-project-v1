@@ -102,7 +102,7 @@ class CategorieController extends Controller
         $categorie_name=$categorie->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
             'categorie' => $categorie,
-            'page_title' => "Catégories ".$categorie_name,
+            'page_title' => "Catégorie ".$categorie_name,
             'page_subtitle' => "Affichage de détail sur ".$categorie_name,
         ]);
     }
