@@ -138,15 +138,16 @@ export default function Index({ auth, point_retraits, page_id,
 
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
-                                        <td className={classes}>
+                                        {photo!='' && photo!=null && <td  className={classes}>
                                             <div className="flex items-center gap-3">
 
                                                 {photo && <Link href={route('dashboard.point_retraits.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={lieu} className='w-10 bg-white' size="sm" /></Link>}
 
                                             </div>
                                         </td>
-                                        <td className={classes}>
-                                            <div className="flex flex-col">
+                                    }
+                                    <td colSpan={photo!='' && photo!=null?'':'2'} className={classes}>
+                                            <div className="flex flex-col">                                               
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
@@ -157,8 +158,7 @@ export default function Index({ auth, point_retraits, page_id,
                                                     </Link>
                                                 </Typography>
                                             </div>
-                                        </td>
-                                        
+                                        </td>                                        
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"

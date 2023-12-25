@@ -104,12 +104,11 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                         type="text"
                         className="mt-1 block w-full"
                     />
-
                     <InputError message={errors.adresse} className="mt-2" />
                 </div>
                 <div className='md:grid md:grid-cols-2 md:gap-4'>
                     <div>
-                        <InputLabel htmlFor="ville"  >Ville</InputLabel>
+                        <InputLabel htmlFor="ville">Ville</InputLabel>
                         <TextInput
                             id="ville"
                             ref={addToRefs}
@@ -118,7 +117,6 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                             type="text"
                             className="mt-1 block w-full"
                         />
-
                         <InputError message={errors.ville} className="mt-2" />
                     </div>
                     <div>
@@ -136,7 +134,7 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                     </div>
                 </div>
                 <div>
-                    <InputLabel htmlFor="contacts"  >Contacts à appeler</InputLabel>
+                    <InputLabel htmlFor="contacts">Contacts à appeler</InputLabel>
                     <TextInput
                         id="contacts"
                         ref={addToRefs}
@@ -145,7 +143,6 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                         type="text"
                         className="mt-1 block w-full"
                     />
-
                     <InputError message={errors.contacts} className="mt-2" />
                 </div>
                 <div>
@@ -177,7 +174,6 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                             {progress.percentage}%
                         </Progress>
                     )}
-
                     <InputError message={errors.photo} className="mt-2" />
                 </div>
 

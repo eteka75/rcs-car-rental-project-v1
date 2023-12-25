@@ -76,16 +76,6 @@ export const menuItemsData = [
         sid:'points'
       },
       {
-        title: "Villes",
-        route: 'dashboard.voitures.create',
-        sid:'voitures'
-      },
-      {
-        title: "Contrôles techniques",
-        route: 'dashboard.voitures.create',
-        sid:'voitures'
-      },
-      {
         title: "Assurances",
         route: 'dashboard.voitures.create',
         sid:'voitures'

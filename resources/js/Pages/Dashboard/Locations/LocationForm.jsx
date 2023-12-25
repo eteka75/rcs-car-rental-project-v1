@@ -54,8 +54,9 @@ export default function LocationForm({ className = '', location = null, pays = [
         
     },[])
     useEffect(()=>{
-        ShowVoiture(data.voiture_id);
-    },[showVoitureId])
+        ShowVoiture(data.voiture_id??'');
+    },[showVoitureId]);
+
     const [date_fin,setDateFin]=useState({
         startDate: null,
         endDate: null
@@ -86,9 +87,9 @@ export default function LocationForm({ className = '', location = null, pays = [
         const { id, value } = e.target;
         setData(id, value);
     };
-    const handleSelectVoiture = (options) =>{
-    !options ? setData('voiture_id', '') : setData('voiture_id', options.value);
-        setShowVoitureId(options.value??'');
+    const handleSelectVoiture = (value) =>{
+        setData('voiture_id', value);
+        setShowVoitureId(value??'');
     }
 
     const handleMultiSelectChange = (selected) => {
@@ -203,23 +204,26 @@ export default function LocationForm({ className = '', location = null, pays = [
 
     return (
         <div className='md:grid md:grid-cols-2 md:gap-4'>
+            {console.log(voiture)}
             <Card>
                 <CardBody>
                     <section className={className}>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             
                             <div>
-                                <InputLabel htmlFor="voiture_id"  >Voiture</InputLabel>
+                                <InputLabel htmlFor="voiture_id">Voiture</InputLabel>
                                 <Select
                                     id="voiture_id"
                                     isClearable={true}
                                     isSearchable={true}
                                     defaultValue={setDefaultValue(data.voiture_id, (location && location.voiture.nom) ? location.voiture.nom : '')}
-
-                                    onChange={handleSelectVoiture}
+                                    onChange={(options) =>
+                                        !options ? setData('voiture_id', "") : handleSelectVoiture(options.value)
+                                    }
                                     className="mt-1 block w-full"
                                     options={ConvertSelectDataV1(voitures)}
                                 />
+                                
 
                                 <InputError message={errors.voiture_id} className="mt-2" />
                             </div>
@@ -422,23 +426,23 @@ export default function LocationForm({ className = '', location = null, pays = [
                     </section>
                 </CardBody>
             </Card>
-            <Card className={"transition-all duration-300 mt-8 md:mt-0 "+(showDetails?'block':'hidden')}>
+            {  voiture!=null && voiture!='' &&
+            <Card className={"transition-all duration-300 mt-8 md:mt-0 "}>
                 <CardBody className='overflow-auto'>
                     <section>
-                        {console.log(voiture)}
                         {  voiture!=null && voiture!='' && (
                             <div>
                                        
                                         {voiture.nom!=null &&
-                                        <div className="font-bold text-xl ">
+                                        <div className="font-bold pb-3 text-xl ">
                                             {voiture.nom}
                                         </div>
                                         }   
-                                         {voiture.nom!=voiture.photo &&                                
+                                         {voiture.photo!='' && voiture.photo!=null &&                                
                                             <img src={HTTP_FRONTEND_HOME+voiture.photo} alt={voiture.nom} className='w-auto  rounded-md h-auto max-w-[100%] _max-h-[400px]' />
                                         }
                                         
-                                        <div className="border-t mt-8">
+                                        <div className="border-t mt-4">
                                          {voiture.immatriculation!=null && voiture.immatriculation!='' && 
                                         <div className="border-b  flex flex-wrap gap-2 px-2 py-2">
                                             <div className="col-span-2 font-bold ">
@@ -469,13 +473,43 @@ export default function LocationForm({ className = '', location = null, pays = [
                                             </div>
                                         </div>
                                         }
-                                        {voiture.couleur!=null && 
+                                        {voiture.type_eclairage!=null && voiture.type_eclairage!='' && 
                                         <div className="border-b flex flex-wrap gap-2 px-2 py-2">
                                             <div className="col-span-2 font-bold ">
-                                                Couleur :
+                                                Eclairage :
                                             </div>
                                             <div className="col-span-4">
-                                                {voiture.couleur}
+                                                {voiture.type_eclairage}
+                                            </div>
+                                        </div>
+                                        }
+                                        {voiture.nombre_vitesse!=null && voiture.nombre_vitesse!='' && 
+                                         <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Nombre de vitesses :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.nombre_vitesse}
+                                            </div>
+                                        </div>
+                                        }
+                                        {voiture.nombre_vitesse!=null && voiture.nombre_vitesse!='' && 
+                                         <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Nombre de vitesses :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.nombre_vitesse}
+                                            </div>
+                                        </div>
+                                        }
+                                        {voiture.consommation!=null && 
+                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                            <div className="col-span-2 font-bold ">
+                                                Consommation :
+                                            </div>
+                                            <div className="col-span-4">
+                                                {voiture.consommation}
                                             </div>
                                         </div>
                                         }
@@ -508,6 +542,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                     </section>
                 </CardBody>
             </Card>
+}
         </div>
     );
 }

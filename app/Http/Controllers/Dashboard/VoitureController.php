@@ -199,6 +199,7 @@ class VoitureController extends Controller
     //public function update(Request $request, $id){
     public function update(RequestVoitureRequest $request, $id)
     {
+       //dd($request->all());
         $voiture = Voiture::findOrFail($id);
         $data = $request->except('photo');
         if ($request->hasFile('photo')) {
@@ -215,7 +216,11 @@ class VoitureController extends Controller
             ]);
         }
         $sys_sec_ids = $data['systeme_securite'];
+        if($sys_sec_ids!=null && count($sys_sec_ids) > 0) {
         $voiture->systemeSecurites()->sync($sys_sec_ids);
+        }else{
+            $voiture->systemeSecurites()->sync([]);
+        }
         Session::flash(
             'info',
             [

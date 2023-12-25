@@ -136,14 +136,16 @@ export default function Index({ auth, marques, page_id,count, page_subid, page_t
 
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
+                                         {logo!="" && logo!=null &&
+                                         <td className={classes}>
+                                         <div className="flex items-center gap-3">
 
                                                 {logo && <Link href={route('dashboard.marques.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + logo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
 
                                             </div>
                                         </td>
-                                        <td className={classes}>
+                                        }
+                                        <td colSpan={logo!="" && logo!=null ? "":'2'} className={classes}>
                                             <div className="flex flex-col">
                                                 <Typography
                                                     variant="small"

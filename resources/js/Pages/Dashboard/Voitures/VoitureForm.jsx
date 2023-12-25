@@ -35,6 +35,7 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
             systeme_securite: [],
             systeme_securites:'',
             puissance_moteur:voiture.puissance_moteur?? '',
+            immatriculation:voiture.immatriculation?? '',
             type_transmission:voiture.type_transmission?? '',
             dimenssions:voiture.dimenssions?? '',
             nombre_vitesse:voiture.nombre_vitesse?? '',
@@ -57,6 +58,7 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
             disponibilite: 0,
             type_carburant_id: '',
             categorie_id: '',
+            immatriculation: '',
             systeme_securite: '',
             systeme_securites: '',
             puissance_moteur: '',
@@ -289,7 +291,6 @@ const setRealSysId=()=>{
                             className="mt-1 block w-full"
                             defaultValue={setDefaultMultiValue((voiture && voiture.systeme_securites) ? voiture.systeme_securites:[])}
                             options={ConvertSelectData(sys_securites)} />
-
                         <InputError message={errors.systeme_securite} className="mt-2" />
                         <InputError message={errors["systeme_securite.0"]} className="mt-2" />
                         <InputError message={errors["systeme_securite.1"]} className="mt-2" />
@@ -351,7 +352,7 @@ const setRealSysId=()=>{
                             ref={addToRefs}
                             value={data.immatriculation}
                             onChange={handleInputChange}
-                            type="number"
+                            type="text"
                             className="mt-0 block w-full"
                             placeholder={t('JP 0025 RB')}
 
