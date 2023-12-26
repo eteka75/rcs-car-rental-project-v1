@@ -162,7 +162,7 @@ export default function PointRetraitForm({ className = '', point_retrait = null,
                     <InputLabel htmlFor="photo" >Photo du lieu</InputLabel>
 
                     <input
-                        id="photo"
+                        id="photo" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp"
                         ref={addToRefs}
                         onChange={handleFileChange}
                         type="file"

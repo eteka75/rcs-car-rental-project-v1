@@ -3,6 +3,8 @@
 use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\ControlVoitureController;
 use App\Http\Controllers\Dashboard\EnLocationController;
+use App\Http\Controllers\Dashboard\LocationOptionController;
+use App\Http\Controllers\Dashboard\LocationReductionController;
 use App\Http\Controllers\Dashboard\MarqueController;
 use App\Http\Controllers\Dashboard\OperationVoitureController;
 use App\Http\Controllers\Dashboard\PointRetraitController;
@@ -135,6 +137,32 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.point_retraits.export');
         Route::get('/{id}', 'show')->name('dashboard.point_retraits.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.point_retraits.delete');
+    });
+    /* Options de locations */
+    Route::controller(LocationOptionController::class)
+        ->prefix('location_options')->group(function () {
+        Route::get('/', 'index')->name('dashboard.location_options');
+        Route::get('/search', 'index')->name('dashboard.location_options.search');
+        Route::get('/new', 'create')->name('dashboard.location_options.create');
+        Route::post('/new', 'store')->name('dashboard.location_options.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.location_options.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.location_options.update');
+        Route::get('/export', 'export')->name('dashboard.location_options.export');
+        Route::get('/{id}', 'show')->name('dashboard.location_options.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.location_options.delete');
+    });
+    /* Réduction */
+    Route::controller(LocationReductionController::class)
+        ->prefix('reductions')->group(function () {
+        Route::get('/', 'index')->name('dashboard.location_reductions');
+        Route::get('/search', 'index')->name('dashboard.location_reductions.search');
+        Route::get('/new', 'create')->name('dashboard.location_reductions.create');
+        Route::post('/new', 'store')->name('dashboard.location_reductions.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.location_reductions.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.location_reductions.update');
+        Route::get('/export', 'export')->name('dashboard.location_reductions.export');
+        Route::get('/{id}', 'show')->name('dashboard.location_reductions.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.location_reductions.delete');
     });
 
 })->middleware(['auth','web']);

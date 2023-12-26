@@ -4,27 +4,27 @@ import Pagination from '../Pagination';
 import Translate from '../Translate';
 import { usePage } from '@inertiajs/react';
 
-export default function ViewTable({ head = null, links = '', children,showHead=true,count=0}) {
-    const [classHead,setClassHead]=useState('');
+export default function ViewTable({ head = null, links = '', children, showHead = true, count = 0 }) {
+    const [classHead, setClassHead] = useState('');
     const { total } = usePage().props;
-    useEffect(()=>{
-        if(showHead===true){
+    useEffect(() => {
+        if (showHead === true) {
             setClassHead('');
-        }else{
+        } else {
             setClassHead('hidden')
         }
-    },[showHead])
+    }, [showHead])
     return (
         <>
-            {links && (count>0 && total>0) &&
-            <div className="hidden lg:flex  justify-between  items-center border-t border-blue-gray-50 px-4">
-                  <div className='lg:flex p-0 text-gray-400 px-1 py-3'>{count>1 && <>{count} sur {total??count} enrégistrement{total>1?'s':(count>1?'s':'')}</>}</div> 
-            { Array.isArray(links) && links.length > 3 &&
-                <CardFooter className="lg:flex items-center justify-end  py-1 mt-1 ">
-                  <Pagination links={links} />                
-                </CardFooter>
-            }
-            </div>
+            {links && (count > 1 && total > 0) &&
+                <div className="hidden lg:flex  justify-between  items-center border-t border-blue-gray-50 px-4">
+                    <div className='lg:flex p-0 text-gray-400 px-1 py-3'>{count > 1 && <>{count} sur {total ?? count} enrégistrement{total > 1 ? 's' : (count > 1 ? 's' : '')}</>}</div>
+                    {Array.isArray(links) && links.length > 3 &&
+                        <CardFooter className="lg:flex items-center justify-end  py-1 mt-1 ">
+                            <Pagination links={links} />
+                        </CardFooter>
+                    }
+                </div>
             }
             <table className=" w-full min-w-max table-auto text-left">
                 <thead>
@@ -51,9 +51,9 @@ export default function ViewTable({ head = null, links = '', children,showHead=t
             </table>
             {links && Array.isArray(links) && links.length > 3 &&
 
-            <CardFooter className="flex items-center justify-end border-t border-blue-gray-50 px-4">
-                <Pagination links={links} />
-            </CardFooter>
+                <CardFooter className="flex items-center justify-end border-t border-blue-gray-50 px-4">
+                    <Pagination links={links} />
+                </CardFooter>
             }
         </>
     )

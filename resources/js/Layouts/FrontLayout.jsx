@@ -6,12 +6,14 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import LocationHeader from '@/components/locations/LocationHeader';
 import FooterMega from '@/components/FooterMega';
+import Notification from '@/components/dashboard/Notification';
 
 export default function FrontLayout({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen ">
+            <Notification/>
             <LocationHeader auth={auth}/>           
             <main>{children}</main>
             <FooterMega/>

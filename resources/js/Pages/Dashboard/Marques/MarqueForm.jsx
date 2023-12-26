@@ -103,7 +103,7 @@ export default function MarqueForm({ className = '', marque = null, pays = [], a
                     <InputLabel htmlFor="logo" >Logo</InputLabel>
 
                     <input
-                        id="logo"
+                        id="logo" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp"
                         ref={addToRefs}
                         onChange={handleFileChange}
                         type="file"

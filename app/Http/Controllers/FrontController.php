@@ -10,6 +10,7 @@ class FrontController extends Controller
 {
     public function index(Request $request)
     {
+        session()->flash("danger", ["title"=> "Alerte",'message'=>"Message de test de notification"]);
         return Inertia::render('Index', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),

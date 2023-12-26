@@ -91,7 +91,7 @@ export default function SecuriteForm({ className = '', sys_securite = null, pays
                     <InputLabel htmlFor="photo" >Photo</InputLabel>
 
                     <input
-                        id="photo"
+                        id="photo" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp"
                         ref={addToRefs}
                         onChange={handleFileChange}
                         type="file"

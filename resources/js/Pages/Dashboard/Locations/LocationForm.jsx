@@ -20,98 +20,99 @@ import { enUS, fr } from 'date-fns/locale';
 import { format } from 'date-fns';
 
 
-import Datepicker  from "react-tailwindcss-datepicker"; 
+import Datepicker from "react-tailwindcss-datepicker";
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
+import ModaleImage from '@/components/ModaleImage';
 
 
 export default function LocationForm({ className = '', location = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const { t } = useTranslation();
     const { voitures, point_retraits } = usePage().props
-    const [showDetails,setShowDetail]=useState(true);
-    const [voiture,setVoiture]=useState([]);
-    const [showVoitureId,setShowVoitureId]=useState([]);
-    const [date_debut,setDateDebut]=useState({
+    const [showDetails, setShowDetail] = useState(true);
+    const [voiture, setVoiture] = useState([]);
+    const [showVoitureId, setShowVoitureId] = useState([]);
+    const [date_debut, setDateDebut] = useState({
         startDate: null,
         endDate: null
     });
-    const [date_fin,setDateFin]=useState({
+    const [date_fin, setDateFin] = useState({
         startDate: null,
         endDate: null
     });
 
-    useEffect(()=>{
-        if(data.date_etat===''){
-            let today= new Date(),
-            txtDate=DateToFront(today,i18n.language,'d/m/Y');
+    useEffect(() => {
+        if (data.date_etat === '') {
+            let today = new Date(),
+                txtDate = DateToFront(today, i18n.language, 'd/m/Y');
             setDateDebut(setTheDate(today));
 
-            let in6Month=new Date().setMonth(new Date().getMonth()+6);
+            let in6Month = new Date().setMonth(new Date().getMonth() + 6);
             setDateFin(setTheDate(in6Month));//for Datepicker
-        }else{            
-            setDateDebut(setTheDate(location.date_debut_location??''));//for Datepicker
-            setDateFin(setTheDate(location.date_fin_location??''));//for Datepicker
+        } else {
+            setDateDebut(setTheDate(location.date_debut_location ?? ''));//for Datepicker
+            setDateFin(setTheDate(location.date_fin_location ?? ''));//for Datepicker
         }
 
         /* points ids */
-        if(location && location.points_retrait){
-            let ids=[];
-            location.points_retrait.map(({id})=>{ids.push(id)});
-            setData('point_retraits',ids);
+        if (location && location.points_retrait) {
+            let ids = [];
+            location.points_retrait.map(({ id }) => { ids.push(id) });
+            setData('point_retraits', ids);
         }
-        console.log(date_debut,date_fin)
-    },[location])
-    useEffect(()=>{
-        ShowVoiture(data.voiture_id??'');
-    },[showVoitureId]);
+        console.log(date_debut, date_fin)
+    }, [location])
+    useEffect(() => {
+        ShowVoiture(data.voiture_id ?? '');
+    }, [showVoitureId]);
 
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}  
 
-    const setTheDate = (val)=>{
-        if(val===''){
-            val =new Date()
+    const setTheDate = (val) => {
+        if (val === '') {
+            val = new Date()
         }
-        return {startDate:val, endDate:val};
+        return { startDate: val, endDate: val };
     }
 
     const handleDateDebutChange = (newValue) => {
-        const {startDate}=newValue;
+        const { startDate } = newValue;
         setDateDebut(newValue);
-        let frDate= DateToFront(startDate,i18n.language,'d/m/Y');
+        let frDate = DateToFront(startDate, i18n.language, 'd/m/Y');
         alert(frDate)
         console.log(newValue)
-        setData("date_debut_location",frDate); 
-    } 
+        setData("date_debut_location", frDate);
+    }
     const handleDateFinChange = (newValue) => {
-        const {startDate}=newValue;
-        let frDate= DateToFront(startDate,i18n.language,'d/m/Y');
+        const { startDate } = newValue;
+        let frDate = DateToFront(startDate, i18n.language, 'd/m/Y');
         setDateFin(newValue);
-        setData("date_fin_location",frDate); 
-    } 
+        setData("date_fin_location", frDate);
+    }
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setData(id, value);
     };
-    const handleSelectVoiture = (value) =>{
+    const handleSelectVoiture = (value) => {
         setData('voiture_id', value);
-        setShowVoitureId(value??'');
+        setShowVoitureId(value ?? '');
     }
 
     const handleMultiSelectChange = (selected) => {
-        let newTab=[];
-        if(Array.isArray(selected)){
-            selected.map(({value})=>{
+        let newTab = [];
+        if (Array.isArray(selected)) {
+            selected.map(({ value }) => {
                 newTab.push(value);
             })
         }
-        setData('point_retraits',newTab);       
+        setData('point_retraits', newTab);
     };
-    const setDefaultMultiValue=(array_ids)=>{
-        let tb=[];
-        if(Array.isArray(array_ids)){
-            array_ids.map(({lieu,id})=>{
+    const setDefaultMultiValue = (array_ids) => {
+        let tb = [];
+        if (Array.isArray(array_ids)) {
+            array_ids.map(({ lieu, id }) => {
                 tb.push({ label: lieu, value: id });
             })
         }
@@ -132,12 +133,12 @@ export default function LocationForm({ className = '', location = null, pays = [
 
         return [];
     }
-    const ShowVoiture = (id=0)=>{
-       
-        let v=voitures.find(obj => obj.id === id);
-        if(v){
+    const ShowVoiture = (id = 0) => {
+
+        let v = voitures.find(obj => obj.id === id);
+        if (v) {
             setVoiture(v);
-        }else{
+        } else {
             setVoiture([]);
         }
     }
@@ -165,8 +166,8 @@ export default function LocationForm({ className = '', location = null, pays = [
             tarif_location_hebdomadaire: location.tarif_location_hebdomadaire ?? '',
             tarif_location_journalier: location.tarif_location_journalier ?? '',
             tarif_location_mensuel: location.tarif_location_mensuel ?? '',
-            date_debut_location: DateToFront(location.date_debut_location,i18n.language,'d/m/Y') ?? '',
-            date_fin_location: DateToFront(location.date_fin_location,i18n.language,'d/m/Y')?? '',
+            date_debut_location: DateToFront(location.date_debut_location, i18n.language, 'd/m/Y') ?? '',
+            date_fin_location: DateToFront(location.date_fin_location, i18n.language, 'd/m/Y') ?? '',
             point_retraits: [],
             conditions: location.conditions ?? '',
             description: location.description ?? ''
@@ -177,8 +178,8 @@ export default function LocationForm({ className = '', location = null, pays = [
             tarif_location_hebdomadaire: '',
             tarif_location_journalier: '',
             tarif_location_mensuel: '',
-            date_debut_location: DateToFront(new Date(),i18n.language,'d/m/Y') ,
-            date_fin_location: DateToFront(new Date().setMonth(new Date().getMonth()+6),i18n.language,'d/m/Y') ,
+            date_debut_location: DateToFront(new Date(), i18n.language, 'd/m/Y'),
+            date_fin_location: DateToFront(new Date().setMonth(new Date().getMonth() + 6), i18n.language, 'd/m/Y'),
             point_retraits: [],
             conditions: '',
             description: ''
@@ -218,7 +219,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                 <CardBody>
                     <section className={className}>
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            
+
                             <div>
                                 <InputLabel htmlFor="voiture_id">Voiture</InputLabel>
                                 <Select
@@ -233,98 +234,95 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     className="mt-1 block w-full"
                                     options={ConvertSelectDataV1(voitures)}
                                 />
-                                
+
 
                                 <InputError message={errors.voiture_id} className="mt-2" />
                             </div>
-                            
-                            
                             <div className='md:grid md:grid-cols-2 gap-4'>
+                                <div>
+                                    <InputLabel htmlFor="tarif_location_heure"  >Tarif par heure</InputLabel>
+                                    <TextInput
+                                        id="tarif_location_heure"
+                                        ref={addToRefs}
+                                        value={data.tarif_location_heure}
+                                        onChange={handleInputChange}
+                                        type="number"
+                                        className="mt-1 block w-full"
+                                        placeholder={t('5000')}
 
-                            <div>
-                                <InputLabel htmlFor="tarif_location_heure"  >Tarif par heure</InputLabel>
-                                <TextInput
-                                    id="tarif_location_heure"
-                                    ref={addToRefs}
-                                    value={data.tarif_location_heure}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className="mt-1 block w-full"
-                                    placeholder={t('5000')}
+                                    />
 
-                                />
+                                    <InputError message={errors.tarif_location_heure} className="mt-2" />
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="tarif_location_journalier"  >Tarif par jour</InputLabel>
+                                    <TextInput
+                                        id="tarif_location_journalier"
+                                        ref={addToRefs}
+                                        value={data.tarif_location_journalier}
+                                        onChange={handleInputChange}
+                                        type="number"
+                                        className="mt-1 block w-full"
+                                        placeholder={t('20000')}
 
-                                <InputError message={errors.tarif_location_heure} className="mt-2" />
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="tarif_location_journalier"  >Tarif par jour</InputLabel>
-                                <TextInput
-                                    id="tarif_location_journalier"
-                                    ref={addToRefs}
-                                    value={data.tarif_location_journalier}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className="mt-1 block w-full"
-                                    placeholder={t('20000')}
+                                    />
 
-                                />
-
-                                <InputError message={errors.tarif_location_journalier} className="mt-2" />
-                            </div>
+                                    <InputError message={errors.tarif_location_journalier} className="mt-2" />
+                                </div>
                             </div>
                             <div className='md:grid md:grid-cols-2 gap-4'>
 
-                            <div>
-                                <InputLabel htmlFor="tarif_location_hebdomadaire"  >Tarif par semaine (Hedomadaire)</InputLabel>
-                                <TextInput
-                                    id="tarif_location_hebdomadaire"
-                                    ref={addToRefs}
-                                    value={data.tarif_location_hebdomadaire}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className="mt-1 block w-full"
-                                    placeholder={t('100000')}
+                                <div>
+                                    <InputLabel htmlFor="tarif_location_hebdomadaire"  >Tarif par semaine (Hedomadaire)</InputLabel>
+                                    <TextInput
+                                        id="tarif_location_hebdomadaire"
+                                        ref={addToRefs}
+                                        value={data.tarif_location_hebdomadaire}
+                                        onChange={handleInputChange}
+                                        type="number"
+                                        className="mt-1 block w-full"
+                                        placeholder={t('100000')}
 
-                                />
+                                    />
 
-                                <InputError message={errors.tarif_location_hebdomadaire} className="mt-2" />
-                            </div>
-                            <div>
-                                <InputLabel htmlFor="tarif_location_mensuel"  >Tarif par mois</InputLabel>
-                                <TextInput
-                                    id="tarif_location_mensuel"
-                                    ref={addToRefs}
-                                    value={data.tarif_location_mensuel}
-                                    onChange={handleInputChange}
-                                    type="number"
-                                    className="mt-1 block w-full"
-                                    placeholder={t('300000')}
+                                    <InputError message={errors.tarif_location_hebdomadaire} className="mt-2" />
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="tarif_location_mensuel"  >Tarif par mois</InputLabel>
+                                    <TextInput
+                                        id="tarif_location_mensuel"
+                                        ref={addToRefs}
+                                        value={data.tarif_location_mensuel}
+                                        onChange={handleInputChange}
+                                        type="number"
+                                        className="mt-1 block w-full"
+                                        placeholder={t('300000')}
 
-                                />
-                                <InputError message={errors.tarif_location_mensuel} className="mt-2" />
-                            </div>
+                                    />
+                                    <InputError message={errors.tarif_location_mensuel} className="mt-2" />
+                                </div>
                             </div>
 
                             <div className='md:grid md:grid-cols-12 gap-4'>
                                 <div className='md:col-span-6'>
                                     <InputLabel htmlFor="date_debut_location" >Date début location</InputLabel>
-                                    
-                               {/* <DatePicker selected={new Date(startDate)} locale={i18n.language=='fr'?fr:enUS} dateFormat="P" onChange={(date) => setTheDate(date)} />
+
+                                    {/* <DatePicker selected={new Date(startDate)} locale={i18n.language=='fr'?fr:enUS} dateFormat="P" onChange={(date) => setTheDate(date)} />
                                 */}
-                                <Datepicker 
-                                required
-                                id="date_debut_location"                                
-                                asSingle={true}
-                                useRange={false}                                
-                                classNames={'rounded-none'}
-                                value={date_debut} 
-                                onChange={handleDateDebutChange} 
-                                i18n={i18n.language}
-                                displayFormat={"DD/MM/YYYY"} 
-                                placeholder={'10/01/'+(new Date().getFullYear())}
-                                /> 
-                                {console.log(date_debut)}
-                                   {/* <TextInput
+                                    <Datepicker
+                                        required
+                                        id="date_debut_location"
+                                        asSingle={true}
+                                        useRange={false}
+                                        classNames={'rounded-none'}
+                                        value={date_debut}
+                                        onChange={handleDateDebutChange}
+                                        i18n={i18n.language}
+                                        displayFormat={"DD/MM/YYYY"}
+                                        placeholder={'10/01/' + (new Date().getFullYear())}
+                                    />
+                                    {console.log(date_debut)}
+                                    {/* <TextInput
                                         id="date_debut_location"
                                         ref={addToRefs}
                                         value={data.date_debut_location}
@@ -339,19 +337,19 @@ export default function LocationForm({ className = '', location = null, pays = [
                                 <div className='md:col-span-6'>
 
                                     <InputLabel htmlFor="date_fin_location" >Date fin location</InputLabel>
-                                    <Datepicker 
-                                    required
-                                    id="date_debut_location"                                
-                                    asSingle={true}
-                                    classNames={'rounded-none'}
-                                    value={(date_fin)} 
-                                    useRange={false}
-                                    onChange={handleDateFinChange} 
-                                    i18n={i18n.language}
-                                    displayFormat={"DD/MM/YYYY"} 
-                                    placeholder={'10/07/'+(new Date().getFullYear())}
-                                    /> 
-                                   {/* <TextInput
+                                    <Datepicker
+                                        required
+                                        id="date_debut_location"
+                                        asSingle={true}
+                                        classNames={'rounded-none'}
+                                        value={(date_fin)}
+                                        useRange={false}
+                                        onChange={handleDateFinChange}
+                                        i18n={i18n.language}
+                                        displayFormat={"DD/MM/YYYY"}
+                                        placeholder={'10/07/' + (new Date().getFullYear())}
+                                    />
+                                    {/* <TextInput
                                         id="date_fin_location"
                                         ref={addToRefs}
                                         value={data.date_fin_location}
@@ -366,22 +364,22 @@ export default function LocationForm({ className = '', location = null, pays = [
                             </div>
                             <div className='md:col-span-4'>
 
-                                    <InputLabel htmlFor="point_retraits" >Points de retrait</InputLabel>
-                                    <Select
-                                        isMulti
-                                        required
-                                        id="point_retraits"
-                                        ref={addToRefs}
-                                        isSearchable={true}
-                                        onChange={handleMultiSelectChange}
-                                        className="mt-1 block w-full"
-                                        defaultValue={setDefaultMultiValue(location && location.points_retrait ?location.points_retrait:[])}
-                                        options={ConvertSelectDataV2(point_retraits)}
-                                        />
-                                    <InputError message={errors.point_retraits} className="mt-2" />
-                                    <InputError message={errors["point_retraits.0"]} className="mt-2" />
-                                    <InputError message={errors["point_retraits.1"]} className="mt-2" />
-                                </div>
+                                <InputLabel htmlFor="point_retraits" >Points de retrait</InputLabel>
+                                <Select
+                                    isMulti
+                                    required
+                                    id="point_retraits"
+                                    ref={addToRefs}
+                                    isSearchable={true}
+                                    onChange={handleMultiSelectChange}
+                                    className="mt-1 block w-full"
+                                    defaultValue={setDefaultMultiValue(location && location.points_retrait ? location.points_retrait : [])}
+                                    options={ConvertSelectDataV2(point_retraits)}
+                                />
+                                <InputError message={errors.point_retraits} className="mt-2" />
+                                <InputError message={errors["point_retraits.0"]} className="mt-2" />
+                                <InputError message={errors["point_retraits.1"]} className="mt-2" />
+                            </div>
                             <div >
                                 <div >
 
@@ -443,127 +441,127 @@ export default function LocationForm({ className = '', location = null, pays = [
                     </section>
                 </CardBody>
             </Card>
-            {  voiture!=null && voiture!='' &&
-            <Card className={"transition-all duration-300 mt-8 md:mt-0 "}>
-                <CardBody className='overflow-auto'>
-                    <section>
-                        {  voiture!=null && voiture!='' && (
-                            <div>
-                                       
-                                        {voiture.nom!=null &&
+            {voiture != null && voiture != '' &&
+                <Card className={"transition-all duration-300 mt-8 md:mt-0 "}>
+                    <CardBody className='overflow-auto'>
+                        <section>
+                            {voiture != null && voiture != '' && (
+                                <div>
+
+                                    {voiture.nom != null &&
                                         <div className="font-bold pb-3 text-xl ">
                                             {voiture.nom}
                                         </div>
-                                        }   
-                                         {voiture.photo!='' && voiture.photo!=null &&                                
-                                            <img src={HTTP_FRONTEND_HOME+voiture.photo} alt={voiture.nom} className='w-auto  rounded-md h-auto max-w-[100%] _max-h-[400px]' />
+                                    }
+                                    <ModaleImage title={voiture.nom} url={HTTP_FRONTEND_HOME + '' + voiture.photo}>
+
+                                        {voiture.photo != '' && voiture.photo != null &&
+                                            <img src={HTTP_FRONTEND_HOME + voiture.photo} alt={voiture.nom} className='w-auto  rounded-md h-auto max-w-[100%] _max-h-[400px]' />
                                         }
-                                        
-                                        <div className="border-t mt-4">
-                                         {voiture.immatriculation!=null && voiture.immatriculation!='' && 
-                                        <div className="border-b  flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Immatriculation :
+                                    </ModaleImage>
+
+                                    <div className="border-t mt-4">
+                                        {voiture.immatriculation != null && voiture.immatriculation != '' &&
+                                            <div className="border-b  flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Immatriculation :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.immatriculation}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.immatriculation}
-                                            </div>
-                                        </div>
-                                        }    
-                                        {voiture.annee_fabrication!=null && 
-                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Année :
-                                            </div>
-                                            <div className="col-span-4">
-                                                {voiture.annee_fabrication}
-                                            </div>
-                                        </div>
                                         }
-                                        {voiture.nombre_place>0 && 
-                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Nombre de places :
+                                        {voiture.annee_fabrication != null &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Année :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.annee_fabrication}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.nombre_place}
-                                            </div>
-                                        </div>
                                         }
-                                        {voiture.type_eclairage!=null && voiture.type_eclairage!='' && 
-                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Eclairage :
+                                        {voiture.nombre_place > 0 &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Nombre de places :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.nombre_place}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.type_eclairage}
-                                            </div>
-                                        </div>
                                         }
-                                        {voiture.nombre_vitesse!=null && voiture.nombre_vitesse!='' && 
-                                         <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Nombre de vitesses :
+                                        {voiture.type_eclairage != null && voiture.type_eclairage != '' &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Eclairage :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.type_eclairage}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.nombre_vitesse}
-                                            </div>
-                                        </div>
                                         }
-                                        {voiture.nombre_vitesse!=null && voiture.nombre_vitesse!='' && 
-                                         <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Nombre de vitesses :
+                                        {voiture.nombre_vitesse != null && voiture.nombre_vitesse != '' &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Nombre de vitesses :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.nombre_vitesse}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.nombre_vitesse}
-                                            </div>
-                                        </div>
                                         }
-                                        {voiture.consommation!=null && 
-                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Consommation :
+                                        {voiture.nombre_vitesse != null && voiture.nombre_vitesse != '' &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Nombre de vitesses :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.nombre_vitesse}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.consommation}
-                                            </div>
-                                        </div>
                                         }
-                                       
-                                        {voiture.volume_coffre!=null && 
-                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Volume du coffre :
+                                        {voiture.consommation != null &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Consommation :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.consommation}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.volume_coffre}
-                                            </div>
-                                        </div>
                                         }
-                                        {voiture.capacite_reservoir!=null && voiture.capacite_reservoir!='' && 
-                                        <div className="border-b flex flex-wrap gap-2 px-2 py-2">
-                                            <div className="col-span-2 font-bold ">
-                                                Réservoir :
+
+                                        {voiture.volume_coffre != null &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Volume du coffre :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.volume_coffre}
+                                                </div>
                                             </div>
-                                            <div className="col-span-4">
-                                                {voiture.capacite_reservoir}
+                                        }
+                                        {voiture.capacite_reservoir != null && voiture.capacite_reservoir != '' &&
+                                            <div className="border-b flex flex-wrap gap-2 px-2 py-2">
+                                                <div className="col-span-2 font-bold ">
+                                                    Réservoir :
+                                                </div>
+                                                <div className="col-span-4">
+                                                    {voiture.capacite_reservoir}
+                                                </div>
                                             </div>
-                                        </div>
                                         }
                                     </div>
-                                       
 
-                            </div>
-                        )}
-                    </section>
-                </CardBody>
-            </Card>
-}
+
+                                </div>
+                            )}
+                        </section>
+                    </CardBody>
+                </Card>
+            }
         </div>
     );
 }
 
-const ShowVoitureCard=()=>{
-    return "Bonjour";
-}

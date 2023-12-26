@@ -137,6 +137,7 @@ export default function Index({ auth, sys_securites, page_id, page_subid,
 
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
+                                    {photo!='' && photo!=null && 
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
 
@@ -144,14 +145,15 @@ export default function Index({ auth, sys_securites, page_id, page_subid,
 
                                             </div>
                                         </td>
-                                        <td className={classes}>
+                                        }
+                                        <td colSpan={ photo!='' && photo!=null?'':'2'} className={classes}>
                                             <div className="flex flex-col">
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    <Link href={route('dashboard.sys_securites.show', id)}>
+                                                    <Link className='block w-full' href={route('dashboard.sys_securites.show', id)}>
                                                         {nom}
                                                     </Link>
                                                 </Typography>

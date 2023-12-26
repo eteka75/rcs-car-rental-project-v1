@@ -85,7 +85,7 @@ export default function EditForm({ className = '', marque = null, pays = [], act
                     <InputLabel htmlFor="logo" value="Logo" />
 
                     <input
-                        id="logo"
+                        id="logo" accept="image/png, image/gif, image/jpeg, image/jpg, image/webp"
                         ref={addToRefs}
                         onChange={(e)=>setData('img',e.target.files[0])}
                         type="file"

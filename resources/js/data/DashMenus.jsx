@@ -37,7 +37,7 @@ export const menuItemsData = [
         sid:'categories'
       },
       {
-        title: "Types de carburants",
+        title: "Types de carburant",
         route: 'dashboard.carburants',
         sid:'carburants'
       }, 
@@ -74,26 +74,16 @@ export const menuItemsData = [
         title: "Points de retrait",
         route: 'dashboard.point_retraits',
         sid:'points'
-      },
-      {
-        title: "Assurances",
-        route: 'dashboard.voitures.create',
-        sid:'voitures'
-      },
-      {
-        title: "Options de locations",
-        route: 'dashboard.voitures.create',
-        sid:'voitures'
       }, 
       {
-        title: "Conditions",
-        route: 'dashboard.voitures.create',
-        sid:'Conditions'
-      },
+        title: "Options de location",
+        route: 'dashboard.location_options',
+        sid:'options'
+      }, 
       {
-        title: "Réductions",
-        route: 'dashboard.voitures.create',
-        sid:'Réductions'
+        title: "Codes promo de réduction",
+        route: 'dashboard.location_reductions',
+        sid:'reductions'
       },
     ],
 

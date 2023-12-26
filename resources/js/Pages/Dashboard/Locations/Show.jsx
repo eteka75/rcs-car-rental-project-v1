@@ -9,6 +9,7 @@ import Translate from '@/components/Translate'
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
+import ModaleImage from '@/components/ModaleImage'
 
 export default function Show({ auth, location, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
@@ -30,11 +31,12 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 gap-4 items-start  justify-between ">
-                {console.log("location.voiture",location.voiture)}
             {location.voiture && location.voiture.photo!='' &&  location.voiture.photo!=null &&
                     <Card className='col-span-3   lg:col-span-1'>
                         <CardBody className="w-full md:m-auto">
                           <Typography variant='h5' className='mb-3'> {location.voiture.nom??''}</Typography>
+                          <ModaleImage title={location.voiture.nom} url={HTTP_FRONTEND_HOME + '' + location.voiture.photo}>
+
                             {
                                <img
                                     className="max-h-auto mx-auto max-w-full  rounded-lg object-cover object-center"
@@ -42,6 +44,7 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                     alt={location.voiture.nom}
                                 />
                             }
+                            </ModaleImage>
                         </CardBody>
                     </Card>
                 }
@@ -110,7 +113,6 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                         </Typography>
                                     </th>
                                     <td>
-                                        {console.log("PPPPPPPPPP",location.points_retrait)}
                                     {location.points_retrait && location.points_retrait.length >0 && location.points_retrait.map(({lieu},index)=>(
                                        
                                        <>
