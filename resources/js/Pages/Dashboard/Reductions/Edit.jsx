@@ -6,7 +6,7 @@ import { Card, CardBody } from '@material-tailwind/react'
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Translate from '@/components/Translate';
-import OptionForm from './OptionForm'
+import ReductionForm from './ReductionForm'
 
 export default function Edit({auth,location_options,page_id='',page_subid='',page_title ='',page_subtitle ='',pays}) {
   return (
@@ -31,7 +31,7 @@ export default function Edit({auth,location_options,page_id='',page_subid='',pag
 
       <Card className='lg:max-w-xl'>
         <CardBody  className="App w-full md:m-auto">
-            <OptionForm location_options={location_options} pays={pays} action='update' btntext="Mettre à jour"/>
+            <ReductionForm location_options={location_options} pays={pays} action='update' btntext="Mettre à jour"/>
         </CardBody>
       </Card>
     </DashboardLayout>

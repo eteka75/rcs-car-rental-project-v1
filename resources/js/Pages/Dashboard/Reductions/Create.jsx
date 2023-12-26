@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import Breadcrumb from '@/components/Breadcrumb';
 import Translate from '@/components/Translate';
-import OptionForm from './OptionForm';
+import ReductionForm from './ReductionForm';
 
 
 export default function Index({ auth, page_id, page_subid, page_title, page_subtitle }) {
@@ -35,7 +35,7 @@ export default function Index({ auth, page_id, page_subid, page_title, page_subt
       <Card className='lg:max-w-xl'>
         <CardBody>
           <div className="App w-full md:m-auto">
-            <OptionForm action={'save'}/>
+            <ReductionForm action={'save'}/>
           </div>
         </CardBody>
       </Card>

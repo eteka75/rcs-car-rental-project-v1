@@ -30,7 +30,7 @@ import { useTranslation } from 'react-i18next';
 import SearchBar from '@/components/dashboard/SearchBar';
 
 
-export default function Index({ auth, location_options, page_id, page_subid,
+export default function Index({ auth, location_reductions, page_id, page_subid,
     page_title, page_subtitle, search_text = '', count = 0 }) {
 
     const { t, i18n } = useTranslation();
@@ -45,11 +45,11 @@ export default function Index({ auth, location_options, page_id, page_subid,
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
-        if (location_options.data && location_options.data.length > 0) {
-            setDatas(location_options.data);
+        if (location_reductions.data && location_reductions.data.length > 0) {
+            setDatas(location_reductions.data);
         }
 
-        if (location_options.data && location_options.data.length > 0) {
+        if (location_reductions.data && location_reductions.data.length > 0) {
             setShowHead(true);
         } else { setShowHead(false); }
 
@@ -66,7 +66,7 @@ export default function Index({ auth, location_options, page_id, page_subid,
 
     const SubmitDeletion = () => {
         if (setDeleteId != '') {
-            Inertia.delete(route('dashboard.location_options.delete', deleteId));
+            Inertia.delete(route('dashboard.location_reductions.delete', deleteId));
             setDeleteId('')
             setSupDialog(false);
         } else {
@@ -88,7 +88,7 @@ export default function Index({ auth, location_options, page_id, page_subid,
     const Search = (e) => {
         e.preventDefault();
         if (data.search !== '') {
-            get(route('dashboard.location_options.search'),
+            get(route('dashboard.location_reductions.search'),
                 {
                     onSuccess: (response) => {
                         setDatas(response.data);
@@ -106,19 +106,19 @@ export default function Index({ auth, location_options, page_id, page_subid,
             <Head title={page_title} />
             <Breadcrumb>
                 <Link href='#'>
-                    <Translate>Options de location</Translate>
+                    <Translate>{page_title}</Translate>
                 </Link>
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3'
-                    href={route('dashboard.location_options.create')}>
+                    href={route('dashboard.location_reductions.create')}>
                     <AiOutlinePlus className='me-1' />   <Translate>Nouveau</Translate>
                 </Link>
             </DashHeadTitle>
             <DeleteDialog showFunction={showSupDialog} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
             <Card className="h-full w-full">
                 <SearchBar
-                    exportUrl={route('dashboard.location_options.export')}
+                    exportUrl={route('dashboard.location_reductions.export')}
                     message={errors.search}
                     onSubmit={Search}
                     disabled={processing}
@@ -127,7 +127,7 @@ export default function Index({ auth, location_options, page_id, page_subid,
                     placeholder={t('Rechercher') + '...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable count={count} head={TABLE_HEAD} links={location_options.links} showHead={showHead}>
+                    <ViewTable count={count} head={TABLE_HEAD} links={location_reductions.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
                             ({ id, nom, photo, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
@@ -141,7 +141,7 @@ export default function Index({ auth, location_options, page_id, page_subid,
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
 
-                                                {photo && <Link href={route('dashboard.location_options.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
+                                                {photo && <Link href={route('dashboard.location_reductions.show', id)}><Avatar src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} className='w-10 bg-white' size="sm" /></Link>}
 
                                             </div>
                                         </td>
@@ -153,7 +153,7 @@ export default function Index({ auth, location_options, page_id, page_subid,
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    <Link className='block w-full' href={route('dashboard.location_options.show', id)}>
+                                                    <Link className='block w-full' href={route('dashboard.location_reductions.show', id)}>
                                                         {nom}
                                                     </Link>
                                                 </Typography>
@@ -174,20 +174,20 @@ export default function Index({ auth, location_options, page_id, page_subid,
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">
                                                 <IconButton title='Modifier' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.location_options.edit', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.location_reductions.edit', id)}>
                                                         <FaRegEdit className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Modifier</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton title='Voir' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.location_options.show', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.location_reductions.show', id)}>
                                                         <FaEye className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Voir</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton variant='text' className='text-red-600 items-center flex gap-1' title="supprimer cet enrégistrement"
                                                     method="delete"
-                                                    href={route('dashboard.location_options.delete', id)}
+                                                    href={route('dashboard.location_reductions.delete', id)}
                                                     as="button"
                                                     onClick={() => handleDelete(id)}
                                                 >
@@ -210,7 +210,7 @@ export default function Index({ auth, location_options, page_id, page_subid,
                                             <div className="text-sm mb-4 mt-2"><Translate>Aucun enrégistrement</Translate> !</div>
                                         </>
                                     }
-                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.location_options')}>
+                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.location_reductions')}>
                                         <Button className='clear-both max-auto px-6  py-2 bg-transparent font-bold flex items-center mx-auto text-gray-800 border shadow-sm  rounded-md'><AiOutlineArrowLeft className='me-1' />
                                             <Translate>Retour </Translate>
                                         </Button>
