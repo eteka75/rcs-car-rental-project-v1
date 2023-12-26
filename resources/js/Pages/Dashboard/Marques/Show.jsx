@@ -9,6 +9,7 @@ import Translate from '@/components/Translate'
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
+import ModaleImage from '@/components/ModaleImage'
 
 export default function Show({ auth, marque, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
@@ -30,16 +31,19 @@ export default function Show({ auth, marque, page_id = '', page_subid = '', page
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 gap-4">
-                {marque.logo &&
+                {marque.logo!=null && marque.logo!='' &&
                     <Card className='col-span-3 lg:col-span-1'>
                         <CardBody className="App w-full md:m-auto">
+                        <ModaleImage title={marque.nom} url={HTTP_FRONTEND_HOME + '' + marque.logo}>
+
                             {
-                                marque.logo && <img
+                                 <img
                                     className="max-h-44 mx-auto w-auto  rounded-lg object-cover object-center"
                                     src={HTTP_FRONTEND_HOME + '' + marque.logo}
                                     alt={marque.nom}
                                 />
                             }
+                        </ModaleImage>
                         </CardBody>
                     </Card>
                 }

@@ -9,6 +9,7 @@ import Translate from '@/components/Translate'
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
+import ModaleImage from '@/components/ModaleImage'
 
 export default function Show({ auth, carburant='', page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
@@ -33,6 +34,7 @@ export default function Show({ auth, carburant='', page_id = '', page_subid = ''
                 {carburant && carburant.photo &&
                     <Card className='col-span-3 lg:col-span-1'>
                         <CardBody className="App w-full md:m-auto">
+                        <ModaleImage title={carburant.nom} url={HTTP_FRONTEND_HOME + '' + carburant.photo}>
                             {
                                 carburant.photo && <img
                                     className="max-h-44 mx-auto w-auto  rounded-lg object-cover object-center"
@@ -40,6 +42,7 @@ export default function Show({ auth, carburant='', page_id = '', page_subid = ''
                                     alt={carburant.nom}
                                 />
                             }
+                            </ModaleImage>
                         </CardBody>
                     </Card>
                 }
