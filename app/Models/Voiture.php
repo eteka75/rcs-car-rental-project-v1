@@ -19,7 +19,7 @@ class Voiture extends Model
         "description",
         "date_achat",
         "couleur",
-        "user_id",
+        "user_add_id",
         "disponibilite",
         "puissance_moteur",
         "type_transmission",

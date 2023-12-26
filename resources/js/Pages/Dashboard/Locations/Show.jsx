@@ -29,28 +29,27 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
-            <div className="grid grid-cols-3 gap-4">
-                
+            <div className="grid grid-cols-3 gap-4 items-start  justify-between ">
+                {console.log("location.voiture",location.voiture)}
+            {location.voiture && location.voiture.photo!='' &&  location.voiture.photo!=null &&
+                    <Card className='col-span-3   lg:col-span-1'>
+                        <CardBody className="w-full md:m-auto">
+                          <Typography variant='h5' className='mb-3'> {location.voiture.nom??''}</Typography>
+                            {
+                               <img
+                                    className="max-h-auto mx-auto max-w-full  rounded-lg object-cover object-center"
+                                    src={HTTP_FRONTEND_HOME + '' + location.voiture.photo}
+                                    alt={location.voiture.nom}
+                                />
+                            }
+                        </CardBody>
+                    </Card>
+                }
                 <Card className='col-span-3 lg:col-span-2'>
                     <div className="App w-full md:m-auto overflow-auto">
                         <table className='w-full min-w-max table-auto text-left h-full ' align='top'>
                             <tbody>
-
-                                <tr className='p-4 border-b '>
-                                    <th
-                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                                    >
-                                        <Typography
-                                            variant="lead"
-                                            color="blue-gray"
-                                            className="font-bold leading-none opacity-70"
-                                        >
-                                            <Translate>Nom</Translate>
-                                        </Typography>
-                                    </th>
-                                    <td>{location.nom_location??''}</td>
-
-                                </tr>
+                                {location.voiture!=null && location.voiture.nom!='' &&
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -64,8 +63,9 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
 
                                         </Typography>
                                     </th>
-                                    <td>{location.voiture && location.voiture.nom}</td>
+                                    <td>{location.voiture.nom}</td>
                                 </tr>
+                                }
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -75,11 +75,11 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Responsable</Translate>
+                                            <Translate>Date début </Translate>
 
                                         </Typography>
                                     </th>
-                                    <td>{location.responsable_location??'-'}</td>
+                                    <td>{DateToFront(location.date_debut_location,i18n.language,'d/m/Y')}</td>
                                 </tr>
                                 <tr className='p-4 border-b'>
                                     <th
@@ -90,12 +90,36 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Date de l'opération</Translate>
+                                            <Translate>Date fin </Translate>
+
+                                        </Typography>
+                                    </th>
+                                    <td>{DateToFront(location.date_fin_location,i18n.language,'d/m/Y')}</td>
+                                </tr>
+                                <tr className='p-4 border-b'>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Poins de retrait </Translate>
+
                                         </Typography>
                                     </th>
                                     <td>
-                                        {DateToFront(location.date_location,i18n.language,'d/m/Y')}
-
+                                        {console.log("PPPPPPPPPP",location.points_retrait)}
+                                    {location.points_retrait && location.points_retrait.length >0 && location.points_retrait.map(({lieu},index)=>(
+                                       
+                                       <>
+                                       <span key={index} className='my-2 mx-1 block float-left 
+                                       bg-gray-200 rounded-sm py-1 px-2 text-xs'>                                                
+                                            *<Translate>{lieu??''}</Translate>
+                                        </span>
+                                        </>
+                                    ))}
                                     </td>
                                 </tr>
                                 <tr className='p-4 border-b'>
@@ -107,11 +131,12 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Prix de l'opération</Translate>
+                                            <Translate>Conditions </Translate>
                                         </Typography>
                                     </th>
-                                    <td>{location.prix_location??''}</td>
+                                    <td>{location.conditions??''}</td>
                                 </tr>
+                                 {location.tarif_location_heure!=null && location.tarif_location_heure!='' &&
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -121,11 +146,14 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Kilométrage</Translate>
+                                            <Translate>Tarif par heure</Translate>
+
                                         </Typography>
                                     </th>
-                                    <td>{location.kilometrage}</td>
+                                    <td>{location.tarif_location_heure}</td>
                                 </tr>
+                                }
+                                 {location.tarif_location_journalier!=null && location.tarif_location_journalier!='' &&
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -135,13 +163,49 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Fichier</Translate>
+                                            <Translate>Tarif par jour</Translate>
+
                                         </Typography>
                                     </th>
-                                    <td>
-                                    {location.fichier!='' && location.fichier!=null && <a className=' py-2 text-sm text-blue-600 rounded-md' href={HTTP_FRONTEND_HOME+''+location.fichier}>Voit le fichier</a>}
-                                    </td>
+                                    <td>{location.tarif_location_journalier}</td>
                                 </tr>
+                                }
+                                 {location.tarif_location_hebdomadaire!=null && location.tarif_location_hebdomadaire!='' &&
+                                <tr className='p-4 border-b'>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Tarif par semaine</Translate>
+
+                                        </Typography>
+                                    </th>
+                                    <td>{location.tarif_location_hebdomadaire}</td>
+                                </tr>
+                                }
+                                 {location.tarif_location_mensuel!=null && location.tarif_location_mensuel!='' &&
+                                <tr className='p-4 border-b'>
+                                    <th
+                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                    >
+                                        <Typography
+                                            variant="lead"
+                                            color="blue-gray"
+                                            className="font-bold leading-none opacity-70"
+                                        >
+                                            <Translate>Tarif par mois</Translate>
+
+                                        </Typography>
+                                    </th>
+                                    <td>{location.tarif_location_mensuel}</td>
+                                </tr>
+                                }
+                                
+                               
                                 <tr className='border-b blue-gray-100 bg-blue-gray-50/50 p-4'>
                                     <th
                                         className="p-4 "

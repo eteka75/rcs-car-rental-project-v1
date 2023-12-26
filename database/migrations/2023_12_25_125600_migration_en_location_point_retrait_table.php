@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('location_point_retraits', function (Blueprint $table) {      
-            $table->unsignedBigInteger('location_id')->index();          
-            $table->unsignedBigInteger('point_retrait_id')->index();
-            $table->unique(array('point_retrait_id', 'location_id')); 
-            $table->primary(array('point_retrait_id', 'location_id')); 
-
+        Schema::create('location_point_retraits', function (Blueprint $table) { 
+            $table->id();     
+            $table->unsignedBigInteger('location_id')->index("i2");          
+            $table->unsignedBigInteger('point_retrait_id')->index("i1");
+           // $table->unique(array('point_retrait_id', 'location_id','created_at')); 
             $table->timestamps();
+            //$table->primary(array('point_retrait_id', 'location_id','created_at')); 
             $table->softDeletes();
         });
     }

@@ -60,7 +60,7 @@ class EnLocationController extends Controller
                 ->orWhereHas('pointRetrait', function ($query) use ($keyword) {
                     $query->where('lieu', 'like', "%{$keyword}%");
                     $query->where('wille', 'like', "%{$keyword}%");
-                        //->orWhere('description', 'like', "%{$keyword}%");
+                    //->orWhere('description', 'like', "%{$keyword}%");
                 })
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
@@ -80,9 +80,9 @@ class EnLocationController extends Controller
      */
     public function create()
     {
-        $voitures = Voiture::orderBy('nom')->get();//select('nom', 'id')->
+        $voitures = Voiture::orderBy('nom')->get(); //select('nom', 'id')->
         $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();
-        
+
         Inertia::share([
             'voitures' => $voitures,
             'point_retraits' => $points
@@ -102,9 +102,9 @@ class EnLocationController extends Controller
         $data = $request->except('fichier');
         $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
         $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
-        
-        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'],$data['date_debut_location'],$data['date_fin_location']);
-        if ($nb_chevauchements>0) {
+
+        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
+        if ($nb_chevauchements->count('id') > 0) {
             Session::flash(
                 'danger',
                 [
@@ -115,8 +115,6 @@ class EnLocationController extends Controller
             return redirect()->back()->withInput();
 
         }
-        dd($nb_chevauchements);
-        
         if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
@@ -125,9 +123,11 @@ class EnLocationController extends Controller
         }
         $userId = \Auth::id() ?? '0';
         $data['user_id'] = $userId;
+        $location = EnLocation::create($data);
         $points = $data['point_retraits'];
-        $location=EnLocation::create($data);
-        $location->pointsRetrait()->attach($points);
+        if(count($points) > 0) {
+        $location->pointsRetrait()->sync($points);
+        }
         Session::flash(
             'success',
             [
@@ -139,16 +139,28 @@ class EnLocationController extends Controller
         return to_route('dashboard.locations');
     }
 
-    public function checkLocationChevauchement($voiture_id,$nouvelleDateDebut,$nouvelleDateFin)
+    public function checkLocationChevauchement($voiture_id, $nouvelleDateDebut, $nouvelleDateFin, $location_id = '')
     {
-       return EnLocation::where('voiture_id',$voiture_id)->where(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
-            $query->whereBetween('date_debut_location', [$nouvelleDateDebut, $nouvelleDateFin])
-                ->orWhereBetween('date_fin_location', [$nouvelleDateDebut, $nouvelleDateFin])
-                ->orWhere(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
-                    $query->where('date_debut_location', '<=', $nouvelleDateDebut)
-                        ->where('date_fin_location', '>=', $nouvelleDateFin);
-                });
-        })->count('id');
+        if ($location_id == '') {
+
+            return EnLocation::where('voiture_id', $voiture_id)->where(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
+                $query->whereBetween('date_debut_location', [$nouvelleDateDebut, $nouvelleDateFin])
+                    ->orWhereBetween('date_fin_location', [$nouvelleDateDebut, $nouvelleDateFin])
+                    ->orWhere(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
+                        $query->where('date_debut_location', '<=', $nouvelleDateDebut)
+                            ->where('date_fin_location', '>=', $nouvelleDateFin);
+                    });
+            })->get();
+        } else {
+            return EnLocation::where('id', $location_id)->where('voiture_id', $voiture_id)->where(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
+                $query->whereBetween('date_debut_location', [$nouvelleDateDebut, $nouvelleDateFin])
+                    ->orWhereBetween('date_fin_location', [$nouvelleDateDebut, $nouvelleDateFin])
+                    ->orWhere(function ($query) use ($nouvelleDateDebut, $nouvelleDateFin) {
+                        $query->where('date_debut_location', '<=', $nouvelleDateDebut)
+                            ->where('date_fin_location', '>=', $nouvelleDateFin);
+                    });
+            })->get();
+        }
     }
     public function converDateToDB($date)
     {
@@ -164,7 +176,7 @@ class EnLocationController extends Controller
      */
     public function show($id)
     {
-        $location = EnLocation::with('voiture')->where('id', $id)->firstOrFail();
+        $location = EnLocation::with('voiture')->with('pointsRetrait')->where('id', $id)->firstOrFail();
         $location_name = $location->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
             'location' => $location,
@@ -179,13 +191,13 @@ class EnLocationController extends Controller
     public function edit($id)
     {
         $voitures = Voiture::orderBy('nom')->get();
-        $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();        
+        $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();
         Inertia::share([
             'voitures' => $voitures,
             'point_retraits' => $points
         ]);
         $location = EnLocation::with('voiture')->with('pointsRetrait')->findOrFail($id);
-       
+
         return Inertia::render(self::$viewFolder . '/Edit', [
             'location' => $location,
             'page_title' => "Edition d'une location",
@@ -211,38 +223,43 @@ class EnLocationController extends Controller
     //public function update(Request $request, $id){
     public function update(RequestEnLocationRequest $request, $id)
     {
-
         $data = $request->except("logo");
         $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
         $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
-        
-        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'],$data['date_debut_location'],$data['date_fin_location']);
-        if ($nb_chevauchements>1) {
-            Session::flash(
-                'danger',
-                [
-                    'title' => 'Chevauchement de location',
-                    'message' => 'Le véhicule sélectionné est en location pendant la prériode sélectionnée.',
-                ]
-            );
-            return redirect()->back()->withInput();
+
+        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
+        if ($nb_chevauchements->count('id') > 0) {
+            $first = $nb_chevauchements->first();
+            if ($first->id != $id) {
+                Session::flash(
+                    'danger',
+                    [
+                        'title' => 'Chevauchement de location',
+                        'message' => 'Le véhicule sélectionné est en location pendant la prériode sélectionnée.',
+                    ]
+                );
+                return redirect()->back()->withInput();
+            }
 
         }
         $location = EnLocation::findOrFail($id);
-        if ($request->hasFile('fichier')) {
+        $location->update($data);
+        $points = $data['point_retraits'];
+        if(count($points) > 0) {
+        $location->pointsRetrait()->sync($points);
+        }
+        /*if ($request->hasFile('fichier')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['fichier'] = $getSave;
             }
-        }
-        $data['date_location'] = $this->converDateToDB($data['date_location']);
+        }*/
 
-        $location->update($data);
-        if (isset($data['fichier']) && $data['fichier'] != '') {
+        /*if (isset($data['fichier']) && $data['fichier'] != '') {
             $location->update([
                 'fichier' => $data['fichier']
             ]);
-        }
+        }*/
         Session::flash(
             'info',
             [
@@ -276,6 +293,7 @@ class EnLocationController extends Controller
     {
 
         $location = EnLocation::findOrFail($id);
+        $location->pointsRetrait()->sync([]);
         $location->delete();
         Session::flash(
             'warning',

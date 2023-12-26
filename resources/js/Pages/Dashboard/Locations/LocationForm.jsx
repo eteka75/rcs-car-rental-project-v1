@@ -41,23 +41,26 @@ export default function LocationForm({ className = '', location = null, pays = [
     });
 
     useEffect(()=>{
-        let today= new Date();
-        if(data.date_debut_location===''){
-            setData('date_debut_location',DateToFront(new Date(),i18n.language,'d/m/Y'));
+        if(data.date_etat===''){
+            let today= new Date(),
+            txtDate=DateToFront(today,i18n.language,'d/m/Y');
             setDateDebut(setTheDate(today));
-        }else{
-            alert(DateToFront(data.date_debut_location,'fr',"d/m/Y"))
-            setDateDebut(setTheDate(DateToFront(data.date_debut_location,i18n.language,'d/m/Y')));
-        }
-        if(data.date_fin_location===''){
+
             let in6Month=new Date().setMonth(new Date().getMonth()+6);
-            setData('date_fin_location',DateToFront(in6Month,i18n.language,'d/m/Y'));
-            setDateFin(setTheDate(in6Month));
-        }else{
-            setDateFin(setTheDate(DateToFront(data.date_fin_location,i18n.language,'d/m/Y')));
+            setDateFin(setTheDate(in6Month));//for Datepicker
+        }else{            
+            setDateDebut(setTheDate(location.date_debut_location??''));//for Datepicker
+            setDateFin(setTheDate(location.date_fin_location??''));//for Datepicker
+        }
+
+        /* points ids */
+        if(location && location.points_retrait){
+            let ids=[];
+            location.points_retrait.map(({id})=>{ids.push(id)});
+            setData('point_retraits',ids);
         }
         console.log(date_debut,date_fin)
-    },[])
+    },[location])
     useEffect(()=>{
         ShowVoiture(data.voiture_id??'');
     },[showVoitureId]);
@@ -75,12 +78,16 @@ export default function LocationForm({ className = '', location = null, pays = [
     const handleDateDebutChange = (newValue) => {
         const {startDate}=newValue;
         setDateDebut(newValue);
-        setData("date_debut_location",DateToFront(startDate,i18n.language,'d/m/Y')); 
+        let frDate= DateToFront(startDate,i18n.language,'d/m/Y');
+        alert(frDate)
+        console.log(newValue)
+        setData("date_debut_location",frDate); 
     } 
     const handleDateFinChange = (newValue) => {
         const {startDate}=newValue;
+        let frDate= DateToFront(startDate,i18n.language,'d/m/Y');
         setDateFin(newValue);
-        setData("date_fin_location",DateToFront(startDate,i18n.language,'d/m/Y')); 
+        setData("date_fin_location",frDate); 
     } 
 
     const handleInputChange = (e) => {
@@ -104,8 +111,8 @@ export default function LocationForm({ className = '', location = null, pays = [
     const setDefaultMultiValue=(array_ids)=>{
         let tb=[];
         if(Array.isArray(array_ids)){
-            array_ids.map(({nom,id})=>{
-                tb.push({ label: nom, value: id });
+            array_ids.map(({lieu,id})=>{
+                tb.push({ label: lieu, value: id });
             })
         }
         return tb;
@@ -152,25 +159,27 @@ export default function LocationForm({ className = '', location = null, pays = [
 
     const { data, setData, post, progress, errors, processing, recentlySuccessful } = useForm(location !== null && action === 'update' ?
         {
+            date_etat: 'new',
+            voiture_id: location.voiture_id ?? '',
             tarif_location_heure: location.tarif_location_heure ?? '',
             tarif_location_hebdomadaire: location.tarif_location_hebdomadaire ?? '',
             tarif_location_journalier: location.tarif_location_journalier ?? '',
             tarif_location_mensuel: location.tarif_location_mensuel ?? '',
-            date_debut_location: location.date_debut_location ?? '',
-            date_fin_location: location.date_fin_location ?? '',
-            point_retrait_ids: location.point_retrait_ids ?? '',
-            point_retraits: '',
+            date_debut_location: DateToFront(location.date_debut_location,i18n.language,'d/m/Y') ?? '',
+            date_fin_location: DateToFront(location.date_fin_location,i18n.language,'d/m/Y')?? '',
+            point_retraits: [],
             conditions: location.conditions ?? '',
             description: location.description ?? ''
         } : {
+            date_etat: '',
+            voiture_id: '',
             tarif_location_heure: '',
             tarif_location_hebdomadaire: '',
             tarif_location_journalier: '',
             tarif_location_mensuel: '',
-            date_debut_location: '',
-            date_fin_location: '',
-            point_retrait_ids: '',
-            point_retraits: '',
+            date_debut_location: DateToFront(new Date(),i18n.language,'d/m/Y') ,
+            date_fin_location: DateToFront(new Date().setMonth(new Date().getMonth()+6),i18n.language,'d/m/Y') ,
+            point_retraits: [],
             conditions: '',
             description: ''
         });
@@ -219,7 +228,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     isSearchable={true}
                                     defaultValue={setDefaultValue(data.voiture_id, (location && location.voiture.nom) ? location.voiture.nom : '')}
                                     onChange={(options) =>
-                                        !options ? setData('voiture_id', "") : handleSelectVoiture(options.value)
+                                        !options ? handleSelectVoiture("") : handleSelectVoiture(options.value)
                                     }
                                     className="mt-1 block w-full"
                                     options={ConvertSelectDataV1(voitures)}
@@ -306,7 +315,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                 required
                                 id="date_debut_location"                                
                                 asSingle={true}
-                                //useRange={false}                                
+                                useRange={false}                                
                                 classNames={'rounded-none'}
                                 value={date_debut} 
                                 onChange={handleDateDebutChange} 
@@ -314,6 +323,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                 displayFormat={"DD/MM/YYYY"} 
                                 placeholder={'10/01/'+(new Date().getFullYear())}
                                 /> 
+                                {console.log(date_debut)}
                                    {/* <TextInput
                                         id="date_debut_location"
                                         ref={addToRefs}
@@ -365,7 +375,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         isSearchable={true}
                                         onChange={handleMultiSelectChange}
                                         className="mt-1 block w-full"
-                                        //defaultValue={setDefaultMultiValue((location.point_retrait_id && point_retrait.lieu) ? point_retrait.lieu:[])}
+                                        defaultValue={setDefaultMultiValue(location && location.points_retrait ?location.points_retrait:[])}
                                         options={ConvertSelectDataV2(point_retraits)}
                                         />
                                     <InputError message={errors.point_retraits} className="mt-2" />

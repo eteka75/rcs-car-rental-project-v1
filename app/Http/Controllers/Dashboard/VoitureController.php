@@ -113,12 +113,15 @@ class VoitureController extends Controller
         }
         $data['date_achat'] = $this->converDateToDB($request->input('date_achat'));
 
-        $sys_sec_ids = $data['systeme_securite'];
+        
+        $sys_sec_ids = is_array($data['systeme_securites']) && count($data['systeme_securites'])?$data['systeme_securites']:[];
         if ($data['date_achat'] == null) {
             unset($data['date_achat']);
         }
         $userId = \Auth::id()??'0';
-        $data['user_id']=$userId;
+        if($userId==='0'){return back();}
+        $data['user_add_id']=$userId;
+        //dd($data);
         $voiture = Voiture::create($data);
         $voiture->systemeSecurites()->attach($sys_sec_ids);
         Session::flash(
@@ -215,8 +218,8 @@ class VoitureController extends Controller
                 'photo' => $data['photo']
             ]);
         }
-        $sys_sec_ids = $data['systeme_securite'];
-        if($sys_sec_ids!=null && count($sys_sec_ids) > 0) {
+        $sys_sec_ids = isset($data['systeme_securites'])  && count($data['systeme_securites'])?$data['systeme_securites']:[];
+        if($sys_sec_ids!=[]) {
         $voiture->systemeSecurites()->sync($sys_sec_ids);
         }else{
             $voiture->systemeSecurites()->sync([]);

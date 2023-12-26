@@ -32,8 +32,7 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
             disponibilite: voiture.disponibilite??0,
             type_carburant_id:voiture.type_carburant_id?? '',
             categorie_id:voiture.categorie_id?? '',
-            systeme_securite: [],
-            systeme_securites:'',
+            systeme_securites:[],
             puissance_moteur:voiture.puissance_moteur?? '',
             immatriculation:voiture.immatriculation?? '',
             type_transmission:voiture.type_transmission?? '',
@@ -59,7 +58,6 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
             type_carburant_id: '',
             categorie_id: '',
             immatriculation: '',
-            systeme_securite: '',
             systeme_securites: '',
             puissance_moteur: '',
             type_transmission: '',
@@ -119,7 +117,7 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
                 newTab.push(value);
             })
         }
-        setData('systeme_securite',newTab);       
+        setData('systeme_securites',newTab);       
     };
     const addToRefs = el => {
         if (el && !refs.current.includes(el)) {
