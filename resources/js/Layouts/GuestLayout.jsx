@@ -10,11 +10,9 @@ export default function Guest({ auth = {}, children }) {
         <>
             <div className="">
                 <Notification/>
-                <HeaderMenu />
                 <div className="max-w-screen-xl_ mx-auto dark:bg-gray-800  overflow-hidden">
                     {children}
                 </div>
-                <FooterMega />
             </div>
         </>
     );

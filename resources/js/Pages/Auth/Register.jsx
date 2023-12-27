@@ -6,10 +6,10 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { AiOutlineUserAdd } from 'react-icons/ai';
-import { FcAutomotive, FcMoneyTransfer, FcOk, FcShipped } from 'react-icons/fc';
-import { FaCar } from 'react-icons/fa6';
-import { MdCarRental } from 'react-icons/md';
+import { FcShipped } from 'react-icons/fc';
+import Logo from "../../assets/images/logo-v0-min.png";
 import { GiKeyCard, GiMoneyStack, GiTakeMyMoney } from "react-icons/gi";
+import MiniFixedFooter from '@/components/MiniFixedFooter';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -35,7 +35,7 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Création de compte" />
-            <div className="md:grid md:grid-cols-2 mb-0">
+            <div className="md:grid md:grid-cols-2 min-h-screen mb-0">
                 <div className="hidden shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-4.jpeg')] bg-cover bg-no-repeat bg-[left_calc(50%)_top_calc(25%)]">
                     <div className="bg-[rgba(0,0,0,.5)] bg-gradient-to-t from-[rgba(0,0,0,.95)]   h-full w-full">
                         <div className='mx-auto md:my-[20vh] my-10 px-4 '>
@@ -98,6 +98,19 @@ export default function Register() {
                     </div>
                 </div>
                 <div className='sm:max-w-md px-8 py-10 md:py-[20vh]'>
+                <Link
+                        href={"/"}
+                        className="flex items-center  mb-14 space-x-3 rtl:space-x-reverse"
+                    >
+                        <img
+                            src={Logo}
+                            className="h-10"
+                            alt="Logo CRS Bénin"
+                            />
+                        <span className="self-center  sm:flex md:text-xl uppercase_ font-semibold whitespace-nowrap dark:text-white">
+                            Rental Car Services
+                        </span>
+                    </Link>
                     <form onSubmit={submit}>
                         <h1 className='text-3xl mb-4 font-bold flex'>
                             <AiOutlineUserAdd className='me-1' />
@@ -195,7 +208,9 @@ export default function Register() {
                         </div>
                     </form>
                 </div>
+
             </div>
+            <MiniFixedFooter/>
         </GuestLayout>
     );
 }

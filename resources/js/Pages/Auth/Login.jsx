@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
+import Logo from "../../assets/images/logo-v0-min.png";
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -9,6 +9,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { IoLogInOutline } from "react-icons/io5";
 import {  FcOk } from 'react-icons/fc';
 import { PiCarProfileDuotone } from "react-icons/pi";
+import MiniFixedFooter from '@/components/MiniFixedFooter';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -32,10 +33,10 @@ export default function Login({ status, canResetPassword }) {
     return (
         <GuestLayout>
             <Head title="Conexion à votre compte" />
-            <div className="md:grid md:grid-cols-2 mb-0">
-                <div className="hidden shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover_ bg-no-repeat bg-[left_calc(50%)_top_calc(00%)]">
+            <div className="md:grid md:grid-cols-2 min-h-screen mb-0">
+                <div className=" shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover bg-no-repeat bg-[left_calc(20%)_top_calc(00%)]">
                     <div className="bg-[rgba(0,0,0,.25)] relative  duration-300 bg-gradient-to-t from-[rgba(0,0,0,.95)]  h-full w-full ">
-                        <div className=' sm:max-w-md lg:max-w-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2    '>
+                        <div className=' sm:max-w-md lg:max-w-lg absolute top-1/3 left-4 right-4  xl:top-1/2 xl:left-1/2 xl:transform xl:-translate-x-1/2 xl:-translate-y-1/2    '>
                             <div className='min-w-min mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)]   '>
                                 <div className="grid grid-flow-col items-center md:gap-4">
 
@@ -102,12 +103,25 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
                 <div className=' items-center justify-center'>
-                    {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-                    <div className='sm:max-w-md px-8 py-10 md:py-[20vh]'>
+                    <div className='sm:max-w-md  min-h-screen px-8 py-10 md:pt-[30%] md:pb-[20vh]'>
+                    <Link
+                        href={"/"}
+                        className="flex items-center  mb-14 space-x-3 rtl:space-x-reverse"
+                    >
+                        <img
+                            src={Logo}
+                            className="h-10"
+                            alt="Logo CRS Bénin"
+                            />
+                        <span className="self-center  sm:flex md:text-xl uppercase_ font-semibold whitespace-nowrap dark:text-white">
+                            Rental Car Services
+                        </span>
+                    </Link>
                         <h1 className='text-3xl mb-4 font-bold flex'>
                             <IoLogInOutline className='me-1' />
                             Connexion</h1>
                         <form onSubmit={submit}>
+                            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
                             <div>
                                 <InputLabel htmlFor="email" value="Adresse e-mail" />
 
@@ -176,8 +190,11 @@ export default function Login({ status, canResetPassword }) {
                                 </Link>
                             </div>
                         </form>
-                    </div>
+                        
                 </div>
+                
+            </div>
+            <MiniFixedFooter/>
             </div>
         </GuestLayout >
     );
