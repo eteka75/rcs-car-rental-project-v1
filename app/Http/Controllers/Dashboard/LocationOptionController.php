@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestLocationOptionRequest;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
@@ -49,8 +48,8 @@ class LocationOptionController extends Controller
             'search_text' => $keyword,
             'location_options' => $location_options,
             'count' => $location_options->count(),
-            'page_title' => "Options de location",
-            'page_subtitle' => "Gestion des options de location de voitures",
+            'page_title' => "Code de réduction",
+            'page_subtitle' => "Gestion des codes de réduction sur location de voitures",
         ]);
     }
 
@@ -60,8 +59,8 @@ class LocationOptionController extends Controller
     public function create()
     {
         return Inertia::render(self::$viewFolder . '/Create', [
-            'page_title' => "Nouvelle option de location",
-            'page_subtitle' => "Ajouter un nouvelle option de location",
+            'page_title' => "Nouveau code de réduction",
+            'page_subtitle' => "Ajouter un nouvelle code de réduction sur location",
         ]);
     }
 
@@ -105,7 +104,7 @@ class LocationOptionController extends Controller
         $location_option_name=$location_option->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
             'location_option' => $location_option,
-            'page_title' => "Option de location  ".$location_option_name,
+            'page_title' => "Code de réduction ".$location_option_name,
             'page_subtitle' => "Affichage de détail sur ".$location_option_name,
         ]);
     }
@@ -119,7 +118,7 @@ class LocationOptionController extends Controller
         return Inertia::render(self::$viewFolder . '/Edit', [
             'sys_securite' => $location_option,
             'page_title' => "Edition d'option",
-            'page_subtitle' => "Modification d'une option de location",
+            'page_subtitle' => "Modification d'une code de réduction sur location",
         ]);
     }
     /**
@@ -130,8 +129,8 @@ class LocationOptionController extends Controller
         $location_options = LocationOption::all();
         return Inertia::render(self::$viewFolder . '/Export', [
             'location_options' => $location_options,
-            'page_title' => "Options de location",
-            'page_subtitle' => "Liste des options de location",
+            'page_title' => "Code de réduction",
+            'page_subtitle' => "Liste des codes de réduction sur location",
         ]);
     }
 

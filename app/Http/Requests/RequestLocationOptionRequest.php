@@ -32,7 +32,8 @@ class RequestLocationOptionRequest extends FormRequest
             'tarif_option_mensuel' => 'required_without_all:tarif_option_heure,
             tarif_option_journalier,tarif_option_hebdomadaire|nullable|integer|min:0|max:9999999999',            
             'description' => 'required|min:10|max:100000',
-            'photo' => 'nullable|sometimes|webp|dimensions:min_width=100,min_height=100,
+            'photo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp
+                    |dimensions:min_width=100,min_height=100,
                     max_width=2500,max_height=2500|max:2048',
 
         ];

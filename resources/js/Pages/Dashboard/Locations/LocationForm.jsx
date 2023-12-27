@@ -15,11 +15,11 @@ import i18n from '@/i18n';
 
 //import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
 import { enUS, fr } from 'date-fns/locale';
 import { format } from 'date-fns';
 
 
+import "react-datepicker/dist/react-datepicker.css";
 import Datepicker from "react-tailwindcss-datepicker";
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import ModaleImage from '@/components/ModaleImage';
@@ -80,8 +80,6 @@ export default function LocationForm({ className = '', location = null, pays = [
         const { startDate } = newValue;
         setDateDebut(newValue);
         let frDate = DateToFront(startDate, i18n.language, 'd/m/Y');
-        alert(frDate)
-        console.log(newValue)
         setData("date_debut_location", frDate);
     }
     const handleDateFinChange = (newValue) => {

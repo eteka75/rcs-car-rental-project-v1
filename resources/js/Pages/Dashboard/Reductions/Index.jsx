@@ -34,7 +34,7 @@ export default function Index({ auth, location_reductions, page_id, page_subid,
     page_title, page_subtitle, search_text = '', count = 0 }) {
 
     const { t, i18n } = useTranslation();
-    const TABLE_HEAD = ["Photo", "Nom", "Date d'ajout", "Actions"];
+    const TABLE_HEAD = ["Photo", "Nom", "Code","Début","Fin","Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
@@ -129,7 +129,7 @@ export default function Index({ auth, location_reductions, page_id, page_subid,
                 <CardBody className={" p-0 overflow-auto"}>
                     <ViewTable count={count} head={TABLE_HEAD} links={location_reductions.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom, photo, created_at }, index) => {
+                            ({ id, nom, photo,code_reduction,date_debut_reduction,date_fin_reduction, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -160,6 +160,39 @@ export default function Index({ auth, location_reductions, page_id, page_subid,
                                             </div>
                                         </td>
 
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+
+                                               {code_reduction}
+
+                                            </Typography>
+                                        </td>
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+
+                                                {DateToFront(date_debut_reduction, i18n.language,'d/m/Y')}
+
+                                            </Typography>
+                                        </td>
+                                        <td className={classes}>
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+
+                                                {DateToFront(date_fin_reduction, i18n.language,'d/m/Y')}
+
+                                            </Typography>
+                                        </td>
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"

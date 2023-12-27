@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestLocationReductionRequest;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
@@ -18,7 +17,7 @@ class LocationReductionController extends Controller
 
 
     private static $viewFolder = "Dashboard/Reductions";
-    private static $imageFolder = "storage/datas/location_reductionss/";
+    private static $imageFolder = "storage/datas/location_reductions/";
     private static $page_id = "locations";
     private static $page_subid = "reductions";
     private static $nbPerPage = 10;
@@ -62,8 +61,8 @@ class LocationReductionController extends Controller
     public function create()
     {
         return Inertia::render(self::$viewFolder . '/Create', [
-            'page_title' => "Nouvelle option de location",
-            'page_subtitle' => "Ajouter un nouvelle option de location",
+            'page_title' => "Nouveau code réduction",
+            'page_subtitle' => "Ajouter un nouveau code de réduction sur la location",
         ]);
     }
 
@@ -79,7 +78,29 @@ class LocationReductionController extends Controller
         $rules = array_merge((new RequestLocationReductionRequest())->rules(), $additionalRules);
         $request->validate($rules);
         $data = $request->except(['photo']);
+        $vp=(isset($data['type_reduction']) && $data['type_reduction']=='Montant')?'M':
+        ((isset($data['type_reduction']) && $data['type_reduction']=='Pourcentage')?'P':'');
+        $data['type_reduction']=$vp;
+        if($data['type_reduction']=='P' ){
+            ( $data['montant'] =0 );
+            if(intval($data['pourcentage'])<=0){
+                Session::flash('warning',['title'=>'Erreur sur le formulaire',
+                'message'=>'Le pourcentage ne peut pas être 0']);
+                return redirect()->back()->withInput();
+            }
+        }elseif($data['type_reduction']=='M'){
+            ( $data['pourcentage'] =0);
+            if(intval($data['montant'])<=0){
+                Session::flash('warning',['title'=>'Erreur sur le formulaire',
+                'message'=>'Le montant ne peut pas être 0']);
 
+                return redirect()->back()->withInput();
+            }
+        }
+
+        $data['date_debut_reduction']=$this->converDateToDB($data['date_debut_reduction']);
+        $data['date_fin_reduction']=$this->converDateToDB($data['date_fin_reduction']);
+        
         if ($request->hasFile('photo')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
@@ -96,6 +117,15 @@ class LocationReductionController extends Controller
         );
 
         return to_route('dashboard.location_reductions');
+    }
+
+    public function converDateToDB($date)
+    {
+        $dateObj = \DateTime::createFromFormat('d/m/Y', $date);
+        if ($dateObj === false) {
+            return false;
+        }
+        return $dateObj->format('Y-m-d');
     }
 
     /**
@@ -117,9 +147,9 @@ class LocationReductionController extends Controller
      */
     public function edit($id)
     {
-        $location_option = LocationReduction::findOrFail($id);
+        $location_reduction = LocationReduction::findOrFail($id);
         return Inertia::render(self::$viewFolder . '/Edit', [
-            'sys_securite' => $location_option,
+            'location_reduction' => $location_reduction,
             'page_title' => "Edition d'option",
             'page_subtitle' => "Modification d'une option de location",
         ]);
@@ -144,23 +174,40 @@ class LocationReductionController extends Controller
     public function update(RequestLocationReductionRequest $request, $id)
     {
 
-        $location_option = LocationReduction::findOrFail($id);
-        $data = $request->except('photo');
+        
+        $data = $request->except(['photo']);
+        $vp=(isset($data['type_reduction']) && $data['type_reduction']=='Montant')?'M':
+        ((isset($data['type_reduction']) && $data['type_reduction']=='Pourcentage')?'P':'');
+        $data['type_reduction']=$vp;
+        if($data['type_reduction']=='P' ){
+            $data['montant']=0;
+            if(intval($data['pourcentage'])<=0){
+                Session::flash('warning',['title'=>'Erreur sur le formulaire',
+                'message'=>'Le pourcentage ne peut pas être 0']);
+                return redirect()->back()->withInput();
+            }
+        }elseif($data['type_reduction']=='M'){
+            $data['pourcentage']=0;
+            if(intval($data['montant'])<=0){
+                Session::flash('warning',['title'=>'Erreur sur le formulaire',
+                'message'=>'Le montant ne peut pas être 0']);
+
+                return redirect()->back()->withInput();
+            }
+        }
+      
+        $data['date_debut_reduction']=$this->converDateToDB($data['date_debut_reduction']);
+        $data['date_fin_reduction']=$this->converDateToDB($data['date_fin_reduction']);
+        
         if ($request->hasFile('photo')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        $location_option->update([
-            'nom' => $data['nom'],
-            'description' => $data['description']
-        ]);
-        if (isset($data['photo']) && $data['photo'] != '') {
-            $location_option->update([
-                'photo' => $data['photo']
-            ]);
-        }
+        //dd($data);
+        $location_option = LocationReduction::findOrFail($id);
+        $location_option->update($data);
         Session::flash('info',
             [
                 'title' => 'Mise à jour effectuée',

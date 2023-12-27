@@ -12,7 +12,7 @@ export default function Notification() {
     const { flash } = usePage().props
     return (
         <>
-            <div className="fixed md:top-48 md:w-96 right-2 py-2">
+            <div className="fixed z-20 md:top-48 md:w-96 right-2 py-2">
                 {flash.info && (
                     <Message message={flash.info.message} title={flash.info.title} />
                 )}
