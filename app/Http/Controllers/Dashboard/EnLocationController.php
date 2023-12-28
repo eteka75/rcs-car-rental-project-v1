@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\RequestEnLocationRequest;
 use App\Models\EnLocation;
+use App\Models\Media;
 use App\Models\PointRetrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
@@ -79,7 +80,7 @@ class EnLocationController extends Controller
      */
     public function create()
     {
-        $voitures = Voiture::orderBy('nom')->get(); //select('nom', 'id')->
+        $voitures = Voiture::With('medias')->orderBy('nom')->get(); //select('nom', 'id')->
         $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();
 
         Inertia::share([
@@ -103,6 +104,7 @@ class EnLocationController extends Controller
         $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
 
         $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
+        
         if ($nb_chevauchements->count('id') > 0) {
             Session::flash(
                 'danger',
@@ -114,7 +116,7 @@ class EnLocationController extends Controller
             return redirect()->back()->withInput();
 
         }
-        if ($request->hasFile('fichier')) {
+        if ($request->hasFile('photos')) {
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['fichier'] = $getSave;
@@ -127,6 +129,19 @@ class EnLocationController extends Controller
         if(count($points) > 0) {
         $location->pointsRetrait()->sync($points);
         }
+
+       /* if ($request->hasFile('photos')) {
+            $voiture_id=$data['voiture_id'];
+            $getSaves = $this->savePhotos($request, $voiture_id);
+            if ($getSaves !== []) {
+                Session::flash(
+                    'info',
+                    [
+                        'message' => 'Images sauvegardées !',
+                    ]
+                );
+            }
+        }*/
         Session::flash(
             'success',
             [
@@ -136,6 +151,35 @@ class EnLocationController extends Controller
         );
 
         return to_route('dashboard.locations');
+    }
+
+    public function savePhotos(FormRequest $request, $voiture_id = '')
+    {
+        $uploadedImages = [];
+        if ($voiture_id != '') {
+            $voiture = Voiture::where('id', $voiture_id)->firstOrFail();
+            foreach ($request->file('photos') as $image) {
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = (self::$imageFolder);
+                if (!Storage::exists($destinationPath)) {
+                    Storage::makeDirectory($destinationPath);
+                }
+              
+                $image->move($destinationPath, $filename);
+                $path = self::$imageFolder . $filename;
+
+                // Save image information to the database
+                $m= Media::create([
+                    'url' => $path,
+                    'dossier' => self::$imageFolder,
+                    'nom' => $filename,
+                    'original_name' => $image->getClientOriginalName(),
+                ]);
+                $voiture->medias()->attach($m->id);
+                $uploadedImages[]= $m;
+            }
+        }
+        return $uploadedImages;
     }
 
     public function checkLocationChevauchement($voiture_id, $nouvelleDateDebut, $nouvelleDateFin, $location_id = '')

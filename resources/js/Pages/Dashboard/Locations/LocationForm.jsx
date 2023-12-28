@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-import { Card, CardBody, Progress } from '@material-tailwind/react';
+import { Avatar, Card, CardBody, Progress } from '@material-tailwind/react';
 import Select from 'react-select';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
@@ -575,7 +575,22 @@ export default function LocationForm({ className = '', location = null, pays = [
                                             </div>
                                         }
                                     </div>
-
+                                    <div className="medias py-4">
+                                        <div className="flex items-center -space-x-4">
+                                            {voiture && voiture.medias && voiture.medias.length>0 && voiture.medias.map(({url,nom},index)=>(
+                                                   <div key={index}> 
+                                                    <ModaleImage url={HTTP_FRONTEND_HOME+''+url}>
+                                                     <Avatar
+                                                    variant="circular"
+                                                    alt={nom}
+                                                    className="border-2 border-white hover:z-10 focus:z-10"
+                                                    src={HTTP_FRONTEND_HOME+''+url}
+                                                  />
+                                                  </ModaleImage>
+                                                  </div>
+                                            ))}
+                                        </div>
+                                    </div>
 
                                 </div>
                             )}

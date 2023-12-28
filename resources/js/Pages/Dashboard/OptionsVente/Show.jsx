@@ -38,7 +38,7 @@ export default function Show({ auth, option_vente, page_id = '', page_subid = ''
 
                             {
                                 option_vente.photo && <img
-                                    className="max-h-44 mx-auto w-auto  rounded-lg object-cover object-center"
+                                    className="max-w-full mx-auto h-auto  rounded-lg object-cover object-center"
                                     src={HTTP_FRONTEND_HOME + '' + option_vente.photo}
                                     alt={option_vente.nom}
                                 />

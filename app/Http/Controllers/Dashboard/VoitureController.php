@@ -277,7 +277,7 @@ class VoitureController extends Controller
 
             $img = ($voiture->photo);
             $delete=$this->deleteImageIfExists($img);
-            if($delete==true){
+            //if($delete==true){
                 $voiture->photo='';
                 $voiture->save();
                 Session::flash(
@@ -287,7 +287,7 @@ class VoitureController extends Controller
                         'message' => "La Suppression de l'enrégistrement a été effectuée avec succès!",
                     ]
                 );
-            }
+            //}
             //
         }else{
             $v=Voiture::where('id',$id)->firstOrFail();
@@ -296,7 +296,7 @@ class VoitureController extends Controller
                 $img = ($media->url);
                 $delete=$this->deleteImageIfExists($img);
                 //dd($delete);
-              if($delete==true){
+             // if($delete==true){
                 $v->medias()->detach($imgId);
                 Session::flash(
                     'warning',
@@ -305,7 +305,7 @@ class VoitureController extends Controller
                         'message' => "La Suppression de l'image a été effectuée avec succès!",
                     ]
                 );
-              }
+             // }
             }
            //$voiture-> 
         }

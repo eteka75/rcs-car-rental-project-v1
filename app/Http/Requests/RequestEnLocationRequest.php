@@ -36,6 +36,7 @@ class RequestEnLocationRequest extends FormRequest
             'date_debut_location' => 'required|date_format:d/m/Y|max:50',
             'date_fin_location' => 'required|date_format:d/m/Y|
             after_or_equal:date_debut_location|max:50',            
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'conditions' => 'required|min:5|max:1000000',
             'description' => 'nullable|max:100000',
         ];

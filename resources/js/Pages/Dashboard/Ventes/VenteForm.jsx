@@ -215,7 +215,6 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
         if (vente && action === 'update') {
             post(route('dashboard.ventes.update', vente.id), data,  {
                 forceFormData: true,
@@ -224,7 +223,7 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log("ERRORRRRRRRRRRRS",errors);
+                    //console.log("ERRORRRRRRRRRRRS",errors);
                 },
             });
         }
@@ -235,7 +234,7 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    console.log(errors);
+                    //console.log(errors);
                 },
             });
         }
@@ -243,8 +242,6 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
 
     return (
         <div className='md:grid md:grid-cols-2 md:gap-4'>
-            {console.log("ERRORS",errors)}
-            {console.log("DATA",data)}
             <Card>
                 <CardBody>
                     <section className={className}>
@@ -591,9 +588,8 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
 
                                         <div className="medias py-4">
                                         <div className="flex items-center -space-x-4">
-                                            {console.log('VOITURE',voiture.medias)}
                                             {voiture && voiture.medias && voiture.medias.length>0 && voiture.medias.map(({url,nom},index)=>(
-                                                   <div> 
+                                                   <div key={index}> 
                                                     <ModaleImage url={HTTP_FRONTEND_HOME+''+url}>
                                                      <Avatar
                                                     variant="circular"
