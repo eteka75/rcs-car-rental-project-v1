@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Requests\RequestWebpage;
 use App\Models\WebPage;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RequestMarqueCategorieRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Categorie;
 use Inertia\Inertia;
 
 class WebPageController extends Controller
@@ -37,17 +36,17 @@ class WebPageController extends Controller
         Inertia::share(['total'=>WebPage::count()]);
 
         if (!empty($keyword)) {
-            $categories = WebPage::where('nom', 'LIKE', "%$keyword%")
+            $webpages = WebPage::where('nom', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
-            $categories = WebPage::latest()->paginate($perPage);
+            $webpages = WebPage::latest()->paginate($perPage);
         }
        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'categories' => $categories, 
-            'count' => $categories->count(), 
+            'webpages' => $webpages, 
+            'count' => $webpages->count(), 
             'page_title' => "Pages",
             'page_subtitle' => "Gestion des pages du site",
         ]);
@@ -59,8 +58,8 @@ class WebPageController extends Controller
     public function create()
     {
         return Inertia::render(self::$viewFolder . '/Create', [
-            'page_title' => "Nouvelle catégorie",
-            'page_subtitle' => "Ajouter une nouvelle catégorie de voiture",
+            'page_title' => "Nouvelle page",
+            'page_subtitle' => "Ajouter une nouvelle page du site",
         ]);
     }
 
@@ -73,10 +72,10 @@ class WebPageController extends Controller
             'nom' => ["required","unique:marques,nom"],
         ];
         // Merge additional rules with the rules defined in the form request
-        $rules = array_merge((new RequestMarqueCategorieRequest())->rules(), $additionalRules);
+        $rules = array_merge((new RequestWebpage())->rules(), $additionalRules);
         $request->validate($rules);
         $data = $request->except(['photo']);
-
+        $data['slug']=$this->generateUniqueSlug($data['titre']);
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
@@ -90,7 +89,15 @@ class WebPageController extends Controller
             'message'=>'Les données ont été enregistrées avec succès!',
         ]
         );
-        return to_route('dashboard.categories');
+        return to_route('dashboard.webpages');
+    }
+    private static function generateUniqueSlug($title='')
+    {
+        $title=$title==''?Str::random(10) : $title;
+        $slug = Str::slug($title);
+        $count = WebPage::where('slug', $slug)->count();
+        
+        return $count ? "{$slug}-{$count}" : $slug;
     }
 
     /**
@@ -98,12 +105,12 @@ class WebPageController extends Controller
      */
     public function show($id)
     {
-        $categorie=WebPage::where('id', $id)->firstOrFail();
-        $categorie_name=$categorie->nom;
+        $webpage=WebPage::where('id', $id)->firstOrFail();
+        $webpage_name=$webpage->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
-            'categorie' => $categorie,
-            'page_title' => "Catégorie ".$categorie_name,
-            'page_subtitle' => "Affichage de détail sur ".$categorie_name,
+            'webpage' => $webpage,
+            'page_title' => "Page - ".$webpage_name,
+            'page_subtitle' => "Affichage de détail sur ".$webpage_name,
         ]);
     }
 
@@ -112,11 +119,11 @@ class WebPageController extends Controller
      */
     public function edit($id)
     {
-        $categorie = WebPage::findOrFail($id);
+        $webpage = WebPage::findOrFail($id);
         return Inertia::render(self::$viewFolder . '/Edit', [
-            'categorie' => $categorie,
-            'page_title' => "Edition de catégorie",
-            'page_subtitle' => "Modification d'une catégorie de voiture",
+            'webpage' => $webpage,
+            'page_title' => "Edition de Page",
+            'page_subtitle' => "Modification d'une page du site",
         ]);
     }
     /**
@@ -124,11 +131,11 @@ class WebPageController extends Controller
      */
     public function export(Request $request)
     {
-        $categories = WebPage::all();
+        $webpages = WebPage::all();
         return Inertia::render(self::$viewFolder . '/Export', [
-            'categories' => $categories,
-            'page_title' => "Export des catégories",
-            'page_subtitle' => "Exportations des catégories de voiture",
+            'webpages' => $webpages,
+            'page_title' => "Export des pages",
+            'page_subtitle' => "Exportations des pages du site",
         ]);
     }
 
@@ -136,22 +143,20 @@ class WebPageController extends Controller
      * Update the specified resource in storage.
      */
     //public function update(Request $request, $id){
-    public function update(RequestMarqueCategorieRequest $request, $id){
+    public function update(RequestWebpage $request, $id){
 
-        $categorie = WebPage::findOrFail($id);
+        $webpage = WebPage::findOrFail($id);
         $data = $request->except('photo');
+        //dd($request->all());
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        $categorie->update([
-            'nom' => $data['nom'],
-            'description' => $data['description']
-        ]);
+        $webpage->update($data);
         if(isset($data['photo']) && $data['photo']!=''){
-            $categorie->update([
+            $webpage->update([
                 'photo' => $data['photo']
             ]);  
         }
@@ -161,7 +166,7 @@ class WebPageController extends Controller
             'message'=>'Les données ont été modifiées avec succès!',
         ]
         );
-        return to_route('dashboard.categories');
+        return to_route('dashboard.webpages');
     }
 
     public function saveLogo(FormRequest $request)
@@ -186,14 +191,14 @@ class WebPageController extends Controller
     public function destroy($id)
     {
         
-        $categorie = WebPage::findOrFail($id);
-        $categorie->delete();
+        $webpage = WebPage::findOrFail($id);
+        $webpage->delete();
         Session::flash('warning',
         [
             'title'=>'Suppression effectuée',
             'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
         ]
         );
-        return to_route('dashboard.categories');
+        return to_route('dashboard.webpages');
     }
 }

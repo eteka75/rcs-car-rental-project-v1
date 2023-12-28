@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Requests\RequestFaq;
 use App\Models\Faq;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\RequestMarqueCategorieRequest;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,10 +17,10 @@ use Inertia\Inertia;
 class FaqController extends Controller
 {
     
-    private static $viewFolder = "Dashboard/Categories";
-    private static $imageFolder = "storage/datas/categories/";
-    private static $pageId = "voitures";
-    private static $pageSubid = "categories";
+    private static $viewFolder = "Dashboard/Faqs";
+    private static $imageFolder = "storage/datas/faqs/";
+    private static $pageId = "support";
+    private static $pageSubid = "faqs";
     private static $nbPerPage = 10;
     /**
      * Display a listing of the resource.
@@ -34,22 +36,22 @@ class FaqController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = self::$nbPerPage > 0 ? self::$nbPerPage : 10;
-        Inertia::share(['total'=>Categorie::count()]);
+        Inertia::share(['total'=>Faq::count()]);
 
         if (!empty($keyword)) {
-            $categories = Categorie::where('nom', 'LIKE', "%$keyword%")
+            $faqs = Faq::where('nom', 'LIKE', "%$keyword%")
                 ->orWhere('description', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
-            $categories = Categorie::latest()->paginate($perPage);
+            $faqs = Faq::latest()->paginate($perPage);
         }
        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'categories' => $categories, 
-            'count' => $categories->count(), 
-            'page_title' => "Catégories",
-            'page_subtitle' => "Gestion de vos catégories de voitures",
+            'faqs' => $faqs, 
+            'count' => $faqs->count(), 
+            'page_title' => "Forum aux questions",
+            'page_subtitle' => "Gestion de questions et réponses clients",
         ]);
     }
 
@@ -59,8 +61,8 @@ class FaqController extends Controller
     public function create()
     {
         return Inertia::render(self::$viewFolder . '/Create', [
-            'page_title' => "Nouvelle catégorie",
-            'page_subtitle' => "Ajouter une nouvelle catégorie de voiture",
+            'page_title' => "Nouvelle FAQ",
+            'page_subtitle' => "Ajouter une nouvelle FAQ",
         ]);
     }
 
@@ -73,24 +75,32 @@ class FaqController extends Controller
             'nom' => ["required","unique:marques,nom"],
         ];
         // Merge additional rules with the rules defined in the form request
-        $rules = array_merge((new RequestMarqueCategorieRequest())->rules(), $additionalRules);
+        $rules = array_merge((new RequestFaq())->rules(), $additionalRules);
         $request->validate($rules);
         $data = $request->except(['photo']);
-
+        $data['slug']=$this->generateUniqueSlug($data['titre']);
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        Categorie::create($data);
+        Faq::create($data);
         Session::flash('success',
         [
             'title'=>'Enrégistrement effectué',
             'message'=>'Les données ont été enregistrées avec succès!',
         ]
         );
-        return to_route('dashboard.categories');
+        return to_route('dashboard.faqs');
+    }
+    private static function generateUniqueSlug($title='')
+    {
+        $title=$title==''?Str::random(10) : $title;
+        $slug = Str::slug($title);
+        $count = Faq::where('slug', $slug)->count();
+        
+        return $count ? "{$slug}-{$count}" : $slug;
     }
 
     /**
@@ -98,12 +108,12 @@ class FaqController extends Controller
      */
     public function show($id)
     {
-        $categorie=Categorie::where('id', $id)->firstOrFail();
-        $categorie_name=$categorie->nom;
+        $faq=Faq::where('id', $id)->firstOrFail();
+        $faq_name=$faq->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
-            'categorie' => $categorie,
-            'page_title' => "Catégorie ".$categorie_name,
-            'page_subtitle' => "Affichage de détail sur ".$categorie_name,
+            'faq' => $faq,
+            'page_title' => "Page - ".$faq_name,
+            'page_subtitle' => "Affichage de détail sur ".$faq_name,
         ]);
     }
 
@@ -112,11 +122,11 @@ class FaqController extends Controller
      */
     public function edit($id)
     {
-        $categorie = Categorie::findOrFail($id);
+        $faq = Faq::findOrFail($id);
         return Inertia::render(self::$viewFolder . '/Edit', [
-            'categorie' => $categorie,
-            'page_title' => "Edition de catégorie",
-            'page_subtitle' => "Modification d'une catégorie de voiture",
+            'faq' => $faq,
+            'page_title' => "Edition de Page",
+            'page_subtitle' => "Modification d'une page du site",
         ]);
     }
     /**
@@ -124,11 +134,11 @@ class FaqController extends Controller
      */
     public function export(Request $request)
     {
-        $categories = Categorie::all();
+        $faqs = Faq::all();
         return Inertia::render(self::$viewFolder . '/Export', [
-            'categories' => $categories,
-            'page_title' => "Export des catégories",
-            'page_subtitle' => "Exportations des catégories de voiture",
+            'faqs' => $faqs,
+            'page_title' => "Export des pages",
+            'page_subtitle' => "Exportations des pages du site",
         ]);
     }
 
@@ -136,22 +146,20 @@ class FaqController extends Controller
      * Update the specified resource in storage.
      */
     //public function update(Request $request, $id){
-    public function update(RequestMarqueCategorieRequest $request, $id){
+    public function update(RequestFaq $request, $id){
 
-        $categorie = Categorie::findOrFail($id);
+        $faq = Faq::findOrFail($id);
         $data = $request->except('photo');
+        //dd($request->all());
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
                 $data['photo'] = $getSave;
             }
         }
-        $categorie->update([
-            'nom' => $data['nom'],
-            'description' => $data['description']
-        ]);
+        $faq->update($data);
         if(isset($data['photo']) && $data['photo']!=''){
-            $categorie->update([
+            $faq->update([
                 'photo' => $data['photo']
             ]);  
         }
@@ -161,7 +169,7 @@ class FaqController extends Controller
             'message'=>'Les données ont été modifiées avec succès!',
         ]
         );
-        return to_route('dashboard.categories');
+        return to_route('dashboard.faqs');
     }
 
     public function saveLogo(FormRequest $request)
@@ -186,14 +194,14 @@ class FaqController extends Controller
     public function destroy($id)
     {
         
-        $categorie = Categorie::findOrFail($id);
-        $categorie->delete();
+        $faq = Faq::findOrFail($id);
+        $faq->delete();
         Session::flash('warning',
         [
             'title'=>'Suppression effectuée',
             'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
         ]
         );
-        return to_route('dashboard.categories');
+        return to_route('dashboard.faqs');
     }
 }

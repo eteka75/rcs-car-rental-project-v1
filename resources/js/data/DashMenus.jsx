@@ -115,13 +115,13 @@ export const menuItemsData = [
     sub: [
       {
         title: "Pages",
-        route: 'dashboard.pages',
+        route: 'dashboard.webpages',
         sid:'pages'
       },
       {
         title: "Forums aux questions",
-        route: 'dashboard.voitures',
-        sid:'faq'
+        route: 'dashboard.faqs',
+        sid:'faqs'
       }
     ],
   },

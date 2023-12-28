@@ -27,5 +27,11 @@ function formaterMontant(montant, langue) {
         return montant;
     }
 }
-
-export { DateToFront, formaterMontant };
+function truncateString(str, maxLength) {
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength - 3) + '...';
+    } else {
+        return str;
+    }
+}
+export { DateToFront, formaterMontant,truncateString };

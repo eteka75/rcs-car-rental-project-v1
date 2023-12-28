@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\ControlVoitureController;
 use App\Http\Controllers\Dashboard\EnLocationController;
 use App\Http\Controllers\Dashboard\EnVenteController;
+use App\Http\Controllers\Dashboard\FaqController;
 use App\Http\Controllers\Dashboard\LocationOptionController;
 use App\Http\Controllers\Dashboard\LocationReductionController;
 use App\Http\Controllers\Dashboard\MarqueController;
@@ -197,15 +198,27 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     });
     /*Page*/
     Route::controller(WebPageController::class)->prefix('pages')->group(function () {
-        Route::get('/', 'index')->name('dashboard.pages');
-        Route::get('/search', 'index')->name('dashboard.pages.search');
-        Route::get('/new', 'create')->name('dashboard.pages.create');
-        Route::post('/new', 'store')->name('dashboard.pages.store');
-        Route::get('/edit/{id}', 'edit')->name('dashboard.pages.edit');
-        Route::post('/edit/{id}', 'update')->name('dashboard.pages.update');
-        Route::get('/export', 'export')->name('dashboard.pages.export');
-        Route::get('/{id}', 'show')->name('dashboard.pages.show');
-        Route::delete('/{id}', 'destroy')->name('dashboard.pages.delete');
+        Route::get('/', 'index')->name('dashboard.webpages');
+        Route::get('/search', 'index')->name('dashboard.webpages.search');
+        Route::get('/new', 'create')->name('dashboard.webpages.create');
+        Route::post('/new', 'store')->name('dashboard.webpages.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.webpages.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.webpages.update');
+        Route::get('/export', 'export')->name('dashboard.webpages.export');
+        Route::get('/{id}', 'show')->name('dashboard.webpages.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.webpages.delete');
+    });
+    /*FAQ*/
+    Route::controller(FaqController::class)->prefix('faq')->group(function () {
+        Route::get('/', 'index')->name('dashboard.faqs');
+        Route::get('/search', 'index')->name('dashboard.faqs.search');
+        Route::get('/new', 'create')->name('dashboard.faqs.create');
+        Route::post('/new', 'store')->name('dashboard.faqs.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.webpages.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.faqs.update');
+        Route::get('/export', 'export')->name('dashboard.faqs.export');
+        Route::get('/{id}', 'show')->name('dashboard.faqs.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.faqs.delete');
     });
 
 })->middleware(['auth','web']);
