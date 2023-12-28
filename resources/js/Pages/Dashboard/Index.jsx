@@ -9,7 +9,7 @@ export default function Index({auth={}}) {
             <Head title="Tableau de bord" />
             <DashHeadTitle  className='mt-8' title="Bienvenue dans votre tableau de bord" subtitle='Gérez vos voitures et interagissez avec votre clientèle en toute sécurité' />
 
-            <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 space-y-4">
                 <div className="flex items-center p-8 bg-white shadow rounded-lg">
                     <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-blue-600 bg-blue-100 rounded-full mr-6">
                         <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
@@ -57,8 +57,8 @@ export default function Index({auth={}}) {
                     </div>
                 </div>
             </section>
-            <section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6">
-                <div className="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
+            <section className="grid md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-3 xl:grid-flow-col gap-6 space-y-8">
+                <div className="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg mt-8">
                     <div className="px-6 py-5 font-semibold border-b border-gray-100">Graphe d'évolution des locations et vente de voitures.</div>
                     <div className="p-4 flex-grow">
                         <div className="flex items-center justify-center h-full px-4 py-16 text-gray-400 text-3xl font-semibold bg-gray-100 border-2 border-gray-200 border-dashed rounded-md">Chart</div>

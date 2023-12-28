@@ -3,10 +3,12 @@
 use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\ControlVoitureController;
 use App\Http\Controllers\Dashboard\EnLocationController;
+use App\Http\Controllers\Dashboard\EnVenteController;
 use App\Http\Controllers\Dashboard\LocationOptionController;
 use App\Http\Controllers\Dashboard\LocationReductionController;
 use App\Http\Controllers\Dashboard\MarqueController;
 use App\Http\Controllers\Dashboard\OperationVoitureController;
+use App\Http\Controllers\Dashboard\OptionVenteController;
 use App\Http\Controllers\Dashboard\PointRetraitController;
 use App\Http\Controllers\Dashboard\SystemeSecuriteController;
 use App\Http\Controllers\Dashboard\TypeCarburantController;
@@ -32,6 +34,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.voitures.export');
         Route::get('/{id}', 'show')->name('dashboard.voitures.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.voitures.delete');
+        Route::delete('/image-{img}/{id}', 'destroyImage')->name('dashboard.voitures.image.delete');
     });
     
     /*Marques*/
@@ -163,6 +166,32 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.location_reductions.export');
         Route::get('/{id}', 'show')->name('dashboard.location_reductions.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.location_reductions.delete');
+    });
+    /* En ventes */
+    Route::controller(EnVenteController::class)
+        ->prefix('ventes')->group(function () {
+        Route::get('/', 'index')->name('dashboard.ventes');
+        Route::get('/search', 'index')->name('dashboard.ventes.search');
+        Route::get('/new', 'create')->name('dashboard.ventes.create');
+        Route::post('/new', 'store')->name('dashboard.ventes.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.ventes.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.ventes.update');
+        Route::get('/export', 'export')->name('dashboard.ventes.export');
+        Route::get('/{id}', 'show')->name('dashboard.ventes.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.ventes.delete');
+    });
+    /*Options vente*/
+    Route::controller(OptionVenteController::class)
+        ->prefix('options_ventes')->group(function () {
+        Route::get('/', 'index')->name('dashboard.option_ventes');
+        Route::get('/search', 'index')->name('dashboard.option_ventes.search');
+        Route::get('/new', 'create')->name('dashboard.option_ventes.create');
+        Route::post('/new', 'store')->name('dashboard.option_ventes.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.option_ventes.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.option_ventes.update');
+        Route::get('/export', 'export')->name('dashboard.option_ventes.export');
+        Route::get('/{id}', 'show')->name('dashboard.option_ventes.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.option_ventes.delete');
     });
 
 })->middleware(['auth','web']);

@@ -268,4 +268,61 @@ class VoitureController extends Controller
         );
         return to_route('dashboard.voitures');
     }
+     
+    public function destroyImage($imgId,$id)
+    {
+
+        if($imgId=="-1"){
+            $voiture=Voiture::where('id',$id)->firstOrFail();
+
+            $img = ($voiture->photo);
+            $delete=$this->deleteImageIfExists($img);
+            if($delete==true){
+                $voiture->photo='';
+                $voiture->save();
+                Session::flash(
+                    'info',
+                    [
+                        'title' => 'Suppression effectuée',
+                        'message' => "La Suppression de l'enrégistrement a été effectuée avec succès!",
+                    ]
+                );
+            }
+            //
+        }else{
+            $v=Voiture::where('id',$id)->firstOrFail();
+            $media= $v->medias()->where('voiture_id',$imgId)->first();//->where('media_id',$img)->get();
+            if($media!=null){
+                $img = ($media->url);
+                $delete=$this->deleteImageIfExists($img);
+                //dd($delete);
+              if($delete==true){
+                $v->medias()->detach($imgId);
+                Session::flash(
+                    'warning',
+                    [
+                        'title' => 'Suppression effectuée',
+                        'message' => "La Suppression de l'image a été effectuée avec succès!",
+                    ]
+                );
+              }
+            }
+           //$voiture-> 
+        }
+        //dd($img,$id);
+      return back();
+
+    }
+
+    function deleteImageIfExists($filePath) {
+        if (file_exists($filePath)) {
+            if (unlink($filePath)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

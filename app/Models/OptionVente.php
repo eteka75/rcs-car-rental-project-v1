@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Media extends Model
+class OptionVente extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -16,20 +16,18 @@ class Media extends Model
      *
      * @var string
      */
-    protected $table = 'media';
+    protected $table = 'option_ventes';
     protected $fillable = [
         'nom',
-        'original_name',
-        'url',
-        'dossier',
+        'prix',
         'description',
+        'photo'
     ];
-    public function voitures(): BelongsToMany
-    {
-      
-        return $this->belongsToMany(Voiture::class,
-        'voiture_media','voiture_id','media_id')
+
+    public function EnVentes(): BelongsToMany
+    {      
+        return $this->belongsToMany(EnVente::class,
+        'vente_option_ventes','vente_id','option_vente_id')
         ->withTimestamps();
     }
-
 }

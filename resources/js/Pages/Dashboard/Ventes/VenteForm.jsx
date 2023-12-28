@@ -5,12 +5,12 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-import { Card, CardBody, Progress } from '@material-tailwind/react';
+import { Avatar, Card, CardBody, Progress } from '@material-tailwind/react';
 import Select from 'react-select';
 import Translate from '@/components/Translate';
 import TextArea from '@/components/TextArea';
 import { useTranslation } from 'react-i18next';
-import { DateToFront } from '@/tools/utils';
+import { DateToFront, formaterMontant } from '@/tools/utils';
 import i18n from '@/i18n';
 
 //import DatePicker from "react-datepicker";
@@ -25,11 +25,10 @@ import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import ModaleImage from '@/components/ModaleImage';
 
 
-export default function LocationForm({ className = '', location = null, pays = [], action, btntext = 'Enrégister' }) {
+export default function VenteForm({ className = '', vente = null, pays = [], action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const { t } = useTranslation();
-    const { voitures, point_retraits } = usePage().props
-    const [showDetails, setShowDetail] = useState(true);
+    const { voitures, point_retraits,options_ventes } = usePage().props;
     const [voiture, setVoiture] = useState([]);
     const [showVoitureId, setShowVoitureId] = useState([]);
     const [date_debut, setDateDebut] = useState({
@@ -43,25 +42,24 @@ export default function LocationForm({ className = '', location = null, pays = [
 
     useEffect(() => {
         if (data.date_etat === '') {
-            let today = new Date(),
-                txtDate = DateToFront(today, i18n.language, 'd/m/Y');
+            let today = new Date();
+                //txtDate = DateToFront(today, i18n.language, 'd/m/Y');
             setDateDebut(setTheDate(today));
 
             let in6Month = new Date().setMonth(new Date().getMonth() + 6);
             setDateFin(setTheDate(in6Month));//for Datepicker
         } else {
-            setDateDebut(setTheDate(location.date_debut_location ?? ''));//for Datepicker
-            setDateFin(setTheDate(location.date_fin_location ?? ''));//for Datepicker
+            setDateDebut(setTheDate(vente.date_debut_vente ?? ''));//for Datepicker
+            setDateFin(setTheDate(vente.date_fin_vente ?? ''));//for Datepicker
         }
 
         /* points ids */
-        if (location && location.points_retrait) {
+        if (vente && vente.points_retrait) {
             let ids = [];
-            location.points_retrait.map(({ id }) => { ids.push(id) });
+            vente.points_retrait.map(({ id }) => { ids.push(id) });
             setData('point_retraits', ids);
         }
-        console.log(date_debut, date_fin)
-    }, [location])
+    }, [vente])
     useEffect(() => {
         ShowVoiture(data.voiture_id ?? '');
     }, [showVoitureId]);
@@ -80,13 +78,13 @@ export default function LocationForm({ className = '', location = null, pays = [
         const { startDate } = newValue;
         setDateDebut(newValue);
         let frDate = DateToFront(startDate, i18n.language, 'd/m/Y');
-        setData("date_debut_location", frDate);
+        setData("date_debut_vente", frDate);
     }
     const handleDateFinChange = (newValue) => {
         const { startDate } = newValue;
         let frDate = DateToFront(startDate, i18n.language, 'd/m/Y');
         setDateFin(newValue);
-        setData("date_fin_location", frDate);
+        setData("date_fin_vente", frDate);
     }
 
     const handleInputChange = (e) => {
@@ -97,26 +95,30 @@ export default function LocationForm({ className = '', location = null, pays = [
         setData('voiture_id', value);
         setShowVoitureId(value ?? '');
     }
-    const handleFilesChange = (e) => {
-            const files = Array.from(e.target.files);
-            setData("photos",files);
-        }
 
-    const handleMultiSelectChange = (selected) => {
+    const handleSelectChange = (selected) => {
+       let {value}=selected;
+        setData('point_retrait_id', value);
+    };
+    const handleOptionVenteChange = (selected) => {
         let newTab = [];
         if (Array.isArray(selected)) {
             selected.map(({ value }) => {
                 newTab.push(value);
             })
         }
-        setData('point_retraits', newTab);
+        setData('options_vente', newTab);
     };
+    const handleFileChange=(e)=>{
+        const files = Array.from(e.target.files);
+        setData("photos",files);
+    }
     const setDefaultMultiValue = (array_ids) => {
         let tb = [];
         if (Array.isArray(array_ids)) {
-            array_ids.map(({ lieu, id }) => {
-                tb.push({ label: lieu, value: id });
-            })
+            array_ids.map(({ nom, id, prix }) => {
+                tb.push({ label: nom +'('+formaterMontant(prix)+')', value: id });
+            });
         }
         return tb;
     }
@@ -154,63 +156,86 @@ export default function LocationForm({ className = '', location = null, pays = [
         }
         return [];
     }
+    const setDefaultIds=(tab)=>{
+        if (Array.isArray(tab)) {
+            let v = [];
+            tab.map(({id}) => {
+                v.push(id);
+            });
+            return v;
+        }
+        return [];
+    }
+    const ConvertSelectDataV3 = (tab) => {
+        if (Array.isArray(tab)) {
+            let v = [];
+            tab.map(({ id, nom, prix }) => {
+                v.push({ value: id, label: nom+' ('+formaterMontant(prix,i18n.language)+')' });
+            });
+            return v;
+        }
+        return [];
+    }
     const addToRefs = el => {
         if (el && !refs.current.includes(el)) {
             refs.current.push(el);
         }
     };
 
-    const { data, setData, post, progress, errors, processing, recentlySuccessful } = useForm(location !== null && action === 'update' ?
+    const { data, setData, post, progress, errors, processing, recentlySuccessful } = useForm(vente !== null && action === 'update' ?
         {
             date_etat: 'new',
-            voiture_id: location.voiture_id ?? '',
-            tarif_location_heure: location.tarif_location_heure ?? '',
-            tarif_location_hebdomadaire: location.tarif_location_hebdomadaire ?? '',
-            tarif_location_journalier: location.tarif_location_journalier ?? '',
-            tarif_location_mensuel: location.tarif_location_mensuel ?? '',
-            date_debut_location: DateToFront(location.date_debut_location, i18n.language, 'd/m/Y') ?? '',
-            date_fin_location: DateToFront(location.date_fin_location, i18n.language, 'd/m/Y') ?? '',
-            point_retraits: [],
+            voiture_id: vente.voiture_id ?? '',
+            delai_livraison: vente.delai_livraison ?? '',
+            duree_garantie: vente.duree_garantie ?? '',
+            prix_vente: vente.prix_vente ?? '',
+            prix_defaut: vente.prix_defaut ?? '',
+            date_debut_vente: DateToFront(vente.date_debut_vente, i18n.language, 'd/m/Y') ?? '',
+            date_fin_vente: DateToFront(vente.date_fin_vente, i18n.language, 'd/m/Y') ?? '',
+            point_retrait_id: vente.point_retrait_id,
+            options_vente_o: vente.option_ventes??'',
+            options_vente: setDefaultIds(vente.option_ventes)??'',
             photos: [],
-            conditions: location.conditions ?? '',
-            description: location.description ?? ''
+            description: vente.description ?? ''
         } : {
             date_etat: '',
             voiture_id: '',
-            tarif_location_heure: '',
-            tarif_location_hebdomadaire: '',
-            tarif_location_journalier: '',
-            tarif_location_mensuel: '',
-            date_debut_location: DateToFront(new Date(), i18n.language, 'd/m/Y'),
-            date_fin_location: DateToFront(new Date().setMonth(new Date().getMonth() + 6), i18n.language, 'd/m/Y'),
-            point_retraits: [],
+            delai_livraison: '',
+            duree_garantie: '',
+            prix_vente: '',
+            prix_defaut: '',
+            options_vente_o: [],
+            date_debut_vente: DateToFront(new Date(), i18n.language, 'd/m/Y'),
+            date_fin_vente: DateToFront(new Date().setMonth(new Date().getMonth() + 6), i18n.language, 'd/m/Y'),
+            point_retrait_id: '',
+            options_vente: [],
             photos: [],
-            conditions: '',
             description: ''
         });
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(data);
-        if (location && action === 'update') {
-            post(route('dashboard.locations.update', location.id), data, {
+        if (vente && action === 'update') {
+            post(route('dashboard.ventes.update', vente.id), data,  {
+                forceFormData: true,
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
                 },
-
                 onError: (errors) => {
-                    //console.log(errors);
+                    console.log("ERRORRRRRRRRRRRS",errors);
                 },
             });
         }
         if (action === 'save') {
-            post(route('dashboard.locations.store'), {
+            post(route('dashboard.ventes.store'), {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
                 },
                 onError: (errors) => {
-                    //console.log(errors);
+                    console.log(errors);
                 },
             });
         }
@@ -218,7 +243,8 @@ export default function LocationForm({ className = '', location = null, pays = [
 
     return (
         <div className='md:grid md:grid-cols-2 md:gap-4'>
-            {console.log(voiture)}
+            {console.log("ERRORS",errors)}
+            {console.log("DATA",data)}
             <Card>
                 <CardBody>
                     <section className={className}>
@@ -231,91 +257,88 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     required
                                     isClearable={true}
                                     isSearchable={true}
-                                    defaultValue={setDefaultValue(data.voiture_id, (location && location.voiture.nom) ? location.voiture.nom : '')}
+                                    defaultValue={setDefaultValue(data.voiture_id, (vente && vente.voiture.nom) ? vente.voiture.nom : '')}
                                     onChange={(options) =>
                                         !options ? handleSelectVoiture("") : handleSelectVoiture(options.value)
                                     }
                                     className="mt-1 block w-full"
                                     options={ConvertSelectDataV1(voitures)}
                                 />
-
-
                                 <InputError message={errors.voiture_id} className="mt-2" />
-                            </div>
-                            <div className='md:grid md:grid-cols-2 gap-4'>
-                                <div>
-                                    <InputLabel htmlFor="tarif_location_heure"  >Tarif par heure</InputLabel>
-                                    <TextInput
-                                        id="tarif_location_heure"
-                                        ref={addToRefs}
-                                        value={data.tarif_location_heure}
-                                        onChange={handleInputChange}
-                                        type="number"
-                                        className="mt-1 block w-full"
-                                        placeholder={t('5000')}
-
-                                    />
-
-                                    <InputError message={errors.tarif_location_heure} className="mt-2" />
-                                </div>
-                                <div>
-                                    <InputLabel htmlFor="tarif_location_journalier"  >Tarif par jour</InputLabel>
-                                    <TextInput
-                                        id="tarif_location_journalier"
-                                        ref={addToRefs}
-                                        value={data.tarif_location_journalier}
-                                        onChange={handleInputChange}
-                                        type="number"
-                                        className="mt-1 block w-full"
-                                        placeholder={t('20000')}
-
-                                    />
-
-                                    <InputError message={errors.tarif_location_journalier} className="mt-2" />
-                                </div>
-                            </div>
+                            </div> 
                             <div className='md:grid md:grid-cols-2 gap-4'>
 
-                                <div>
-                                    <InputLabel htmlFor="tarif_location_hebdomadaire"  >Tarif par semaine (Hedomadaire)</InputLabel>
-                                    <TextInput
-                                        id="tarif_location_hebdomadaire"
-                                        ref={addToRefs}
-                                        value={data.tarif_location_hebdomadaire}
-                                        onChange={handleInputChange}
-                                        type="number"
-                                        className="mt-1 block w-full"
-                                        placeholder={t('100000')}
+                            <div>
+                                <InputLabel htmlFor="prix_vente" className='text-green-500'>Prix de vente</InputLabel>
+                                <TextInput
+                                    id="prix_vente"
+                                    ref={addToRefs}
+                                    value={data.prix_vente}
+                                    onChange={handleInputChange}
+                                    type="number"
+                                    className="mt-1 block  w-full"
+                                    placeholder={t('2500000')}
+                                />
+                                <InputError message={errors.prix_vente} className="mt-2" />
+                            </div>                           
+                            <div>
+                                <s className='text-red-500'><Translate htmlFor="prix_defaut"   >Prix par défaut</Translate></s>
+                                <TextInput
+                                    id="prix_defaut"
+                                    ref={addToRefs}
+                                    value={data.prix_defaut}
+                                    onChange={handleInputChange}
+                                    type="number"
+                                    className="mt-1 block w-full"
+                                    
+                                    placeholder={t('3000000 (facultatif)')}
 
-                                    />
+                                />
+                                <InputError message={errors.prix_defaut} className="mt-2" />
+                            </div>                           
+                            </div>                           
+                            <div className='md:grid md:grid-cols-2 gap-4'>
+                            
+                            <div>
+                                <InputLabel htmlFor="delai_livraison"  >Délai de livraison</InputLabel>
+                                <TextInput
+                                    id="delai_livraison"
+                                    ref={addToRefs}
+                                    value={data.delai_livraison}
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    className="mt-1 block w-full"
+                                    placeholder={t('24 Heures')}
 
-                                    <InputError message={errors.tarif_location_hebdomadaire} className="mt-2" />
-                                </div>
-                                <div>
-                                    <InputLabel htmlFor="tarif_location_mensuel"  >Tarif par mois</InputLabel>
-                                    <TextInput
-                                        id="tarif_location_mensuel"
-                                        ref={addToRefs}
-                                        value={data.tarif_location_mensuel}
-                                        onChange={handleInputChange}
-                                        type="number"
-                                        className="mt-1 block w-full"
-                                        placeholder={t('300000')}
-
-                                    />
-                                    <InputError message={errors.tarif_location_mensuel} className="mt-2" />
-                                </div>
+                                />
+                                <InputError message={errors.delai_livraison} className="mt-2" />
                             </div>
+                            <div>
+                                <InputLabel htmlFor="prix">Durée de la garantie</InputLabel>
+                                <TextInput
+                                    id="prix"
+                                    ref={addToRefs}
+                                    value={data.tarif_vente_mensuel}
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    className="mt-1 block w-full"
+                                    placeholder={t('6 mois')}
+
+                                />
+                                <InputError message={errors.prix} className="mt-2" />
+                            </div>
+                            </div>
+                            
 
                             <div className='md:grid md:grid-cols-12 gap-4'>
                                 <div className='md:col-span-6'>
-                                    <InputLabel htmlFor="date_debut_location" >Date début location</InputLabel>
+                                    <InputLabel htmlFor="date_debut_vente" >Date début vente</InputLabel>
 
                                     {/* <DatePicker selected={new Date(startDate)} locale={i18n.language=='fr'?fr:enUS} dateFormat="P" onChange={(date) => setTheDate(date)} />
                                 */}
                                     <Datepicker
                                         required
-                                        id="date_debut_location"
+                                        id="date_debut_vente"
                                         asSingle={true}
                                         useRange={false}
                                         classNames={'rounded-none'}
@@ -325,25 +348,14 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         displayFormat={"DD/MM/YYYY"}
                                         placeholder={'10/01/' + (new Date().getFullYear())}
                                     />
-                                    {console.log(date_debut)}
-                                    {/* <TextInput
-                                        id="date_debut_location"
-                                        ref={addToRefs}
-                                        value={data.date_debut_location}
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        className="mt-1 w-full block  "
-                                        placeholder={'10/01/'+(new Date().getFullYear())}
-
-                            />*/}
-                                    <InputError message={errors.date_debut_location} className="mt-2" />
+                                    <InputError message={errors.date_debut_vente} className="mt-2" />
                                 </div>
                                 <div className='md:col-span-6'>
 
-                                    <InputLabel htmlFor="date_fin_location" >Date fin location</InputLabel>
+                                    <InputLabel htmlFor="date_fin_vente" >Date fin de vente</InputLabel>
                                     <Datepicker
                                         required
-                                        id="date_debut_location"
+                                        id="date_fin_vente"
                                         asSingle={true}
                                         classNames={'rounded-none'}
                                         value={(date_fin)}
@@ -354,70 +366,72 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         placeholder={'10/07/' + (new Date().getFullYear())}
                                     />
                                     {/* <TextInput
-                                        id="date_fin_location"
+                                        id="date_fin_vente"
                                         ref={addToRefs}
-                                        value={data.date_fin_location}
+                                        value={data.date_fin_vente}
                                         onChange={handleInputChange}
                                         type="text"
                                         className="mt-1 w-full block  "
                                         placeholder={'10/01/'+(new Date().getFullYear())}
 
                         />*/}
-                                    <InputError message={errors.date_fin_location} className="mt-2" />
+                                    <InputError message={errors.date_fin_vente} className="mt-2" />
                                 </div>
                             </div>
                             <div className='md:col-span-4'>
 
-                                <InputLabel htmlFor="point_retraits" >Points de retrait</InputLabel>
+                                <InputLabel htmlFor="point_retrait_id" >Points de retrait</InputLabel>
                                 <Select
-                                    isMulti
                                     required
-                                    id="point_retraits"
+                                    id="point_retrait_id"
                                     ref={addToRefs}
                                     isSearchable={true}
-                                    onChange={handleMultiSelectChange}
+                                    onChange={handleSelectChange}
                                     className="mt-1 block w-full"
-                                    defaultValue={setDefaultMultiValue(location && location.points_retrait ? location.points_retrait : [])}
+                                    defaultValue={setDefaultValue(data.point_retrait_id,vente && vente.point_retrait?vente.point_retrait.lieu:'')}
+
                                     options={ConvertSelectDataV2(point_retraits)}
                                 />
-                                <InputError message={errors.point_retraits} className="mt-2" />
-                                <InputError message={errors["point_retraits.0"]} className="mt-2" />
-                                <InputError message={errors["point_retraits.1"]} className="mt-2" />
+                                <InputError message={errors.point_retrait_id} className="mt-2" />
+                            </div>
+                            <div className='md:col-span-4'>
+
+                                <InputLabel htmlFor="options_vente" >Options de ventes</InputLabel>
+                                <Select
+                                    isMulti
+                                    id="options_vente"
+                                    ref={addToRefs}
+                                    isSearchable={true}
+                                    onChange={handleOptionVenteChange}
+                                    className="mt-1 block w-full"
+                                    defaultValue={setDefaultMultiValue(data.options_vente_o ? data.options_vente_o : [])}
+                                    options={ConvertSelectDataV3(options_ventes)}
+                                />
+                                <InputError message={errors.options_vente} className="mt-2" />
+                                <InputError message={errors["ptotions_options_ventevente.0"]} className="mt-2" />
+                                <InputError message={errors["options_vente.1"]} className="mt-2" />
                             </div>
                             <div>
-                    <InputLabel htmlFor="photo" >photo sur la réparation</InputLabel>
-                        <input
-                            id="photo" accept="image/*"
-                            ref={addToRefs}
-                            onChange={handleFilesChange}
-                            type="file"
-                            className="mt-1 rounded-md  bg-white shadow-none border border-gray-300 py-1.5 px-4 block w-full"
+                                <InputLabel htmlFor="photos" >Photos (3 à 5 images, 10 images maximum)</InputLabel>
+                                <input
+                                    multiple
+                                    id="photos" accept="image/*"
+                                    ref={addToRefs}
+                                    onChange={handleFileChange}
+                                    type="file"
+                                    className="mt-1 rounded-md  bg-white shadow-none border border-gray-300 py-1.5 px-4 block w-full"
 
-                        />
-                        {progress && (
-                            <Progress value={progress.percentage} color="blue" max="100">
-                                {progress.percentage}%
-                            </Progress>
-                        )}
+                                />
+                                {progress && (
+                                    <Progress value={progress.percentage} color="blue" max="100">
+                                        {progress.percentage}%
+                                    </Progress>
+                                )}
 
-                        <InputError message={errors.photo} className="mt-2" />
-                    </div>
-                            <div >
-                                <div >
-
-                                    <InputLabel htmlFor="conditions" >Conditions de la location</InputLabel>
-                                    <TextArea
-                                        required
-                                        id="conditions"
-                                        ref={addToRefs}
-                                        value={data.conditions}
-                                        onChange={handleInputChange}
-                                        type="text"
-                                        className="mt-1 w-full block"
-
-                                    />
-                                    <InputError message={errors.conditions} className="mt-2" />
-                                </div>
+                                <InputError message={errors.photos} className="mt-2" />
+                                {errors.photos && errors.photos.map((error, index) => (
+                                <InputError key={index} message={error} className="mt-2" />
+                                ))}
                             </div>
                             <div className=''>
                                 <div>
@@ -574,6 +588,24 @@ export default function LocationForm({ className = '', location = null, pays = [
                                                 </div>
                                             </div>
                                         }
+
+                                        <div className="medias py-4">
+                                        <div className="flex items-center -space-x-4">
+                                            {console.log('VOITURE',voiture.medias)}
+                                            {voiture && voiture.medias && voiture.medias.length>0 && voiture.medias.map(({url,nom},index)=>(
+                                                   <div> 
+                                                    <ModaleImage url={HTTP_FRONTEND_HOME+''+url}>
+                                                     <Avatar
+                                                    variant="circular"
+                                                    alt={nom}
+                                                    className="border-2 border-white hover:z-10 focus:z-10"
+                                                    src={HTTP_FRONTEND_HOME+''+url}
+                                                  />
+                                                  </ModaleImage>
+                                                  </div>
+                                            ))}
+                                            </div>
+                                        </div>
                                     </div>
 
 

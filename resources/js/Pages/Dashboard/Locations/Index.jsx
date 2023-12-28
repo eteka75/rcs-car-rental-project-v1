@@ -130,7 +130,7 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50 ";
-
+                                
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
                                         
@@ -142,7 +142,9 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                                                 color="blue-gray"
                                                 className="font-normal px-4 py-1 text-sm bg-slate-200 rounded-sm"
                                             >
+                                                <Link href={route('dashboard.locations.show', id)}>
                                                 {voiture?voiture.nom:''}
+                                                </Link>
                                             </span>
                                         </td>
                                         <td className={classes}>

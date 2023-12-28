@@ -27,7 +27,6 @@ export default function LocationHeader({ auth }) {
     const minutes= [0,15,30,45];
     return (
         <>
-
             <div className="bg-[#334155] overflow-hidden  bg-[url('@/assets/images/design/bg-3.jpg')] bg-[left_calc(50%)_top_calc(22%)] bg-cover bg-no-repeat _bg-[#003b95] text-white  relativ">
                 <div className="bg-[#000] bg-gradient-to-t from-[rgba(0,0,0,.65)] bg-opacity-40">
                     <TopNav auth={auth} />

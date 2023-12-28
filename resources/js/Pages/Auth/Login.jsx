@@ -34,7 +34,7 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Conexion à votre compte" />
             <div className="md:grid md:grid-cols-2 min-h-screen mb-0">
-                <div className=" shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover bg-no-repeat bg-[left_calc(20%)_top_calc(00%)]">
+                <div className=" shadow-xl md:flex border-0   overflow-hidden  bg-[url('@/assets/images/design/bg-2.jpg')] bg-cover bg-no-repeat bg-[left_calc(100%)_top_calc(100%)]">
                     <div className="bg-[rgba(0,0,0,.25)] relative  duration-300 bg-gradient-to-t from-[rgba(0,0,0,.95)]  h-full w-full ">
                         <div className=' sm:max-w-md lg:max-w-lg absolute top-1/3 left-4 right-4  xl:top-1/2 xl:left-1/2 xl:transform xl:-translate-x-1/2 xl:-translate-y-1/2    '>
                             <div className='min-w-min mb-6 rounded-lg shadow-sm bg-[rgba(255,255,255,.8)]   '>
@@ -103,7 +103,7 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
                 <div className=' items-center justify-center'>
-                    <div className='sm:max-w-md  min-h-screen px-8 py-10 md:pt-[30%] md:pb-[20vh]'>
+                    <div className='sm:max-w-md  px-8 py-10 md:pt-[30%] md:pb-[20vh]'>
                     <Link
                         href={"/"}
                         className="flex items-center  mb-14 space-x-3 rtl:space-x-reverse"

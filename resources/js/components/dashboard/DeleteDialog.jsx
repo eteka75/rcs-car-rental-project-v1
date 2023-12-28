@@ -3,7 +3,7 @@ import Modal from '../Modal'
 import { Button, CardBody, DialogFooter, Typography } from '@material-tailwind/react'
 import Translate from '../Translate'
 
-export default function DeleteDialog({ showFunction, closeFunction , submitFunction}) {
+export default function DeleteDialog({ showFunction,message, closeFunction , submitFunction}) {
     return (
         <>
             <Modal show={showFunction} id="md" maxWidth='sm' onClose={closeFunction} submitFunction>
@@ -12,7 +12,7 @@ export default function DeleteDialog({ showFunction, closeFunction , submitFunct
                 <CardBody>
                     <Typography className='py-4'>
                         
-                        <Translate>Souhaiteriez-vous supprimer cet élément ?</Translate>
+                        <Translate>{message??'Souhaiteriez-vous supprimer cet élément ?'}</Translate>
                     </Typography>
                 </CardBody>
                 <DialogFooter className='border-t'>

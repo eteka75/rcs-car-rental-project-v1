@@ -96,23 +96,13 @@ export const menuItemsData = [
     sub: [
       {
         title: "En vente",
-        route: 'dashboard.voitures',
+        route: 'dashboard.ventes',
         sid:'ventes'
       },
       {
-        title: "Points de retrait",
-        route: 'dashboard.voitures.create',
-        sid:'Points'
-      },
-      {
-        title: "Services",
-        route: 'dashboard.voitures.create',
-        sid:'Services'
-      },
-      {
-        title: "Conditions",
-        route: 'dashboard.voitures.create',
-        sid:'Conditions'
+        title: "Options de vente",
+        route: 'dashboard.option_ventes',
+        sid:'options_vente'
       }
     ],
 
@@ -140,7 +130,7 @@ export const menuItemsData = [
   {
     title: 'Notifications',
     url: '',
-    id: 'ventes',
+    id: 'notifications',
     icon: <IoMdNotificationsOutline className='me-0 md:me-1 lg:me-2 h-5 w-5 text-slate-600' />,
     sub: [
       {
@@ -159,16 +149,18 @@ export const menuItemsData = [
   {
     title: 'Gérer les utilisateurs',
     url: '',
-    id: 'ventes',
+    id: 'users',
     icon: <PiUsersThree className='me-0 md:me-1 lg:me-2 h-5 w-5 text-slate-600' />,
     sub: [
       {
         title: "Clients",
-        route: 'dashboard.voitures'
+        route: 'dashboard.voitures',
+        sid:'clients'
       },
       {
         title: "Administrateurs",
-        route: 'dashboard.voitures.create'
+        route: 'dashboard.voitures.create',
+        sid:'admin'
       },
       {
         title: "Services",

@@ -24,8 +24,9 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
     }
     return (
         <>
+        <div className="top rounded-md bg-gradient-to-r from-yellow-600 via-orange-500 to-yellow-500 pt-[2px]"></div>
             <nav className={" mx-auto relative "+mode}>
-                <div className=" flex flex-wrap items-center justify-between p-4">
+                <div className=" flex flex-wrap items-center justify-between py-3 px-4">
                     <Link
                         href={"/"}
                         className="flex items-center  space-x-3 rtl:space-x-reverse"

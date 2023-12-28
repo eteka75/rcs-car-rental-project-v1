@@ -118,10 +118,10 @@ class ControlVoitureController extends Controller
     public function show($id)
     {
         $controle = ControlVoiture::with('voiture')->where('id', $id)->firstOrFail();
-        $controle_name = $controle->nom;
+        $controle_name = $controle->nom_controle;
         return Inertia::render(self::$viewFolder . '/Show', [
             'controle' => $controle,
-            'page_title' => "Contrôle technique " . $controle_name,
+            'page_title' => "Contrôle technique : " . $controle_name,
             'page_subtitle' => "Affichage de détail sur " . $controle_name,
         ]);
     }

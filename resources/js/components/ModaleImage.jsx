@@ -9,8 +9,8 @@ export default function ModaleImage({ title = '', url = '', children }) {
 
         <div>
             <a href='#' className='cursor-pointer' onClick={handleOpen}>{children}</a>
-            <Dialog open={open} size='xl' className='bg-transparent shadow-none text-white'  handler={handleOpen}>
-                <DialogHeader className="justify-end mx-4">
+            <Dialog open={open} size='lg' className='bg-transparent shadow-none text-white'  handler={handleOpen}>
+                <DialogHeader className="justify-end">
 
                     <IconButton
                         color="blue-gray"

@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
-use App\Models\locationVoiture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Voiture;

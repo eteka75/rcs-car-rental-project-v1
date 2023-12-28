@@ -9,7 +9,6 @@ use App\Http\Requests\RequestOperationVoitureRequest;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
-use App\Models\ControlVoiture;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use App\Models\Voiture;
@@ -121,10 +120,10 @@ class OperationVoitureController extends Controller
     public function show($id)
     {
         $operation = OperationVoiture::with('voiture')->where('id', $id)->firstOrFail();
-        $operation_name = $operation->nom;
+        $operation_name = $operation->nom_operation;
         return Inertia::render(self::$viewFolder . '/Show', [
             'operation' => $operation,
-            'page_title' => "Contrôle technique " . $operation_name,
+            'page_title' => "" . $operation_name,
             'page_subtitle' => "Affichage de détail sur " . $operation_name,
         ]);
     }
