@@ -13,6 +13,7 @@ use App\Http\Controllers\Dashboard\PointRetraitController;
 use App\Http\Controllers\Dashboard\SystemeSecuriteController;
 use App\Http\Controllers\Dashboard\TypeCarburantController;
 use App\Http\Controllers\Dashboard\VoitureController;
+use App\Http\Controllers\Dashboard\WebPageController;
 use App\Http\Controllers\DashboardDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -193,6 +194,18 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.option_ventes.export');
         Route::get('/{id}', 'show')->name('dashboard.option_ventes.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.option_ventes.delete');
+    });
+    /*Page*/
+    Route::controller(WebPageController::class)->prefix('pages')->group(function () {
+        Route::get('/', 'index')->name('dashboard.pages');
+        Route::get('/search', 'index')->name('dashboard.pages.search');
+        Route::get('/new', 'create')->name('dashboard.pages.create');
+        Route::post('/new', 'store')->name('dashboard.pages.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.pages.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.pages.update');
+        Route::get('/export', 'export')->name('dashboard.pages.export');
+        Route::get('/{id}', 'show')->name('dashboard.pages.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.pages.delete');
     });
 
 })->middleware(['auth','web']);

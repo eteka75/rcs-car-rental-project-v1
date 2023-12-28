@@ -115,8 +115,8 @@ export const menuItemsData = [
     sub: [
       {
         title: "Pages",
-        route: 'dashboard.voitures.create',
-        sid:'page'
+        route: 'dashboard.pages',
+        sid:'pages'
       },
       {
         title: "Forums aux questions",
@@ -124,7 +124,6 @@ export const menuItemsData = [
         sid:'faq'
       }
     ],
-
   },
   
   {
