@@ -80,7 +80,7 @@ class EnLocationController extends Controller
      */
     public function create()
     {
-        $voitures = Voiture::With('medias')->orderBy('nom')->get(); //select('nom', 'id')->
+        $voitures = Voiture::With('locationMedias')->orderBy('nom')->get(); //select('nom', 'id')->
         $points = PointRetrait::select('lieu', 'id')->orderBy('lieu')->get();
 
         Inertia::share([
@@ -130,7 +130,7 @@ class EnLocationController extends Controller
         $location->pointsRetrait()->sync($points);
         }
 
-       /* if ($request->hasFile('photos')) {
+       if ($request->hasFile('photos')) {
             $voiture_id=$data['voiture_id'];
             $getSaves = $this->savePhotos($request, $voiture_id);
             if ($getSaves !== []) {
@@ -141,7 +141,7 @@ class EnLocationController extends Controller
                     ]
                 );
             }
-        }*/
+        }
         Session::flash(
             'success',
             [
@@ -159,8 +159,8 @@ class EnLocationController extends Controller
         if ($voiture_id != '') {
             $voiture = Voiture::where('id', $voiture_id)->firstOrFail();
             foreach ($request->file('photos') as $image) {
-                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
                 $destinationPath = (self::$imageFolder);
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();                
                 if (!Storage::exists($destinationPath)) {
                     Storage::makeDirectory($destinationPath);
                 }
@@ -175,8 +175,9 @@ class EnLocationController extends Controller
                     'nom' => $filename,
                     'original_name' => $image->getClientOriginalName(),
                 ]);
-                $voiture->medias()->attach($m->id);
+                $voiture->locationMedias()->attach($m->id);
                 $uploadedImages[]= $m;
+                //dd($m);
             }
         }
         return $uploadedImages;
@@ -220,9 +221,12 @@ class EnLocationController extends Controller
     public function show($id)
     {
         $location = EnLocation::with('voiture')->with('pointsRetrait')->where('id', $id)->firstOrFail();
+        $voiture= Voiture::with('locationMedias')->where('id',$location->voiture_id)->first();
+
         $location_name = $location->nom;
         return Inertia::render(self::$viewFolder . '/Show', [
             'location' => $location,
+            'voiture' => $voiture,
             'page_title' => "Location " . $location_name,
             'page_subtitle' => "Affichage de détail sur " . $location_name,
         ]);
@@ -270,8 +274,10 @@ class EnLocationController extends Controller
         $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
         $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
 
-        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
-        if ($nb_chevauchements->count('id') > 0) {
+        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location'],$id);
+        //dd($nb_chevauchements->first()->id,$id);
+        if(!($nb_chevauchements->count() === 1 && $nb_chevauchements->first()->id == $id)) {
+       
             $first = $nb_chevauchements->first();
             if ($first->id != $id) {
                 Session::flash(
@@ -291,18 +297,19 @@ class EnLocationController extends Controller
         if(count($points) > 0) {
         $location->pointsRetrait()->sync($points);
         }
-        /*if ($request->hasFile('fichier')) {
-            $getSave = $this->saveLogo($request);
-            if ($getSave !== '') {
-                $data['fichier'] = $getSave;
+        /*Photos*/
+        if ($request->hasFile('photos')) {
+            $voiture_id=$data['voiture_id'];
+            $getSaves = $this->savePhotos($request, $voiture_id);
+            if ($getSaves !== []) {
+                Session::flash(
+                    'info',
+                    [
+                        'message' => 'Images sauvegardées !',
+                    ]
+                );
             }
-        }*/
-
-        /*if (isset($data['fichier']) && $data['fichier'] != '') {
-            $location->update([
-                'fichier' => $data['fichier']
-            ]);
-        }*/
+        }
         Session::flash(
             'info',
             [
@@ -311,22 +318,6 @@ class EnLocationController extends Controller
             ]
         );
         return to_route('dashboard.locations');
-    }
-
-    public function saveLogo(FormRequest $request)
-    {
-        $nomLogo = '';
-        if ($request->hasFile('fichier')) {
-            $file = $request->file('fichier');
-            $fileName = Str::random(40) . '.' . $file->getClientOriginalExtension();
-            $destinationPath = (self::$imageFolder);
-            if (!Storage::exists($destinationPath)) {
-                Storage::makeDirectory($destinationPath);
-            }
-            $file->move($destinationPath, $fileName);
-            $nomLogo = self::$imageFolder . $fileName;
-        }
-        return $nomLogo;
     }
 
     /**

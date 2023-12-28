@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('en_location_media', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('enlocation_id')->index();
+            $table->unsignedBigInteger('voiture_id')->index();
             $table->unsignedBigInteger('media_id')->index();
             $table->timestamps();
             $table->softDeletes();

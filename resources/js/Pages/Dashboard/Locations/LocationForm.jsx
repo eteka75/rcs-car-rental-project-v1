@@ -577,7 +577,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     </div>
                                     <div className="medias py-4">
                                         <div className="flex items-center -space-x-4">
-                                            {voiture && voiture.medias && voiture.medias.length>0 && voiture.medias.map(({url,nom},index)=>(
+                                            {voiture && voiture.location_medias && voiture.location_medias.length>0 && voiture.location_medias.map(({url,nom},index)=>(
                                                    <div key={index}> 
                                                     <ModaleImage url={HTTP_FRONTEND_HOME+''+url}>
                                                      <Avatar

@@ -34,7 +34,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.voitures.export');
         Route::get('/{id}', 'show')->name('dashboard.voitures.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.voitures.delete');
-        Route::delete('/image-{img}/{id}', 'destroyImage')->name('dashboard.voitures.image.delete');
+        Route::delete('/media-{img}/{id}', 'destroyImage')->where('img', '-?\d+')->where('id', '-?\d+')->name('dashboard.voitures.image.delete');
+        Route::delete('/location_media-{img}/{id}', 'destroyLocationImage')->where('id', '-?\d+')->where('img', '-?\d+')->name('dashboard.voitures.image_location.delete');
     });
     
     /*Marques*/

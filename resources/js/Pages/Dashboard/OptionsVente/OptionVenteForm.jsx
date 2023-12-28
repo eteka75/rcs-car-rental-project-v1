@@ -87,7 +87,7 @@ export default function OptionVenteForm({ className = '', option_vente = null, p
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
-                        placeholder={t('Vente avec livraison à domicile, Netoyyage professionnel')}
+                        placeholder={t('Vente avec livraison à domicile, Netoyage professionnel')}
                     />
 
                     <InputError message={errors.nom} className="mt-2" />

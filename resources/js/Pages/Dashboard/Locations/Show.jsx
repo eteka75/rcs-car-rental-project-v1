@@ -1,17 +1,46 @@
-import DashboardLayout from '@/Layouts/DashboardLayout'
-import Breadcrumb from '@/components/Breadcrumb'
-import DashHeadTitle from '@/components/dashboard/DashHeadTitle'
-import { Head, Link } from '@inertiajs/react'
-import { Card, CardBody, Typography } from '@material-tailwind/react'
-import React from 'react';
+import DashboardLayout from '@/Layouts/DashboardLayout';
+import Breadcrumb from '@/components/Breadcrumb';
+import DashHeadTitle from '@/components/dashboard/DashHeadTitle';
+import { Head, Link } from '@inertiajs/react';
+import { Card, CardBody, Typography } from '@material-tailwind/react';
+import React, { useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
-import Translate from '@/components/Translate'
-import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
-import { DateToFront } from '@/tools/utils'
-import i18n from '@/i18n'
-import ModaleImage from '@/components/ModaleImage'
+import Translate from '@/components/Translate';
+import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
+import { DateToFront } from '@/tools/utils';
+import i18n from '@/i18n';
+import ModaleImage from '@/components/ModaleImage';
+import { useTranslation } from 'react-i18next';
+import { Inertia } from '@inertiajs/inertia';
+import DeleteDialog from '@/components/dashboard/DeleteDialog';
 
-export default function Show({ auth, location, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
+export default function Show({ auth, location, page_id = '',voiture='', page_subid = '', page_title = '', page_subtitle = '' }) {
+    const [showSupDialog, setSupDialog] = useState(false);
+    const {t}=useTranslation();
+    const [deleteId, setDeleteId] = useState('');
+    const [deleteIdImg, setDeleteIdImg] = useState('');
+    
+    const handleDeleteImage = (id,imgId) => {
+        setDeleteId(id);
+        setDeleteIdImg(imgId)
+        setSupDialog(true);
+    }
+    const CloseDialog = () => {
+        setSupDialog(false);
+        setDeleteIdImg("")
+        setDeleteId('');
+    }
+    const SubmitDeletion = () => {       
+        if (deleteId != '' && setDeleteIdImg!='') {
+            Inertia.delete(route('dashboard.voitures.image_location.delete', {'img':deleteIdImg,'id':deleteId}));
+            setDeleteId('');
+            setDeleteIdImg("");
+            setSupDialog(false);
+        }else{
+            setDeleteIdImg("")
+            setDeleteId(''); 
+        }
+    }
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
@@ -24,6 +53,8 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
             </Breadcrumb>
 
             <Head title={page_title} />
+            <DeleteDialog showFunction={showSupDialog} message={t('Voulez-vous supprimer cette photo ?')} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
+
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
                     href={route('dashboard.locations')}>
@@ -31,11 +62,12 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 gap-4 items-start  justify-between ">
-            {location.voiture && location.voiture.photo!='' &&  location.voiture.photo!=null &&
                     <Card className='col-span-3   lg:col-span-1'>
                         <CardBody className="w-full md:m-auto">
                           <Typography variant='h5' className='mb-3'> {location.voiture.nom??''}</Typography>
-                          <ModaleImage title={location.voiture.nom} url={HTTP_FRONTEND_HOME + '' + location.voiture.photo}>
+                        {location.voiture && location.voiture.photo!='' &&  location.voiture.photo!=null &&
+                        <div className='group relative'>
+                                            <ModaleImage title={location.voiture.nom} url={HTTP_FRONTEND_HOME + '' + location.voiture.photo}>
 
                             {
                                <img
@@ -45,9 +77,42 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                 />
                             }
                             </ModaleImage>
+                            <div className="hidden group-hover:block h-32 rounded-md absolute top-0 bg-gradient-to-b from-gray-800 z-10 bottom-2 w-full">
+                            <button onClick={() => handleDeleteImage(location.voiture_id,-1)} className='items-center hover:uderline hover:text-red-500 bg-none mt-2 text-white text-sm   w-full'>
+                                <span>Supprimer</span>
+                            </button>
+                        </div>
+                    </div>
+                        }
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-2 py-2">
+                            {voiture && voiture.location_medias.length>0 && voiture.location_medias.map(({ id, nom, url }, index) => (
+                                <div key={index} className='group relative'>
+                                    <ModaleImage  title={nom} url={HTTP_FRONTEND_HOME + '' + url}>
+
+                                        {
+                                            <div key={id} className='group relative'>
+                                                <img
+                                                    className="h-40 w-full max-w-full rounded-md border object-cover shadow-sm object-center"
+                                                    src={HTTP_FRONTEND_HOME + '' + url}
+                                                    alt={HTTP_FRONTEND_HOME + '' + url}
+                                                />
+                                                <div className="hidden group-hover:block rounded-md absolute h-full top-0 bg-gradient-to-b from-gray-800 z-10 bottom-2 w-full">
+                                                    <button onClick={() =>handleDeleteImage(location.voiture_id,id)} className='items-center  bg-none mt-2 text-white text-sm   w-full'>
+                                                        <span>Supprimer</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        } </ModaleImage>
+                                    <div className="hidden group-hover:block h-min rounded-md absolute top-0 bg-gradient-to-b from-gray-800 z-10 bottom-2 w-full">
+                                        <button onClick={() => handleDeleteImage(location.voiture_id,id)} className='items-center hover:uderline hover:text-red-500 bg-none mt-2 text-white text-sm   w-full'>
+                                            <span>Supprimer</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                         </CardBody>
                     </Card>
-                }
                 <Card className='col-span-3 lg:col-span-2'>
                     <div className="App w-full md:m-auto overflow-auto">
                         <table className='w-full min-w-max table-auto text-left h-full ' align='top'>
@@ -115,12 +180,11 @@ export default function Show({ auth, location, page_id = '', page_subid = '', pa
                                     <td>
                                     {location.points_retrait && location.points_retrait.length >0 && location.points_retrait.map(({lieu},index)=>(
                                        
-                                       <>
+                                       
                                        <span key={index} className='my-2 mx-1 block float-left 
                                        bg-gray-200 rounded-sm py-1 px-2 text-xs'>                                                
                                             *<Translate>{lieu??''}</Translate>
                                         </span>
-                                        </>
                                     ))}
                                     </td>
                                 </tr>

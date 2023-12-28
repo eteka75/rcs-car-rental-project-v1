@@ -313,6 +313,44 @@ class VoitureController extends Controller
       return back();
 
     }
+    public function destroyLocationImage($imgId,$id)
+    {        
+        if($imgId=="-1"){
+            $voiture=Voiture::where('id',$id)->firstOrFail();
+            $img = ($voiture->photo);
+            $delete=$this->deleteImageIfExists($img);
+            //if($delete==true){
+                $voiture->photo='';
+                $voiture->save();
+                Session::flash(
+                    'info',
+                    [
+                        'title' => 'Suppression effectuée',
+                        'message' => "La Suppression de l'enrégistrement a été effectuée avec succès!",
+                    ]
+                );
+            //}
+        }else{
+            $v=Voiture::where('id',$id)->firstOrFail();
+            $media= $v->locationMedias()->where('voiture_id',$imgId)->first();
+            if($media!=null){
+                $img = ($media->url);
+                $delete=$this->deleteImageIfExists($img);
+             // if($delete==true){
+                $v->locationMedias()->detach($imgId);
+                Session::flash(
+                    'warning',
+                    [
+                        'title' => 'Suppression effectuée',
+                        'message' => "La Suppression de l'image a été effectuée avec succès!",
+                    ]
+                );
+             // }
+            }
+        }
+      return back();
+
+    }
 
     function deleteImageIfExists($filePath) {
         if (file_exists($filePath)) {
