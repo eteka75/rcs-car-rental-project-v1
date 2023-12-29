@@ -9,16 +9,16 @@ import {
 } from "@material-tailwind/react";
 import Breadcrumb from '@/components/Breadcrumb';
 import Translate from '@/components/Translate';
-import WebPageForm from './WebPageForm';
+import FaqForm from './FaqForm';
 
 
-export default function Index({ auth, page_id,pays, page_subid, page_title, page_subtitle }) {
+export default function Index({ auth, page_id, page_subid, page_title, page_subtitle }) {
 
   return (
     <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
       <Breadcrumb>
-        <Link href={route('dashboard.categories')} className="opacity-60">
-          <Translate>Catégories</Translate>
+        <Link href={route('dashboard.faqs')} className="opacity-60">
+          <Translate>Forum aux questions</Translate>
         </Link>
         <Link href='#'>
           <Translate>Nouveau</Translate>
@@ -28,14 +28,14 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
       <Head title={page_title} />
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-          href={route('dashboard.categories')}>
+          href={route('dashboard.faqs')}>
           <AiOutlineArrowLeft className='me-1' /><Translate>Retour</Translate>
         </Link>
       </DashHeadTitle>
-      <Card className='lg:w-4/5'>
+      <Card className='lg:w-4/5'> 
         <CardBody>
           <div className="App w-full md:m-auto">
-            <WebPageForm action={'save'} pays={pays}/>
+            <FaqForm action={'save'} />
           </div>
         </CardBody>
       </Card>

@@ -11,12 +11,12 @@ import { DateToFront } from '@/tools/utils'
 import i18n from '@/i18n'
 import ModaleImage from '@/components/ModaleImage'
 
-export default function Show({ auth, webpage, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
+export default function Show({ auth, faq, page_id = '', page_subid = '', page_title = '', page_subtitle = '' }) {
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
-                <Link href={route('dashboard.webpages')} className="opacity-60">
-                    <span>Marques</span>
+                <Link href={route('dashboard.faqs')} className="opacity-60">
+                    <span>Forum aux questions</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>
@@ -26,22 +26,22 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
             <Head title={page_title} />
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-                    href={route('dashboard.webpages')}>
+                    href={route('dashboard.faqs')}>
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 gap-4">
-                {console.log(webpage)}
-                {webpage.photo &&
+                {console.log(faq)}
+                {faq.photo &&
                     <Card className='col-span-3 lg:col-span-1'>
                         <CardBody className="App w-full md:m-auto">
-                        <ModaleImage title={webpage.nom} url={HTTP_FRONTEND_HOME + '' + webpage.photo}>
+                        <ModaleImage title={faq.nom} url={HTTP_FRONTEND_HOME + '' + faq.photo}>
 
                             {
-                                webpage.photo && <img
+                                faq.photo && <img
                                     className="max-w-full rounded-lg object-cover object-center"
-                                    src={HTTP_FRONTEND_HOME + '' + webpage.photo}
-                                    alt={webpage.nom}
+                                    src={HTTP_FRONTEND_HOME + '' + faq.photo}
+                                    alt={faq.nom}
                                 />
                             }
                             </ModaleImage>
@@ -62,30 +62,13 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Nom</Translate>
+                                            <Translate>Question</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{webpage.nom}</td>
+                                    <td>{faq.question}</td>
 
                                 </tr>
-                                <tr className='p-4 border-b '>
-                                    <th
-                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                                    >
-                                        <Typography
-                                            variant="lead"
-                                            color="blue-gray"
-                                            className="font-bold leading-none opacity-70"
-                                        >
-                                            <Translate>Nom</Translate>
-                                        </Typography>
-                                    </th>
-                                    <td>
-                                        <div className="max-w-lg break-words">
-                                            {webpage.titre}
-                                        </div>
-                                    </td>
-                                </tr>
+                                
                                 <tr className='p-4 border-b '>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -100,7 +83,7 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
                                     </th>
                                     <td>
                                         <div className="max-w-lg break-words">
-                                        {webpage.slug}
+                                        {faq.slug}
                                         </div>
                                     </td>
 
@@ -118,9 +101,9 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
                                             <Translate>Date d'ajout</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(webpage.created_at, i18n.language)}</td>
+                                    <td> {DateToFront(faq.created_at, i18n.language)}</td>
                                 </tr>
-                                {webpage.created_at!=webpage.updated_at &&
+                                {faq.created_at!=faq.updated_at &&
                                 <tr className='p-4 border-b'>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -133,7 +116,7 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
                                             <Translate>Dernière modification</Translate>
                                         </Typography>
                                     </th>
-                                    <td> {DateToFront(webpage.updated_at, i18n.language)}</td>
+                                    <td> {DateToFront(faq.updated_at, i18n.language)}</td>
                                 </tr>
                             }
                                 <tr className='p-4 '>
@@ -145,14 +128,14 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Description</Translate>
+                                            <Translate>Réponse</Translate>
                                         </Typography>
                                     </th>
                                 </tr>
                                 <tr>
                                     <td colSpan={2}>
                                         <div className="max-w-3xl mx-auto p-4 pt-0 break-words">
-                                        <div dangerouslySetInnerHTML={{__html:webpage.contenu}}></div>
+                                        <div dangerouslySetInnerHTML={{__html:faq.reponse}}></div>
 
                                         </div>
                                     </td>

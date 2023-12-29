@@ -33,6 +33,8 @@ class Voiture extends Model
         "type_eclairage",
         "type_suspenssion",
         "technologies_a_bord",
+        "nombre_petite_valise",
+        "nombre_grande_valise",
         "etat",
         "marque_id",
         "categorie_id",

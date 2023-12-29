@@ -122,6 +122,11 @@ export const menuItemsData = [
         title: "Forums aux questions",
         route: 'dashboard.faqs',
         sid:'faqs'
+      },
+      {
+        title: "Avis clients",
+        route: 'dashboard.faqs',
+        sid:'faqs'
       }
     ],
   },

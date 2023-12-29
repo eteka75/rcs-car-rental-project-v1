@@ -26,8 +26,9 @@ class EnLocation extends Model
         'tarif_location_mensuel',
         'date_debut_location',
         'date_fin_location',
-        'conditions',
         'description',
+        'conditions',
+        'etat',
     ];
 
     public function voiture(): BelongsTo

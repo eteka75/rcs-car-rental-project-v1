@@ -214,7 +214,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/search', 'index')->name('dashboard.faqs.search');
         Route::get('/new', 'create')->name('dashboard.faqs.create');
         Route::post('/new', 'store')->name('dashboard.faqs.store');
-        Route::get('/edit/{id}', 'edit')->name('dashboard.webpages.edit');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.faqs.edit');
         Route::post('/edit/{id}', 'update')->name('dashboard.faqs.update');
         Route::get('/export', 'export')->name('dashboard.faqs.export');
         Route::get('/{id}', 'show')->name('dashboard.faqs.show');

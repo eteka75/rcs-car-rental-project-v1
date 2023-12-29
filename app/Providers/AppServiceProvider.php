@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        
     }
 
     /**
@@ -20,9 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot() :void
     {
-        Validator::extend('webp', function ($attribute, $value, $parameters, $validator) {
-            // Votre logique de validation pour les fichiers webp
-            return pathinfo($value->getClientOriginalName(), PATHINFO_EXTENSION) === 'webp';
-        });
+        Artisan::call('update:etat-location');
     }
 }

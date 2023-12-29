@@ -14,13 +14,12 @@ import {
     Button,
     CardBody,
     Avatar,
-    IconButton
+    IconButton,
+    Badge
 } from "@material-tailwind/react";
 import { CiInboxIn } from "react-icons/ci";
 import { DateToFront, truncateString } from '@/tools/utils';
-import i18n from '@/i18n';
 import Breadcrumb from '@/components/Breadcrumb';
-import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { FaRegEdit } from 'react-icons/fa';
 import { Inertia } from '@inertiajs/inertia';
 import { FaEye } from 'react-icons/fa6';
@@ -31,10 +30,10 @@ import { useTranslation } from 'react-i18next';
 import SearchBar from '@/components/dashboard/SearchBar';
 
 
-export default function Index({ auth, webpages, page_id, 
+export default function Index({ auth, faqs, page_id, 
     page_subid, page_title, page_subtitle, search_text = '',count }) {
 
-    const TABLE_HEAD = ["Nom",  "Date d'ajout", "Actions"];
+    const TABLE_HEAD = ["Questions", "Etat", "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
@@ -45,11 +44,11 @@ export default function Index({ auth, webpages, page_id,
     const [deleteId, setDeleteId] = useState('');
 
     useEffect(() => {
-        if (webpages.data && webpages.data.length > 0) {
-            setDatas(webpages.data);
+        if (faqs?.data?.length > 0) {
+            setDatas(faqs.data);
         }
         
-        if (webpages.data && webpages.data.length > 0) {
+        if (faqs?.data?.length > 0) {
             setShowHead(true);
         }else{setShowHead(false);}
 
@@ -66,7 +65,7 @@ export default function Index({ auth, webpages, page_id,
 
     const SubmitDeletion = () => {
         if (setDeleteId != '') {
-            Inertia.delete(route('dashboard.webpages.delete', deleteId));
+            Inertia.delete(route('dashboard.faqs.delete', deleteId));
             setDeleteId('')
             setSupDialog(false);
         } else {
@@ -88,7 +87,7 @@ export default function Index({ auth, webpages, page_id,
     const Search = (e) => {
         e.preventDefault();
         if (data.search !== '') {
-            get(route('dashboard.webpages.search'),
+            get(route('dashboard.faqs.search'),
                 {
                     onSuccess: (response) => {
                         setDatas(response.data);
@@ -107,19 +106,19 @@ export default function Index({ auth, webpages, page_id,
             <Head title={page_title} />
             <Breadcrumb>
                 <Link href='#'>
-                    <Translate>Pages</Translate>
+                    <Translate>Forum aux questions</Translate>
                 </Link>
             </Breadcrumb>
             <DashHeadTitle title={page_title} subtitle={page_subtitle} >
                 <Link className='inline-flex whitespace-nowrap items-center text-sm sm:text-md px-5 py-2 text-white bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 rounded-md md:ml-6 md:mb-3'
-                    href={route('dashboard.webpages.create')}>
+                    href={route('dashboard.faqs.create')}>
                     <AiOutlinePlus className='me-1' />   <Translate>Nouveau</Translate>
                 </Link>
             </DashHeadTitle>
             <DeleteDialog showFunction={showSupDialog} closeFunction={CloseDialog} submitFunction={SubmitDeletion} />
             <Card className="h-full w-full">
                 <SearchBar
-                    exportUrl={route('dashboard.webpages.export')}
+                    exportUrl={route('dashboard.faqs.export')}
                     message={errors.search}
                     onSubmit={Search}
                     disabled={processing}
@@ -128,9 +127,9 @@ export default function Index({ auth, webpages, page_id,
                     placeholder={t('Rechercher')+'...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable count={count}  head={TABLE_HEAD} links={webpages.links} showHead={showHead}>
+                    <ViewTable count={count}  head={TABLE_HEAD} links={faqs.links} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, nom,  titre, created_at }, index) => {
+                            ({ id, question,actif, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "p-4"
@@ -146,25 +145,17 @@ export default function Index({ auth, webpages, page_id,
                                                     color="blue-gray"
                                                     className="font-bold"
                                                 >
-                                                    <Link href={route('dashboard.webpages.show', id)}>
-                                                        {truncateString (nom,100)??''}
-                                                    </Link>
-                                                </Typography>
-                                            </div>
-                                        
-                                            <div className="flex text-slate-500 flex-col">
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-bold"
-                                                >
-                                                    <Link title={titre} href={route('dashboard.webpages.show', id)}>
-                                                        {truncateString (titre,80)??''}
+                                                    <Link href={route('dashboard.faqs.show', id)}>
+                                                        {truncateString (question,100)??''}
                                                     </Link>
                                                 </Typography>
                                             </div>
                                         </td>
                                         
+                                        <td className={classes}>
+                                        {actif === 1 ? <Badge title='Visible' color="green">&nbsp;</Badge> : <Badge title='non visible' color="gray">&nbsp;</Badge>}
+                                           
+                                        </td>
                                         <td className={classes}>
                                             <Typography
                                                 variant="small"
@@ -179,20 +170,20 @@ export default function Index({ auth, webpages, page_id,
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">
                                                 <IconButton title='Modifier' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.webpages.edit', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.faqs.edit', id)}>
                                                         <FaRegEdit className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Modifier</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton title='Voir' variant="text" className=' text-blue-500'>
-                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.webpages.show', id)}>
+                                                    <Link className='flex gap-1 cursor-pointer items-center' href={route('dashboard.faqs.show', id)}>
                                                         <FaEye className='h-6 w-4 text-gray-700' />
                                                         <span className="md:hidden"><Translate>Voir</Translate></span>
                                                     </Link>
                                                 </IconButton>
                                                 <IconButton variant='text' className='text-red-600 items-center flex gap-1' title="supprimer cet enrégistrement"
                                                     method="delete"
-                                                    href={route('dashboard.webpages.delete', id)}
+                                                    href={route('dashboard.faqs.delete', id)}
                                                     as="button"
                                                     onClick={() => handleDelete(id)}
                                                 >
@@ -215,7 +206,7 @@ export default function Index({ auth, webpages, page_id,
                                             <div className="text-sm mb-4 mt-2"><Translate>Aucun enrégistrement</Translate> !</div>
                                         </>
                                     }
-                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.webpages')}>
+                                    {(data.search != null && search_text != null) && <Link href={route('dashboard.faqs')}>
                                         <Button className='clear-both max-auto px-6  py-2 bg-transparent font-bold flex items-center mx-auto text-gray-800 border shadow-sm  rounded-md'><AiOutlineArrowLeft className='me-1' />
                                             <Translate>Retour </Translate>
                                         </Button>

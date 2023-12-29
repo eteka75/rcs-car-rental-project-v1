@@ -6,14 +6,14 @@ import { Card, CardBody } from '@material-tailwind/react'
 import React from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Translate from '@/components/Translate'
-import WebPageForm from './WebPageForm'
+import FaqForm from './FaqForm'
 
-export default function Edit({auth,webpage,page_id='',page_subid='',page_title ='',page_subtitle ='',pays}) {
+export default function Edit({auth,faq,page_id='',page_subid='',page_title ='',page_subtitle ='',pays}) {
   return (
     <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
       <Breadcrumb>
-        <Link href={route('dashboard.webpages')} className="opacity-60">
-          <span>Pages</span>
+        <Link href={route('dashboard.faqs')} className="opacity-60">
+          <span>Forum aux questions</span>
         </Link>
         <Link href='#'>
           <span>Edition</span>
@@ -23,7 +23,7 @@ export default function Edit({auth,webpage,page_id='',page_subid='',page_title =
       <Head title={page_title} />
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-          href={route('dashboard.webpages')}>
+          href={route('dashboard.faqs')}>
           <AiOutlineArrowLeft className='me-1' />
           <Translate>Retour</Translate>
         </Link>
@@ -31,7 +31,7 @@ export default function Edit({auth,webpage,page_id='',page_subid='',page_title =
 
       <Card className='lg:w-4/5'>
         <CardBody  className="App w-full md:m-auto">
-            <WebPageForm webpage={webpage} pays={pays} action='update' btntext="Mettre à jour"/>
+            <FaqForm faq={faq} pays={pays} action='update' btntext="Mettre à jour"/>
         </CardBody>
       </Card>
     </DashboardLayout>

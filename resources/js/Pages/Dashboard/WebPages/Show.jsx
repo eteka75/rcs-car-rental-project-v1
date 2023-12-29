@@ -16,7 +16,7 @@ export default function Show({ auth, webpage, page_id = '', page_subid = '', pag
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
             <Breadcrumb>
                 <Link href={route('dashboard.webpages')} className="opacity-60">
-                    <span>Marques</span>
+                    <span>Pages</span>
                 </Link>
                 <Link href='#'>
                     <span>Affichage</span>

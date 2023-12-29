@@ -10,10 +10,10 @@ export default function LocationSteps() {
                 <div className="max-w-screen-xl bordershadow-sm mb-6 rounded-md mx-auto p-4 relative">
 
                     <div className="xl:px-10 mx-auto pt-2 pb-4 grid grid-cols-12 gap-4 lg:gap-6">
-                        <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-e pb-4 md:pb-0 md:border-t-0">
+                        <div className="col-span-12  md:col-span-4 border-b md:border-b-0 md:border-e pb-4 md:pb-0 md:border-t-0">
 
                             <div className="flex text-lg font-bold items-center">
-                                <div className='text-blue-700_'>1- Recherche de voitures</div>
+                                <div className='text-blue-700_ text-blue-700'>1- Recherche de voitures</div>
                                 <FcSearch className='text-center justify-center leading-10 h-10 w-10 font-bold rounded-lg  text-sm  p-2' />
                             </div>
                             <div className="text-sm px-2 text-slate-600">
@@ -23,7 +23,7 @@ export default function LocationSteps() {
                         <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-e pb-4 md:pb-0 md:border-t-0">
 
                             <div className="flex text-lg font-bold items-center">
-                                <div>2- Informations & payement</div>
+                                <div className='text-green-600'>2- Informations & payement</div>
                                 <FcCurrencyExchange className='text-center justify-center leading-10 h-10 w-10 font-bold rounded-lg  text-sm  p-2' />
                             </div>
                             <div className="text-sm px-2 text-slate-600">
@@ -33,7 +33,7 @@ export default function LocationSteps() {
                         <div className="col-span-12 md:col-span-4  w-full">
 
                             <div className="flex text-lg font-bold items-center">
-                                <div>3- Récupérez votre voiture</div>
+                                <div className='text-red-600'>3- Récupérez votre voiture</div>
                                 <FcAutomotive className='text-center justify-center leading-10 h-10 w-10 font-bold rounded-lg  text-sm  p-2' />
                             </div>
                             <div className="text-sm px-2 text-slate-600 flex">

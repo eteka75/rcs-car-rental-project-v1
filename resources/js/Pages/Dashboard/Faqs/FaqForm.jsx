@@ -13,13 +13,13 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '@/css/quill-editor.css'
 
-export default function WebwebpageForm({ className = '', webpage = null, action, btntext = 'Enrégister' }) {
+export default function FaqForm({ className = '', faq = null, action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
     const [contenu, setDescription] = useState('');
     useEffect(() => { 
-        setDescription((webpage && webpage.contenu)??'OOO')
+        setDescription((faq && faq.contenu)??'OOO')
      }, []);
      const modules = {
         toolbar: [
@@ -61,7 +61,7 @@ export default function WebwebpageForm({ className = '', webpage = null, action,
     };
     const handleContenu = (value) => {
         setDescription(value);
-        setData('contenu',value);
+        setData('reponse',value);
     }
 
     const handleInputChange = (e) => {
@@ -74,22 +74,22 @@ export default function WebwebpageForm({ className = '', webpage = null, action,
         }
     };
 
-    const { data, setData, post, progress, errors, processing, recentlySuccessful } = useForm(webpage !== null && action === 'update' ?
+    const { data, setData, post, progress, errors, processing, recentlySuccessful } = useForm(faq !== null && action === 'update' ?
         {
-            nom: webpage.nom ?? '',
+            question: faq?.question ?? '',
             photo: '',
-            titre: webpage.titre ,
-            contenu: webpage.contenu ?? ''
+            actif: faq.actif==1?true:false,
+            reponse: faq?.reponse ?? ''
         } : {
-            nom: '',
-            titre: '',
+            question: '',
             photo: '',
-            contenu: ''
+            actif: 0,
+            reponse: ''
         });
     const handleSubmit = (e) => {
         e.preventDefault();
         if (action === 'update') {
-            post(route('dashboard.webpages.update', webpage.id), data, {
+            post(route('dashboard.faqs.update', faq.id), data, {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -100,7 +100,7 @@ export default function WebwebpageForm({ className = '', webpage = null, action,
             });
         }
         if (action === 'save') {
-            post(route('dashboard.webpages.store'), {
+            post(route('dashboard.faqs.store'), {
                 onSuccess: () => {
                     // Handle success, e.g., redirect
                     //alert('Ok')
@@ -117,33 +117,18 @@ export default function WebwebpageForm({ className = '', webpage = null, action,
         <section className={className}>
             {console.log(data)}
             <form onSubmit={handleSubmit} className="space-y-6">
-                <div className='grid grid-cols-2'>
+                
                 <div>
-                    <InputLabel htmlFor="nom"  >Nom</InputLabel>
+                    <InputLabel htmlFor="question"  >Question</InputLabel>
                     <TextInput
-                        id="nom"
+                        id="question"
                         ref={addToRefs}
-                        value={data.nom}
+                        value={data.question}
                         onChange={handleInputChange}
                         type="text"
                         className="mt-1 block w-full"
                     />
-
-                    <InputError message={errors.nom} className="mt-2" />
-                </div>
-                </div>
-                <div>
-                    <InputLabel htmlFor="titre"  >Titre de la webpage</InputLabel>
-                    <TextInput
-                        id="titre"
-                        ref={addToRefs}
-                        value={data.titre}
-                        onChange={handleInputChange}
-                        type="text"
-                        className="mt-1 block w-full"
-                    />
-
-                    <InputError message={errors.titre} className="mt-2" />
+                    <InputError message={errors.question} className="mt-2" />
                 </div>
                 <div>
                     <InputLabel htmlFor="photo" >Photo</InputLabel>
@@ -168,16 +153,31 @@ export default function WebwebpageForm({ className = '', webpage = null, action,
                 
                 <div className=''>
                     <div>
-                        <InputLabel htmlFor="nom">Contenu de la webpage</InputLabel>
+                        {console.log(errors)}
+                        <InputLabel htmlFor="reponse">Réponse à la question</InputLabel>
                         <div className="mb-20">
                         <ReactQuill theme="snow"
                          modules={modules}
                          formats={formats}
-                        className='h-[600px] border-0 bg-white' value={data.contenu} onChange={handleContenu} />
+                        className='h-[200px] border-0 bg-white' value={data.reponse} onChange={handleContenu} />
                         </div>                       
 
-                        <InputError message={errors.contenu} className="mt-2" />
+                        <InputError message={errors.reponse} className="mt-2" />
                     </div>
+
+                </div>
+                <div>
+                    <div className="flex items-center">
+                        <input name="disponibilite"
+                            checked={data.actif}
+                            onChange={(e) => setData('actif', e.target.checked?1:0)}
+                            type="checkbox" id="hs-basic-with-description" className="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200
+                                focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500
+                                dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition 
+                                before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"/>
+                        <label htmlFor="hs-basic-with-description" className="text-sm text-gray-500 ms-3 dark:text-gray-400">Actif</label>
+                    </div>
+                    <InputError message={errors.actif} className="mt-2" />
 
                 </div>
 

@@ -103,9 +103,9 @@ class EnLocationController extends Controller
         $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
         $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
 
-        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
+        $chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
         
-        if ($nb_chevauchements->count('id') > 0) {
+        if ($chevauchements->count('id') > 0) {
             Session::flash(
                 'danger',
                 [
@@ -274,12 +274,10 @@ class EnLocationController extends Controller
         $data['date_debut_location'] = $this->converDateToDB($data['date_debut_location']);
         $data['date_fin_location'] = $this->converDateToDB($data['date_fin_location']);
 
-        $nb_chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location'],$id);
-        //dd($nb_chevauchements->first()->id,$id);
-        if(!($nb_chevauchements->count() === 1 && $nb_chevauchements->first()->id == $id)) {
-       
-            $first = $nb_chevauchements->first();
-            if ($first->id != $id) {
+        $chevauchements = $this->checkLocationChevauchement($data['voiture_id'], $data['date_debut_location'], $data['date_fin_location']);
+        foreach($chevauchements as $chevauchement) {
+            
+            if ($chevauchement->id != $id) {
                 Session::flash(
                     'danger',
                     [
@@ -289,7 +287,6 @@ class EnLocationController extends Controller
                 );
                 return redirect()->back()->withInput();
             }
-
         }
         $location = EnLocation::findOrFail($id);
         $location->update($data);

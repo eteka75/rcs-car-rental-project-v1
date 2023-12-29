@@ -39,13 +39,13 @@ class FaqController extends Controller
         Inertia::share(['total'=>Faq::count()]);
 
         if (!empty($keyword)) {
-            $faqs = Faq::where('nom', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+            $faqs = Faq::where('question', 'LIKE', "%$keyword%")
+                ->orWhere('reponse', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
             $faqs = Faq::latest()->paginate($perPage);
         }
-       
+        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
             'faqs' => $faqs, 
@@ -72,13 +72,13 @@ class FaqController extends Controller
     public function store(Request $request)
     {
         $additionalRules = [
-            'nom' => ["required","unique:marques,nom"],
+            'question' => ["required","unique:marques,nom"],
         ];
         // Merge additional rules with the rules defined in the form request
         $rules = array_merge((new RequestFaq())->rules(), $additionalRules);
         $request->validate($rules);
         $data = $request->except(['photo']);
-        $data['slug']=$this->generateUniqueSlug($data['titre']);
+        $data['slug']=$this->generateUniqueSlug($data['question']);
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {

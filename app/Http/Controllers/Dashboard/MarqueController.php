@@ -178,7 +178,7 @@ class MarqueController extends Controller
         return to_route('dashboard.marques');
     }
 
-    public function saveLogo(FormRequest $request)
+    public function saveLogo(Request $request)
     {
         $nomLogo = '';
         if ($request->hasFile('logo')) {

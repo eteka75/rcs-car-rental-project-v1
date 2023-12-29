@@ -30,14 +30,14 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
                 </Link>
             </DashHeadTitle>
-            <div className="grid_grid-cols-3_gap-4 space-y-4">
+            <div className="grid grid-cols-3 items-start gap-4 _space-y-4">
                 {voiture && voiture.photo &&
-                    <Card className='col-span-3 shadow-sm border lg:col-span-1'>
+                    <Card className='col-span-1 shadow-sm border lg:col-span-1'>
                         <CardBody className="App w-full md:m-auto">
                         <ModaleImage title={voiture.nom} url={HTTP_FRONTEND_HOME + '' + voiture.photo}>
                             {
                                 voiture.photo && <img
-                                    className="max-h-44 mx-auto w-auto  rounded-lg object-cover object-center"
+                                    className="max-w-full  rounded-lg object-cover object-center"
                                     src={HTTP_FRONTEND_HOME + '' + voiture.photo}
                                     alt={voiture.nom}
                                 />
@@ -427,6 +427,7 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                 }
                                 <tr className='p-4 '>
                                     <th
+                                    colSpan={2}
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
                                     >
                                         <Typography
@@ -437,8 +438,10 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                             <Translate>Description</Translate>
                                         </Typography>
                                     </th>
-                                    <td>
-                                        <div  className='text-sm break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div  className='text-sm px-4 break-words bg-white overflow-auto max-w-lg xl:max-w-3xl lg:max-w-2xl md:max-w-sm py-4'>
                                             {voiture.description}
                                         </div>
                                     </td>

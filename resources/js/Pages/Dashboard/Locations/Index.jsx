@@ -14,7 +14,8 @@ import {
     Button,
     CardBody,
     Avatar,
-    IconButton
+    IconButton,
+    Badge
 } from "@material-tailwind/react";
 import { CiInboxIn } from "react-icons/ci";
 import { DateToFront } from '@/tools/utils';
@@ -29,9 +30,9 @@ import Translate from '@/components/Translate';
 import { useTranslation } from 'react-i18next';
 
 
-export default function Index({ auth, locations, page_id,count, page_subid, page_title, page_subtitle, search_text = '' }) {
+export default function Index({ auth, locations, page_id, count, page_subid, page_title, page_subtitle, search_text = '' }) {
 
-    const TABLE_HEAD = [ "Voiture", "Date début location","Date fin location", "Date d'ajout", "Actions"];
+    const TABLE_HEAD = ["Voiture", "Date début location", "Date fin location", "Etat", "Date d'ajout", "Actions"];
     const { data, get, errors, processing, setData } = useForm({
         search: '',
     });
@@ -45,9 +46,9 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
         if (locations && locations.data && locations.data.length > 0) {
             setDatas(locations.data);
             setShowHead(true);
-        }else{
+        } else {
             setShowHead(false);
-        }     
+        }
 
         if (search_text !== '') {
             setData('search', search_text);
@@ -95,7 +96,7 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
         }
 
     }
-  const { t, i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     return (
         <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
@@ -120,22 +121,22 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                     disabled={processing}
                     searchText={data.search ?? ''}
                     onChange={handleSearch}
-                    placeholder={t('Rechercher')+'...'}
+                    placeholder={t('Rechercher') + '...'}
                 />
                 <CardBody className={" p-0 overflow-auto"}>
-                    <ViewTable  head={TABLE_HEAD} count={count} links={locations?locations.links:[]} showHead={showHead}>
+                    <ViewTable head={TABLE_HEAD} count={count} links={locations ? locations.links : []} showHead={showHead}>
                         {datas.length > 0 && datas.map(
-                            ({ id, date_debut_location, date_fin_location, voiture,created_at }, index) => {
+                            ({ id, date_debut_location, date_fin_location, etat, voiture, created_at }, index) => {
                                 const isLast = index === datas.length - 1;
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50 ";
-                                
+
                                 return (
                                     <tr className='hover:bg-gray-100 transition-all duration-500' key={id}>
-                                        
-                                        
-                                        
+
+
+
                                         <td className={classes}>
                                             <span
                                                 variant="small"
@@ -143,21 +144,25 @@ export default function Index({ auth, locations, page_id,count, page_subid, page
                                                 className="font-normal px-4 py-1 text-sm bg-slate-200 rounded-sm"
                                             >
                                                 <Link href={route('dashboard.locations.show', id)}>
-                                                {voiture?voiture.nom:''}
+                                                    {voiture ? voiture.nom : ''}
                                                 </Link>
                                             </span>
                                         </td>
                                         <td className={classes}>
-                                             {DateToFront(date_debut_location,i18n.language,'d/m/Y')??''}
+                                            {DateToFront(date_debut_location, i18n.language, 'd/m/Y') ?? ''}
                                         </td>
-                                        <td className={classes}>
-                                            
-                                                {DateToFront(date_fin_location,i18n.language,'d/m/Y')??''}
-                                        </td>
-                                        
                                         <td className={classes}>
 
-                                                {DateToFront(created_at, i18n.language)}
+                                            {DateToFront(date_fin_location, i18n.language, 'd/m/Y') ?? ''}
+                                        </td>
+                                        <td className={classes + ' text-center'}>
+
+                                            {etat === 1 ? <Badge title='En location' color="green">&nbsp;</Badge> : <Badge title='Location expirée' color="gray">&nbsp;</Badge>}
+                                        </td>
+
+                                        <td className={classes}>
+
+                                            {DateToFront(created_at, i18n.language)}
                                         </td>
                                         <td className={classes}>
                                             <div className="md:flex grid-cols-1 grid md:grid-cols-3 gap-1">

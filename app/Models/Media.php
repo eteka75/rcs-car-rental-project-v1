@@ -31,5 +31,11 @@ class Media extends Model
         'voiture_media','voiture_id','media_id')
         ->withTimestamps();
     }
+    public function locationVoitures(): BelongsToMany
+    {      
+        return $this->belongsToMany(Media::class,
+        'en_location_media','voiture_id','media_id')
+        ->withTimestamps();
+    }
 
 }

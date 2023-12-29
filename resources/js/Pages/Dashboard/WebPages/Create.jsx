@@ -17,8 +17,8 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
   return (
     <DashboardLayout auth={auth} page_id={page_id} page_subid={page_subid}>
       <Breadcrumb>
-        <Link href={route('dashboard.categories')} className="opacity-60">
-          <Translate>Catégories</Translate>
+        <Link href={route('dashboard.webpages')} className="opacity-60">
+          <Translate>Pages</Translate>
         </Link>
         <Link href='#'>
           <Translate>Nouveau</Translate>
@@ -28,7 +28,7 @@ export default function Index({ auth, page_id,pays, page_subid, page_title, page
       <Head title={page_title} />
       <DashHeadTitle title={page_title} subtitle={page_subtitle} >
         <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
-          href={route('dashboard.categories')}>
+          href={route('dashboard.webpages')}>
           <AiOutlineArrowLeft className='me-1' /><Translate>Retour</Translate>
         </Link>
       </DashHeadTitle>
