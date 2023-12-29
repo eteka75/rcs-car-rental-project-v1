@@ -173,7 +173,7 @@ export default function Show({ auth, location, page_id = '',voiture='', page_sub
                                             color="blue-gray"
                                             className="font-bold leading-none opacity-70"
                                         >
-                                            <Translate>Poins de retrait </Translate>
+                                            <Translate>Points de retrait </Translate>
 
                                         </Typography>
                                     </th>

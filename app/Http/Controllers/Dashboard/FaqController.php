@@ -109,7 +109,7 @@ class FaqController extends Controller
     public function show($id)
     {
         $faq=Faq::where('id', $id)->firstOrFail();
-        $faq_name=$faq->nom;
+        $faq_name=$faq->question;
         return Inertia::render(self::$viewFolder . '/Show', [
             'faq' => $faq,
             'page_title' => "Page - ".$faq_name,

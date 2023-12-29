@@ -244,21 +244,7 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                     <td>{voiture.puissance_moteur}</td>
 
                                 </tr>
-                                <tr className='p-4 border-b '>
-                                    <th
-                                        className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                                    >
-                                        <Typography
-                                            variant="lead"
-                                            color="blue-gray"
-                                            className="font-bold leading-none opacity-70"
-                                        >
-                                            <Translate>Puissance du moteur</Translate>
-                                        </Typography>
-                                    </th>
-                                    <td>{voiture.puissance_moteur}</td>
-
-                                </tr>
+                                
                                 <tr className='p-4 border-b '>
                                     <th
                                         className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
@@ -271,7 +257,7 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                             <Translate>Couleur</Translate>
                                         </Typography>
                                     </th>
-                                    <td>{voiture.couleur}</td>
+                                    <td>{voiture?.couleur}</td>
 
                                 </tr>
                                 <tr className='p-4 border-b '>

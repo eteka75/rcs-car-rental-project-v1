@@ -388,6 +388,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                     <InputLabel htmlFor="photo" >photo sur la réparation</InputLabel>
                         <input
                             id="photo" accept="image/*"
+                            multiple
                             ref={addToRefs}
                             onChange={handleFilesChange}
                             type="file"

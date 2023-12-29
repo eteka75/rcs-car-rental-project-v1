@@ -37,6 +37,7 @@
         "@mui/material": "^5.15.0",
         "@mui/styled-engine-sc": "^6.0.0-alpha.8",
         "@mui/x-date-pickers": "^6.18.4",
+        "@preline/carousel": "^2.0.2",
         "@tiptap/core": "^2.1.13",
         "@tiptap/pm": "^2.1.13",
         "@tiptap/starter-kit": "^2.1.13",
