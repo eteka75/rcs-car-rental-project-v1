@@ -24,7 +24,7 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
     }
     return (
         <>
-        <div className="top rounded-md bg-gradient-to-r from-yellow-600 via-orange-500 to-yellow-500 pt-[2px]"></div>
+        <div className="top rounded-md bg-gradient-to-r from-yellow-600 via-orange-500 to-yellow-500 pt-[2px] transition-all duration-700"></div>
             <nav className={" mx-auto relative "+mode}>
                 <div className=" flex flex-wrap items-center justify-between py-3 px-4">
                     <Link
@@ -97,82 +97,15 @@ export default function TopNav({ auth = {}, mode='max-w-screen-xl'}) {
                                     En
                                 </Link>}
                             </li>
-                            <li className='hidden'>
-                                <button className="inline-flex bg-slate-200 items-center font-medium justify-center h-10 w-10 lg:w-auto lg:h-auto lg:px-2 py-2 text-sm text-gray-900 dark:text-white lg:rounded-md rounded-full cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white mx-2">
-                                    <svg
-                                        className="w-5 h-5 rounded-full lg:me-3"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                                        viewBox="0 0 3900 3900"
-                                    >
-                                        <path
-                                            fill="#b22234"
-                                            d="M0 0h7410v3900H0z"
-                                        />
-                                        <path
-                                            d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0"
-                                            stroke="#fff"
-                                            strokeWidth="300"
-                                        />
-                                        <path
-                                            fill="#3c3b6e"
-                                            d="M0 0h2964v2100H0z"
-                                        />
-                                        <g fill="#fff">
-                                            <g id="d">
-                                                <g id="c">
-                                                    <g id="e">
-                                                        <g id="b">
-                                                            <path
-                                                                id="a"
-                                                                d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"
-                                                            />
-                                                            <use
-                                                                xlinkHref="#a"
-                                                                y="420"
-                                                            />
-                                                            <use
-                                                                xlinkHref="#a"
-                                                                y="840"
-                                                            />
-                                                            <use
-                                                                xlinkHref="#a"
-                                                                y="1260"
-                                                            />
-                                                        </g>
-                                                        <use
-                                                            xlinkHref="#a"
-                                                            y="1680"
-                                                        />
-                                                    </g>
-                                                    <use
-                                                        xlinkHref="#b"
-                                                        x="247"
-                                                        y="210"
-                                                    />
-                                                </g>
-                                                <use
-                                                    xlinkHref="#c"
-                                                    x="494"
-                                                />
-                                            </g>
-                                            <use xlinkHref="#d" x="988" />
-                                            <use xlinkHref="#c" x="1976" />
-                                            <use xlinkHref="#e" x="2470" />
-                                        </g>
-                                    </svg>
-                                    <span className='hidden lg:flex'>English (US)</span>
-                                </button>
-                            </li>
+                            
                             <li>
-                                <button
+                               <Link  href={route('front.panier')}
                                     type="button"
                                     className="inline-flex  text-slate-50 hover:text-slate-300  items-center w-10 leading-10 py-2  justify-center  "
                                 >
-                                    <span className="bg-red-500 items-center text-white text-[9px] rounded-full absolute ms-6 -mt-4 w-5 h-5 leading-5">3</span>
+                                    <span className="bg-red-500 text-center items-center text-white text-[13px] rounded-full absolute ms-6 -mt-4 w-5 h-5 leading-5">3</span>
                                     <FiShoppingCart />
-                                </button>
+                                </Link>
                             </li>
 
                             {auth.user &&

@@ -1,3 +1,5 @@
+import i18n from "@/i18n";
+import { t } from "i18next";
 
 const DateToFront = (thedate, lang='fr',format='d/m/Y h:i:s') =>{
     let date = new Date(thedate);
@@ -34,4 +36,19 @@ function truncateString(str, maxLength) {
         return str;
     }
 }
-export { DateToFront, formaterMontant,truncateString };
+const setTarif=(theure,tjour,thebdo,tmois)=>{
+    if(theure>0){
+        return formaterMontant(theure,i18n.language)+' / '+t('Heure');
+    }
+    if(tjour>0){
+        return formaterMontant(tjour,i18n.language)+' / '+t('Jour');
+    }
+    if(thebdo>0){
+        return formaterMontant(thebdo,i18n.language)+' / '+t('Semaine');
+    }
+    if(tmois>0){
+        return formaterMontant(tmois,i18n.language)+' / '+t('Mois');
+    }
+    return theure;
+}
+export { DateToFront, formaterMontant,truncateString,setTarif };

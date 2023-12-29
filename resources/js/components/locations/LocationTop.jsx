@@ -14,31 +14,18 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { TbCircuitCapacitorPolarized } from 'react-icons/tb';
 import { BsEvStation, BsFillEvStationFill, BsTaxiFront } from 'react-icons/bs';
-import { formaterMontant } from '@/tools/utils';
+import { formaterMontant, setTarif } from '@/tools/utils';
 import { useTranslation } from 'react-i18next';
 import i18n from '@/i18n';
 import { t } from 'i18next';
 import { IoLogoCapacitor } from 'react-icons/io5';
+import { Link } from '@inertiajs/react';
 
 
 
 export default function LocationTop({ locations }) {
     const {t}=useTranslation()
-    const setTarif=(theure,tjour,thebdo,tmois)=>{
-        if(theure>0){
-            return formaterMontant(theure,i18n.language)+' / '+t('Heure');
-        }
-        if(tjour>0){
-            return formaterMontant(tjour,i18n.language)+' / '+t('Jour');
-        }
-        if(thebdo>0){
-            return formaterMontant(thebdo,i18n.language)+' / '+t('Semaine');
-        }
-        if(tmois>0){
-            return formaterMontant(tmois,i18n.language)+' / '+t('Mois');
-        }
-        return theure;
-    }
+  
     return (
         <>
             {console.log(locations)}
@@ -54,6 +41,7 @@ export default function LocationTop({ locations }) {
                 }, index) =>
                         <LocaVoitureCard                         
                         ville ={'Cotonou'}
+                        id={id}
                         nb_personne={voiture?.nombre_place}
                         type_boite ={voiture?.type_transmission} 
                         vitesse={voiture?.nombre_vitesse}
@@ -65,7 +53,7 @@ export default function LocationTop({ locations }) {
                         nom={voiture?.nom} 
                         carburant={voiture?.type_carburant?.nom} 
                         photo={voiture?.photo} 
-                        puissance={"201CHV"} 
+                        puissance={voiture?.puissance_moteur} 
                         tarif={setTarif(tarif_location_heure,tarif_location_journalier,tarif_location_hebdomadaire,tarif_location_mensuel)} 
                         key={index}/>
                         )}
@@ -79,20 +67,49 @@ export default function LocationTop({ locations }) {
                         <FaAngleRight className="ms-1" />
                     </a>
                 </div>
+                <div className=''>
+                <h2 className="font-bold text-2xl  mt-8 flex">
+                    Lieux prisés pour les locations de voiture
+                </h2>
+                <p className="text-slate-600">Découvrez plus d'options pour louer une voiture pas cher  </p>
+                <div className="py-4">
+                    <div className="flex gap-6 pt-2">
+                        <div className="">
+                            <Link className='text-md font-semibold text-blue-600__ border_px-6 py-2 rounded-md'> • Parakou</Link>
+                        </div>
+                        <div className="">
+                            <Link className='text-md font-semibold text-blue-600__ border_px-6 py-2 rounded-md'>
+                            •  Cotonou
+                            </Link>
+                        </div>
+                        <div className="">
+                            <Link className='text-md font-semibold text-blue-600__ border_px-6 py-2 rounded-md'>
+                            •  Ouidah
+                            </Link>
+                        </div>
+                        <div className="">
+                            <Link className='text-md font-semibold text-blue-600__ border_px-6 py-2 rounded-md'>
+                            •  Dangbo
+                            </Link>
+                        </div>
+                        
+                    </div>
+                    </div>
+                </div>
             </div>
         </>
     )
 }
-function LocaVoitureCard({ nom, photo, tarif, nb_personne,puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
+function LocaVoitureCard({ id=0, nom, photo, tarif, nb_personne,puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
     return (
        
         <div  className=" bg-white relative hover:bg-gray-100  transition-all duration-500 shadow-inner_ border border-gray-100 rounded-lg  dark:bg-gray-800 dark:text-white dark:border-gray-700">
             <div className="p-3 lg:p-4">
-            <a href="#">
-                <img className=" rounded-md h-40  mx-auto w-full max-w-full border object-cover shadow-sm object-center" src={HTTP_FRONTEND_HOME+''+photo} alt={nom} />
+            <a href={route('front.location',{'id':id})}>
+                <img className=" rounded-md h-48  mx-auto w-full max-w-full border object-cover shadow-sm object-center" src={HTTP_FRONTEND_HOME+''+photo} alt={nom} />
             </a>
             </div>
-            <div className="px-4  min-h-[15vh]">
+            <div className="px-4 mb-20 pb-4 md:min-h-[15vh]">
                 <a href="#">
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{nom}</h5>
                 </a>
@@ -116,7 +133,7 @@ function LocaVoitureCard({ nom, photo, tarif, nb_personne,puissance, type_boite,
                     }
                     {puissance!=null && puissance!='' &&
                     <div className="flex mb-2">
-                        <div title={t('Type de carburant')}>
+                        <div title={t('Puissance du moteur')}>
                             <IoLogoCapacitor  className='h-5 leading-5 me-1  dark:text-white'/> 
                         </div>
                         <div className='text-sm font-normal'>{puissance}</div>
@@ -201,10 +218,10 @@ function LocaVoitureCard({ nom, photo, tarif, nb_personne,puissance, type_boite,
                 </div>
                 
             </div>
-            <div className="p-4 bg-gray-100 border-t rounded-b-md">
-                <div className="flex  items-center justify-between">
-                  {tarif &&  <span className="text-sm font-bold text-gray-600 dark:text-white">{t('À partir de')} {tarif}</span>}
-                    <a href="#" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Voir l'offre</a>
+            <div className="p-4 absolute left-0 right-0 w-full bottom-0 bg-gray-100 border-t rounded-b-md">
+                <div className="md:flex  items-center justify-between">
+                  {tarif &&  <div className="text-sm text-center marker:text-start py-2 md:py-0 font-bold text-gray-600 dark:text-white">{t('À partir de')} {tarif}</div>}
+                    <a href="#" className="text-white block md:inline-block bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Voir l'offre</a>
                 </div>
             </div>
         </div>

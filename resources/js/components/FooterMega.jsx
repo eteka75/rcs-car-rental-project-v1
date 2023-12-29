@@ -31,19 +31,16 @@ export default function FooterMega() {
                                 <h2 className="mb-6 text-sm font-semibold text-gray-50 uppercase dark:text-white">La société</h2>
                                 <ul className="text-gray-400  dark:text-gray-400 font-medium">
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">A propos</Link>
+                                        <Link href={route('front.apropos')} className="hover:underline hover:text-yellow-500">A propos</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Services</Link>
+                                        <Link href={route('front.services')} className="hover:underline hover:text-yellow-500">Services</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Nous contacter</Link>
+                                        <Link href={route('front.locations')} className="hover:underline hover:text-yellow-500">Louer une voiture</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Louer une voiture</Link>
-                                    </li>
-                                    <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Acheter une voiture</Link>
+                                        <Link href={route('front.achats')} className="hover:underline hover:text-yellow-500">Acheter une voiture</Link>
                                     </li>
                                    
                                 </ul>
@@ -51,20 +48,18 @@ export default function FooterMega() {
                             <div>
                                 <h2 className="mb-6 text-sm font-semibold text-gray-50 uppercase dark:text-white">Centre d'aide</h2>
                                 <ul className="text-gray-400  dark:text-gray-400 font-medium">
+                                    
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Messages</Link>
+                                        <Link href={route('front.faq')} className="hover:underline hover:text-yellow-500">Forum aux questions</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Forum aux question</Link>
+                                        <Link href="https://facebook.com/rcs" className="hover:underline hover:text-yellow-500">Facebook</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Facebook</Link>
+                                        <Link href={route('front.contact')} className="hover:underline hover:text-yellow-500">Nous contacter</Link>
                                     </li>
                                     <li className="mb-4">
-                                        <Link href="#" className="hover:underline hover:text-yellow-500">Nous contacter</Link>
-                                    </li>
-                                    <li className="mb-4">
-                                    <Link href="#" className="hover:underline hover:text-yellow-500">Terms &amp; Conditions</Link>
+                                    <Link href={route('front.termes')} className="hover:underline hover:text-yellow-500">Terms &amp; Conditions</Link>
 
                                     </li>
                                 </ul>

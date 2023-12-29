@@ -6,19 +6,22 @@ import LocationTop from '@/components/locations/LocationTop';
 import { Head } from '@inertiajs/react';
 import LocationHelpSteps from '@/components/locations/LocationHelpSteps';
 import LocationFaq from '@/components/locations/LocationFaq';
+import AvisClients from '@/components/locations/AvisClients';
+import HomeLayout from '@/Layouts/HomeLayout';
 
 export default function Welcome({ auth,top_marques, top_locations, top_faqs}) {
     return (
         <>
-        <FrontLayout auth={auth}>            
+        <HomeLayout auth={auth}>            
             <Head title="Location ert Vente de voitures moins cher au Bénin" />
             <LocationSteps/>
             <LocationTopMarque marques={top_marques}/>
             <LocationExpert/>
             <LocationTop locations={top_locations}/>
             <LocationHelpSteps/>
+            <AvisClients/>
             <LocationFaq faqs={top_faqs}/>
-        </FrontLayout>
+        </HomeLayout>
         </>
     );
 }

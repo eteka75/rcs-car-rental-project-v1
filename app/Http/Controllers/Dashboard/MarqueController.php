@@ -91,6 +91,7 @@ class MarqueController extends Controller
                 $data['logo'] = $getSave;
             }
         }
+        $data['slug']= $this->generateUniqueSlug($data['nom']);
         Marque::create($data);
         Session::flash('success',
         [
@@ -101,7 +102,14 @@ class MarqueController extends Controller
 
         return to_route('dashboard.marques');
     }
-
+    private static function generateUniqueSlug($title='')
+    {
+        $title=$title==''?Str::random(10) : $title;
+        $slug = Str::slug($title);
+        $count = Marque::where('slug', $slug)->count();
+        
+        return $count ? "{$slug}-{$count}" : $slug;
+    }
     /**
      * Display the specified resource.
      */
@@ -157,13 +165,8 @@ class MarqueController extends Controller
                 $data['logo'] = $getSave;
             }
         }
-        $marque->update([
-            'nom' => $data['nom'],
-            'pays_id' => $data['pays_id'],
-            'annee_fondation' => $data['annee_fondation'],
-            'description' => $data['description'],
-            'site_web' => $data['site_web']
-        ]);
+        $data['slug']= $this->generateUniqueSlug($data['nom']);
+        $marque->update($data);
         if(isset($data['logo']) && $data['logo']!=''){
             $marque->update([
                 'logo' => $data['logo']

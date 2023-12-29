@@ -21,6 +21,7 @@ class Marque extends Model
     protected $fillable = [
         'nom',
         'pays_id',
+        'slug',
         'annee_fondation',
         'description',
         'site_web',

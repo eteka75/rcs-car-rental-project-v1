@@ -22,14 +22,14 @@ export default function LocationTopMarque({marques=[]}) {
                 <p className="text-slate-500 mb-4">
                 Idéales pour vos vacances, sorties en famille
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-4">
                     {marques?.length>0 && marques.map((marque,index)=>(
-                        <MiniCard key={index} nom={marque.nom} info={marque.voitures_count+' Voitures'} image={marque.logo} />
+                        <MiniCard key={index} nom={marque.nom} slug={marque.slug} id={marque.id} info={marque.voitures_count+' Voitures'} image={marque.logo} />
                     ))}                  
                     
                 </div>
                 <div className='my-6'>
-                        <a href="#" className='font-bold text-blue-600 flex'>Trouver d'autres marques<FaAngleRight className="ms-1 mt-1" /> </a>
+                        <a href={route('front.cat_locations')} className='font-bold text-blue-600 flex'>Trouver d'autres marques<FaAngleRight className="ms-1 mt-1" /> </a>
                     </div>
             </div>
             </div>
@@ -37,16 +37,18 @@ export default function LocationTopMarque({marques=[]}) {
     )
 }
 
-function MiniCard({nom,info,image}){
+function MiniCard({nom,info,image,slug,id=0}){
     return(
-        <div className="border border-slate-100 rounded-lg  h-min-20">
+        <div className="border shadow-sm hover:bg-zinc-50 flex justify-between border-slate-100 rounded-lg  h-min-20">
             <div className='p-4'>
-               <Link href=''><h3 className='font-bold text-xl'>{nom}</h3></Link> 
+               <Link href={route('front.marq_voiture',{'slug':slug,'id':id})}><h3 className='font-bold text-xl'>{nom}</h3></Link> 
                 <small className='text-slate-500'>{info} </small>
             </div>
+            <div className=''>
             {image && 
-            <Link href=''> <img src={HTTP_FRONTEND_HOME+''+image} alt={nom} /></Link> 
+            <Link href={route('front.marq_voiture',{'slug':slug,'id':id})}> <img className='h-12 m-4' src={HTTP_FRONTEND_HOME+''+image} alt={nom} /></Link> 
             }
+            </div>
         </div>
     )
 }

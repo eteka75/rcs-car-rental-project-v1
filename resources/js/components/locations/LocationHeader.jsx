@@ -27,7 +27,7 @@ export default function LocationHeader({ auth }) {
     const minutes= [0,15,30,45];
     return (
         <>
-            <div className="bg-[#334155] overflow-hidden  bg-[url('@/assets/images/design/bg-3.jpg')] bg-[left_calc(50%)_top_calc(22%)] bg-cover bg-no-repeat _bg-[#003b95] text-white  relativ">
+            <div className="bg-[#334155] overflow-hidden pb-12  bg-[url('@/assets/images/design/bg-3.jpg')] bg-[left_calc(50%)_top_calc(22%)] bg-cover bg-no-repeat _bg-[#003b95] text-white  relativ">
                 <div className="bg-[#000] bg-gradient-to-t from-[rgba(0,0,0,.65)] bg-opacity-40">
                     <TopNav auth={auth} />
 
@@ -39,7 +39,7 @@ export default function LocationHeader({ auth }) {
                         <ul className="flex flex-wrap text-sm font-medium  text-center  border-gray-200 text-white">
                             <li className="me-2  text-lg">
                                 <a
-                                    href="#"
+                                    href={route('front.locations')}
                                     aria-current="page"
                                     className="flex px-2 md:px-4 py-2 text-black text-sm md:text-lg   hover:opacity-100 opacity-95 border-yellow-500  bg-yellow-500 _bg-[rgba(255,255,255,.2)] rounded-full active"
                                 >
@@ -49,7 +49,7 @@ export default function LocationHeader({ auth }) {
                             </li>
                             <li className="me-2   text-lg">
                                 <a
-                                    href="#"
+                                    href={route('front.achats')}
                                     className="flex flex-auto px-2 md:px-4 py-2 text-sm md:text-lg rounded-full hover:bg-[rgba(255,255,255,.2)] dark:hover:bg-gray-800 dark:hover:text-gray-300"
                                 >
                                     <FaCarAlt className="text-sm md:text-xl  me-1 mt-0.5 md:mt-1" /> Achat
@@ -58,7 +58,7 @@ export default function LocationHeader({ auth }) {
                             </li>
                             <li className="me-2   text-lg">
                                 <a
-                                    href="#"
+                                    href={route('front.faq')}
                                     className="flex flex-auto px-2 md:px-4 py-2 text-sm md:text-lg rounded-full hover:bg-[rgba(255,255,255,.2)] dark:hover:bg-gray-800 dark:hover:text-gray-300"
                                 >
                                     <IoMdHelpCircleOutline className="text-sm md:text-2xl  me-1 mt-0.5 md:mt-1" />{" "}
@@ -81,8 +81,12 @@ export default function LocationHeader({ auth }) {
                         </div>
                     </div>
 
-                    <div className="max-w-screen-xl mx-auto  px-4 pb-10">
-                        <div className=" flex  rounded-md flex-wrap  bg-yellow-500 shadow  w-full  p-2">
+                    
+                </div>
+                
+            </div>
+            <div className="max-w-screen-xl mx-auto mt-4 md:-mt-8 transition-all duration-500  z-10  px-4 _pb-10">
+                        <div className=" flex  rounded-md flex-wrap  bg-yellow-500 shadow  w-full  p-2 md:p-1">
                             <div className="grid grid-cols-12 w-full  gap-2">
                                 <div className="col-span-12 lg:col-span-10 grid grid-cols-12 gap-2 lg:gap-0">
                                     <div className="col-span-12 lg:col-span-4 flex">
@@ -133,15 +137,13 @@ export default function LocationHeader({ auth }) {
                                     </div>
                                 </div>
                                 <div className="col-span-12 lg:col-span-2 text-end">
-                                    <button className="px-4 mx-auto justify-center text-center py-3.5 items-center text-xl text-white bg-gray-800 flex rounded-sm w-full">
+                                    <button className="px-4 mx-auto justify-center text-center py-3.5 items-center text-xl text-white bg-gray-900 flex rounded-sm w-full">
                                         <AiOutlineSearch className='me-1' />   Rechercher
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
         </>
     )
 };

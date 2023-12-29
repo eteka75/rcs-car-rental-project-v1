@@ -5,6 +5,7 @@ import {
     AccordionHeader,
     AccordionBody,
 } from "@material-tailwind/react";
+import { FaAngleRight } from 'react-icons/fa';
 
 function Icon({ id, open }) {
     return (
@@ -28,10 +29,37 @@ export default function LocationFaq({faqs}) {
     return (
         <>
 
-            <div className="max-w-screen-xl mx-auto px-4 mb-16">
-                <div className=" grid grid-cols-1 md:gap-4 lg:gap-6 md:grid-cols-6">
-                    <div className="md:col-span-2 ">
-                        <div className="text-center p-4 md:p-6 border rounded-xl font-normalmb-8">
+            <div className="max-w-screen-xl mx-auto px-4 ">
+                <div className=" mx-auto">
+                   
+                    <div className=" max-w-3xl  lg:py-8 mx-auto">
+                    
+                        <h2 className="text-3xl   font-bold"> Questions fréquentes</h2>
+                        <div className="text-slate-600 mb-4">Découvrez la réponse aux questions que la plupart de nos clients</div>
+                    <div className="p6 border rounded-xl font-normalmb-mt-8">
+                        {faqs?.length > 0 && faqs.map(({ question, reponse,id }, index) =>{
+                            let class_last =((index+1)===faqs.length)?'border-b-0':'';
+                            let class_last_b =((index+1)===faqs.length)?'rounded-b-xl':'';
+                           return (
+                           <Accordion key={index} open={open === id} icon={<Icon id={id} open={open} />}>
+                            <AccordionHeader className={'text-lg px-4 '+class_last} onClick={() => handleOpen(id)}>{question}</AccordionHeader>
+                            <AccordionBody className='p-0 bg-red '>
+                            <div className={'text-lg text-gray-800 bg-gray-100 p-4 '+class_last_b} dangerouslySetInnerHTML={{__html:reponse}}></div>
+
+                            </AccordionBody>
+                        </Accordion>
+                        )
+                        })}
+
+
+                    </div>
+                    <div className='md:text-end  my-6'>
+                    <a href="#" className=' items-center px-0 mx-auto flex bg-white hover:opacity-70   text-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold   text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
+                        Consulter le forum aux questions
+                        <FaAngleRight className="ms-1" />
+                    </a>
+                </div>
+                    <div className="text-center hidden max-w-sm mx-auto p-4 md:p-6 mt-8  rounded-xl font-normalmb-8">
                             <FcCallback className='text-8xl mx-auto mb-4' />
                             <h3 className="text-2xl font-extrabold">Services client</h3>
                             <div className='text-sm text-slate-500'>Nous sommes situé à Cotonou, Scoa-gbéto et ouvert du Lundi au Samedi de 9Heures à 17Heures</div>
@@ -39,22 +67,6 @@ export default function LocationFaq({faqs}) {
                                 <a className='font-bold' href="tel:">(+229) 44 17 77 44</a>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-span-4 p-6 border rounded-xl font-normalmb-8">
-                        <h2 className="text-3xl font-bold"> Questions fréquentes</h2>
-                        <small className="text-slate-600">Découvrez la réponse aux questions que la plupart de nos clients</small>
-                        {faqs?.length > 0 && faqs.map(({ question, reponse,id }, index) =>{
-                            let class_last =((index+1)===faqs.length)?'border-b-0':'';
-                           return (
-                           <Accordion key={index} open={open === id} icon={<Icon id={id} open={open} />}>
-                            <AccordionHeader className={'font-normal '+class_last} onClick={() => handleOpen(id)}>{question}</AccordionHeader>
-                            <AccordionBody>
-                            <div className='text-lg text-gray-800 bg-slate-100 p-4 rounded-md' dangerouslySetInnerHTML={{__html:reponse}}></div>
-
-                            </AccordionBody>
-                        </Accordion>
-                        )
-                        })}
                     </div>
                 </div>
             </div >

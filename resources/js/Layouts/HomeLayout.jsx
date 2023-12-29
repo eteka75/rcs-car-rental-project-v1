@@ -7,16 +7,15 @@ import { Link } from '@inertiajs/react';
 import LocationHeader from '@/components/locations/LocationHeader';
 import FooterMega from '@/components/FooterMega';
 import Notification from '@/components/dashboard/Notification';
-import FrontHeader from '@/components/locations/FrontHeader';
 
-export default function FrontLayout({ auth, header, children }) {
+export default function HomeLayout({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen ">
             <Notification/>
-            <FrontHeader auth={auth}/>           
-            <main className='min-h-[600px] '>{children}</main>
+            <LocationHeader auth={auth}/>           
+            <main>{children}</main>
             <FooterMega/>
         </div>
     );

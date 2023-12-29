@@ -26,8 +26,8 @@ class EnLocation extends Model
         'tarif_location_mensuel',
         'date_debut_location',
         'date_fin_location',
-        'description',
         'conditions',
+        'description',
         'etat',
     ];
 

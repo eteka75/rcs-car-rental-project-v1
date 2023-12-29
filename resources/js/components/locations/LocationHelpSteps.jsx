@@ -4,7 +4,7 @@ import { MdOutlineUpdate } from 'react-icons/md'
 export default function LocationHelpSteps() {
   return (
     <>
-        <div className=" md:py-4 mb-8 bg-slate-50 shadow">
+        <div className=" md:py-4 mb-8 bg-[#ededed] #eaf5ff shadow-inner transition-all duration-500">
                 <div className=" rounded-lg  max-w-screen-xl mx-auto p-4 grid md:grid-cols-2 gap-2 lg:grid-cols-3">
                     <div className=" flex gap-4 md:items-center my-4">
                         <div className="w-20 h-20 flex gap-4 rounded-full bg-indigo-100 dark:bg-indigo-900/20">
@@ -22,7 +22,7 @@ export default function LocationHelpSteps() {
                             </svg>
                         </div>
                         <div className="w-5/6 py-2">
-                            <h3 className="font-semibold lg:text-lg text-md text-gray-700 dark:text-slate-300">
+                            <h3 className="font-semibold lg:text-lg text-md text-gray-900 dark:text-slate-300">
                                 Nous sommes là pour vous aider
                             </h3>
                             <p className="text-gray-500 dark:text-slate-400">
@@ -47,12 +47,11 @@ export default function LocationHelpSteps() {
                             </svg>
                         </div>
                         <div className="w-5/6 py-2">
-                            <h3 className="font-semibold lg:text-lg text-md text-gray-700 dark:text-slate-300">
+                            <h3 className="font-semibold lg:text-lg text-md text-gray-900 dark:text-slate-300">
                                 Un service près de chez vous
                             </h3>
                             <p className="text-gray-500 dark:text-slate-400">
-                                Notre service client répond à toutes vos
-                                préoccupations
+                                Un service de proximité pour mieux vous satisfaire
                             </p>
                         </div>
                     </div>
@@ -61,12 +60,11 @@ export default function LocationHelpSteps() {
                             <MdOutlineUpdate className="h-10 w-10 mx-auto" />
                         </div>
                         <div className="w-5/6 py-2">
-                            <h3 className="font-semibold lg:lg:text-lg text-md text-md text-gray-700 dark:text-slate-300">
+                            <h3 className="font-semibold lg:lg:text-lg text-md text-md text-gray-900 dark:text-slate-300">
                                 Réservation en quelques minutes
                             </h3>
                             <p className="text-gray-500 dark:text-slate-400">
-                                Notre service client répond à toutes vos
-                                préoccupations
+                               La réservation est simple et facile. Il ne prend que quelques minutes. 
                             </p>
                         </div>
                     </div>
