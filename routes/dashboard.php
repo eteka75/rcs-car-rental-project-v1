@@ -223,15 +223,15 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     });
     /*Avis*/
     Route::controller(AvisClientController::class)->prefix('avis')->group(function () {
-        Route::get('/', 'index')->name('dashboard.avis');
-        Route::get('/search', 'index')->name('dashboard.avis.search');
-        Route::get('/new', 'create')->name('dashboard.avis.create');
-        Route::post('/new', 'store')->name('dashboard.avis.store');
-        Route::get('/edit/{id}', 'edit')->name('dashboard.avis.edit');
-        Route::post('/edit/{id}', 'update')->name('dashboard.avis.update');
-        Route::get('/export', 'export')->name('dashboard.faqs.export');
-        Route::get('/{id}', 'show')->name('dashboard.avis.show');
-        Route::delete('/{id}', 'destroy')->name('dashboard.avis.delete');
+        Route::get('/', 'index')->name('dashboard.avis_clients');
+        Route::get('/search', 'index')->name('dashboard.avis_clients.search');
+        Route::get('/new', 'create')->name('dashboard.avis_clients.create');
+        Route::post('/new', 'store')->name('dashboard.avis_clients.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.avis_clients.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.avis_clients.update');
+        Route::get('/export', 'export')->name('dashboard.avis_clients.export');
+        Route::get('/{id}', 'show')->name('dashboard.avis_clients.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.avis_clients.delete');
     });
 
 })->middleware(['auth','web']);

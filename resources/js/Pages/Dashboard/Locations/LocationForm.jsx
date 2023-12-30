@@ -14,9 +14,9 @@ import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
 
 //import DatePicker from "react-datepicker";
-
-import { enUS, fr } from 'date-fns/locale';
-import { format } from 'date-fns';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import '@/css/quill-editor.css';
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -36,10 +36,36 @@ export default function LocationForm({ className = '', location = null, pays = [
         startDate: null,
         endDate: null
     });
+
     const [date_fin, setDateFin] = useState({
         startDate: null,
         endDate: null
     });
+
+    const modules = {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote',{ 'align': [] }],
+    
+          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],     // superscript/subscript
+          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+         
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    
+          ['clean'],                                         // remove formatting button
+          ['link', 'image', 'video']                         // link and image, video
+        ],
+      };
+    
+      const formats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent',
+        'link', 'image', 'video', 'color', 'background',
+        'align', 'code-block', 'formula'
+      ];
 
     useEffect(() => {
         if (data.date_etat === '') {
@@ -119,6 +145,13 @@ export default function LocationForm({ className = '', location = null, pays = [
             })
         }
         return tb;
+    }
+    const handleDescription = (value) => {
+        setData('description',value);
+    }
+    const handleConditions = (value) => {
+        //setDescription(value);
+        setData('conditions',value);
     }
     const setDefaultValue = (id, val) => {
         if (id && val) { return { label: val, value: id }; }
@@ -407,7 +440,13 @@ export default function LocationForm({ className = '', location = null, pays = [
                                 <div >
 
                                     <InputLabel htmlFor="conditions" >Conditions de la location</InputLabel>
-                                    <TextArea
+                                    <div className="mb-28">
+                                    <ReactQuill theme="snow"
+                                    modules={modules}
+                                    formats={formats}
+                                    className='h-[250px] border-0 bg-white' value={data.conditions} onChange={handleConditions} />
+                                    </div> 
+                                    {/*<TextArea
                                         required
                                         id="conditions"
                                         ref={addToRefs}
@@ -416,15 +455,20 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         type="text"
                                         className="mt-1 w-full block"
 
-                                    />
+                                    />*/}
                                     <InputError message={errors.conditions} className="mt-2" />
                                 </div>
                             </div>
                             <div className=''>
                                 <div>
                                     <InputLabel htmlFor="nom">Description</InputLabel>
-
-                                    <TextArea
+                                    <div className="mb-28">
+                                    <ReactQuill theme="snow"
+                                    modules={modules}
+                                    formats={formats}
+                                    className='h-[400px] border-0 bg-white' value={data.description} onChange={handleDescription} />
+                                    </div> 
+                                    {/*<TextArea
                                         id="description"
                                         ref={addToRefs}
                                         value={data.description}
@@ -433,7 +477,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                         className="mt-1 block w-full"
                                         placeholder={t('Description')}
 
-                                    />
+                                    />*/}
 
                                     <InputError message={errors.description} className="mt-2" />
                                 </div>

@@ -169,7 +169,7 @@ export default function ShowLocation({ location }) {
                                 <div className="py-6 ">
                                     <h2 className="text-xl font-bold">Conditions de location</h2>
                                     <p className="text-md py-4">
-                                        <div dangerouslySetInnerHTML={{ __html: location?.conditions }}></div>
+                                        <div className='html' dangerouslySetInnerHTML={{ __html: location?.conditions }}></div>
 
                                     </p>
                                 </div>
@@ -177,7 +177,7 @@ export default function ShowLocation({ location }) {
                                     <div className="py-4 border-t">
                                         <h2 className="text-xl font-bold">Description</h2>
                                         <p className="text-md">
-                                            <div dangerouslySetInnerHTML={{ __html: location?.description }}></div>
+                                            <div className='html' dangerouslySetInnerHTML={{ __html: location?.description }}></div>
                                         </p>
                                     </div>
                                 }

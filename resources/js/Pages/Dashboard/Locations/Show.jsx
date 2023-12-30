@@ -201,7 +201,10 @@ export default function Show({ auth, location, page_id = '', voiture = '', page_
                                             <Translate>Conditions </Translate>
                                         </Typography>
                                     </th>
-                                    <td>{location.conditions ?? ''}</td>
+                                    <td>
+                                        <div dangerouslySetInnerHTML={{__html:location.conditions}}></div>
+
+                                    </td>
                                 </tr>
                                 {location.tarif_location_heure != null && location.tarif_location_heure != '' &&
                                     <tr className='p-4 border-b'>
@@ -287,7 +290,9 @@ export default function Show({ auth, location, page_id = '', voiture = '', page_
                                     </th>
                                     <td>
                                         <div variant='small' className='text-sm break-words bg-white overflow-auto max-w-xs xl:max-w-lg lg:max-w-md md:max-w-sm py-4'>
-                                            {location.description ?? ''}
+                                         
+                                        <div dangerouslySetInnerHTML={{__html:location.description }}></div>
+
                                         </div>
                                     </td>
                                 </tr>

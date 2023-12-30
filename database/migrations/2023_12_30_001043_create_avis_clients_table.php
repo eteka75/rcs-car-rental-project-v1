@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('profession')->nullable();
             $table->string('photo')->nullable();
             $table->string('message')->nullable();
-            $table->boolean('etat')->default(false);
+            $table->boolean('actif')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -14,6 +14,10 @@ import Select from 'react-select'
 import { DateToFront } from '@/tools/utils';
 import i18n from '@/i18n';
 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import '@/css/quill-editor.css';
+
 export default function VoitureForm({ className = '', voiture = null, action, btntext = 'Enrégister' }) {
     // intialize as en empty array
     const { t } = useTranslation();
@@ -74,6 +78,32 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
     const refs = useRef([]); // or an {}
     refs.current = []; // or an {}
 
+    
+    const modules = {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['blockquote',{ 'align': [] }],
+    
+          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],     // superscript/subscript
+          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+         
+          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    
+          ['clean'],                                         // remove formatting button
+          ['link', 'image', 'video']                         // link and image, video
+        ],
+      };
+    
+      const formats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent',
+        'link', 'image', 'video', 'color', 'background',
+        'align', 'code-block', 'formula'
+      ];
+
     const ConvertSelectData = (tab) => {
         if (Array.isArray(tab)) {
             let v = [];
@@ -91,8 +121,10 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
         if (file !== undefined && file[0]) {
             setData("photo", file[0]);
         }
-    };
-
+    };  
+    const handleDescription = (value) => {
+        setData('description',value);
+    }
     const setDefaultValue=(id, val)=>{
         return { label: val, value: id };
     }
@@ -524,8 +556,13 @@ const setRealSysId=()=>{
                 <div className=''>
                     <div>
                         <InputLabel htmlFor="description">Description de la voiture</InputLabel>
-
-                        <TextArea
+                        <div className="mb-28">
+                            <ReactQuill theme="snow"
+                            modules={modules}
+                            formats={formats}
+                            className='h-[300px] border-0 bg-white' value={data.description} onChange={handleDescription} />
+                        </div>
+                        {/*<TextArea
                             id="description"
                             ref={addToRefs}
                             value={data.description}
@@ -533,7 +570,7 @@ const setRealSysId=()=>{
                             rows="6"
                             className="mt-1 block w-full"
 
-                        />
+                        />*/}
 
                         <InputError message={errors.description} className="mt-2" />
                     </div>

@@ -39,19 +39,19 @@ class AvisClientController extends Controller
         Inertia::share(['total'=>AvisClient::count()]);
 
         if (!empty($keyword)) {
-            $avis_client = AvisClient::where('nom', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+            $avis_clients = AvisClient::where('auteur', 'LIKE', "%$keyword%")
+                ->orWhere('message', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage)->withQueryString();
         } else {
-            $avis_client = AvisClient::latest()->paginate($perPage);
+            $avis_clients = AvisClient::latest()->paginate($perPage);
         }
        
         return Inertia::render(self::$viewFolder . '/Index', [
             'search_text' => $keyword,
-            'avis_clients' => $avis_client, 
-            'count' => $avis_client->count(), 
-            'page_title' => "Catégories",
-            'page_subtitle' => "Gestion de vos avis clients de voitures",
+            'avis_clients' => $avis_clients, 
+            'count' => $avis_clients->count(), 
+            'page_title' => "Avis clients",
+            'page_subtitle' => "Gestion des avis clients",
         ]);
     }
 
@@ -61,8 +61,8 @@ class AvisClientController extends Controller
     public function create()
     {
         return Inertia::render(self::$viewFolder . '/Create', [
-            'page_title' => "Nouvelle avis clients",
-            'page_subtitle' => "Ajouter une nouvelle avis clients de voiture",
+            'page_title' => "Nouvel avis client",
+            'page_subtitle' => "Ajouter une nouvelle avis client",
         ]);
     }
 
@@ -72,13 +72,13 @@ class AvisClientController extends Controller
     public function store(Request $request)
     {
         $additionalRules = [
-            'nom' => ["required","unique:marques,nom"],
+            'auteur' => ["required","unique:marques,nom"],
         ];
         // Merge additional rules with the rules defined in the form request
-        $rules = array_merge((new RequestMarqueCategorieRequest())->rules(), $additionalRules);
+        $rules = array_merge((new RequestAvisClient())->rules(), $additionalRules);
         $request->validate($rules);
         $data = $request->except(['photo']);
-
+       //dd($request->all());
         if($request->hasFile('photo')){
             $getSave = $this->saveLogo($request);
             if ($getSave !== '') {
@@ -92,7 +92,7 @@ class AvisClientController extends Controller
             'message'=>'Les données ont été enregistrées avec succès!',
         ]
         );
-        return to_route('dashboard.avis');
+        return to_route('dashboard.avis_clients');
     }
 
     /**
@@ -101,7 +101,7 @@ class AvisClientController extends Controller
     public function show($id)
     {
         $avis_client=AvisClient::where('id', $id)->firstOrFail();
-        $avis_client_name=$avis_client->nom;
+        $avis_client_name=$avis_client->auteur;
         return Inertia::render(self::$viewFolder . '/Show', [
             'avis_client' => $avis_client,
             'page_title' => "Avis : ".$avis_client_name,
@@ -148,10 +148,7 @@ class AvisClientController extends Controller
                 $data['photo'] = $getSave;
             }
         }
-        $avis_client->update([
-            'nom' => $data['nom'],
-            'description' => $data['description']
-        ]);
+        $avis_client->update($data);
         if(isset($data['photo']) && $data['photo']!=''){
             $avis_client->update([
                 'photo' => $data['photo']
@@ -163,10 +160,10 @@ class AvisClientController extends Controller
             'message'=>'Les données ont été modifiées avec succès!',
         ]
         );
-        return to_route('dashboard.avis');
+        return to_route('dashboard.avis_clients');
     }
 
-    public function saveLogo(FormRequest $request)
+    public function saveLogo(Request $request)
     {
         $nomLogo = '';
         if ($request->hasFile('photo')) {
@@ -196,6 +193,6 @@ class AvisClientController extends Controller
             'message'=>"La Suppression de l'enrégistrement a été effectuée avec succès!",
         ]
         );
-        return to_route('dashboard.avis');
+        return to_route('dashboard.avis_clients');
     }
 }

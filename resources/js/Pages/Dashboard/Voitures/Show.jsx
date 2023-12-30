@@ -428,7 +428,9 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                                 <tr>
                                     <td colSpan={2}>
                                         <div  className='text-sm px-4 break-words bg-white overflow-auto max-w-lg xl:max-w-3xl lg:max-w-2xl md:max-w-sm py-4'>
-                                            {voiture.description}
+                                           
+                                            <div dangerouslySetInnerHTML={{__html:voiture.description }}></div>
+
                                         </div>
                                     </td>
                                 </tr>

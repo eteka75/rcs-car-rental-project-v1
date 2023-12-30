@@ -125,7 +125,7 @@ export const menuItemsData = [
       },
       {
         title: "Avis clients",
-        route: 'dashboard.avis',
+        route: 'dashboard.avis_clients',
         sid:'avis'
       }
     ],

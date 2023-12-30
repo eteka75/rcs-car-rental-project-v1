@@ -11,7 +11,7 @@ import TextArea from '@/components/TextArea';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import '@/css/quill-editor.css'
+import '@/css/quill-editor.css';
 
 export default function WebwebpageForm({ className = '', webpage = null, action, btntext = 'Enrégister' }) {
     // intialize as en empty array
