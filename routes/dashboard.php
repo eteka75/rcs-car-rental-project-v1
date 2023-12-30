@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AvisClientController;
 use App\Http\Controllers\Dashboard\CategorieController;
 use App\Http\Controllers\Dashboard\ControlVoitureController;
 use App\Http\Controllers\Dashboard\EnLocationController;
@@ -219,6 +220,18 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::get('/export', 'export')->name('dashboard.faqs.export');
         Route::get('/{id}', 'show')->name('dashboard.faqs.show');
         Route::delete('/{id}', 'destroy')->name('dashboard.faqs.delete');
+    });
+    /*Avis*/
+    Route::controller(AvisClientController::class)->prefix('avis')->group(function () {
+        Route::get('/', 'index')->name('dashboard.avis');
+        Route::get('/search', 'index')->name('dashboard.avis.search');
+        Route::get('/new', 'create')->name('dashboard.avis.create');
+        Route::post('/new', 'store')->name('dashboard.avis.store');
+        Route::get('/edit/{id}', 'edit')->name('dashboard.avis.edit');
+        Route::post('/edit/{id}', 'update')->name('dashboard.avis.update');
+        Route::get('/export', 'export')->name('dashboard.faqs.export');
+        Route::get('/{id}', 'show')->name('dashboard.avis.show');
+        Route::delete('/{id}', 'destroy')->name('dashboard.avis.delete');
     });
 
 })->middleware(['auth','web']);

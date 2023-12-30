@@ -125,8 +125,8 @@ export const menuItemsData = [
       },
       {
         title: "Avis clients",
-        route: 'dashboard.faqs',
-        sid:'faqs'
+        route: 'dashboard.avis',
+        sid:'avis'
       }
     ],
   },
