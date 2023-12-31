@@ -139,7 +139,7 @@ class AvisClientController extends Controller
      */
     //public function update(Request $request, $id){
     public function update(RequestAvisClient $request, $id){
-
+        
         $avis_client = AvisClient::findOrFail($id);
         $data = $request->except('photo');
         if($request->hasFile('photo')){

@@ -4,7 +4,7 @@ import DashHeadTitle from '@/components/dashboard/DashHeadTitle'
 import { Head, Link } from '@inertiajs/react'
 import { Card, CardBody, Typography } from '@material-tailwind/react'
 import React from 'react';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
+import { AiOutlineArrowLeft, AiOutlineEdit } from 'react-icons/ai';
 import Translate from '@/components/Translate'
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
 import { DateToFront } from '@/tools/utils'
@@ -28,6 +28,10 @@ export default function Show({ auth, voiture='', page_id = '', page_subid = '', 
                 <Link className='px-4 font-bold flex items-center py-2 bg-white shadow-sm  rounded-md'
                     href={route('dashboard.voitures')}>
                     <AiOutlineArrowLeft className='me-1' />    <Translate>Retour</Translate>
+                </Link>
+                <Link className='px-4 font-bold flex ms-2 items-center py-2 bg-gray-600 text-white shadow-sm  rounded-md'
+                    href={route('dashboard.voitures.edit',voiture?.id)}>
+                    <AiOutlineEdit className='me-1' />    <Translate>Modifier</Translate>
                 </Link>
             </DashHeadTitle>
             <div className="grid grid-cols-3 items-start gap-4 _space-y-4">

@@ -1,6 +1,8 @@
 import FrontLayout from '@/Layouts/FrontLayout'
 import ModaleImage from '@/components/ModaleImage';
 import FrontBreadcrumbs from '@/components/front/FrontBreadcrumbs';
+import PageTitle from '@/components/front/PageTitle';
+import SuggestionsLocation from '@/components/locations/SuggestionsLocation';
 import i18n from '@/i18n';
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { formaterMontant, setTarif } from '@/tools/utils';
@@ -21,7 +23,7 @@ import { LuUsers } from 'react-icons/lu';
 import { MdOutlineCardTravel, MdOutlineSignalWifiStatusbarNull } from 'react-icons/md';
 import { TbCircuitCapacitorPolarized, TbWindowMaximize } from 'react-icons/tb';
 //import { Carousel } from 'react-responsive-carousel';
-export default function ShowLocation({ location }) {
+export default function ShowLocation({ location,locations_suggestion }) {
     const [datas, setData] = useState('');
     const [voiture, setVoiture] = useState();
     const { tarif_location_heure, tarif_location_journalier, tarif_location_hebdomadaire, tarif_location_mensuel } = location;
@@ -31,11 +33,14 @@ export default function ShowLocation({ location }) {
     }, [])
     return (
         <FrontLayout>
-            <Head title={voiture?.nom} />
-            {console.log("LOOOOOOO", location)}
-            <div className="bg-slate-50_ shadow-inner mt-[1px]">
+            {console.log(locations_suggestion)}
+            <PageTitle  head={false} >
+            <FrontBreadcrumbs pages={[{url:route('front.locations'),page:'Locations'},{url:'',page:voiture?.nom}]}  />
+            </PageTitle>
+            <div >
+            <div className="bg-slate-50_ py-4 ">
             <div className="max-w-screen-xl mx-auto px-4 ">
-                <FrontBreadcrumbs/>
+                
                 <div className="grid grid-cols-12 gap-4 ">
                     <div className="col-span-12 hidden">
                         <h1 className='text-2xl font-extrabold'>{voiture?.nom}</h1>
@@ -54,7 +59,7 @@ export default function ShowLocation({ location }) {
                                         className="carrousel rounded-xl "
                                         loop={true}
                                         transition= {{ type : "tween", duration: .65 }}
-                                        autoplay={true}
+                                        //autoplay={true}
                                         autoplayDelay={10000}
                                         navigation={({ setActiveIndex, activeIndex, length }) => (
                                             <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
@@ -220,16 +225,8 @@ export default function ShowLocation({ location }) {
                                 <div className="">
                                     <Button color='yellow' v  className='w-full  x-6 my-4'>
                                         Réserver la votre séjour
-                                    </Button>
-                                    
+                                    </Button>                                    
                                 </div>
-                            </CardBody>
-                        </Card>
-                        <Card className=' bg-zinc-200_ rounded-lg shadow-inner '>
-                           
-                            <CardBody className='p-0'>
-
-                               
                             </CardBody>
                         </Card>
 
@@ -253,7 +250,9 @@ export default function ShowLocation({ location }) {
                     </div>
                 </div>
                 </div>
-                </div>
+            </div>
+            <SuggestionsLocation locations={locations_suggestion}/>
+            </div>
         </FrontLayout>
     )
 }

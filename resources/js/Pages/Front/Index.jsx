@@ -1,16 +1,15 @@
-import FrontLayout from '@/Layouts/FrontLayout';
-import LocationExpert from '@/components/locations/LocationExpert';
-import LocationSteps from '@/components/locations/LocationSteps';
-import LocationTopMarque from '@/components/locations/LocationTopMarque';
-import LocationTop from '@/components/locations/LocationTop';
-import { Head } from '@inertiajs/react';
-import LocationHelpSteps from '@/components/locations/LocationHelpSteps';
-import LocationFaq from '@/components/locations/LocationFaq';
-import AvisClients from '@/components/locations/AvisClients';
 import HomeLayout from '@/Layouts/HomeLayout';
+import AvisClients from '@/components/locations/AvisClients';
+import LocationExpert from '@/components/locations/LocationExpert';
+import LocationFaq from '@/components/locations/LocationFaq';
+import LocationHelpSteps from '@/components/locations/LocationHelpSteps';
+import LocationSteps from '@/components/locations/LocationSteps';
+import LocationTop from '@/components/locations/LocationTop';
+import LocationTopMarque from '@/components/locations/LocationTopMarque';
 import TopLieux from '@/components/locations/TopLieux';
+import { Head } from '@inertiajs/react';
 
-export default function Welcome({ auth,top_marques, top_locations, top_points, top_faqs}) {
+export default function Welcome({ auth,top_marques, avis_clients,top_locations, top_points, top_faqs}) {
     return (
         <>
         <HomeLayout auth={auth}>            
@@ -19,9 +18,10 @@ export default function Welcome({ auth,top_marques, top_locations, top_points, t
             <LocationTopMarque marques={top_marques}/>
             <LocationExpert/>
             <LocationTop locations={top_locations}/>
-            <TopLieux lieux={top_points} />
-            <LocationHelpSteps/>
-            <AvisClients/>
+            {/*<TopLieux lieux={top_points} />*/}
+            <LocationHelpSteps>
+            <AvisClients avis={avis_clients}/>
+            </LocationHelpSteps>
             <LocationFaq faqs={top_faqs}/>
         </HomeLayout>
         </>

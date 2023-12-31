@@ -134,7 +134,7 @@ export default function Locations({ locations }) {
               <div className="pb-4">
                 <SearchBar placeholder='Rechercher dans les voitures disponibles...' />
               </div>
-              {datas != null && datas?.length > 0 && datas?.map(({ id, conditions, voiture,
+              {datas != null && datas?.length > 0 && datas?.map(({ id,points_retrait, conditions, voiture,
                 tarif_location_hebdomadaire, tarif_location_heure,
                 tarif_location_journalier, tarif_location_mensuel
               }, index) => {
@@ -151,6 +151,7 @@ export default function Locations({ locations }) {
                   nom={voiture?.nom}
                   carburant={voiture?.type_carburant?.nom}
                   photo={voiture?.photo}
+                  points={points_retrait}
                   nb_images={voiture?.location_medias?.length}
                   puissance={voiture?.puissance_moteur}
                   tarif={setTarif(tarif_location_heure, tarif_location_journalier, tarif_location_hebdomadaire, tarif_location_mensuel)}

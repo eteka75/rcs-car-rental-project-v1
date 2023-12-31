@@ -25,6 +25,7 @@ class RequestAvisClient extends FormRequest
             'auteur' => 'required|max:250',
             'profession' => 'nullable|max:250',
             'actif' => 'nullable|in:1,0',
+            'nombre_etoile' => 'required|integer|min:0|max:5|in:0,1,2,3,4,5',
             'message' => 'nullable|max:10000',
             'photo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp
                     |dimensions:min_width=50,min_height=50,

@@ -1,11 +1,11 @@
 import React from 'react'
 import { MdOutlineUpdate } from 'react-icons/md'
 
-export default function LocationHelpSteps() {
+export default function LocationHelpSteps({children}) {
   return (
     <>
-        <div className=" md:py-4 mb-8 bg-[#ededed] #eaf5ff shadow-inner transition-all duration-500">
-                <div className=" rounded-lg  max-w-screen-xl mx-auto p-4 grid md:grid-cols-2 gap-2 lg:grid-cols-3">
+        <div className="  bg-[#ededed] #eaf5ff shadow-inner transition-all duration-500">
+                <div className=" border-b border-gray-200  max-w-screen-xl mx-auto p-4 grid md:grid-cols-2 gap-2 lg:grid-cols-3">
                     <div className=" flex gap-4 md:items-center my-4">
                         <div className="w-20 h-20 flex gap-4 rounded-full bg-indigo-100 dark:bg-indigo-900/20">
                             <svg
@@ -69,6 +69,7 @@ export default function LocationHelpSteps() {
                         </div>
                     </div>
                 </div>
+                {children}
             </div>
     </>
   )

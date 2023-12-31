@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AvisClient;
 use App\Models\EnLocation;
 use App\Models\Faq;
 use App\Models\Marque;
 use App\Models\PointRetrait;
-use App\Models\Voiture;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,17 +22,22 @@ class FrontController extends Controller
     }
     public function index(Request $request)
     {
-        session()->flash("danger", ["title" => "Alerte", 'message' => "Message de test de notification"]);
+        //session()->flash("danger", ["title" => "Alerte", 'message' => "Message de test de notification"]);
         $top_points= PointRetrait::whereHas('Locations')->orderBy("lieu","ASC")->take(10)->get();
-        
-        $topMarques = Marque::
-        //where('logo','!=',null)->
-        withCount('voitures')->whereHas('voitures')->latest()->take(6)->get();
-        $topVoituresLocation = EnLocation::with('voiture.type_carburant')->with('voiture.marque')->with('voiture')->where('etat',true)->latest()->take(6)->get();
+        $avis_clients= AvisClient::
+        where('photo','!=',null)->
+        where('actif',1)->
+        orderBy("auteur","ASC")->take(10)->get();
+        //dd($avis_clients);
+        $topMarques = Marque::withCount('voitures')->whereHas('voitures')->latest()->take(6)->get();
+        $topVoituresLocation = EnLocation::where('etat',1)->with('voiture.type_carburant')
+        ->with('voiture.marque')->with('voiture')->where('etat',true)->latest()->take(6)->get();
         $top_faqs = Faq::where('actif','=',1)->latest()->take(10)->get();
+
         return Inertia::render(self::$folder . 'Index', [
             'top_points' => $top_points,
             'top_marques' => $topMarques,
+            'avis_clients' => $avis_clients,
             'top_locations' => $topVoituresLocation,
             'top_faqs' => $top_faqs,
             'canLogin' => Route::has('login'),
@@ -80,22 +85,34 @@ class FrontController extends Controller
     }
     public function showLocation($id,Request $request)
     {
-        $location = EnLocation::with('voiture')
+        $location = EnLocation::where('etat',1)->with('voiture')
         ->with('voiture.marque')
         ->with('voiture.categorie')
         ->with('voiture.type_carburant')
         ->with('voiture.systemeSecurites')
         ->with('voiture.locationMedias')
         ->findOrFail($id);
+
+        $locations_suggestion= EnLocation::where('etat',1)
+        ->with('voiture')->where('id','!=',$id)
+        ->with('voiture.marque')
+        ->with('voiture.categorie')
+        ->with('voiture.type_carburant')
+        ->with('voiture.systemeSecurites')
+        ->with('voiture.locationMedias')
+        ->inRandomOrder()->limit(9)->get();
+        
         return Inertia::render(self::$folder . 'ShowLocation',
         [
-            'location'=>$location
+            'location'=>$location,
+            'locations_suggestion'=>$locations_suggestion,
         ]);
     }
     public function getLocations(Request $request)
     {
         $nb_page_location=10;
         $data=EnLocation::where('etat',1)
+        ->with('pointsRetrait')
         ->with('voiture.type_carburant')
         ->with('voiture.locationMedias')
         ->with('voiture.marque')->with('voiture')

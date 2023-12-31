@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@material-tailwind/react'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-export default function FrontBreadcrumbs({pages}) {
+export default function FrontBreadcrumbs({pages,header=true}) {
     const { t } = useTranslation();
 
   return (

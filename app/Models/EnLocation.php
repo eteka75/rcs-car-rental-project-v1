@@ -41,4 +41,8 @@ class EnLocation extends Model
         'location_point_retraits','point_retrait_id','location_id')
         ->withTimestamps();
     }
+
+    static public function getRandom($nb=10,$id){
+        return EnLocation::where('etat',1)->where('id','!=',$id)->inRandomOrder()->limit($nb)->get();
+    }
 }

@@ -79,14 +79,6 @@ export default function LocationForm({ className = '', location = null, pays = [
             setDateDebut(setTheDate(location.date_debut_location ?? ''));//for Datepicker
             setDateFin(setTheDate(location.date_fin_location ?? ''));//for Datepicker
         }
-
-        /* points ids */
-        if (location && location.points_retrait) {
-            let ids = [];
-            location.points_retrait.map(({ id }) => { ids.push(id) });
-            setData('point_retraits', ids);
-        }
-        console.log(date_debut, date_fin)
     }, [location])
     useEffect(() => {
         ShowVoiture(data.voiture_id ?? '');
@@ -146,6 +138,15 @@ export default function LocationForm({ className = '', location = null, pays = [
         }
         return tb;
     }
+    const SetPoints=(array_ids)=>{
+        let ids=[];
+        if (Array.isArray(array_ids)) {
+            array_ids.map(({ id }) => {
+                ids.push(id);
+            })
+        }
+       return ids
+    }
     const handleDescription = (value) => {
         setData('description',value);
     }
@@ -203,7 +204,7 @@ export default function LocationForm({ className = '', location = null, pays = [
             tarif_location_mensuel: location.tarif_location_mensuel ?? '',
             date_debut_location: DateToFront(location.date_debut_location, i18n.language, 'd/m/Y') ?? '',
             date_fin_location: DateToFront(location.date_fin_location, i18n.language, 'd/m/Y') ?? '',
-            point_retraits: [],
+            point_retraits: SetPoints(location?.points_retrait),
             photos: [],
             conditions: location.conditions ?? '',
             description: location.description ?? ''
@@ -410,7 +411,7 @@ export default function LocationForm({ className = '', location = null, pays = [
                                     isSearchable={true}
                                     onChange={handleMultiSelectChange}
                                     className="mt-1 block w-full"
-                                    defaultValue={setDefaultMultiValue(location && location.points_retrait ? location.points_retrait : [])}
+                                    defaultValue={setDefaultMultiValue(location && location?.points_retrait ? location.points_retrait : [])}
                                     options={ConvertSelectDataV2(point_retraits)}
                                 />
                                 <InputError message={errors.point_retraits} className="mt-2" />

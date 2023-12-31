@@ -1,25 +1,9 @@
-import React from 'react';
 
-import v1 from "../../assets/images/vehicules/v1.jpg";
-import v2 from "../../assets/images/vehicules/v2.jpg";
-import v3 from "../../assets/images/vehicules/v3.jpg";
-import v4 from "../../assets/images/vehicules/v4.jpg";
-import v5 from "../../assets/images/vehicules/v5.jpg";
-import v6 from "../../assets/images/vehicules/v6.jpg";
 import '@/css/front.css';
-import { MdOutlineCardTravel } from "react-icons/md";
-import { LuUsers } from "react-icons/lu";
-import { FaAngleRight } from "react-icons/fa6";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
-import { TbCircuitCapacitorPolarized } from 'react-icons/tb';
-import { BsEvStation, BsFillEvStationFill, BsTaxiFront } from 'react-icons/bs';
-import { formaterMontant, setTarif } from '@/tools/utils';
-import { useTranslation } from 'react-i18next';
-import i18n from '@/i18n';
-import { t } from 'i18next';
-import { IoLogoCapacitor } from 'react-icons/io5';
+import { setTarif } from '@/tools/utils';
 import { Link } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
+import { FaAngleRight } from "react-icons/fa6";
 import { LocaVoitureCard } from './LocaVoitureCard';
 
 
@@ -29,7 +13,6 @@ export default function LocationTop({ locations }) {
   
     return (
         <>
-            {console.log(locations)}
             <div className="max-w-screen-xl mx-auto p-4">
                 <h2 className="font-bold text-2xl  mt-8 flex">
                     En location

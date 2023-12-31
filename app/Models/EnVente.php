@@ -28,6 +28,7 @@ class EnVente extends Model
         'date_vente',
         'voiture_id',
         'point_retrait_id',
+        'en_vente',
         'description',
     ];
 

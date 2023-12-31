@@ -3,7 +3,7 @@ import FrontBreadcrumbs from '@/components/front/FrontBreadcrumbs'
 import PageTitle from '@/components/front/PageTitle'
 import { Carousel } from '@material-tailwind/react'
 import React from 'react'
-export default function Achats() {
+export default function Achats({ventes}) {
   return (
     <FrontLayout>
       <div className="bg-slate-50_ shadow-inner mt-[1px]">
@@ -11,7 +11,7 @@ export default function Achats() {
           <FrontBreadcrumbs pages={[{ 'url': "", 'page': ('Achats') }]} />
         </PageTitle>
         <div className="max-w-screen-xl mx-auto px-4 ">
-          <div className="slider relative  mt-4 mb-4 h-[400px] overflow-hidden">
+          <div className="slider relative  mt-4 mb-4 h-[350px] overflow-hidden">
             <div className="bg-gradient-to-t from-slate-800 to-[rgba(0,0,0,.02)] bottom-0 rounded-lg w-full z-10  left-0 h-52 absolute">
               
             </div>

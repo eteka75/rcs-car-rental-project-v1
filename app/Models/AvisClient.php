@@ -16,6 +16,7 @@ class AvisClient extends Model
         'auteur',  
         'profession', 
         'message', 
+        'nombre_etoile', 
         'actif', 
         'photo' 
     ];

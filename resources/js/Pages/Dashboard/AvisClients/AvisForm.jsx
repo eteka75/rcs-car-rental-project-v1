@@ -37,12 +37,14 @@ export default function AvisForm({ className = '', avis_client = null, pays = []
             auteur: avis_client.auteur ?? '',
             actif: avis_client.actif?1:0,
             profession: avis_client.profession??'',
+            nombre_etoile: avis_client.nombre_etoile??'',
             photo: '',
             message: avis_client.message ?? ''
         } : {
             auteur: '',
             photo: '',
             profession: '',
+            nombre_etoile: 0,
             actif: 0,
             message: ''
         });
@@ -102,6 +104,24 @@ export default function AvisForm({ className = '', avis_client = null, pays = []
                     />
 
                     <InputError message={errors.profession} className="mt-2" />
+                </div>
+                <div>
+                    <InputLabel htmlFor="nombre_etoile"  >Nombre d'étoiles</InputLabel>
+                    <select
+                        id="nombre_etoile"
+                        ref={addToRefs}
+                        value={data.nombre_etoile}
+                        onChange={handleInputChange}
+                        type="text"
+                        className="mt-1 border-gray-300 rounded-md block w-full"
+                    >
+                        <option value={0}> Selectionnez</option>
+                        {[1,2,3,4,5].map((v,i)=>(
+                            <option key={i} value={v}>{v} étoile{v>1?'s':''}</option>
+                        ))}
+                        </select>
+
+                    <InputError message={errors.nombre_etoile} className="mt-2" />
                 </div>
                 <div>
                     <InputLabel htmlFor="photo" >Photo</InputLabel>

@@ -14,7 +14,7 @@ export default function PageTitle({ title, children, head = true }) {
                         {children}
                     </div>
                     <div >
-                        <h1 className="text-slate-800 text-xl md:text-4xl pb-4 font-bold">{title}</h1>
+                     {title &&   <h1 className="text-slate-800 text-xl md:text-4xl pb-4 font-bold">{title}</h1>}
                     </div>
                     
                 </div>

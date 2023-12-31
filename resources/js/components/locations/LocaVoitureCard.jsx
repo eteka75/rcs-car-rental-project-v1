@@ -8,13 +8,14 @@ import { LuUsers } from "react-icons/lu";
 import { MdOutlineCardTravel } from "react-icons/md";
 import { TbCircuitCapacitorPolarized } from "react-icons/tb";
 import ModaleImage from "../ModaleImage";
-import { FaRegImages } from "react-icons/fa";
+import { FaMapMarkerAlt, FaRegImages } from "react-icons/fa";
+import { Tooltip } from "@material-tailwind/react";
 
 function LocaVoitureCard({ id = 0, nom, photo, tarif, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
     const { t } = useTranslation()
     return (
 
-        <div className=" bg-white relative hover:bg-gray-100  transition-all duration-500 shadow-inner_ border border-gray-100 rounded-lg  dark:bg-gray-800 dark:text-white dark:border-gray-700">
+        <div className=" bg-white mb-4 shadow-sm  relative hover:bg-gray-50 hover:shadow-lg  transition-all duration-500 shadow-inner_ border border-gray-100 rounded-lg  dark:bg-gray-800 dark:text-white dark:border-gray-700">
             <div className="p-3 lg:p-4">
                 <Link href={route('front.location', { 'id': id })}>
                     <img className=" rounded-md h-48  mx-auto w-full max-w-full border object-cover shadow-sm object-center" src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} />
@@ -139,10 +140,11 @@ function LocaVoitureCard({ id = 0, nom, photo, tarif, nb_personne, puissance, ty
     )
 }
 
-function LocaVoitureCard2({ id = 0, nom, photo, tarif, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie, nb_images }) {
+function LocaVoitureCard2({ id = 0, nom, photo, tarif,points, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie, nb_images }) {
     const { t } = useTranslation()
     return (
         <>
+        {console.log("points",points)}
             <div className="md:grid hover:shadow-lg transition-all duration-500 mb-4 border rounded-lg shadow-sm bg-white md:grid-cols-3">
                 <div className="md:col-span-1 relative justify-center items-center border-r p-4">
                 <Link className="relative" href={route('front.location', { 'id': id })}>
@@ -151,6 +153,7 @@ function LocaVoitureCard2({ id = 0, nom, photo, tarif, nb_personne, puissance, t
                 </Link>
                 </div>
                 <div className="md:col-span-2  md:rounded-r-sm md:border-l-0 p-4">
+                    <div className="absolute text-slate-300 text-md right-4 top-4">{marque}</div>
                     <Link href={route('front.location', { 'id': id })}>
                         <h2 className="text-md md:text-xl font-bold mb-2">
                             {nom}
@@ -158,7 +161,7 @@ function LocaVoitureCard2({ id = 0, nom, photo, tarif, nb_personne, puissance, t
                     </Link>
                     <div className="flex pb-2 border-b items-center gap-2"><span className="text-slate-500 text-sm">À partir de </span> <h3 className="text-md md:text-lg  font-bold text-red-600">{tarif}</h3></div>
                     <div>
-                        <div className="grid grid-cols-2 lg:grid-cols-3 text-slate-600 items-center py-4 pb-2">
+                        <div className="grid grid-cols-2 lg:grid-cols-3 text-slate-800 items-center py-4 pb-2">
                             {nb_personne > 0 &&
                                 <div title={t('Nombre places')} className="flex mb-2">
                                     <LuUsers className='me-1 dark:text-white' />
@@ -229,7 +232,26 @@ function LocaVoitureCard2({ id = 0, nom, photo, tarif, nb_personne, puissance, t
                                     <div className='text-sm font-normal'>{nb_petite_valise} petite{nb_petite_valise > 1 ? 's' : null} valise{nb_petite_valise > 1 ? 's' : null}</div>
                                 </div>
                             }
+                            
                         </div>
+                        {Array.isArray(points) && points?.length>0 &&
+                        <Tooltip placement="top-start" content={"Points de retrait"} >
+                            <div className="flex flex-w pb-2 gap-1  text-sm items-center  text-light">
+                                <div className="flex min-w-max">
+                                <FaMapMarkerAlt className="me-1 h-4 w-4" />
+                                   Point{points?.length>1?'s':''} de retrait :
+                                </div>
+                                   
+                                {points?.map(({lieu,id},index)=>{
+                                    let l_cl=(index+1==points.length)?'fin':' /';
+                                    return(
+                                    <div key={index} className="flex text-slate-400  w-auto font-light flex-wrap">
+                                    <div className="w-auto text-sm flex">  {lieu+l_cl}</div>
+                                    </div>)
+                                })} 
+                        </div>
+                        </Tooltip>
+                        }
                         <div className="relative">
                             <div className="px-4 py-2 left-0 right-0 w-full bottom-0 bg-gray-100">
                                 <div className="md:flex  items-center justify-between">
