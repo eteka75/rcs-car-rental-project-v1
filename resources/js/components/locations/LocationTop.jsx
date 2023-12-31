@@ -8,7 +8,7 @@ import { LocaVoitureCard } from './LocaVoitureCard';
 
 
 
-export default function LocationTop({ ventes }) {
+export default function LocationTop({ locations }) {
     const {t}=useTranslation()
   
     return (
@@ -19,7 +19,8 @@ export default function LocationTop({ ventes }) {
                 </h2>
                 <p className="text-slate-600">Louez à petit prix et voyagez en grand</p>
                 <div id='car' className="car-vehicules overflow-auto mt-6 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-                    {ventes?.map(({voiture,id,tarif_location_heure,
+                    
+                   {locations?.map(({voiture,id,tarif_location_heure,
                     tarif_location_journalier,tarif_location_hebdomadaire,
                     tarif_location_mensuel
                 }, index) =>

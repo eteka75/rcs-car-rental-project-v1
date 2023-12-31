@@ -82,11 +82,11 @@ export default function AvisClients({ avis }) {
              
             >
               {avis?.length > 0 && avis?.map(({ auteur, profession,nombre_etoile, message, photo, created_at }, index) => (
-                <div className="w-full py-4 px-0 md:px-8 lg:px-20">
+                <div key={index} className="w-full py-4 px-0 md:px-8 lg:px-20">
 
                   <div className="bg-white min-h-full shadow-sm border border-slate-100  rounded-lg px-10 py-8 shadow-lg_ hover:shadow-md transition duration-500">
                     <div className="mt-4">
-                      <h1 className="text-lg text-gray-700 font-semibold font-serif hover:underline cursor-pointer">{profession}</h1>
+                      <h1 className="text-lg text-gray-700 font-semibold hover:underline cursor-pointer">{profession}</h1>
                       <ShowEtoiles nb={nombre_etoile}/>                   
                       </div>
                       <p className="mt-4 text-lg text-gray-600 ">{message}</p>

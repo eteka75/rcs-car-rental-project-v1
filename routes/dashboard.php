@@ -19,7 +19,7 @@ use App\Http\Controllers\Dashboard\WebPageController;
 use App\Http\Controllers\DashboardDashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'verified','admin'])->group(function () {
 
     /*Dashboard*/
     Route::controller(DashboardDashboardController::class)->group(function () {
@@ -234,7 +234,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
         Route::delete('/{id}', 'destroy')->name('dashboard.avis_clients.delete');
     });
 
-})->middleware(['auth','web']);
+});
 
 /*
 Route::controller(FrontController::class)

@@ -15,6 +15,11 @@ class checkUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
-    }
+        // Vérifier si l'utilisateur est authentifié et a le rôle "ADMIN"
+        if (auth()->check() && auth()->user()->roles === 'ADMIN') {
+            return $next($request);
+        }
+        // Rediriger ou renvoyer une réponse d'erreur, selon vos besoins
+        return redirect()->route('home')->with('error', 'Accès non autorisé.'); 
+    }   
 }

@@ -24,7 +24,7 @@ function LocaVoitureCard({ id = 0, nom, photo, tarif, nb_personne, puissance, ty
                     <img className=" rounded-md h-48  mx-auto w-full max-w-full border object-cover shadow-sm object-center" src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} />
                 </Link>
             </div>
-            <div className="px-4 mb-20 pb-4 md:min-h-[15vh]">
+            <div className="px-4 mb-12 pb-4 md:min-h-[10vh]">
                 <Link href={route('front.location', { 'id': id })}>
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{nom}</h5>
                 </Link>
