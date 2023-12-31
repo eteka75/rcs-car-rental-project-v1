@@ -6,13 +6,13 @@ export default function MiniFixedFooter() {
         <div className="p-4  clear-both md:px-8 fixed  lg:left-10 bottom-6 ">
             <ul className="md:flex space-y-2 md:space-y-0 md:gap-4">
                 <li>
-                    <Link href={'/'} className='text-sm  text-blue-500 md:text-slate-300 md:hover:text-slate-100 hover:underline'>Nous contacter</Link>
+                        <Link href={route("front.contact")} className='text-sm  text-blue-500 md:text-slate-300 md:hover:text-slate-100 hover:underline'>Nous contacter</Link>
                 </li>
                 <li>
-                    <Link href={'/'} className='text-sm  text-blue-500 md:text-slate-300 hover:text-slate-100 hover:underline'>Forums aux questions</Link>
+                    <Link href={route("front.faqs")} className='text-sm  text-blue-500 md:text-slate-300 hover:text-slate-100 hover:underline'>Forums aux questions</Link>
                 </li>
                 <li>
-                    <Link href={'/'} className='text-sm  text-blue-500 md:text-slate-300 hover:text-slate-100 hover:underline'>Termes et condiftions</Link>
+                    <Link href={route("front.termes")} className='text-sm  text-blue-500 md:text-slate-300 hover:text-slate-100 hover:underline'>Termes et condiftions</Link>
                 </li>
             </ul>
         </div>
