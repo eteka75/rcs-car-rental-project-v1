@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AvisClient;
 use App\Models\EnLocation;
+use App\Models\EnVente;
 use App\Models\Faq;
 use App\Models\Marque;
 use App\Models\PointRetrait;
@@ -126,10 +127,20 @@ class FrontController extends Controller
     
     public function getAchats(Request $request)
     {
-        $data=[];
+        
         self::sharePage("achats");
+        $ventes=EnVente::where('en_vente',true)
+        ->with('pointRetrait')
+        ->with('voiture.type_carburant')
+        ->with('voiture.categorie')
+        ->with('voiture.medias')
+        ->with('voiture.marque')
+        ->with('voiture')->get();
+
+    $vente_marques=Marque::whereHas('voitures.locationMedias')->take(9)->get();
         return Inertia::render(self::$folder . 'Achats',[
-            'data'=>$data,
+            'en_ventes'=>$ventes,
+            'vente_marques'=>$vente_marques,
         ]);
     }
     public static function sharePage($page_id){
@@ -137,10 +148,17 @@ class FrontController extends Controller
     }
     public function showAchat($id,Request $request)
     {
-        $data=[];
-       
+        $vente=EnVente::where('en_vente',1)
+        ->with('voiture')
+        ->with('pointRetrait')
+        ->with('voiture.type_carburant')
+        ->with('voiture.medias')
+        ->with('voiture.categorie')
+        ->with('voiture.marque')
+        ->findOrFail( $id );
+        //dd($vente);	
         return Inertia::render(self::$folder . 'ShowAchat',[
-            'data'=>$data,
+            'vente'=>$vente,
         ]);
     }
    

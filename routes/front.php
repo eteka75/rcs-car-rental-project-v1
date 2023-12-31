@@ -16,8 +16,8 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('/termes-et-conditions', 'getTermes')->name('front.termes');
     Route::get('/panier', 'getPanier')->name('front.panier');
     /*Voitures*/
-    Route::get('/achats', 'getAchats')->name('front.achats');
-    Route::get('/achats/{id}', 'showAchat')->name('front.achat');
+    Route::get('/ventes', 'getAchats')->name('front.achats');
+    Route::get('/vente/voiture/{id}', 'showAchat')->name('front.achat');
     Route::get('/locations', 'getLocations')->name('front.locations');
     Route::get('/locations/categories', 'getCatLocations')->name('front.cat_locations');
     Route::get('/location/{id}', 'showLocation')->name('front.location');

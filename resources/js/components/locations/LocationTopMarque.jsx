@@ -5,6 +5,7 @@ import { MiniCard } from './LocaVoitureCard';
 export default function LocationTopMarque({marques=[]}) {
     return (
         <>
+        {marques?.length>0 &&
         <div className="shadow-inner py-4">
             <div className="max-w-screen-xl mx-auto px-4">
 
@@ -16,7 +17,7 @@ export default function LocationTopMarque({marques=[]}) {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 xl:gap-4">
                     {marques?.length>0 && marques.map((marque,index)=>(
-                        <MiniCard key={index} nom={marque.nom} slug={marque.slug} id={marque.id} info={marque.voitures_count+' Voitures'} image={marque.logo} />
+                        <MiniCard key={index} nom={marque.nom} slug={marque.slug} id={marque.id} info={marque.voitures_count?marque.voitures_count+' Voitures':''} image={marque.logo} />
                     ))}                  
                     
                 </div>
@@ -25,6 +26,7 @@ export default function LocationTopMarque({marques=[]}) {
                     </div>
             </div>
             </div>
+        }
         </>
     )
 }

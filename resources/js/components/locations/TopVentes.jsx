@@ -4,28 +4,30 @@ import { setTarif } from '@/tools/utils';
 import { Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { FaAngleRight } from "react-icons/fa6";
-import { LocaVoitureCard } from './LocaVoitureCard';
+import { LocaVoitureCard, VenteVoitureCard } from './LocaVoitureCard';
 
 
 
-export default function LocationTop({ ventes }) {
+export default function TopVentes({ ventes }) {
     const {t}=useTranslation()
   
     return (
         <>
             <div className="max-w-screen-xl mx-auto p-4">
                 <h2 className="font-bold text-2xl  mt-8 flex">
-                    En location
+                    En ventes
                 </h2>
-                <p className="text-slate-600">Louez à petit prix et voyagez en grand</p>
+                <p className="text-slate-600">Achetez et profitez de la liberté au quotidien</p>
                 <div id='car' className="car-vehicules overflow-auto mt-6 mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
                     {ventes?.map(({voiture,id,tarif_location_heure,
                     tarif_location_journalier,tarif_location_hebdomadaire,
-                    tarif_location_mensuel
+                    tarif_location_mensuel,duree_garantie,kilometrage,prix_vente
                 }, index) =>
-                        <LocaVoitureCard                         
-                        ville ={'Cotonou'}
+                        <VenteVoitureCard  
                         id={id}
+                        garantie={duree_garantie}
+                        prix_vente={prix_vente}
+                        kilometrage={kilometrage}
                         nb_personne={voiture?.nombre_place}
                         type_boite ={voiture?.type_transmission} 
                         vitesse={voiture?.nombre_vitesse}
@@ -33,7 +35,7 @@ export default function LocationTop({ ventes }) {
                         nb_petite_valise={voiture?.nombre_petite_valise}
                         volume_coffre={voiture?.volume_coffre}
                         marque={voiture?.marque?.nom}
-                        categorie ={voiture?.nombre_petite_valise}
+                        categorie={voiture?.categorie?.nom}
                         nom={voiture?.nom} 
                         carburant={voiture?.type_carburant?.nom} 
                         photo={voiture?.photo} 

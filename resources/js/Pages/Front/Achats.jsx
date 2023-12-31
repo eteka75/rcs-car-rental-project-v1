@@ -1,70 +1,77 @@
 import FrontLayout from '@/Layouts/FrontLayout'
 import FrontBreadcrumbs from '@/components/front/FrontBreadcrumbs'
 import PageTitle from '@/components/front/PageTitle'
-import { Carousel } from '@material-tailwind/react'
+import LocationExpert from '@/components/locations/LocationExpert'
+import LocationTopMarque from '@/components/locations/LocationTopMarque'
+import TopVentes from '@/components/locations/TopVentes'
+import { HTTP_FRONTEND_HOME } from '@/tools/constantes'
+import { truncateString } from '@/tools/utils'
+import { Link } from '@inertiajs/react'
+import { Button, Carousel, Typography } from '@material-tailwind/react'
 import React from 'react'
-export default function Achats({ventes}) {
+import { BiChevronRight } from 'react-icons/bi'
+export default function Achats({en_ventes,vente_marques}) {
   return (
     <FrontLayout>
       <div className="bg-slate-50_ shadow-inner mt-[1px]">
-        <PageTitle title={"Achats"} >
-          <FrontBreadcrumbs pages={[{ 'url': "", 'page': ('Achats') }]} />
+        {console.log(en_ventes)}
+        <PageTitle title={"Vente de voitures"} >
+          <FrontBreadcrumbs pages={[{ 'url': "", 'page': ("Vente de voitures neuves ou d'occasion") }]} />
         </PageTitle>
+        <TopVentes ventes={en_ventes}/>
+
         <div className="max-w-screen-xl mx-auto px-4 ">
           <div className="slider relative  mt-4 mb-4 h-[350px] overflow-hidden">
-            <div className="bg-gradient-to-t from-slate-800 to-[rgba(0,0,0,.02)] bottom-0 rounded-lg w-full z-10  left-0 h-52 absolute">
-              
-            </div>
+           
             <Carousel
-              className="carrousel rounded-xl "
+              className="carrousel rounded-xl bg-gray-500"
               loop={true}
               transition={{ type: "tween", duration: .65 }}
               autoplay={true}
               autoplayDelay={10000}
-              navigation={({ setActiveIndex, activeIndex, length }) => (
-                <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
-                  {new Array(length).fill("").map((_, i) => (
-                    <span
-                      key={i}
-                      className={`block h-2 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
-                        }`}
-                      onClick={() => setActiveIndex(i)}
-                    />
-                  ))}
-                </div>
-              )}
+              navigation={null}
             >
-              <img
-                src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
-                alt="image 1"
+              {en_ventes?.length>0 && en_ventes?.map(({id,voiture},index)=>(
+                <div key={index} className="relative h-full w-full">
+                <img 
+                src={HTTP_FRONTEND_HOME+''+voiture?.photo}
+                alt={voiture?.nom}
                 className="h-full w-full object-cover"
                 />
-              <img
-                src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-                alt="image 2"
-                className="h-full w-full object-cover"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
-                alt="image 3"
-                className="h-full w-full object-cover"
-              />
+                <div className="absolute inset-0 grid h-full w-full place-items-center bg-black/60">
+                  <div className="w-3/4 text-center md:w-2/4">
+                    <Typography
+                      variant="h1"
+                      color="white"
+                      className="mb-4 text-3xl md:text-4xl lg:text-5xl"
+                    >
+                      {voiture?.nom}
+                    </Typography>
+                   
+                      <div dangerouslySetInnerHTML={{__html:truncateString(voiture.description,150)??''}}></div>
+
+                    <div className="flex justify-center gap-2">
+                        <Button size="md"  color="white">
+                      <Link className='flex items-center' href={route('front.achat',id)}>
+                        En savoir plus <BiChevronRight className='h-5 w-5'/>
+                      </Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              ))}
+           
             </Carousel>
-          </div>
-          <div className="grid grid-cols-12 gap-4 py-4">
-            <div className="col-span-3">
-            <img
-                src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
-                alt="image 3"
-                className="h-fullw-full h-auto w-full object-cover"
-              />
-            </div>
-            <div className="col-span-9">
-                    <h1 className="text-xl">Voitures neuves ou d'occassion</h1> 
-                    <h3 className="text-md text-slate-500">Sélectionnez la marque qui correspond à vos recherches</h3>
-            </div>
+            <div className="bg-gradient-to-t hidden from-slate-800 to-[rgba(0,0,0,.02)] bottom-0 rounded-lg w-full   left-0 h-36 absolute">
+              
+              </div>
           </div>
         </div>
+        <LocationTopMarque marques={vente_marques}/>
+
+        <LocationExpert/>
+
       </div>
     </FrontLayout>
   )

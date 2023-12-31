@@ -5,11 +5,14 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import { BsEvStation, BsTaxiFront } from "react-icons/bs";
 import { IoInformationCircleOutline, IoLogoCapacitor } from "react-icons/io5";
 import { LuUsers } from "react-icons/lu";
-import { MdOutlineCardTravel } from "react-icons/md";
-import { TbCircuitCapacitorPolarized } from "react-icons/tb";
+import { MdOutlineCardTravel, MdOutlineSignalWifiStatusbarNull } from "react-icons/md";
+import { TbCircuitCapacitorPolarized, TbWindowMaximize } from "react-icons/tb";
 import ModaleImage from "../ModaleImage";
-import { FaMapMarkerAlt, FaRegImages } from "react-icons/fa";
-import { Tooltip } from "@material-tailwind/react";
+import { FaLightbulb, FaMapMarkerAlt, FaRegImages, FaSmoking } from "react-icons/fa";
+import { Button, Card, CardBody, Tooltip } from "@material-tailwind/react";
+import { formaterMontant } from "@/tools/utils";
+import i18n from "@/i18n";
+import { GiCarDoor, GiFuelTank, GiSuspensionBridge } from "react-icons/gi";
 
 function LocaVoitureCard({ id = 0, nom, photo, tarif, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
     const { t } = useTranslation()
@@ -283,4 +286,365 @@ function MiniCard({nom,info,image,slug,id=0}){
         </div>
     )
 }
-export { LocaVoitureCard, LocaVoitureCard2, MiniCard };
+
+
+function VenteVoitureCard({ id = 0, nom, photo,garantie,prix_vente, annee_fabrication,couleur,kilometrage, tarif, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
+    const { t } = useTranslation()
+    return (
+
+        <div className=" bg-white mb-4 shadow-sm  relative hover:shadow-lg  transition-all duration-500 shadow-inner_ border border-gray-100 rounded-lg  dark:bg-gray-800 dark:text-white dark:border-gray-700">
+            <div className="">
+                <Link href={route('front.achat', { 'id': id })}>
+                    <img className=" rounded-t-md h-48  mx-auto w-full max-w-full  object-cover shadow-sm object-center" src={HTTP_FRONTEND_HOME + '' + photo} alt={nom} />
+                </Link>
+            </div>
+            { garantie && 
+            <div className="p-2 px-4 bg-emerald-500 text-white font-bold">Garantie 2 ans</div>
+            }
+            <div className="px-4 pt-3 ">
+                <Link href={route('front.achat', { 'id': id })}>
+                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{nom}</h5>
+                </Link>
+                <div className="flex">
+                    <div className="text-sm mb-2 font-normal text-slate-600 dark:text-white">{marque}</div>
+                </div>
+                </div>
+            <div>
+                <div className="inner-card px-4">
+                    {kilometrage!=null && 
+                <div className="flex  border-t bg-zinc-50_shadow-sm justify-start py-2 border-b border-slate-100 flex-wrap bg gap-4  ">
+                    <div className=' w-1/4 font-bold'>
+                        {t('Catégorie')} 
+                    </div>
+                    <div  className='text-sm text-slate-500'>
+                        {categorie}
+                    </div>
+                </div>}
+                    {kilometrage!=null && 
+                <div className="flex   bg-zinc-50_shadow-sm justify-start py-2 border-b border-slate-100 flex-wrap bg gap-4  ">
+                    <div className=' w-1/4 font-bold'>
+                        {t('Kilométrage')} 
+                    </div>
+                    <div  className='text-sm text-slate-500'>
+                        {kilometrage}
+                    </div>
+                </div>}
+                {carburant != "null" &&
+                    <div className="flex   py-2 border-b justify-start border-slate-100 flex-wrap gap-4  ">
+                        <div className='w-1/4 font-bold'>
+                            {t('Carburation')}
+                        </div>
+                        <div className='text-sm text-slate-500'>
+                            {carburant}
+                        </div>
+                    </div>
+                }
+                {annee_fabrication != null &&
+                    <div className="flex   py-2 border-b justify-start border-slate-100 flex-wrap gap-4  ">
+                        <div className='w-1/4 font-bold'>
+                            {t('Année')}
+                        </div>
+                        <div className='text-sm text-slate-500'>
+                            {annee_fabrication}
+                        </div>
+                    </div>
+                }
+                {prix_vente != null &&
+                    <div className="flex   py-2 border-b justify-start border-slate-100 flex-wrap gap-4  ">
+                        <div className='w-1/4 font-bold'>
+                            {t('Prix')}
+                        </div>
+                        <div className='text-sm text-slate-500'>
+                            {formaterMontant(prix_vente,i18n.language)}
+                        </div>
+                    </div>
+                }
+                
+                {couleur != null &&
+                    <div className="flex justify-between py-4 border-b   flex-wrap gap-4  ">
+                        <div className='w-1/4 font-bold'>
+                            {t('Couleur')}
+                        </div>
+                        <div>
+                            {couleur}
+                        </div>
+                    </div>
+                }
+                </div>
+                <div className="p-4">
+                    <Link className=" p-" href={route('front.achat',id)}>                    
+                            <Button color='black' className="w-fulls" >
+                                Consulter l'offre
+                                </Button>
+                    </Link>
+                </div>
+                {/************************************** */}
+                { false && 
+                <div className="grid grid-cols-2 items-center mt-2.5 mb-5">
+                    {nb_personne > 0 &&
+                        <div title={t('Nombre places')} className="flex mb-2">
+                            <LuUsers className='me-1 dark:text-white' />
+                            <div className='text-sm font-normal'>{nb_personne} personnes</div>
+                        </div>
+                    }
+                    {carburant != null && carburant != '' &&
+                        <div className="flex mb-2">
+                            <div title={t('Type de carburant')}>
+                                <BsEvStation className='h-5 leading-5 me-1  dark:text-white' />
+                            </div>
+                            <div className='text-sm font-normal'>{carburant}</div>
+                        </div>
+                    }
+                    {puissance != null && puissance != '' &&
+                        <div className="flex mb-2">
+                            <div title={t('Puissance du moteur')}>
+                                <IoLogoCapacitor className='h-5 leading-5 me-1  dark:text-white' />
+                            </div>
+                            <div className='text-sm font-normal'>{puissance}</div>
+                        </div>
+                    }
+
+                    {type_boite != null &&
+                        <div className="flex mb-2">
+                            <div title={t('Type de boite')}>
+                                <TbCircuitCapacitorPolarized className='h-5 leading-5 me-1  dark:text-white' />
+                            </div>
+                            <div className='text-sm font-normal'>{type_boite}</div>
+                        </div>
+                    }
+
+
+                    {vitesse > 0 &&
+                        <div className="flex mb-2">
+                            <div title={t('Nombre vitesses')}>
+                                <img className='h-5 leading-5 me-1  dark:text-white' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAgUlEQVR4nO2U4QqAIAyE790yaPT+/6of2XsYA4tJsFQWVPjBYHDHjiEOaBQyAtgAeABkpCWwIcRajbSEWRgnIy3BCWNnpF04jJbaTwNCZb0n4Ptv8EiAE0buJb2iZQfIL8+9ZFG07IDag+ZutjuhOIgHDAWatrkJPvdc10LKdg2o7ExWkc4uK+5nAAAAAElFTkSuQmCC" />
+
+                            </div>
+                            <div className='text-sm  font-normal'>{vitesse} Vitesse{vitesse > 1 ? 's' : null}</div>
+                        </div>
+                    }
+
+                    {volume_coffre != null &&
+                        <div title={t('Volume du coffre')} className="flex mb-2">
+                            <div>
+                                <BsTaxiFront className='me-1 dark:text-white' />
+                            </div>
+                            <div className='text-sm  font-normal'>{volume_coffre}</div>
+                        </div>
+                    }
+                    {nb_grande_valise > 0 &&
+                        <div className="flex mb-2">
+                            <div title={t('Nombre de grandes valises')}>
+                                <MdOutlineCardTravel className=' h-5 leading-5 me-1 dark:text-white' />
+                            </div>
+                            <div className='text-sm  font-normal'>{nb_grande_valise} Grande{nb_petite_valise > 1 ? 's' : null} valise{nb_grande_valise > 1 ? 's' : null}</div>
+                        </div>
+                    }
+                    {nb_petite_valise > 0 &&
+
+                        <div className="flex mb-2">
+                            <div title={t('Nombre de petites valises')}>
+                                <svg className='h-4 w-4 me-1 dark:text-white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="m 15 14.75 H 9 a 0.75 0.75 0 0 1 0 -1.5 h 6 a 0.75 0.75 0 0 1 0 1.5 z M 15.75 18 C 15.745 17.588 15.412 17.255 15 17.25 H 9 a 0.75 0.75 0 0 0 0 1.5 h 6 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z m 3 -6.5 v 9 c 0 1.243 -1.007 2.25 -2.25 2.25 h -0.75 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 h -4.5 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 H 7.5 c -1.243 0 -2.25 -1.007 -2.25 -2.25 v -9 c 0 -1.243 1.007 -2.25 2.25 -2.25 h 1.75 v -8 C 9.25 0.56 9.81 0 10.5 0 h 3 c 0.69 0 1.25 0.56 1.25 1.25 v 8 h 1.75 c 1.243 0 2.25 1.007 2.25 2.25 z m -8 -2.25 h 2.5 V 1.5 h -2.5 z m 6.5 2.25 C 17.245 11.088 16.912 10.755 16.5 10.75 h -9 C 7.088 10.755 6.755 11.088 6.75 11.5 v 9 c 0.005 0.412 0.338 0.745 0.75 0.75 h 9 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z"></path>
+                                </svg>
+                            </div>
+                            <div className='text-sm font-normal'>{nb_petite_valise} petite{nb_petite_valise > 1 ? 's' : null} valise{nb_petite_valise > 1 ? 's' : null}</div>
+                        </div>
+                    }
+                </div>
+                    }
+                <div className='py-4 hidden grid_grid-cols-2 border-1 border-b mb-4 border-t'>
+                    <div>
+                        <a className=' text-sm font-bold text-blue-500 flex' href="">
+                            <AiOutlineInfoCircle className="me-1 dark:text-white text-xl" /> Infos importantes</a>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div>
+    )
+}
+
+function ShowInfo({ id = 0, nom, photo, tarif, np_portes,consommation, dimenssions, eclairage, emission_co2, suspenssion, capacite, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
+    const { t } = useTranslation()
+    
+    return (
+        <div >
+            <Card className='border shadow-none'>
+                <CardBody>
+
+                    <h2 className="text-slate-600 font-bold">
+                        {t('Caractéristiques')}
+                    </h2>
+                    <div className="grid grid-cols-2 items-center mt-4 mb-5">
+                        {nb_personne > 0 &&
+                            <Tooltip placement="top-start" className="flex" content={t("Nombre places")}>
+                                <div className="flex mb-3">
+                                    <LuUsers className='me-2 h-6 w-8 dark:text-white' />
+                                    <div className='text-xl font-normal'>{nb_personne} personnes</div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {carburant != null && carburant != '' &&
+                            <Tooltip placement="top-start" content={t('Type de carburant')}>
+
+                                <div className="flex mb-3">
+                                    <div title={t('Type de carburant')}>
+                                        <BsEvStation className='h-6 w-8 leading-10 me-2  dark:text-white' />
+                                    </div>
+                                    <div className='text-xl font-normal'>{carburant}</div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {puissance != null && puissance != '' &&
+                            <Tooltip placement="top-start" content={t('Puissance du moteur')}>
+                                <div className="flex mb-3">
+                                    <div title={t('Puissance du moteur')}>
+                                        <IoLogoCapacitor className='h-6 w-8 leading-10 me-2  dark:text-white' />
+                                    </div>
+                                    <div className='text-xl font-normal'>{puissance}</div>
+                                </div>
+                            </Tooltip>
+                        }
+
+                        {type_boite != null &&
+                            <Tooltip placement="top-start" content={t('Type de boite')}>
+                                <div className="flex mb-3">
+                                    <div title={t('Type de boite')}>
+                                        <TbCircuitCapacitorPolarized className='h-6 w-8 leading-10 me-2  dark:text-white' />
+                                    </div>
+                                    <div className='text-xl font-normal'>{type_boite}</div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {np_portes != null &&
+                            <Tooltip placement="top-start" content={t('Nombre de portes')}>
+                                <div className="flex mb-3">
+                                    <div title={t('Nombre de portes')}>
+                                        <GiCarDoor  className='h-6 w-8 leading-10 me-2  dark:text-white' />
+                                    </div>
+                                    <div className='text-xl font-normal'>{np_portes} porte{np_portes>1?'s':null}</div>
+                                </div>
+                            </Tooltip>
+                        }
+
+
+                        {vitesse > 0 &&
+                            <Tooltip placement="top-start" content={t('Nombre vitesses')}>
+
+                                <div className="flex mb-3">
+                                    <div title={t('Nombre vitesses')}>
+                                        <img className='h-6 w-8 leading-10 me-2  dark:text-white' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAgUlEQVR4nO2U4QqAIAyE790yaPT+/6of2XsYA4tJsFQWVPjBYHDHjiEOaBQyAtgAeABkpCWwIcRajbSEWRgnIy3BCWNnpF04jJbaTwNCZb0n4Ptv8EiAE0buJb2iZQfIL8+9ZFG07IDag+ZutjuhOIgHDAWatrkJPvdc10LKdg2o7ExWkc4uK+5nAAAAAElFTkSuQmCC" />
+
+                                    </div>
+                                    <div className='text-xl  font-normal'>{vitesse} Vitesse{vitesse > 1 ? 's' : null}</div>
+                                </div>
+                            </Tooltip>
+                        }
+
+                        {volume_coffre != null &&
+                            <Tooltip placement="top-start" content={t('Type de carburant')}>
+
+                                <div title={t('Type de carburant')} className="flex mb-3">
+                                    <div>
+                                        <BsTaxiFront className='h-6 w-8 leading-8 me-2 dark:text-white' />
+                                    </div>
+                                    <div className='text-xl  font-normal'>{volume_coffre}</div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {nb_grande_valise > 0 &&
+                            <Tooltip placement="top-start" content={t('Nombre de grandes valises')}>
+                                <div className="flex mb-3">
+                                    <div title={t('Nombre de grandes valises')}>
+                                        <MdOutlineCardTravel className=' h-6 w-8 leading-10 me-2 dark:text-white' />
+                                    </div>
+                                    <div className='text-xl  font-normal'>{nb_grande_valise} Grande{nb_petite_valise > 1 ? 's' : null} valise{nb_grande_valise > 1 ? 's' : null}</div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {nb_petite_valise > 0 &&
+                            <Tooltip placement="top-start" content={t('Nombre de petites valises')}>
+
+                                <div className="flex mb-3">
+                                    <div title={t('Nombre de petites valises')}>
+                                        <svg className='h-6 w-8 me-2 dark:text-white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                            <path d="m 15 14.75 H 9 a 0.75 0.75 0 0 1 0 -1.5 h 6 a 0.75 0.75 0 0 1 0 1.5 z M 15.75 18 C 15.745 17.588 15.412 17.255 15 17.25 H 9 a 0.75 0.75 0 0 0 0 1.5 h 6 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z m 3 -6.5 v 9 c 0 1.243 -1.007 2.25 -2.25 2.25 h -0.75 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 h -4.5 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 H 7.5 c -1.243 0 -2.25 -1.007 -2.25 -2.25 v -9 c 0 -1.243 1.007 -2.25 2.25 -2.25 h 1.75 v -8 C 9.25 0.56 9.81 0 10.5 0 h 3 c 0.69 0 1.25 0.56 1.25 1.25 v 8 h 1.75 c 1.243 0 2.25 1.007 2.25 2.25 z m -8 -2.25 h 2.5 V 1.5 h -2.5 z m 6.5 2.25 C 17.245 11.088 16.912 10.755 16.5 10.75 h -9 C 7.088 10.755 6.755 11.088 6.75 11.5 v 9 c 0.005 0.412 0.338 0.745 0.75 0.75 h 9 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z"></path>
+                                        </svg>
+                                    </div>
+                                    <div className='text-xl font-normal'>{nb_petite_valise} petite{nb_petite_valise > 1 ? 's' : null} valise{nb_petite_valise > 1 ? 's' : null}</div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {capacite != null &&
+
+                            <Tooltip placement="top-start" content={t('Capacité du réservoir')}>
+                                <div className="flex mb-3">
+                                    
+                                    <GiFuelTank className=' h-6 w-8 leading-10 me-2 dark:text-white' />
+                                    <div className='text-xl font-normal'>{capacite} </div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {consommation != null &&
+
+                            <Tooltip placement="top-start" content={t('Consommation du moteur')}>
+                                <div className="flex mb-3">
+                                    
+                                    <MdOutlineSignalWifiStatusbarNull  className=' h-6 w-8 leading-10 me-2 dark:text-white' />
+                                    <div className='text-xl font-normal'>{consommation} </div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {eclairage != null &&
+                            <Tooltip placement="top-start" content={t("Type d'éclairage")}>
+                                <div className="flex mb-3">
+                                    <div className='flex' >
+                                        <FaLightbulb className=' h-6 w-6 leading-10 me-2 dark:text-white' />
+                                        <div className='text-xl font-normal'>{eclairage} </div>
+                                    </div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {emission_co2 != null &&
+                            <Tooltip placement="top-start" content={t('Emission du co2')}>
+                                <div className="flex mb-3">
+
+                                    <div className='flex'>
+                                        <FaSmoking className=' h-6 w-6 leading-10 me-2 dark:text-white' />
+                                        <div className='text-xl font-normal'>{emission_co2} </div>
+                                    </div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {suspenssion != null &&
+                            <Tooltip placement="top-start" content={t("Type de suspenssion")}>
+                                <div className="flex mb-3">
+                                    <div className='flex'>
+                                        <GiSuspensionBridge className=' h-6 w-6 leading-10 me-2 dark:text-white' />
+
+                                        <div className='text-xl font-normal'>{suspenssion} </div>
+                                    </div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {dimenssions != null &&
+                            <Tooltip placement="top-start" content={t("Dimessions")}>
+                                <div className="flex mb-3">
+                                    <div className='flex'>
+                                        <TbWindowMaximize  className=' h-6 w-6 leading-10 me-2 dark:text-white' />
+                                        <div className='text-xl font-normal'>{dimenssions} </div>
+                                    </div>
+                                </div>
+                            </Tooltip>
+                        }
+                    </div>
+
+                </CardBody>
+            </Card>
+        </div>
+    )
+}
+
+export { LocaVoitureCard, LocaVoitureCard2, MiniCard, VenteVoitureCard,ShowInfo};

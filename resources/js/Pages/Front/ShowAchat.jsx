@@ -1,47 +1,32 @@
 import FrontLayout from '@/Layouts/FrontLayout'
 import ModaleImage from '@/components/ModaleImage';
-import FrontBreadcrumbs from '@/components/front/FrontBreadcrumbs';
-import PageTitle from '@/components/front/PageTitle';
+import FrontBreadcrumbs from '@/components/front/FrontBreadcrumbs'
+import PageTitle from '@/components/front/PageTitle'
 import { ShowInfo } from '@/components/locations/LocaVoitureCard';
-import SuggestionsLocation from '@/components/locations/SuggestionsLocation';
 import i18n from '@/i18n';
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { formaterMontant, setTarif } from '@/tools/utils';
-import { Head, Link } from '@inertiajs/react';
-import {
-    Breadcrumbs, Button, ButtonGroup, Card, CardBody, Carousel, Tooltip
-} from '@material-tailwind/react';
-import { t } from 'i18next';
+import { Link } from '@inertiajs/react';
+import { Button, Card, CardBody, Carousel } from '@material-tailwind/react';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { AiOutlineCheck } from 'react-icons/ai';
-import { BsEvStation, BsTaxiFront } from 'react-icons/bs';
-import { FaLightbulb, FaSmoking } from 'react-icons/fa';
-import { GiCarDoor, GiFuelTank, GiSuspensionBridge } from 'react-icons/gi';
-import { IoLogoCapacitor } from 'react-icons/io5';
-import { LuUsers } from 'react-icons/lu';
-import { MdOutlineCardTravel, MdOutlineSignalWifiStatusbarNull } from 'react-icons/md';
-import { TbCircuitCapacitorPolarized, TbWindowMaximize } from 'react-icons/tb';
-//import { Carousel } from 'react-responsive-carousel';
-export default function ShowLocation({ location,locations_suggestion }) {
-    const [datas, setData] = useState('');
-    const [voiture, setVoiture] = useState();
-    const { tarif_location_heure, tarif_location_journalier, tarif_location_hebdomadaire, tarif_location_mensuel } = location;
-    useEffect(() => {
-        setData(location);
-        setVoiture(location?.voiture)
-    }, [])
-    return (
-        <FrontLayout>
-            <PageTitle  head={false} >
-            <FrontBreadcrumbs pages={[{url:route('front.locations'),page:'Locations'},{url:'',page:voiture?.nom}]}  />
-            </PageTitle>
-            <div >
-            <div className="bg-slate-50_ py-4 ">
-            <div className="max-w-screen-xl mx-auto px-4 ">
-                
-                <div className="grid grid-cols-12 gap-4 ">
+import { useTranslation } from 'react-i18next';
+export default function ShowAchat({vente}) {
+    const [voiture,setVoiture]=useState(null);
+    useEffect(()=>{
+        const {voiture}=vente;
+        setVoiture(voiture)
+    },[])
+    const {t}= useTranslation()
+  return (
+    <FrontLayout>
+       <PageTitle title={vente?.voiture?.nom}>
+        <FrontBreadcrumbs pages={[{ 'url': route("front.achats"), 'page': ("Ventes") },{ 'url': "", 'page': (vente?.voiture?.nom) }]} />
+
+        </PageTitle>
+        <div className="max-w-screen-xl mx-auto px-4 py-4">
+        <div className="grid grid-cols-12 gap-4 ">
                     <div className="col-span-12 hidden">
                         <h1 className='text-2xl font-extrabold'>{voiture?.nom}</h1>
                         <div className="text-xl font-normal text-slate-600 dark:text-white">{voiture?.marque?.nom}</div>
@@ -50,7 +35,7 @@ export default function ShowLocation({ location,locations_suggestion }) {
                     <div className="lg:col-span-8 col-span-12">
 
                         <div className="">
-                            {(voiture?.location_medias && voiture?.location_medias?.length > 0) ?
+                            {(voiture?.medias && voiture?.medias?.length > 0) ?
                                 <div className="relative">
                                     <div className="p  rounded-lg absolute h-32 lg:h-44 bottom-0 bg-gradient-to-t from-gray-800 z-10  w-full">
                                     </div>
@@ -78,7 +63,7 @@ export default function ShowLocation({ location,locations_suggestion }) {
 
                                             {voiture?.photo && <img src={HTTP_FRONTEND_HOME + "" + voiture?.photo} className='h-[550px] w-full max-w-full rounded-none border object-cover shadow-sm object-center' alt={voiture?.nom} />}
                                         </ModaleImage>
-                                        {voiture?.location_medias?.map((media, index) => (
+                                        {voiture?.medias?.map((media, index) => (
                                             <ModaleImage url={HTTP_FRONTEND_HOME + "" + media?.url} title={voiture?.nom} key={index}>
                                                 <img src={HTTP_FRONTEND_HOME + "" + media?.url} className='h-[550px] w-full max-w-full rounded-none border object-cover shadow-sm object-center' alt={media?.nom} />
                                             </ModaleImage>
@@ -102,7 +87,7 @@ export default function ShowLocation({ location,locations_suggestion }) {
                                     volume_coffre={voiture?.volume_coffre}
                                     marque={voiture?.marque?.nom}
                                     dimenssions={voiture?.dimenssions}
-                                    categorie={voiture?.nombre_petite_valise}
+                                    categorie={voiture?.categorie?.nom}
                                     np_portes={voiture?.nombre_portes}
                                     nom={voiture?.nom}
                                     consommation={voiture?.consommation}
@@ -113,7 +98,7 @@ export default function ShowLocation({ location,locations_suggestion }) {
                                     eclairage={voiture?.type_eclairage}
                                     suspenssion={voiture?.type_suspenssion}
                                     capacite={voiture?.capacite_reservoir}
-                                    tarif={setTarif(tarif_location_heure, tarif_location_journalier, tarif_location_hebdomadaire, tarif_location_mensuel)}
+                                    tarif={formaterMontant(vente?.prix_vente,i18n.language)}
                                 />
                                 {voiture?.systeme_securites?.length > 0 &&
                                     <div className=" py-8 pb-4 border-b  ">
@@ -136,18 +121,12 @@ export default function ShowLocation({ location,locations_suggestion }) {
                                         {voiture?.technologies_a_bord}
                                     </div>
                                 }
-                                <div className="py-6 ">
-                                    <h2 className="text-xl font-bold">Conditions de location</h2>
-                                    <p className="text-md py-4">
-                                        <div className='html' dangerouslySetInnerHTML={{ __html: location?.conditions }}></div>
-
-                                    </p>
-                                </div>
-                                {location?.description &&
-                                    <div className="py-4 border-t">
+                                
+                                {vente?.description &&
+                                    <div className="py-8">
                                         <h2 className="text-xl font-bold">Description</h2>
                                         <p className="text-md">
-                                            <div className='html' dangerouslySetInnerHTML={{ __html: location?.description }}></div>
+                                            <div className='html' dangerouslySetInnerHTML={{ __html: vente?.description }}></div>
                                         </p>
                                     </div>
                                 }
@@ -156,7 +135,7 @@ export default function ShowLocation({ location,locations_suggestion }) {
                         </div>
                     </div>
                     <div className="col-span-4 pb-12">
-                        <Card className="shadow-none border mb-6 rounded-lg">
+                    <Card className="shadow-none border mb-6 rounded-lg">
                             <CardBody className="pb-2">
                             <div className="mb-4 border-b_">
                                 <h1 className='text-2xl font-extrabold'>{voiture?.nom}</h1>
@@ -180,6 +159,15 @@ export default function ShowLocation({ location,locations_suggestion }) {
                                          {voiture?.annee_fabrication}
                                         </div>
                                     </div>}
+                                {voiture?.kilometrage != "null" &&
+                                    <div className="flex   py-4 border-b justify-between border-slate-100 flex-wrap gap-4  ">
+                                        <div className='w-1/4 font-bold'>
+                                            {t('Kilométrage')}
+                                        </div>
+                                        <div>
+                                         {vente?.kilometrage}
+                                        </div>
+                                    </div>}
                                 {voiture?.couleur != null &&
                                     <div className="flex justify-between py-4 border-b   flex-wrap gap-4  ">
                                         <div className='w-1/4 font-bold'>
@@ -191,40 +179,21 @@ export default function ShowLocation({ location,locations_suggestion }) {
                                     </div>
                                 }
                                 
-                                <div className="py-4 ">
-                                    <div className="class rounded-md shadow-lgs bg-[#eff7fd]border-[#c0d4ff]border ">
-                                        <div className="mb-2 text-slate-500 text-sm">Tarifs</div>
-                                    <div className="grid grid-cols-1 p-4s gap-3">
-                                        {location?.tarif_location_heure!=null && location.tarif_location_heure>0 &&
-                                        <div className="tjour  p-4 hover:bg-white bg-[#eff7fd] border-[#c0d4ff] border rounded-md">
-                                            <h1 className="text-l font-extrabold">{formaterMontant(location?.tarif_location_heure??'0',i18n.language)}</h1>
-                                            <small>Heure</small>
+                                {voiture?.couleur != null &&
+                                    <div className="flex justify-between py-4 border-b   flex-wrap gap-4  ">
+                                        <div className='w-1/4 font-bold'>
+                                            {t('Prix')}
                                         </div>
-                                        }
-                                        {location?.tarif_location_journalier!=null && location?.tarif_location_journalier>0 &&
-                                        <div className="tjour p-4 hover:bg-white bg-[#eff7fd] border-[#c0d4ff] border rounded-md">
-                                            <h1 className="text-l font-extrabold">{formaterMontant(location?.tarif_location_journalier??'0',i18n.language)}</h1>
-                                            <small>Jour</small>
+                                        <div>
+                                         {formaterMontant(vente?.prix_vente,i18n.language)}
                                         </div>
-                                        }
-                                        {location?.tarif_location_hebdomadaire!=null && location?.tarif_location_hebdomadaire>0 &&
-                                        <div className="tjour p-4 hover:bg-white bg-[#eff7fd] border-[#91adeb] border rounded-md">
-                                            <h1 className="text-l font-extrabold">{formaterMontant(location?.tarif_location_hebdomadaire??'0',i18n.language)}</h1>
-                                            <small>Semaine</small>
-                                        </div>
-                                        }
-                                        {location?.tarif_location_mensuel!=null && location.tarif_location_mensuel>0 &&
-                                        <div className="tjour p-4 hover:bg-white bg-[#eff7fd] border-[#c0d4ff] border rounded-md">
-                                            <h1 className="text-l font-extrabold">{formaterMontant(location.tarif_location_mensuel??'0',i18n.language)}</h1>
-                                            <small>Mois</small>
-                                        </div>
-                                        }
                                     </div>
-                                </div>
-                                </div>
+                                }
+                                
+                                
                                 <div className="">
-                                    <Button color='yellow' v  className='w-full  x-6 my-4'>
-                                        Réserver la votre séjour
+                                    <Button color='black' v  className='w-full  x-6 my-4'>
+                                        Commander
                                     </Button>                                    
                                 </div>
                             </CardBody>
@@ -249,10 +218,8 @@ export default function ShowLocation({ location,locations_suggestion }) {
                         </Card>
                     </div>
                 </div>
-                </div>
-            </div>
-            <SuggestionsLocation locations={locations_suggestion}/>
-            </div>
-        </FrontLayout>
-    )
+                
+        </div>
+  </FrontLayout>
+  )
 }

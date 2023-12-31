@@ -288,6 +288,27 @@ export default function Show({ auth, vente, voiture, page_id = '', page_subid = 
                                         </td>
                                     </tr>
                                 }
+                                {vente && vente.kilometrage != null && vente.kilometrage != '' &&
+
+                                    <tr className='p-4 border-b'>
+                                        <th
+                                            className=" border-blue-gray-100 bg-blue-gray-50/50 p-4"
+                                        >
+                                            <Typography
+                                                variant="lead"
+                                                color="blue-gray"
+                                                className="font-bold leading-none opacity-70"
+                                            >
+                                                <Translate>Kilométrage</Translate>
+
+                                            </Typography>
+                                        </th>
+                                        <td>
+
+                                            {vente.kilometrage}
+                                        </td>
+                                    </tr>
+                                }
                                 {vente && vente.duree_garantie != null && vente.duree_garantie != '' &&
 
                                     <tr className='p-4 border-b'>

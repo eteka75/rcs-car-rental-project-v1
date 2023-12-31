@@ -188,6 +188,7 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
             voiture_id: vente.voiture_id ?? '',
             delai_livraison: vente.delai_livraison ?? '',
             duree_garantie: vente.duree_garantie ?? '',
+            kilometrage: vente.kilometrage ?? '',
             prix_vente: vente.prix_vente ?? '',
             prix_defaut: vente.prix_defaut ?? '',
             date_debut_vente: DateToFront(vente.date_debut_vente, i18n.language, 'd/m/Y') ?? '',
@@ -201,7 +202,7 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
             date_etat: '',
             voiture_id: '',
             delai_livraison: '',
-            duree_garantie: '',
+            kilometrage: '',
             prix_vente: '',
             prix_defaut: '',
             options_vente_o: [],
@@ -311,18 +312,32 @@ export default function VenteForm({ className = '', vente = null, pays = [], act
                                 <InputError message={errors.delai_livraison} className="mt-2" />
                             </div>
                             <div>
-                                <InputLabel htmlFor="prix">Durée de la garantie</InputLabel>
+                                <InputLabel htmlFor="duree_garantie">Durée de la garantie</InputLabel>
                                 <TextInput
-                                    id="prix"
+                                    id="duree_garantie"
                                     ref={addToRefs}
-                                    value={data.tarif_vente_mensuel}
+                                    value={data.duree_garantie}
                                     onChange={handleInputChange}
                                     type="text"
                                     className="mt-1 block w-full"
                                     placeholder={t('6 mois')}
 
                                 />
-                                <InputError message={errors.prix} className="mt-2" />
+                                <InputError message={errors.duree_garantie} className="mt-2" />
+                            </div>
+                            <div className='col-span-2'>
+                                <InputLabel htmlFor="kilometrage">Kilmétrage</InputLabel>
+                                <TextInput
+                                    id="kilometrage"
+                                    ref={addToRefs}
+                                    value={data.kilometrage}
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    className="mt-1 block w-full"
+                                    placeholder={t('16 0000 Km')}
+
+                                />
+                                <InputError message={errors.kilometrage} className="mt-2" />
                             </div>
                             </div>
                             

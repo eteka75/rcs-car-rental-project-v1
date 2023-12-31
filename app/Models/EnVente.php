@@ -26,6 +26,7 @@ class EnVente extends Model
         'prix_vente',
         'prix_defaut',
         'date_vente',
+        'kilometrage',
         'voiture_id',
         'point_retrait_id',
         'en_vente',
