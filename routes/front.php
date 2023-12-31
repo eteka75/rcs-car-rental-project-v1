@@ -12,6 +12,7 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('/contact', 'getContact')->name('front.contact');
     Route::get('/messages', 'getMessages')->name('front.messages');
     Route::get('/faq', 'getFaq')->name('front.faq');
+    Route::get('/faqs', 'getFaqs')->name('front.faqs');
     Route::get('/termes-et-conditions', 'getTermes')->name('front.termes');
     Route::get('/panier', 'getPanier')->name('front.panier');
     /*Voitures*/

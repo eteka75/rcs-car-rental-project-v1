@@ -8,8 +8,9 @@ import LocationHelpSteps from '@/components/locations/LocationHelpSteps';
 import LocationFaq from '@/components/locations/LocationFaq';
 import AvisClients from '@/components/locations/AvisClients';
 import HomeLayout from '@/Layouts/HomeLayout';
+import TopLieux from '@/components/locations/TopLieux';
 
-export default function Welcome({ auth,top_marques, top_locations, top_faqs}) {
+export default function Welcome({ auth,top_marques, top_locations, top_points, top_faqs}) {
     return (
         <>
         <HomeLayout auth={auth}>            
@@ -18,6 +19,7 @@ export default function Welcome({ auth,top_marques, top_locations, top_faqs}) {
             <LocationTopMarque marques={top_marques}/>
             <LocationExpert/>
             <LocationTop locations={top_locations}/>
+            <TopLieux lieux={top_points} />
             <LocationHelpSteps/>
             <AvisClients/>
             <LocationFaq faqs={top_faqs}/>

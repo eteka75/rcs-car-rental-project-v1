@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EnLocation;
 use App\Models\Faq;
 use App\Models\Marque;
+use App\Models\PointRetrait;
 use App\Models\Voiture;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -22,12 +23,15 @@ class FrontController extends Controller
     public function index(Request $request)
     {
         session()->flash("danger", ["title" => "Alerte", 'message' => "Message de test de notification"]);
+        $top_points= PointRetrait::whereHas('Locations')->orderBy("lieu","ASC")->take(10)->get();
+        
         $topMarques = Marque::
         //where('logo','!=',null)->
         withCount('voitures')->whereHas('voitures')->latest()->take(6)->get();
         $topVoituresLocation = EnLocation::with('voiture.type_carburant')->with('voiture.marque')->with('voiture')->where('etat',true)->latest()->take(6)->get();
         $top_faqs = Faq::where('actif','=',1)->latest()->take(10)->get();
         return Inertia::render(self::$folder . 'Index', [
+            'top_points' => $top_points,
             'top_marques' => $topMarques,
             'top_locations' => $topVoituresLocation,
             'top_faqs' => $top_faqs,
@@ -60,9 +64,18 @@ class FrontController extends Controller
     }
     public function getFaq(Request $request)
     {
-        $data=[];
+        $data=Faq::where('actif',true)->orderBy('question')->get();
+        $this->sharePage('aides');
         return Inertia::render(self::$folder . 'Faq',[
-            'data'=>$data
+            'faqs'=>$data
+        ]);
+    }
+    public function getFaqs(Request $request)
+    {
+        $data=Faq::where('actif',true)->orderBy('question')->get();
+        $this->sharePage('aides');
+        return Inertia::render(self::$folder . 'Faq',[
+            'faqs'=>$data
         ]);
     }
     public function showLocation($id,Request $request)
@@ -81,24 +94,36 @@ class FrontController extends Controller
     }
     public function getLocations(Request $request)
     {
-        $data=[];
+        $nb_page_location=10;
+        $data=EnLocation::where('etat',1)
+        ->with('voiture.type_carburant')
+        ->with('voiture.locationMedias')
+        ->with('voiture.marque')->with('voiture')
+        ->orderBy('date_debut_location',"desc")
+        ->paginate($nb_page_location);
+        
         return Inertia::render(self::$folder . 'Locations',[
-            'data'=>$data
+            'locations'=>$data
         ]);
     }
     
     public function getAchats(Request $request)
     {
         $data=[];
+        self::sharePage("achats");
         return Inertia::render(self::$folder . 'Achats',[
-            'data'=>$data
+            'data'=>$data,
         ]);
+    }
+    public static function sharePage($page_id){
+        return Inertia::share('page_id',$page_id);
     }
     public function showAchat($id,Request $request)
     {
         $data=[];
+       
         return Inertia::render(self::$folder . 'ShowAchat',[
-            'data'=>$data
+            'data'=>$data,
         ]);
     }
    
@@ -114,7 +139,7 @@ class FrontController extends Controller
     public function getServices(Request $request)
     {
         $data=[];
-        return Inertia::render(self::$folder . 'Termes',[
+        return Inertia::render(self::$folder . 'Services',[
             'data'=>$data
         ]);
     }

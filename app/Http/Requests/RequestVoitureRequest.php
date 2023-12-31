@@ -27,6 +27,7 @@ class RequestVoitureRequest extends FormRequest
             "annee_fabrication"=>"required|integer|min:0|max:9999",
             "immatriculation"=>"required|min:4|max:50",
             "nombre_place"=>"required|integer|min:0|max:999",
+            "nombre_portes"=>"required|integer|min:0|max:999",
             "volume_coffre"=>"nullable|max:150",
             "description"=>"nullable|max:10000",
             "couleur"=>"nullable|max:50",
@@ -46,7 +47,7 @@ class RequestVoitureRequest extends FormRequest
             "emission_co2"=>"nullable|max:250",
             "consommation"=>"nullable|max:250",
             "technologies_a_bord"=>"nullable|max:10000",
-            'photo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=50,min_height=50,max_width=2000,max_height=2000'
+            'photo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=50,min_height=50,max_width=2500,max_height=2500'
         ];
     }
 }

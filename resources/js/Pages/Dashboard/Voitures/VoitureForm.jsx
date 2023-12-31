@@ -42,6 +42,7 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
             type_transmission:voiture.type_transmission?? '',
             dimenssions:voiture.dimenssions?? '',
             nombre_vitesse:voiture.nombre_vitesse?? '',
+            nombre_portes:voiture.nombre_portes?? '',
             consommation:voiture.consommation?? '',
             capacite_reservoir:voiture.capacite_reservoir?? '',
             emission_co2:voiture.emission_co2?? '',
@@ -64,6 +65,7 @@ export default function VoitureForm({ className = '', voiture = null, action, bt
             immatriculation: '',
             systeme_securites: '',
             puissance_moteur: '',
+            nombre_portes: '',
             type_transmission: '',
             dimenssions: '',
             nombre_vitesse: '',
@@ -325,7 +327,7 @@ const setRealSysId=()=>{
                         <InputError message={errors["systeme_securite.0"]} className="mt-2" />
                         <InputError message={errors["systeme_securite.1"]} className="mt-2" />
                     </div>
-                <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
+                <div className='grid grid-cols-1 md:grid-cols-3 md:gap-4'>
                     <div>
                         <InputLabel htmlFor="couleur">Couleur</InputLabel>
                         <TextInput
@@ -355,6 +357,21 @@ const setRealSysId=()=>{
                         />
 
                         <InputError message={errors.volume_coffre} className="mt-2" />
+                    </div>
+                    <div>
+                        <InputLabel htmlFor="nombre_portes">Nombre de portes</InputLabel>
+                        <TextInput
+                            id="nombre_portes"
+                            ref={addToRefs}
+                            value={data.nombre_portes}
+                            onChange={handleInputChange}
+                            type="text"
+                            className="mt-1 block w-full"
+                            placeholder={t('5')}
+
+                        />
+
+                        <InputError message={errors.nombre_portes} className="mt-2" />
                     </div>
                 </div>
 

@@ -28,7 +28,7 @@ class RequestMarqueVoitureRequest extends FormRequest
             'description' => 'nullable|max:10000',
             'site_web' => 'nullable|url',
             'logo' => 'nullable|sometimes|mimes:jpeg,png,jpg,gif,webp|
-            dimensions:min_width=50,min_height=50,max_width=2000,max_height=2000'
+            dimensions:min_width=50,min_height=50,max_width=2500,max_height=2500'
             
         ];
     }

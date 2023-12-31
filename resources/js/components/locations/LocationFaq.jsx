@@ -6,6 +6,7 @@ import {
     AccordionBody,
 } from "@material-tailwind/react";
 import { FaAngleRight } from 'react-icons/fa';
+import { Link } from '@inertiajs/react';
 
 function Icon({ id, open }) {
     return (
@@ -54,10 +55,10 @@ export default function LocationFaq({faqs}) {
 
                     </div>
                     <div className='md:text-end  my-6'>
-                    <a href="#" className=' items-center px-0 mx-auto flex bg-white hover:opacity-70   text-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold   text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
+                    <Link href={route('front.faqs')} className=' items-center px-0 mx-auto flex bg-white hover:opacity-70   text-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold   text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
                         Consulter le forum aux questions
                         <FaAngleRight className="ms-1" />
-                    </a>
+                    </Link>
                 </div>
                     <div className="text-center hidden max-w-sm mx-auto p-4 md:p-6 mt-8  rounded-xl font-normalmb-8">
                             <FcCallback className='text-8xl mx-auto mb-4' />

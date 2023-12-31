@@ -1,9 +1,10 @@
 import FrontLayout from '@/Layouts/FrontLayout'
 import ModaleImage from '@/components/ModaleImage';
+import FrontBreadcrumbs from '@/components/front/FrontBreadcrumbs';
 import i18n from '@/i18n';
 import { HTTP_FRONTEND_HOME } from '@/tools/constantes';
 import { formaterMontant, setTarif } from '@/tools/utils';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import {
     Breadcrumbs, Button, ButtonGroup, Card, CardBody, Carousel, Tooltip
 } from '@material-tailwind/react';
@@ -14,41 +15,13 @@ import { useState } from 'react';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { BsEvStation, BsTaxiFront } from 'react-icons/bs';
 import { FaLightbulb, FaSmoking } from 'react-icons/fa';
-import { GiSuspensionBridge } from 'react-icons/gi';
+import { GiCarDoor, GiFuelTank, GiSuspensionBridge } from 'react-icons/gi';
 import { IoLogoCapacitor } from 'react-icons/io5';
 import { LuUsers } from 'react-icons/lu';
-import { MdOutlineCardTravel } from 'react-icons/md';
-import { TbCircuitCapacitorPolarized } from 'react-icons/tb';
+import { MdOutlineCardTravel, MdOutlineSignalWifiStatusbarNull } from 'react-icons/md';
+import { TbCircuitCapacitorPolarized, TbWindowMaximize } from 'react-icons/tb';
 //import { Carousel } from 'react-responsive-carousel';
 export default function ShowLocation({ location }) {
-
-    const data = [
-        {
-            imgelink:
-                "https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-        },
-        {
-            imgelink:
-                "https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-        },
-        {
-            imgelink:
-                "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
-        },
-        {
-            imgelink:
-                "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80",
-        },
-        {
-            imgelink:
-                "https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80",
-        },
-    ];
-
-    const [active, setActive] = React.useState(
-        "https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-    );
-
     const [datas, setData] = useState('');
     const [voiture, setVoiture] = useState();
     const { tarif_location_heure, tarif_location_journalier, tarif_location_hebdomadaire, tarif_location_mensuel } = location;
@@ -60,23 +33,9 @@ export default function ShowLocation({ location }) {
         <FrontLayout>
             <Head title={voiture?.nom} />
             {console.log("LOOOOOOO", location)}
+            <div className="bg-slate-50_ shadow-inner mt-[1px]">
             <div className="max-w-screen-xl mx-auto px-4 ">
-                <Breadcrumbs className='px-0'>
-                    <a href="#" className="opacity-60">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                        </svg>
-                    </a>
-                    <a href="#" className="opacity-60">
-                        <span>Locations</span>
-                    </a>
-                    <a href="#">{voiture?.nom}</a>
-                </Breadcrumbs>
+                <FrontBreadcrumbs/>
                 <div className="grid grid-cols-12 gap-4 ">
                     <div className="col-span-12 hidden">
                         <h1 className='text-2xl font-extrabold'>{voiture?.nom}</h1>
@@ -88,11 +47,15 @@ export default function ShowLocation({ location }) {
                         <div className="">
                             {(voiture?.location_medias && voiture?.location_medias?.length > 0) ?
                                 <div className="relative">
-                                    <div className="p  rounded-md absolute h-32 lg:h-44 bottom-0 bg-gradient-to-t from-gray-800 z-10  w-full">
+                                    <div className="p  rounded-lg absolute h-32 lg:h-44 bottom-0 bg-gradient-to-t from-gray-800 z-10  w-full">
                                     </div>
 
                                     <Carousel
                                         className="carrousel rounded-xl "
+                                        loop={true}
+                                        transition= {{ type : "tween", duration: .65 }}
+                                        autoplay={true}
+                                        autoplayDelay={10000}
                                         navigation={({ setActiveIndex, activeIndex, length }) => (
                                             <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
                                                 {new Array(length).fill("").map((_, i) => (
@@ -126,7 +89,6 @@ export default function ShowLocation({ location }) {
                             <div className='py-4'>
 
                                 <ShowInfo
-                                    ville={'Cotonou'}
                                     nb_personne={voiture?.nombre_place}
                                     type_boite={voiture?.type_transmission}
                                     vitesse={voiture?.nombre_vitesse}
@@ -134,8 +96,11 @@ export default function ShowLocation({ location }) {
                                     nb_petite_valise={voiture?.nombre_petite_valise}
                                     volume_coffre={voiture?.volume_coffre}
                                     marque={voiture?.marque?.nom}
+                                    dimenssions={voiture?.dimenssions}
                                     categorie={voiture?.nombre_petite_valise}
+                                    np_portes={voiture?.nombre_portes}
                                     nom={voiture?.nom}
+                                    consommation={voiture?.consommation}
                                     carburant={voiture?.type_carburant?.nom}
                                     photo={voiture?.photo}
                                     puissance={voiture?.puissance_moteur}
@@ -185,107 +150,117 @@ export default function ShowLocation({ location }) {
 
                         </div>
                     </div>
-                    <div className="col-span-4">
-
-                        <Card className=' bg-zinc-200 rounded-md shadow-inner '>
-                            <div className="p-6 border-b">
+                    <div className="col-span-4 pb-12">
+                        <Card className="shadow-none border mb-6 rounded-lg">
+                            <CardBody className="pb-2">
+                            <div className="mb-4 border-b_">
                                 <h1 className='text-2xl font-extrabold'>{voiture?.nom}</h1>
-                                <div className="text-xl font-normal text-slate-600 dark:text-white">{voiture?.marque?.nom}</div>
+                                <div className="text-xl font-normal text-slate-600 dark:text-white">{voiture?.categorie?.nom}</div>
 
                             </div>
-                            <CardBody className='p-0'>
-
-                                <div className="flex bg-zinc-50 shadow-sm px-6 py-4  flex-wrap bg gap-4  ">
-                                    <div className='font-bold'>
-                                        {t('Marque')} :
+                            <div className="flex bg-zinc-50_shadow-sm justify-between py-4 border-b border-slate-100 flex-wrap bg gap-4  ">
+                                    <div className=' w-1/4 font-bold'>
+                                        {t('Marque')} 
                                     </div>
-                                    <div>
-                                        {voiture?.marque?.nom}
+                                    <div >
+                                      {voiture?.marque?.nom}
                                     </div>
                                 </div>
-                                {voiture?.annee_fabrication != null &&
-                                    <div className="flex  px-6 py-4   flex-wrap gap-4  ">
-                                        <div className='font-bold'>
-                                            {t('Année')} :
+                                {voiture?.annee_fabrication != "null" &&
+                                    <div className="flex   py-4 border-b justify-between border-slate-100 flex-wrap gap-4  ">
+                                        <div className='w-1/4 font-bold'>
+                                            {t('Année')}
                                         </div>
                                         <div>
-                                            {voiture?.annee_fabrication}
+                                         {voiture?.annee_fabrication}
                                         </div>
                                     </div>}
                                 {voiture?.couleur != null &&
-                                    <div className="flex bg-zinc-50 shadow-sm px-6 py-4   flex-wrap gap-4  ">
-                                        <div className='font-bold'>
-                                            {t('Couleur')} :
+                                    <div className="flex justify-between py-4 border-b   flex-wrap gap-4  ">
+                                        <div className='w-1/4 font-bold'>
+                                            {t('Couleur')}
                                         </div>
                                         <div>
-                                            {voiture?.couleur}
+                                         {voiture?.couleur}
                                         </div>
                                     </div>
                                 }
-                                <div className="px-6 pt-4">
-                                    <div className="grid grid-cols-2 gap-3">
+                                
+                                <div className="py-4 ">
+                                    <div className="class rounded-md shadow-lgs bg-[#eff7fd]border-[#c0d4ff]border ">
+                                        <div className="mb-2 text-slate-500 text-sm">Tarifs</div>
+                                    <div className="grid grid-cols-1 p-4s gap-3">
                                         {location?.tarif_location_heure!=null && location.tarif_location_heure>0 &&
-                                        <div className="tjour bg-zinc-900 text-white p-4 rounded-lg shadow-sm">
+                                        <div className="tjour  p-4 hover:bg-white bg-[#eff7fd] border-[#c0d4ff] border rounded-md">
                                             <h1 className="text-l font-extrabold">{formaterMontant(location?.tarif_location_heure??'0',i18n.language)}</h1>
                                             <small>Heure</small>
                                         </div>
                                         }
                                         {location?.tarif_location_journalier!=null && location?.tarif_location_journalier>0 &&
-                                        <div className="tjour bg-zinc-50  p-4 rounded-lg shadow-sm">
+                                        <div className="tjour p-4 hover:bg-white bg-[#eff7fd] border-[#c0d4ff] border rounded-md">
                                             <h1 className="text-l font-extrabold">{formaterMontant(location?.tarif_location_journalier??'0',i18n.language)}</h1>
                                             <small>Jour</small>
                                         </div>
                                         }
                                         {location?.tarif_location_hebdomadaire!=null && location?.tarif_location_hebdomadaire>0 &&
-                                        <div className="tjour bg-zinc-50  p-4 rounded-lg shadow-sm">
+                                        <div className="tjour p-4 hover:bg-white bg-[#eff7fd] border-[#91adeb] border rounded-md">
                                             <h1 className="text-l font-extrabold">{formaterMontant(location?.tarif_location_hebdomadaire??'0',i18n.language)}</h1>
                                             <small>Semaine</small>
                                         </div>
                                         }
                                         {location?.tarif_location_mensuel!=null && location.tarif_location_mensuel>0 &&
-                                        <div className="tjour bg-zinc-900 text-white   p-4 rounded-lg shadow-sm">
+                                        <div className="tjour p-4 hover:bg-white bg-[#eff7fd] border-[#c0d4ff] border rounded-md">
                                             <h1 className="text-l font-extrabold">{formaterMontant(location.tarif_location_mensuel??'0',i18n.language)}</h1>
                                             <small>Mois</small>
                                         </div>
                                         }
                                     </div>
                                 </div>
-                                <div className="px-6">
-
-                                    <Button color='yellow'  className='w-full  x-6 my-4'>
-                                        Réserver
+                                </div>
+                                <div className="">
+                                    <Button color='yellow' v  className='w-full  x-6 my-4'>
+                                        Réserver la votre séjour
                                     </Button>
                                     
                                 </div>
                             </CardBody>
                         </Card>
+                        <Card className=' bg-zinc-200_ rounded-lg shadow-inner '>
+                           
+                            <CardBody className='p-0'>
 
-                        <Card className="border text-center rounded-md my-6">
-                            <div className="p-4 rounded-t-md text-xl font-extrabold bg-zinc-200">Centre d'aide</div>
-                            <div className="p-4">
+                               
+                            </CardBody>
+                        </Card>
+
+                        <Card className=" bg-[#F2FFF7] border-[#39935d] border  shadow-none rounded-lg ">
+                            <div className="p-4 rounded-t-md text-xl font-extrabol font-bold">Centre d'aide</div>
+                            <div className="px-4 pb-4">
                                 Pour réserver ou obtenir plus d'informations, contactez-nous par téléphone ou par e-mail. Nous sommes là pour vous aider ! 🚗✨
                             </div>
-                            <div className="p-4 text-2xl font-bold border-dotted border-b border-t">
+                            <div className="p-4 py-1 text-xl font-bold border-dashedt">
                                 (+229) 44 17 77 44
                             </div>
-                            <div className="p-4 font-bold text-center text-lg">
+                            <div className="p-4 font-bold text-blue-500 text-lg">
                                 support@rentalcarbenin.com
-                                <Button color='black' className='w-full text-yellow-500 mt-4'>
+                                <Link href={route('front.faqs')}><Button variant='text' color='white' className='w-full hover:bg-black bg-[#39935d] text-white mt-4 mt-4'>
                                     Consulter le FAQ
                                 </Button>
+                                </Link>
                             </div>
 
                         </Card>
                     </div>
                 </div>
                 </div>
+                </div>
         </FrontLayout>
     )
 }
-function ShowInfo({ id = 0, nom, photo, tarif, dimenssions, eclairage, emission_co2, suspenssion, capacite, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
+function ShowInfo({ id = 0, nom, photo, tarif, np_portes,consommation, dimenssions, eclairage, emission_co2, suspenssion, capacite, nb_personne, puissance, type_boite, carburant, nb_grande_valise, nb_petite_valise, vitesse, volume_coffre, marque, categorie }) {
     return (
         <div >
-            <Card className='border'>
+            <Card className='border shadow-none'>
                 <CardBody>
 
                     <h2 className="text-slate-600 font-bold">
@@ -332,6 +307,16 @@ function ShowInfo({ id = 0, nom, photo, tarif, dimenssions, eclairage, emission_
                                 </div>
                             </Tooltip>
                         }
+                        {np_portes != null &&
+                            <Tooltip placement="top-start" content={t('Nombre de portes')}>
+                                <div className="flex mb-3">
+                                    <div title={t('Nombre de portes')}>
+                                        <GiCarDoor  className='h-6 w-8 leading-10 me-2  dark:text-white' />
+                                    </div>
+                                    <div className='text-xl font-normal'>{np_portes} porte{np_portes>1?'s':null}</div>
+                                </div>
+                            </Tooltip>
+                        }
 
 
                         {vitesse > 0 &&
@@ -350,7 +335,7 @@ function ShowInfo({ id = 0, nom, photo, tarif, dimenssions, eclairage, emission_
                         {volume_coffre != null &&
                             <Tooltip placement="top-start" content={t('Type de carburant')}>
 
-                                <div title={t('Volume du coffre')} className="flex mb-3">
+                                <div title={t('Type de carburant')} className="flex mb-3">
                                     <div>
                                         <BsTaxiFront className='h-6 w-8 leading-8 me-2 dark:text-white' />
                                     </div>
@@ -385,10 +370,19 @@ function ShowInfo({ id = 0, nom, photo, tarif, dimenssions, eclairage, emission_
 
                             <Tooltip placement="top-start" content={t('Capacité du réservoir')}>
                                 <div className="flex mb-3">
-                                    <svg className='h-6 w-8 me-2 dark:text-white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="m 15 14.75 H 9 a 0.75 0.75 0 0 1 0 -1.5 h 6 a 0.75 0.75 0 0 1 0 1.5 z M 15.75 18 C 15.745 17.588 15.412 17.255 15 17.25 H 9 a 0.75 0.75 0 0 0 0 1.5 h 6 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z m 3 -6.5 v 9 c 0 1.243 -1.007 2.25 -2.25 2.25 h -0.75 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 h -4.5 v 0.5 a 0.75 0.75 0 0 1 -1.5 0 v -0.5 H 7.5 c -1.243 0 -2.25 -1.007 -2.25 -2.25 v -9 c 0 -1.243 1.007 -2.25 2.25 -2.25 h 1.75 v -8 C 9.25 0.56 9.81 0 10.5 0 h 3 c 0.69 0 1.25 0.56 1.25 1.25 v 8 h 1.75 c 1.243 0 2.25 1.007 2.25 2.25 z m -8 -2.25 h 2.5 V 1.5 h -2.5 z m 6.5 2.25 C 17.245 11.088 16.912 10.755 16.5 10.75 h -9 C 7.088 10.755 6.755 11.088 6.75 11.5 v 9 c 0.005 0.412 0.338 0.745 0.75 0.75 h 9 c 0.412 -0.005 0.745 -0.338 0.75 -0.75 z"></path>
-                                    </svg>
+                                    
+                                    <GiFuelTank className=' h-6 w-8 leading-10 me-2 dark:text-white' />
                                     <div className='text-xl font-normal'>{capacite} </div>
+                                </div>
+                            </Tooltip>
+                        }
+                        {consommation != null &&
+
+                            <Tooltip placement="top-start" content={t('Consommation du moteur')}>
+                                <div className="flex mb-3">
+                                    
+                                    <MdOutlineSignalWifiStatusbarNull  className=' h-6 w-8 leading-10 me-2 dark:text-white' />
+                                    <div className='text-xl font-normal'>{consommation} </div>
                                 </div>
                             </Tooltip>
                         }
@@ -425,10 +419,10 @@ function ShowInfo({ id = 0, nom, photo, tarif, dimenssions, eclairage, emission_
                             </Tooltip>
                         }
                         {dimenssions != null &&
-                            <Tooltip placement="top-start" content={t("Type de suspenssion")}>
+                            <Tooltip placement="top-start" content={t("Dimessions")}>
                                 <div className="flex mb-3">
                                     <div className='flex'>
-                                        <FaSmoking className=' h-6 w-6 leading-10 me-2 dark:text-white' />
+                                        <TbWindowMaximize  className=' h-6 w-6 leading-10 me-2 dark:text-white' />
                                         <div className='text-xl font-normal'>{dimenssions} </div>
                                     </div>
                                 </div>

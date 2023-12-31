@@ -26,6 +26,7 @@ class Voiture extends Model
         "dimenssions",
         "nombre_vitesse",
         "nombre_place",
+        "nombre_portes",
         "immatriculation",
         "consommation",
         "capacite_reservoir",
